@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment and secrets
+.env
+.env.*
+
+# Logs
+*.log
+
+# OS and editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Models and large assets (kept out of git)
+*.gguf
+models/
