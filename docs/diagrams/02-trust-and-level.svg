@@ -1,0 +1,59 @@
+<svg viewBox="0 0 900 524" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+  <title>How TAKU-Dzidza keeps answers correct and at the right level</title>
+  <desc>A student question is first limited to the student's grade band. Answers then come from the strongest available source in order: teacher-written answers, the math engine, the curriculum pack, then AI wording only, then a server check on Path B, then trusted websites when online. If no source is confident, the tutor says it does not know rather than guessing.</desc>
+  <rect x="4" y="4" width="892" height="516" rx="14" fill="#FBFAF7" stroke="#E7E3D8"/>
+  <text x="32" y="31" fill="#23201b" font-size="15.5" font-weight="700">How answers stay correct, and match the student's level</text>
+  <text x="32" y="50" fill="#6a655c" font-size="11.5">Answers come from the strongest source available. The AI is only the 4th choice, and only for wording. Darker = more trusted.</text>
+  <defs>
+    <marker id="d" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#8f8a7e"/></marker>
+  </defs>
+  <rect x="280" y="64" width="240" height="32" rx="16" fill="#E9E4D8" stroke="#CFC8B7"/>
+  <text x="400" y="85" text-anchor="middle" fill="#3a352c" font-size="12">A student asks a question</text>
+  <line x1="400" y1="96" x2="400" y2="115" stroke="#8f8a7e" stroke-width="2" marker-end="url(#d)"/>
+  <rect x="120" y="118" width="560" height="40" rx="8" fill="#4B7BA8"/>
+  <text x="400" y="143" text-anchor="middle" fill="#ffffff" font-size="12.5" font-weight="700">LEVEL FILTER — only this student's grade band is searched</text>
+  <line x1="400" y1="158" x2="400" y2="173" stroke="#8f8a7e" stroke-width="2" marker-end="url(#d)"/>
+  <rect x="120" y="176" width="560" height="42" rx="8" fill="#274C6E"/>
+  <text x="150" y="203" fill="#dbe6f1" font-size="16" font-weight="700">1</text>
+  <text x="182" y="195" fill="#ffffff" font-size="13" font-weight="700">Teacher-written answers</text>
+  <text x="182" y="211" fill="#c7d6e6" font-size="11">used first for pack problems</text>
+  <rect x="120" y="226" width="560" height="42" rx="8" fill="#34608A"/>
+  <text x="150" y="253" fill="#dbe6f1" font-size="16" font-weight="700">2</text>
+  <text x="182" y="245" fill="#ffffff" font-size="13" font-weight="700">Math engine</text>
+  <text x="182" y="261" fill="#cbdaea" font-size="11">does all the sums and shows the steps</text>
+  <rect x="120" y="276" width="560" height="42" rx="8" fill="#4B7BA8"/>
+  <text x="150" y="303" fill="#eaf2f8" font-size="16" font-weight="700">3</text>
+  <text x="182" y="295" fill="#ffffff" font-size="13" font-weight="700">From the curriculum pack</text>
+  <text x="182" y="311" fill="#dbe7f2" font-size="11">answer shown together with its source</text>
+  <rect x="120" y="326" width="560" height="42" rx="8" fill="#8FB2D2" stroke="#C0703F" stroke-width="2"/>
+  <text x="150" y="353" fill="#22303c" font-size="16" font-weight="700">4</text>
+  <text x="182" y="345" fill="#1c2b36" font-size="13" font-weight="700">AI wording only</text>
+  <text x="182" y="361" fill="#26343f" font-size="11">the facts come from the layers above it</text>
+  <text x="668" y="351" text-anchor="end" fill="#8a3f1c" font-size="10.5" font-weight="700">the AI sits here</text>
+  <rect x="120" y="376" width="560" height="42" rx="8" fill="#AEC9E0"/>
+  <text x="150" y="403" fill="#22303c" font-size="16" font-weight="700">5</text>
+  <text x="182" y="395" fill="#1c2b36" font-size="13" font-weight="700">Server double-check</text>
+  <text x="182" y="411" fill="#2b3944" font-size="11">Path B only: verifies open answers</text>
+  <rect x="120" y="426" width="560" height="42" rx="8" fill="#CDDDEC"/>
+  <text x="150" y="453" fill="#22303c" font-size="16" font-weight="700">6</text>
+  <text x="182" y="445" fill="#1c2b36" font-size="13" font-weight="700">Trusted websites</text>
+  <text x="182" y="461" fill="#31404b" font-size="11">only if online, and always cited</text>
+  <rect x="700" y="176" width="172" height="118" rx="10" fill="#FBEEE6" stroke="#E4C9B4"/>
+  <text x="716" y="200" fill="#7a3f1f" font-size="12.5" font-weight="700">If unsure</text>
+  <text x="716" y="222" fill="#5a4433" font-size="11">No source is confident?</text>
+  <text x="716" y="240" fill="#5a4433" font-size="11">The tutor says it does</text>
+  <text x="716" y="258" fill="#5a4433" font-size="11">not have that yet.</text>
+  <text x="716" y="280" fill="#7a3f1f" font-size="11" font-weight="700">It never guesses.</text>
+  <rect x="700" y="308" width="172" height="160" rx="10" fill="#EEF3EC" stroke="#CBD9C4"/>
+  <text x="716" y="332" fill="#35502f" font-size="12.5" font-weight="700">Why this is safe</text>
+  <text x="716" y="354" fill="#3f4a3a" font-size="11">The AI only chooses</text>
+  <text x="716" y="372" fill="#3f4a3a" font-size="11">words. The facts come</text>
+  <text x="716" y="390" fill="#3f4a3a" font-size="11">from the sources above,</text>
+  <text x="716" y="408" fill="#3f4a3a" font-size="11">so a wrong AI reply is</text>
+  <text x="716" y="426" fill="#3f4a3a" font-size="11">annoying, not harmful.</text>
+  <text x="716" y="450" fill="#35502f" font-size="11" font-weight="700">It cannot teach a</text>
+  <text x="716" y="464" fill="#35502f" font-size="11" font-weight="700">wrong fact.</text>
+  <line x1="400" y1="468" x2="400" y2="482" stroke="#8f8a7e" stroke-width="2" marker-end="url(#d)"/>
+  <rect x="255" y="485" width="290" height="30" rx="15" fill="#DCE7D5" stroke="#B9CDAE"/>
+  <text x="400" y="505" text-anchor="middle" fill="#2f4429" font-size="12" font-weight="700">a correct answer, at the right level</text>
+</svg>

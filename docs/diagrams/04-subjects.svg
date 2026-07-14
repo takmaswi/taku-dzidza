@@ -1,0 +1,64 @@
+<svg viewBox="0 0 900 512" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+  <title>How five subjects are kept correct beyond Math</title>
+  <desc>Five subjects from school to university. Math is checked by the math engine; sciences by automatic number and unit checks; biology and geography by teacher-written answers and pack search; history and English by teacher model answers and marking guides. The teaching method is the same; only the checking tool changes, and the AI never decides what is correct.</desc>
+  <rect x="4" y="4" width="892" height="504" rx="14" fill="#FBFAF7" stroke="#E7E3D8"/>
+  <text x="32" y="31" fill="#23201b" font-size="15.5" font-weight="700">Beyond Math: keeping five subjects correct</text>
+  <text x="32" y="50" fill="#6a655c" font-size="11.5">Same teaching method everywhere. What changes is the checking tool. The AI only explains and coaches, it never decides what is right.</text>
+  <text x="32" y="68" fill="#8a857a" font-size="11">Colour strip: dark = a machine can check the answer, light = needs teacher judgment.</text>
+  <g fill="#8a857a" font-size="11" font-weight="700">
+    <text x="48" y="88">Subject</text><text x="212" y="88">How we know it is right</text><text x="558" y="88">What the AI does</text><text x="768" y="88">Checking</text>
+  </g>
+  <rect x="32" y="94" width="836" height="64" rx="8" fill="#F4F2EC" stroke="#E7E3D8"/>
+  <rect x="34" y="96" width="7" height="60" fill="#274C6E"/>
+  <text x="50" y="123" fill="#23201b" font-size="13" font-weight="700">Mathematics</text>
+  <text x="50" y="141" fill="#8a857a" font-size="10.5">school to university</text>
+  <text x="212" y="122" fill="#3f4a55" font-size="11">The math engine solves it and checks</text>
+  <text x="212" y="140" fill="#3f4a55" font-size="11">every step. Always exact.</text>
+  <text x="558" y="122" fill="#3f4a55" font-size="11">Puts the steps into words,</text>
+  <text x="558" y="140" fill="#3f4a55" font-size="11">spots the slip.</text>
+  <rect x="766" y="113" width="94" height="26" rx="13" fill="#274C6E"/>
+  <text x="813" y="130" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">Machine-checked</text>
+  <rect x="32" y="166" width="836" height="64" rx="8" fill="#F4F2EC" stroke="#E7E3D8"/>
+  <rect x="34" y="168" width="7" height="60" fill="#3E6FA0"/>
+  <text x="50" y="195" fill="#23201b" font-size="13" font-weight="700">Physics &amp; Chemistry</text>
+  <text x="50" y="213" fill="#8a857a" font-size="10.5">the number parts</text>
+  <text x="212" y="194" fill="#3f4a55" font-size="11">Numbers, units and formulas checked</text>
+  <text x="212" y="212" fill="#3f4a55" font-size="11">automatically. Facts from the pack.</text>
+  <text x="558" y="194" fill="#3f4a55" font-size="11">Explains the idea,</text>
+  <text x="558" y="212" fill="#3f4a55" font-size="11">checks the reasoning.</text>
+  <rect x="766" y="185" width="94" height="26" rx="13" fill="#3E6FA0"/>
+  <text x="813" y="202" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">Mostly checked</text>
+  <rect x="32" y="238" width="836" height="64" rx="8" fill="#F4F2EC" stroke="#E7E3D8"/>
+  <rect x="34" y="240" width="7" height="60" fill="#6E9AC0"/>
+  <text x="50" y="267" fill="#23201b" font-size="13" font-weight="700">Biology &amp; Geography</text>
+  <text x="50" y="285" fill="#8a857a" font-size="10.5">facts and diagrams</text>
+  <text x="212" y="266" fill="#3f4a55" font-size="11">Teacher-written answers plus a pack</text>
+  <text x="212" y="284" fill="#3f4a55" font-size="11">search. Key points are matched.</text>
+  <text x="558" y="266" fill="#3f4a55" font-size="11">Explains and quizzes,</text>
+  <text x="558" y="284" fill="#3f4a55" font-size="11">marks the key points.</text>
+  <rect x="766" y="257" width="94" height="26" rx="13" fill="#6E9AC0"/>
+  <text x="813" y="274" text-anchor="middle" fill="#14212e" font-size="10" font-weight="700">Facts from pack</text>
+  <rect x="32" y="310" width="836" height="64" rx="8" fill="#F4F2EC" stroke="#E7E3D8"/>
+  <rect x="34" y="312" width="7" height="60" fill="#96BAD8"/>
+  <text x="50" y="339" fill="#23201b" font-size="13" font-weight="700">History &amp; Commerce</text>
+  <text x="50" y="357" fill="#8a857a" font-size="10.5">essays and sources</text>
+  <text x="212" y="338" fill="#3f4a55" font-size="11">Teacher model answers and a marking</text>
+  <text x="212" y="356" fill="#3f4a55" font-size="11">guide. Sources from the pack.</text>
+  <text x="558" y="338" fill="#3f4a55" font-size="11">Asks Socratic questions,</text>
+  <text x="558" y="356" fill="#3f4a55" font-size="11">coaches the argument.</text>
+  <rect x="766" y="329" width="94" height="26" rx="13" fill="#96BAD8"/>
+  <text x="813" y="346" text-anchor="middle" fill="#14212e" font-size="10" font-weight="700">Marking guide</text>
+  <rect x="32" y="382" width="836" height="64" rx="8" fill="#F4F2EC" stroke="#E7E3D8"/>
+  <rect x="34" y="384" width="7" height="60" fill="#C3D8EA"/>
+  <text x="50" y="411" fill="#23201b" font-size="13" font-weight="700">English &amp; languages</text>
+  <text x="50" y="429" fill="#8a857a" font-size="10.5">reading and writing</text>
+  <text x="212" y="410" fill="#3f4a55" font-size="11">Grammar and spelling tools, a marking</text>
+  <text x="212" y="428" fill="#3f4a55" font-size="11">guide, and example answers.</text>
+  <text x="558" y="410" fill="#3f4a55" font-size="11">Coaches the writing,</text>
+  <text x="558" y="428" fill="#3f4a55" font-size="11">never writes it for you.</text>
+  <rect x="766" y="401" width="94" height="26" rx="13" fill="#C3D8EA"/>
+  <text x="813" y="418" text-anchor="middle" fill="#14212e" font-size="10" font-weight="700">Marking guide</text>
+  <rect x="32" y="458" width="836" height="44" rx="10" fill="#EFEDE6" stroke="#DAD5C8"/>
+  <text x="52" y="478" fill="#4A463E" font-size="11.5">As you go down, less can be checked by a machine and more rests on teacher-written answers and marking guides.</text>
+  <text x="52" y="494" fill="#4A463E" font-size="11.5">The method of teaching never changes, and the AI never decides what is correct. It only helps explain and coach.</text>
+</svg>

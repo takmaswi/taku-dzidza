@@ -1,0 +1,51 @@
+<svg viewBox="0 0 900 510" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+  <title>How the TAKU-Dzidza AI is made smart enough</title>
+  <desc>A big teacher AI writes many tutoring conversations over the lessons, teachers review them, and the small phone model is trained on them (distillation), then tuned to withhold answers and match grade level, with optional language add-ons. The model provides the how-to-teach; the curriculum packs provide the what-to-teach, looked up rather than memorised.</desc>
+  <rect x="4" y="4" width="892" height="502" rx="14" fill="#FBFAF7" stroke="#E7E3D8"/>
+  <text x="32" y="31" fill="#23201b" font-size="15.5" font-weight="700">How the AI is made smart enough, and what we use</text>
+  <text x="32" y="50" fill="#6a655c" font-size="11.5">A small phone model is taught to tutor by a bigger one. Its knowledge stays in the packs, not in its memory.</text>
+  <defs>
+    <marker id="s" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#8f8a7e"/></marker>
+  </defs>
+  <text x="32" y="80" fill="#8a857a" font-size="11" font-weight="700">How it is trained</text>
+  <g>
+    <rect x="32" y="86" width="348" height="50" rx="8" fill="#EAF2F8" stroke="#9CC0DC"/>
+    <rect x="32" y="144" width="348" height="50" rx="8" fill="#EAF2F8" stroke="#9CC0DC"/>
+    <rect x="32" y="202" width="348" height="50" rx="8" fill="#EAF2F8" stroke="#9CC0DC"/>
+    <rect x="32" y="260" width="348" height="50" rx="8" fill="#EAF2F8" stroke="#9CC0DC"/>
+    <rect x="32" y="318" width="348" height="50" rx="8" fill="#EAF2F8" stroke="#9CC0DC"/>
+  </g>
+  <g fill="#3E6FA0"><circle cx="56" cy="111" r="13"/><circle cx="56" cy="169" r="13"/><circle cx="56" cy="227" r="13"/><circle cx="56" cy="285" r="13"/><circle cx="56" cy="343" r="13"/></g>
+  <g fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle"><text x="56" y="116">1</text><text x="56" y="174">2</text><text x="56" y="232">3</text><text x="56" y="290">4</text><text x="56" y="348">5</text></g>
+  <g fill="#1f2a31" font-size="11.5">
+    <text x="78" y="108">A big "teacher" AI writes many</text><text x="78" y="125">tutoring chats over the lessons</text>
+    <text x="78" y="174">Teachers review and correct them</text>
+    <text x="78" y="224">The small phone AI is trained on</text><text x="78" y="241">these — this is "distillation"</text>
+    <text x="78" y="282">Extra tuning: hold back answers,</text><text x="78" y="299">and speak at the right grade</text>
+    <text x="78" y="340">Optional language add-ons,</text><text x="78" y="357">like Shona — tiny files</text>
+  </g>
+  <g stroke="#8f8a7e" stroke-width="2" marker-end="url(#s)">
+    <line x1="206" y1="136" x2="206" y2="143"/><line x1="206" y1="194" x2="206" y2="201"/><line x1="206" y1="252" x2="206" y2="259"/><line x1="206" y1="310" x2="206" y2="317"/><line x1="206" y1="368" x2="206" y2="377"/>
+  </g>
+  <rect x="32" y="380" width="348" height="46" rx="8" fill="#2f2b25"/>
+  <text x="206" y="401" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">A small model that tutors well</text>
+  <text x="206" y="417" text-anchor="middle" fill="#e8e3d7" font-size="11">on a cheap phone</text>
+  <text x="410" y="80" fill="#8a857a" font-size="11" font-weight="700">The two halves of a smart tutor</text>
+  <rect x="410" y="86" width="458" height="72" rx="8" fill="#E6EEF6" stroke="#3E6FA0"/>
+  <text x="426" y="112" fill="#21374B" font-size="12.5" font-weight="700">HOW to teach — the trained model</text>
+  <text x="426" y="132" fill="#3f4a55" font-size="11">phrasing, hints, coaching, encouragement</text>
+  <text x="426" y="150" fill="#8a857a" font-size="10" font-style="italic">this is the AI part</text>
+  <text x="639" y="180" text-anchor="middle" fill="#8a857a" font-size="20" font-weight="700">+</text>
+  <rect x="410" y="190" width="458" height="92" rx="8" fill="#EAF3E8" stroke="#7FA773"/>
+  <text x="426" y="216" fill="#35502f" font-size="12.5" font-weight="700">WHAT to teach — the curriculum packs</text>
+  <text x="426" y="237" fill="#3f4a3a" font-size="11">facts, answers and hints; signed and updatable</text>
+  <text x="426" y="255" fill="#3f4a3a" font-size="11">looked up when needed, not memorised</text>
+  <text x="426" y="273" fill="#6f7a68" font-size="10" font-style="italic">this keeps it correct and easy to update</text>
+  <rect x="410" y="296" width="458" height="40" rx="8" fill="#EFEDE6" stroke="#DAD5C8"/>
+  <text x="639" y="321" text-anchor="middle" fill="#4A463E" font-size="12" font-weight="700">model (how) + packs (what) = smart AND correct</text>
+  <text x="410" y="360" fill="#6a655c" font-size="11">Fix or update a subject by shipping a new pack. No retraining needed.</text>
+  <rect x="32" y="436" width="836" height="62" rx="10" fill="#F4F2EC" stroke="#E7E3D8"/>
+  <text x="48" y="457" fill="#23201b" font-size="12" font-weight="700">What we can use today</text>
+  <text x="48" y="476" fill="#4A463E" font-size="11">Teacher model: one large model in the cloud, used once.    Small phone models: Qwen3 1.7B, Gemma 4 E2B — free licence.</text>
+  <text x="48" y="491" fill="#4A463E" font-size="11">Methods: distillation, answer-withholding tuning, grade-level readability, small language add-ons.    Knowledge: search over the packs.</text>
+</svg>

@@ -1,0 +1,57 @@
+<svg viewBox="0 0 900 412" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+  <title>How one TAKU-Dzidza lesson works</title>
+  <desc>The lesson is run by fixed rules in code (blue): try first, give a hint rung, check the working, explain it back, and an unaided checkpoint. The AI (orange) only phrases hints and grades explanations, and can be switched off. The correct answer is held by the system and never given to the AI.</desc>
+  <rect x="4" y="4" width="892" height="404" rx="14" fill="#FBFAF7" stroke="#E7E3D8"/>
+  <text x="32" y="31" fill="#23201b" font-size="15.5" font-weight="700">How one lesson works: the system leads, the AI only helps with words</text>
+  <rect x="32" y="45" width="13" height="13" rx="3" fill="#3E6FA0"/>
+  <text x="51" y="56" fill="#4A463E" font-size="11.5">System (fixed rules) — runs the lesson, cannot be overridden</text>
+  <rect x="470" y="45" width="13" height="13" rx="3" fill="#C0703F"/>
+  <text x="489" y="56" fill="#4A463E" font-size="11.5">AI helper — optional, can be switched off</text>
+  <g fill="#3E6FA0"><circle cx="115" cy="88" r="15"/><circle cx="283" cy="88" r="15"/><circle cx="451" cy="88" r="15"/><circle cx="619" cy="88" r="15"/><circle cx="787" cy="88" r="15"/></g>
+  <g fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">
+    <text x="115" y="93">1</text><text x="283" y="93">2</text><text x="451" y="93">3</text><text x="619" y="93">4</text><text x="787" y="93">5</text>
+  </g>
+  <defs>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#9AA0A6"/></marker>
+    <marker id="aro" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#C0703F"/></marker>
+  </defs>
+  <g stroke="#9AA0A6" stroke-width="2" marker-end="url(#ar)">
+    <line x1="192" y1="153" x2="206" y2="153"/><line x1="360" y1="153" x2="374" y2="153"/><line x1="528" y1="153" x2="542" y2="153"/><line x1="696" y1="153" x2="710" y2="153"/>
+  </g>
+  <g>
+    <rect x="40" y="104" width="150" height="98" rx="10" fill="#E6EEF6" stroke="#3E6FA0" stroke-width="1.2"/>
+    <rect x="208" y="104" width="150" height="98" rx="10" fill="#E6EEF6" stroke="#3E6FA0" stroke-width="1.2"/>
+    <rect x="376" y="104" width="150" height="98" rx="10" fill="#E6EEF6" stroke="#3E6FA0" stroke-width="1.2"/>
+    <rect x="544" y="104" width="150" height="98" rx="10" fill="#E6EEF6" stroke="#3E6FA0" stroke-width="1.2"/>
+    <rect x="712" y="104" width="150" height="98" rx="10" fill="#E6EEF6" stroke="#3E6FA0" stroke-width="1.2"/>
+  </g>
+  <g text-anchor="middle" fill="#21374B" font-size="13.5" font-weight="700">
+    <text x="115" y="139">Try it first</text><text x="283" y="139">Give a hint</text><text x="451" y="139">Check the working</text><text x="619" y="139">Explain it back</text><text x="787" y="139">Checkpoint</text>
+  </g>
+  <g text-anchor="middle" fill="#3f4a55" font-size="11">
+    <text x="115" y="163">No help before</text><text x="115" y="179">the student tries</text>
+    <text x="283" y="163">Code picks the step,</text><text x="283" y="179">not the answer</text>
+    <text x="451" y="163">Math engine checks</text><text x="451" y="179">every step</text>
+    <text x="619" y="163">Student says why</text><text x="619" y="179">the step works</text>
+    <text x="787" y="163">No help at all —</text><text x="787" y="179">the real test</text>
+  </g>
+  <g stroke="#C0703F" stroke-width="1.6" marker-end="url(#aro)">
+    <line x1="283" y1="204" x2="283" y2="243"/><line x1="619" y1="204" x2="619" y2="243"/>
+  </g>
+  <rect x="208" y="246" width="150" height="86" rx="10" fill="#F4E8DF" stroke="#C0703F" stroke-width="1.2"/>
+  <rect x="544" y="246" width="150" height="86" rx="10" fill="#F4E8DF" stroke="#C0703F" stroke-width="1.2"/>
+  <g text-anchor="middle" fill="#43301F" font-size="12.5" font-weight="700">
+    <text x="283" y="274">AI phrases it</text><text x="619" y="274">AI grades loosely</text>
+  </g>
+  <g text-anchor="middle" fill="#5a4433" font-size="10.5">
+    <text x="283" y="296">in the student's words</text><text x="283" y="311">(written text if no AI)</text>
+    <text x="619" y="296">a light check</text><text x="619" y="311">(keywords if no AI)</text>
+  </g>
+  <g text-anchor="middle" fill="#A29C90" font-size="11" font-style="italic">
+    <text x="115" y="274">AI not needed</text><text x="451" y="274">AI not needed</text><text x="787" y="274">AI is off here</text>
+  </g>
+  <rect x="32" y="352" width="836" height="44" rx="10" fill="#EFEDE6" stroke="#DAD5C8"/>
+  <g stroke="#6b6559" stroke-width="2" fill="none"><path d="M55 373 v-3 a5 5 0 0 1 10 0 v3"/></g>
+  <rect x="52" y="373" width="16" height="12" rx="2" fill="#6b6559"/>
+  <text x="82" y="379" fill="#4A463E" font-size="12">The correct answer is kept inside the system and is never sent to the AI, so the AI cannot give it away.</text>
+</svg>

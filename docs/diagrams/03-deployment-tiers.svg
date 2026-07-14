@@ -1,0 +1,45 @@
+<svg viewBox="0 0 900 492" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+  <title>Where TAKU-Dzidza runs: three tiers, one shared brain</title>
+  <desc>The same pedagogy engine and signed curriculum packs run in three places: on a phone offline with a small or no model, on a school hub over local Wi-Fi with an 8B model for about 40 students, and on the national Pangolin server with a 27B model reaching any browser for free. If the server is down, the website falls back to offline phone mode.</desc>
+  <rect x="4" y="4" width="892" height="484" rx="14" fill="#FBFAF7" stroke="#E7E3D8"/>
+  <text x="32" y="31" fill="#23201b" font-size="15.5" font-weight="700">Where it runs: three ways, one shared brain</text>
+  <text x="32" y="50" fill="#6a655c" font-size="11.5">The teaching logic and lessons are identical everywhere. Only the AI model size and the reach change. Darker = more power and reach.</text>
+  <defs>
+    <marker id="t" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#8f8a7e"/></marker>
+  </defs>
+  <rect x="270" y="64" width="360" height="52" rx="10" fill="#2f2b25"/>
+  <text x="450" y="88" text-anchor="middle" fill="#ffffff" font-size="12.5" font-weight="700">SHARED BRAIN</text>
+  <text x="450" y="105" text-anchor="middle" fill="#e8e3d7" font-size="11">same pedagogy engine + signed curriculum packs</text>
+  <line x1="450" y1="116" x2="450" y2="130" stroke="#8f8a7e" stroke-width="2"/>
+  <line x1="165" y1="130" x2="735" y2="130" stroke="#8f8a7e" stroke-width="2"/>
+  <line x1="165" y1="130" x2="165" y2="156" stroke="#8f8a7e" stroke-width="2" marker-end="url(#t)"/>
+  <line x1="450" y1="130" x2="450" y2="156" stroke="#8f8a7e" stroke-width="2" marker-end="url(#t)"/>
+  <line x1="735" y1="130" x2="735" y2="156" stroke="#8f8a7e" stroke-width="2" marker-end="url(#t)"/>
+  <rect x="40" y="158" width="250" height="248" rx="10" fill="#EAF2F8" stroke="#9CC0DC"/>
+  <rect x="325" y="158" width="250" height="248" rx="10" fill="#E1ECF4" stroke="#4E86B4"/>
+  <rect x="610" y="158" width="250" height="248" rx="10" fill="#DAE6F0" stroke="#24506F"/>
+  <path d="M40 168 a10 10 0 0 1 10 -10 h230 a10 10 0 0 1 10 10 v32 h-250 z" fill="#9CC0DC"/>
+  <path d="M325 168 a10 10 0 0 1 10 -10 h230 a10 10 0 0 1 10 10 v32 h-250 z" fill="#4E86B4"/>
+  <path d="M610 168 a10 10 0 0 1 10 -10 h230 a10 10 0 0 1 10 10 v32 h-250 z" fill="#24506F"/>
+  <text x="165" y="180" text-anchor="middle" fill="#1c3140" font-size="13.5" font-weight="700">Your phone</text>
+  <text x="165" y="194" text-anchor="middle" fill="#274253" font-size="10.5">offline, in your hand</text>
+  <text x="450" y="180" text-anchor="middle" fill="#ffffff" font-size="13.5" font-weight="700">School hub</text>
+  <text x="450" y="194" text-anchor="middle" fill="#e6eff6" font-size="10.5">one machine, local Wi-Fi</text>
+  <text x="735" y="180" text-anchor="middle" fill="#ffffff" font-size="13.5" font-weight="700">Pangolin server</text>
+  <text x="735" y="194" text-anchor="middle" fill="#dbe6f0" font-size="10.5">national, online</text>
+  <g font-size="10.5" fill="#7c8790"><text x="56" y="228">AI MODEL</text><text x="341" y="228">AI MODEL</text><text x="626" y="228">AI MODEL</text></g>
+  <g font-size="12.5" font-weight="700" fill="#1f2a31"><text x="56" y="245">none up to 1.7B</text><text x="341" y="245">up to 8B</text><text x="626" y="245">27B class</text></g>
+  <g font-size="10.5" fill="#7c8790"><text x="56" y="278">WORKS OFFLINE?</text><text x="341" y="278">WORKS OFFLINE?</text><text x="626" y="278">WORKS OFFLINE?</text></g>
+  <g font-size="12.5" font-weight="700" fill="#1f2a31"><text x="56" y="295">yes, always</text><text x="341" y="295">yes, no internet</text><text x="626" y="295">needs internet</text></g>
+  <g font-size="10.5" fill="#7c8790"><text x="56" y="328">REACHES</text><text x="341" y="328">REACHES</text><text x="626" y="328">REACHES</text></g>
+  <g font-size="12.5" font-weight="700" fill="#1f2a31"><text x="56" y="345">one person</text><text x="341" y="345">about 40 students</text><text x="626" y="345">100,000+ students</text></g>
+  <g font-size="10.5" fill="#7c8790"><text x="56" y="378">HOW TO GET IN</text><text x="341" y="378">HOW TO GET IN</text><text x="626" y="378">HOW TO GET IN</text></g>
+  <g font-size="12.5" font-weight="700" fill="#1f2a31"><text x="56" y="395">install the app</text><text x="341" y="395">class Wi-Fi or browser</text><text x="626" y="395">any browser, free data</text></g>
+  <rect x="40" y="424" width="250" height="28" rx="7" fill="#DCEBD8" stroke="#BBD3B4"/>
+  <rect x="325" y="424" width="250" height="28" rx="7" fill="#F0E9CE" stroke="#DAD0A6"/>
+  <rect x="610" y="424" width="250" height="28" rx="7" fill="#DCE6F2" stroke="#B7C9E0"/>
+  <text x="165" y="442" text-anchor="middle" fill="#2f4429" font-size="11" font-weight="700">Fully offline</text>
+  <text x="450" y="442" text-anchor="middle" fill="#5f5326" font-size="11" font-weight="700">Occasional connection</text>
+  <text x="735" y="442" text-anchor="middle" fill="#274a6b" font-size="11" font-weight="700">Online</text>
+  <text x="32" y="474" fill="#4A463E" font-size="11.5">If the national server is busy or down, the website keeps working in the offline, phone-style mode. It never fully fails.</text>
+</svg>
