@@ -20,7 +20,8 @@
     "test": "vitest run",
     "e2e": "node scripts/check-env.mjs && node scripts/e2e.mjs",
     "setup-env": "node scripts/setup-env.mjs",
-    "live-check": "node scripts/live-check.mjs"
+    "live-check": "node scripts/live-check.mjs",
+    "deploy:prod": "node scripts/deploy-vercel.mjs"
   },
   "dependencies": {
     "@auth/core": "0.41.1",
