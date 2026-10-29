@@ -1,0 +1,15 @@
+{
+  "keyMaterial": {
+    "kind": "tool",
+    "mode": "study-guide",
+    "sourceMode": "mine_plus",
+    "options": {}
+  },
+  "response": {
+    "content": "{\"title\": \"Photosynthesis study guide\", \"sections\": [{\"heading\": \"Key terms\", \"points\": [{\"text\": \"Chlorophyll: the pigment in chloroplasts that absorbs light.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}]}, {\"heading\": \"What you must know\", \"points\": [{\"text\": \"Glucose is made from carbon dioxide and water using light energy.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}]}], \"missing\": \"\"}",
+    "usage": {
+      "promptTokens": 1500,
+      "completionTokens": 600
+    }
+  }
+}

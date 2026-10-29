@@ -121,6 +121,53 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_notebook", ["notebookId", "createdAt"]),
 
+  /** A study tool Taku made from a notebook (SPEC.md 3.3). content is checked by convex/study/shapes.ts before it is stored. */
+  outputs: defineTable({
+    notebookId: v.id("notebooks"),
+    profileId: v.id("profiles"),
+    mode: v.string(),
+    kind: v.union(v.literal("summary"), v.literal("cards"), v.literal("quiz"), v.literal("mindmap"), v.literal("scroll")),
+    title: v.string(),
+    content: v.any(),
+    sourceMode: sourceModeValidator,
+    note: v.optional(v.string()),
+    createdAt: v.number(),
+  }).index("by_notebook", ["notebookId", "createdAt"]),
+
+  /** One flashcard with its spaced repetition state (ts-fsrs). */
+  cards: defineTable({
+    notebookId: v.id("notebooks"),
+    outputId: v.id("outputs"),
+    profileId: v.id("profiles"),
+    front: v.string(),
+    back: v.string(),
+    origin: originValidator,
+    due: v.number(),
+    stability: v.number(),
+    difficulty: v.number(),
+    elapsedDays: v.number(),
+    scheduledDays: v.number(),
+    learningSteps: v.number(),
+    reps: v.number(),
+    lapses: v.number(),
+    state: v.number(),
+    lastReview: v.optional(v.number()),
+  })
+    .index("by_output", ["outputId"])
+    .index("by_notebook_due", ["notebookId", "due"])
+    .index("by_profile_due", ["profileId", "due"]),
+
+  /** A finished quiz: marks only, for weak topics in Phase 4. */
+  quizAttempts: defineTable({
+    outputId: v.id("outputs"),
+    notebookId: v.id("notebooks"),
+    profileId: v.id("profiles"),
+    score: v.number(),
+    total: v.number(),
+    perQuestion: v.array(v.object({ number: v.number(), got: v.number(), marks: v.number() })),
+    createdAt: v.number(),
+  }).index("by_output", ["outputId"]).index("by_profile", ["profileId", "createdAt"]),
+
   /** AI calls and cost per day: one row for the whole deployment (scope "all") and one per learner (their profile id). Numbers only. */
   aiUsageDaily: defineTable({ day: v.string(), scope: v.string(), calls: v.number(), costUsd: v.number() }).index("by_day_scope", ["day", "scope"]),
 

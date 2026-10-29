@@ -1,0 +1,18 @@
+{
+  "keyMaterial": {
+    "kind": "tool",
+    "mode": "flashcards",
+    "sourceMode": "mine_plus",
+    "options": {
+      "count": 5,
+      "difficulty": "medium"
+    }
+  },
+  "response": {
+    "content": "{\"cards\": [{\"front\": \"What do green plants make in photosynthesis?\", \"back\": \"Glucose\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"front\": \"Which two raw materials does photosynthesis use?\", \"back\": \"Carbon dioxide and water\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"front\": \"What absorbs the light in a leaf?\", \"back\": \"Chlorophyll in the chloroplasts\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"front\": \"Which gas is released as a by product?\", \"back\": \"Oxygen\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}, {\"front\": \"Where does photosynthesis happen in a plant cell?\", \"back\": \"In the chloroplasts\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"The notes support 4 cards from the material.\"}",
+    "usage": {
+      "promptTokens": 1500,
+      "completionTokens": 600
+    }
+  }
+}

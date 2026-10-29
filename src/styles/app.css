@@ -167,4 +167,77 @@ textarea:focus { border-color: var(--ink); outline: none; }
 .page-text mark { background: var(--honey); color: var(--ink); border-radius: 4px; padding: 0 2px; }
 .quote { border-left: 4px solid var(--honey); margin: 0 0 1rem; padding: 0.5rem 1rem; background: var(--white); }
 /* On a phone, once there is something to ask about, the chat comes first. */
-@media (max-width: 899px) { .notebook-grid.has-sources > .chat { order: -1; } }
+@media (max-width: 899px) { .notebook-grid.has-sources > .chat, .notebook-grid.has-sources > .tools-main { order: -1; } }
+
+/* Study tools */
+.tabs { display: inline-flex; gap: 0.3rem; background: var(--white); border: 1px solid var(--line); padding: 0.3rem; border-radius: 999px; }
+.tabs button { border: 0; background: transparent; padding: 0.55rem 1.1rem; border-radius: 999px; font: inherit; font-weight: 600; cursor: pointer; color: var(--ink); min-height: 44px; }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--cream); }
+.tool-grid { display: grid; gap: 0.75rem; }
+@media (min-width: 700px) { .tool-grid { grid-template-columns: 1fr 1fr; } }
+.tool { padding: 0; }
+.tool-head { display: flex; gap: 0.8rem; align-items: flex-start; width: 100%; text-align: left; background: none; border: 0; padding: 1.1rem 1.2rem; font: inherit; color: var(--ink); cursor: pointer; }
+.tool-head span { display: flex; flex-direction: column; }
+.tool-form { padding: 0 1.2rem 1.2rem; }
+.review-banner { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.row-between { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; flex-wrap: wrap; }
+.points { padding-left: 1.2rem; }
+.points li { margin-bottom: 0.5rem; }
+.points li.added { list-style: none; margin-left: -1.2rem; padding-left: 0.8rem; border-left: 4px solid var(--honey); }
+.cite.static { cursor: default; }
+.flashcard { text-align: center; padding: 2rem 1.4rem; }
+.flash-front { font-size: 1.35rem; font-weight: 650; }
+.flash-back { font-size: 1.15rem; background: var(--cream); padding: 1rem; border-radius: 16px; }
+.flashcard .actions { justify-content: center; }
+.ok-text { color: var(--sage); font-weight: 600; }
+
+/* Exam board style paper */
+.paper { background: var(--white); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; padding: 2rem 1.4rem; font-family: Georgia, "Times New Roman", serif; letter-spacing: 0; word-spacing: 0; }
+.paper h1 { font-family: var(--font); font-size: 1.5rem; text-align: center; }
+.paper-head { border-bottom: 2px solid var(--ink); padding-bottom: 1rem; margin-bottom: 1.2rem; text-align: center; }
+.paper-meta { display: flex; justify-content: space-between; font-weight: 700; max-width: 520px; margin: 0.5rem auto; }
+.paper-instructions { margin: 0.5rem auto; font-style: italic; }
+.questions { list-style: none; padding: 0; margin: 0; }
+.question { padding: 1rem 0; border-bottom: 1px solid var(--line); }
+.question-line { display: grid; grid-template-columns: 2rem 1fr auto; gap: 0.5rem; align-items: baseline; }
+.qnum { font-weight: 700; }
+.qmarks { font-weight: 700; white-space: nowrap; }
+.options { display: grid; gap: 0.4rem; margin: 0.7rem 0 0 2.5rem; }
+.option { display: flex; gap: 0.6rem; align-items: center; font-weight: 400; margin: 0; }
+.option .letter { font-weight: 700; width: 1.2rem; }
+.answer-box { margin: 0.7rem 0 0 2.5rem; width: calc(100% - 2.5rem); font-family: var(--font); }
+.scheme { margin: 0.7rem 0 0 2.5rem; background: var(--cream); padding: 0.8rem 1rem; border-radius: 12px; font-family: var(--font); }
+.marks-input { display: flex; gap: 0.6rem; align-items: center; font-weight: 600; }
+.marks-input select { width: auto; min-height: 40px; }
+.print-only { display: none; }
+
+/* Mind map */
+.mindmap { display: grid; gap: 1.2rem; justify-items: center; }
+.mm-central { background: var(--ink); color: var(--cream); padding: 0.9rem 1.6rem; border-radius: 999px; font-weight: 700; font-size: 1.2rem; text-align: center; }
+.mm-branches { display: grid; gap: 1rem; width: 100%; }
+@media (min-width: 700px) { .mm-branches { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); } }
+.mm-branch { background: var(--butter); border-radius: 22px; padding: 1rem 1.2rem; }
+.mm-branch h2 { font-size: 1.05rem; }
+.mm-branch ul { margin: 0; padding-left: 1.1rem; }
+.mm-branch li.added { font-style: italic; }
+
+/* Scroll feed */
+.scroll-feed { height: 100dvh; overflow-y: auto; scroll-snap-type: y mandatory; background: var(--ink); }
+.scroll-card { min-height: 100dvh; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: center; gap: 1.2rem; padding: 4.5rem 1.5rem 3rem; color: var(--cream); max-width: 640px; margin: 0 auto; }
+.scroll-card.question, .scroll-card.truefalse { background: transparent; }
+.scroll-hook { font-size: clamp(1.6rem, 7vw, 2.4rem); font-weight: 700; line-height: 1.15; color: var(--honey); margin: 0; }
+.scroll-text { font-size: 1.35rem; margin: 0; }
+.scroll-answer { font-size: 1.2rem; background: var(--cream); color: var(--ink); padding: 1rem; border-radius: 18px; margin: 0; }
+.scroll-card .pill { background: var(--cream); color: var(--ink); border-color: var(--cream); align-self: flex-start; }
+.scroll-card .pill.ghost { background: transparent; color: var(--cream); }
+.scroll-source, .scroll-hint { color: #d9cfbd; }
+.scroll-close { position: fixed; top: 0.8rem; left: 0.8rem; z-index: 5; background: var(--cream) !important; color: var(--ink) !important; border-color: var(--cream) !important; }
+
+@media print {
+  .topbar, .no-print, .back-link { display: none !important; }
+  body { background: #fff; }
+  .main { padding: 0; }
+  .paper { border: 0; padding: 0; }
+  .print-only { display: block; break-before: page; }
+  .answer-box { border: 0; border-bottom: 1px solid #999; border-radius: 0; }
+}

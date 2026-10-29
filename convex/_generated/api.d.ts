@@ -29,6 +29,7 @@ import type * as lib_canonical from "../lib/canonical.js";
 import type * as lib_dates from "../lib/dates.js";
 import type * as lib_env from "../lib/env.js";
 import type * as lib_tokens from "../lib/tokens.js";
+import type * as modes_package from "../modes/package.js";
 import type * as notebooks_ask from "../notebooks/ask.js";
 import type * as notebooks_liveCheck from "../notebooks/liveCheck.js";
 import type * as notebooks_notebooks from "../notebooks/notebooks.js";
@@ -41,6 +42,10 @@ import type * as sources_fileText from "../sources/fileText.js";
 import type * as sources_limits from "../sources/limits.js";
 import type * as sources_modes from "../sources/modes.js";
 import type * as sources_text from "../sources/text.js";
+import type * as study_cards from "../study/cards.js";
+import type * as study_quizzes from "../study/quizzes.js";
+import type * as study_shapes from "../study/shapes.js";
+import type * as study_tools from "../study/tools.js";
 
 import type {
   ApiFromModules,
@@ -70,6 +75,7 @@ declare const fullApi: ApiFromModules<{
   "lib/dates": typeof lib_dates;
   "lib/env": typeof lib_env;
   "lib/tokens": typeof lib_tokens;
+  "modes/package": typeof modes_package;
   "notebooks/ask": typeof notebooks_ask;
   "notebooks/liveCheck": typeof notebooks_liveCheck;
   "notebooks/notebooks": typeof notebooks_notebooks;
@@ -82,6 +88,10 @@ declare const fullApi: ApiFromModules<{
   "sources/limits": typeof sources_limits;
   "sources/modes": typeof sources_modes;
   "sources/text": typeof sources_text;
+  "study/cards": typeof study_cards;
+  "study/quizzes": typeof study_quizzes;
+  "study/shapes": typeof study_shapes;
+  "study/tools": typeof study_tools;
 }>;
 
 /**

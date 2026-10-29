@@ -1,12 +1,14 @@
 import { useAction, useMutation, useQuery } from "convex/react";
 import { ArrowLeft, FileText, Link2, Trash2, Upload } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import { errorText } from "../access";
 import { Layout } from "../components/Layout";
+import { ReadAloud } from "../components/ReadAloud";
 import { copy } from "../copy/en";
+import { ToolsPanel } from "./ToolsPanel";
 
 type Origin = { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added" };
 type Citation = { sourceId: Id<"sources">; page: number; quote: string };
@@ -17,6 +19,8 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
   const notebookId = id as Id<"notebooks">;
   const data = useQuery(api.notebooks.notebooks.get, { notebookId });
   const [citation, setCitation] = useState<Citation | null>(null);
+  const [params, setParams] = useSearchParams();
+  const tab = params.get("tab") === "tools" ? "tools" : "ask";
   const t = copy.notebook;
 
   if (data === undefined) {
@@ -35,13 +39,21 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
           <ArrowLeft size={18} aria-hidden="true" /> {t.back}
         </Link>
         <h1>{data.notebook.title}</h1>
+        <div className="tabs" role="tablist">
+          <button type="button" role="tab" aria-selected={tab === "ask"} onClick={() => setParams({})}>
+            {copy.tools.tabAsk}
+          </button>
+          <button type="button" role="tab" aria-selected={tab === "tools"} onClick={() => setParams({ tab: "tools" })}>
+            {copy.tools.tabTools}
+          </button>
+        </div>
         <div className={`notebook-grid${data.sources.length > 0 ? " has-sources" : ""}`}>
           <aside className="stack">
             <SourcesPanel notebookId={notebookId} sources={data.sources} />
             <ModePanel notebook={data.notebook} profile={profile} />
             <NotebookActions notebookId={notebookId} />
           </aside>
-          <Chat notebookId={notebookId} messages={data.messages} titles={titles} onCite={setCitation} />
+          {tab === "ask" ? <Chat notebookId={notebookId} messages={data.messages} titles={titles} onCite={setCitation} readAloud={profile.accessibility.readAloud} /> : <ToolsPanel notebookId={notebookId} />}
         </div>
       </div>
       {citation !== null && <CitationViewer citation={citation} onClose={() => setCitation(null)} />}
@@ -233,7 +245,7 @@ function NotebookActions({ notebookId }: { notebookId: Id<"notebooks"> }) {
   );
 }
 
-function Chat({ notebookId, messages, titles, onCite }: { notebookId: Id<"notebooks">; messages: Doc<"messages">[]; titles: Map<string, string>; onCite: (c: Citation) => void }) {
+function Chat({ notebookId, messages, titles, onCite, readAloud }: { notebookId: Id<"notebooks">; messages: Doc<"messages">[]; titles: Map<string, string>; onCite: (c: Citation) => void; readAloud: boolean }) {
   const t = copy.notebook;
   const ask = useAction(api.notebooks.ask.ask);
   const [question, setQuestion] = useState("");
@@ -271,6 +283,7 @@ function Chat({ notebookId, messages, titles, onCite }: { notebookId: Id<"notebo
               <Part key={i} text={part.text} origin={part.origin as Origin} titles={titles} onCite={onCite} />
             ))}
             {m.note !== undefined && <p className="soft small-text">{m.note}</p>}
+            {readAloud && m.role === "taku" && <ReadAloud text={[m.text, ...(m.parts ?? []).map((x) => x.text)].join(" ")} />}
             {m.kind === "help" && (
               <Link to="/help" className="pill small">
                 {t.getHelp}

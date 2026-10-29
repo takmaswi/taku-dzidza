@@ -51,7 +51,7 @@ export function words(text: string): string[] {
   return text
     .normalize("NFKC")
     .toLowerCase()
-    .replace(/[‘’“”'"`]/g, "")
+    .replace(/[\u2018\u2019\u201c\u201d'"`]/g, "")
     .replace(/[^\p{L}\p{N}]+/gu, " ")
     .trim()
     .split(" ")

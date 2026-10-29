@@ -1,0 +1,1 @@
+{ "cases": [ { "id": "biology-notes", "options": { "count": 4, "difficulty": "medium", "minutes": 15 }, "expect": { "minItems": 3, "rubric": "Numbered questions with marks, command words, a marking scheme with one point per mark, cited." } } ] }

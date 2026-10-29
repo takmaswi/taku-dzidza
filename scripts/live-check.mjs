@@ -1,4 +1,4 @@
-// pnpm live-check --cap 0.10: a capped live check of the real model against
+// pnpm live-check --cap 0.10 [--only quiz]: a capped live check of the real model against
 // the LOCAL Convex deployment (convex/notebooks/liveCheck.ts). Switches the
 // local deployment to live mode with OPENROUTER_API_KEY from this shell,
 // runs the check, then always switches back to mock and removes the key.
@@ -10,6 +10,8 @@ import { convexDevEnv } from "./lib/local-backend.mjs";
 const args = process.argv.slice(2);
 const capIndex = args.indexOf("--cap");
 const cap = capIndex >= 0 ? Number(args[capIndex + 1]) : NaN;
+const onlyIndex = args.indexOf("--only");
+const only = onlyIndex >= 0 ? args[onlyIndex + 1] : undefined;
 if (!Number.isFinite(cap) || cap <= 0 || cap > 1) {
   console.error("Pass a spending cap in US dollars, for example --cap 0.10 (at most 1).");
   process.exit(1);
@@ -26,7 +28,7 @@ const photo = readFileSync("tests/fixtures/sources/geography-photo.jpg").toStrin
 try {
   npx(["convex", "env", "set", "AI_MODE", "live"]);
   npx(["convex", "env", "set", "OPENROUTER_API_KEY"], key);
-  const out = npx(["convex", "run", "notebooks/liveCheck:run", JSON.stringify({ capUsd: cap, photoBase64: photo })]);
+  const out = npx(["convex", "run", "notebooks/liveCheck:run", JSON.stringify({ capUsd: cap, photoBase64: photo, ...(only ? { only } : {}) })]);
   console.log(out);
 } finally {
   npx(["convex", "env", "set", "AI_MODE", "mock"]);

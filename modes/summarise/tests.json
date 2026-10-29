@@ -1,0 +1,1 @@
+{ "cases": [ { "id": "biology-notes", "options": {}, "expect": { "minItems": 2, "rubric": "Headed sections that cover photosynthesis, each point cited to the notes, no facts the notes do not give in only my material." } } ] }

@@ -1,0 +1,19 @@
+{
+  "keyMaterial": {
+    "kind": "tool",
+    "mode": "quiz",
+    "sourceMode": "mine_plus",
+    "options": {
+      "count": 4,
+      "difficulty": "medium",
+      "minutes": 15
+    }
+  },
+  "response": {
+    "content": "{\"title\": \"Photosynthesis practice test\", \"minutes\": 15, \"questions\": [{\"kind\": \"mcq\", \"prompt\": \"Which gas is released as a by product of photosynthesis?\", \"options\": [\"Oxygen\", \"Carbon dioxide\", \"Nitrogen\", \"Hydrogen\"], \"marks\": 1, \"answer\": \"Oxygen\", \"markingPoints\": [\"Oxygen\"], \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}, {\"kind\": \"short\", \"prompt\": \"Name the two raw materials plants use to make glucose.\", \"options\": [], \"marks\": 2, \"answer\": \"Carbon dioxide and water\", \"markingPoints\": [\"carbon dioxide\", \"water\"], \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"kind\": \"structured\", \"prompt\": \"(a) State what absorbs light in a leaf. (b) Name the part of the cell where it is found.\", \"options\": [], \"marks\": 2, \"answer\": \"(a) Chlorophyll (b) the chloroplasts\", \"markingPoints\": [\"chlorophyll\", \"chloroplasts\"], \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"kind\": \"short\", \"prompt\": \"Explain why photosynthesis is described as an energy store.\", \"options\": [], \"marks\": 2, \"answer\": \"Light energy is stored in glucose\", \"markingPoints\": [\"light energy taken in\", \"stored as chemical energy in glucose\"], \"ref\": \"S1\", \"page\": 1, \"quote\": \"photosynthesis stores energy for the whole food chain\"}], \"missing\": \"\"}",
+    "usage": {
+      "promptTokens": 1500,
+      "completionTokens": 600
+    }
+  }
+}

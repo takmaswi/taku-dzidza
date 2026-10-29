@@ -1,0 +1,1 @@
+{ "cases": [ { "id": "biology-notes", "options": { "count": 5, "difficulty": "medium" }, "expect": { "minItems": 3, "rubric": "One idea per card, answers not on the front, each card cited." } } ] }

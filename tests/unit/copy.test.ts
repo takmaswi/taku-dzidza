@@ -25,7 +25,7 @@ function strings(value: unknown): string[] {
 
 describe("copy rule", () => {
   test("UI copy and consent text have no hyphens or dashes", () => {
-    const bad = [...strings(copy), ...CONSENT_POINTS].filter((s) => /[-‐-―]/.test(s));
+    const bad = [...strings(copy), ...CONSENT_POINTS].filter((s) => /[-\u2010-\u2015]/.test(s));
     expect(bad).toEqual([]);
   });
 
@@ -44,6 +44,6 @@ describe("copy rule", () => {
   });
 
   test("the check detects a hyphen", () => {
-    expect(/[-‐-―]/.test("step-by-step")).toBe(true);
+    expect(/[-\u2010-\u2015]/.test("step-by-step")).toBe(true);
   });
 });

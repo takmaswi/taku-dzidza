@@ -49,5 +49,53 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 160
   },
   "source": "tests/fixtures/ai/taku_answer/chlorophyll-only-mine.json"
+ },
+ "taku_tool/252c99d2fc702cf8": {
+  "content": "{\"cards\": [{\"front\": \"What do green plants make in photosynthesis?\", \"back\": \"Glucose\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"front\": \"Which two raw materials does photosynthesis use?\", \"back\": \"Carbon dioxide and water\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"front\": \"What absorbs the light in a leaf?\", \"back\": \"Chlorophyll in the chloroplasts\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"front\": \"Which gas is released as a by product?\", \"back\": \"Oxygen\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}, {\"front\": \"Where does photosynthesis happen in a plant cell?\", \"back\": \"In the chloroplasts\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"The notes support 4 cards from the material.\"}",
+  "usage": {
+   "promptTokens": 1500,
+   "completionTokens": 600
+  },
+  "source": "tests/fixtures/ai/taku_tool/flashcards.json"
+ },
+ "taku_tool/ef3665a12bf07603": {
+  "content": "{\"central\": \"Photosynthesis\", \"branches\": [{\"label\": \"Inputs\", \"leaves\": [{\"text\": \"Carbon dioxide and water\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"text\": \"Light energy\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}]}, {\"label\": \"Where\", \"leaves\": [{\"text\": \"Chlorophyll in chloroplasts\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}]}, {\"label\": \"Outputs\", \"leaves\": [{\"text\": \"Glucose\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"text\": \"Oxygen as a by product\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}]}], \"missing\": \"\"}",
+  "usage": {
+   "promptTokens": 1500,
+   "completionTokens": 600
+  },
+  "source": "tests/fixtures/ai/taku_tool/mindmap.json"
+ },
+ "taku_tool/c71b3700d27c0190": {
+  "content": "{\"title\": \"Photosynthesis practice test\", \"minutes\": 15, \"questions\": [{\"kind\": \"mcq\", \"prompt\": \"Which gas is released as a by product of photosynthesis?\", \"options\": [\"Oxygen\", \"Carbon dioxide\", \"Nitrogen\", \"Hydrogen\"], \"marks\": 1, \"answer\": \"Oxygen\", \"markingPoints\": [\"Oxygen\"], \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}, {\"kind\": \"short\", \"prompt\": \"Name the two raw materials plants use to make glucose.\", \"options\": [], \"marks\": 2, \"answer\": \"Carbon dioxide and water\", \"markingPoints\": [\"carbon dioxide\", \"water\"], \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"kind\": \"structured\", \"prompt\": \"(a) State what absorbs light in a leaf. (b) Name the part of the cell where it is found.\", \"options\": [], \"marks\": 2, \"answer\": \"(a) Chlorophyll (b) the chloroplasts\", \"markingPoints\": [\"chlorophyll\", \"chloroplasts\"], \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"kind\": \"short\", \"prompt\": \"Explain why photosynthesis is described as an energy store.\", \"options\": [], \"marks\": 2, \"answer\": \"Light energy is stored in glucose\", \"markingPoints\": [\"light energy taken in\", \"stored as chemical energy in glucose\"], \"ref\": \"S1\", \"page\": 1, \"quote\": \"photosynthesis stores energy for the whole food chain\"}], \"missing\": \"\"}",
+  "usage": {
+   "promptTokens": 1500,
+   "completionTokens": 600
+  },
+  "source": "tests/fixtures/ai/taku_tool/quiz.json"
+ },
+ "taku_tool/1f8888a00151c67d": {
+  "content": "{\"cards\": [{\"hook\": \"This is why leaves are green\", \"type\": \"fact\", \"text\": \"Chlorophyll in the chloroplasts absorbs the light plants need.\", \"answer\": \"\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"hook\": \"Quick one: what do plants actually make?\", \"type\": \"question\", \"text\": \"What do green plants make in photosynthesis?\", \"answer\": \"Glucose, from carbon dioxide and water using light energy.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"hook\": \"Most people get this one wrong\", \"type\": \"truefalse\", \"text\": \"Plants release carbon dioxide as the by product of photosynthesis.\", \"answer\": \"false: oxygen is the by product.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}, {\"hook\": \"Two ingredients, one sugar\", \"type\": \"question\", \"text\": \"Which two raw materials go into photosynthesis?\", \"answer\": \"Carbon dioxide and water.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"hook\": \"Lock in: the energy source\", \"type\": \"truefalse\", \"text\": \"Photosynthesis uses light energy.\", \"answer\": \"true: light energy drives it.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"hook\": \"Breathe in, thank a plant\", \"type\": \"fact\", \"text\": \"Oxygen is released as a by product of photosynthesis.\", \"answer\": \"\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}], \"missing\": \"\"}",
+  "usage": {
+   "promptTokens": 1500,
+   "completionTokens": 600
+  },
+  "source": "tests/fixtures/ai/taku_tool/scroll.json"
+ },
+ "taku_tool/af22b03b72160f10": {
+  "content": "{\"title\": \"Photosynthesis study guide\", \"sections\": [{\"heading\": \"Key terms\", \"points\": [{\"text\": \"Chlorophyll: the pigment in chloroplasts that absorbs light.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}]}, {\"heading\": \"What you must know\", \"points\": [{\"text\": \"Glucose is made from carbon dioxide and water using light energy.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}]}], \"missing\": \"\"}",
+  "usage": {
+   "promptTokens": 1500,
+   "completionTokens": 600
+  },
+  "source": "tests/fixtures/ai/taku_tool/study-guide.json"
+ },
+ "taku_tool/a878620aa2bded42": {
+  "content": "{\"title\": \"Photosynthesis\", \"sections\": [{\"heading\": \"What it is\", \"points\": [{\"text\": \"Plants make glucose from carbon dioxide and water, using light energy.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}]}, {\"heading\": \"The parts involved\", \"points\": [{\"text\": \"Chlorophyll in the chloroplasts absorbs the light.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"text\": \"Oxygen is released as a by product.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}, {\"text\": \"Leaves are wide so they catch more light.\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}]}], \"missing\": \"\"}",
+  "usage": {
+   "promptTokens": 1500,
+   "completionTokens": 600
+  },
+  "source": "tests/fixtures/ai/taku_tool/summary.json"
  }
 };

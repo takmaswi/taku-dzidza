@@ -22,6 +22,28 @@ export type SettledPart = { text: string; origin: Origin };
 
 export type PageLookup = (ref: string, page: number) => { sourceId: string; text: string } | null;
 
+/**
+ * The same rule for the items of a study tool (cards, quiz questions,
+ * summary points, mind map leaves, Scroll cards): each item's ref, page and
+ * quote become its origin, or the item is dropped in only_mine.
+ */
+export function settleItems<T extends { ref: string; page: number; quote: string }>(
+  items: readonly T[],
+  mode: SourceMode,
+  lookup: PageLookup,
+): { kept: (Omit<T, "ref" | "page" | "quote"> & { origin: Origin })[]; dropped: number } {
+  const kept: (Omit<T, "ref" | "page" | "quote"> & { origin: Origin })[] = [];
+  let dropped = 0;
+  for (const item of items) {
+    const { ref, page, quote, ...rest } = item;
+    const found = ref === "" ? null : lookup(ref, page);
+    if (found !== null && quoteOnPage(quote, found.text)) kept.push({ ...rest, origin: { kind: "source", sourceId: found.sourceId, page, quote: quote.trim().slice(0, 400) } });
+    else if (mode === "mine_plus") kept.push({ ...rest, origin: { kind: "added" } });
+    else dropped += 1;
+  }
+  return { kept, dropped };
+}
+
 export function settleParts(parts: readonly RawPart[], mode: SourceMode, lookup: PageLookup): { kept: SettledPart[]; dropped: number } {
   const kept: SettledPart[] = [];
   let dropped = 0;

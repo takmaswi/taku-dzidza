@@ -15,6 +15,7 @@ import { createHash } from "node:crypto";
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { parse as parseYaml } from "yaml";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_DIR = join(ROOT, "convex", "data");
@@ -103,6 +104,19 @@ export function buildArt() {
   return writeIfChanged(join(ROOT, "src", "art.generated.ts"), body);
 }
 
+/** Taku mode packages (modes/<slug>/), checked by tests/unit/modes.test.ts with convex/modes/package.ts. */
+export function buildModes() {
+  const modes = {};
+  for (const slug of listDirs(join(ROOT, "modes"))) {
+    const dir = join(ROOT, "modes", slug);
+    const text = read(join(dir, "mode.md"));
+    const match = text.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+    if (match === null) throw new Error(`modes/${slug}/mode.md needs frontmatter.`);
+    modes[slug] = { frontmatter: parseYaml(match[1]), body: match[2].trim(), listing: JSON.parse(read(join(dir, "listing.json"))) };
+  }
+  return modes;
+}
+
 export function build() {
   const prompts = {};
   for (const name of listFiles(join(ROOT, "convex", "ai", "prompts"), (n) => n.endsWith(".md"))) {
@@ -110,7 +124,14 @@ export function build() {
   }
   const includeFixtures = process.env.TAKU_GEN_FIXTURES !== "0";
   const fixtures = includeFixtures ? buildFixtures() : {};
-  const a = writeIfChanged(join(OUT_DIR, "generated.ts"), tsModule("", [["PROMPTS", "Record<string, string>", prompts]]));
+  const modes = buildModes();
+  const a = writeIfChanged(
+    join(OUT_DIR, "generated.ts"),
+    tsModule('import type { ModePackageData } from "./types";', [
+      ["PROMPTS", "Record<string, string>", prompts],
+      ["MODES", "Record<string, ModePackageData>", modes],
+    ]),
+  );
   const b = writeIfChanged(
     join(OUT_DIR, "fixtures.generated.ts"),
     tsModule('import type { AiFixture } from "./types";', [["AI_FIXTURES", "Record<string, AiFixture>", fixtures]]),

@@ -62,3 +62,23 @@ Source commits: amayi-learn `ec3496e`, takubasa `33f0abc`.
 - **Links** are fetched server side: http and https only, no local or private addresses, HTML and plain text only, 2 MB cap.
 - **The chat belongs to the learner**: questions and answers are stored in the notebook and deleted with it or with the account.
 - A newer Chromium returns a promise from `scrollIntoView`; effects in this app use braces so they never return a value.
+
+## Phase 3: study outputs (29 October 2026)
+
+### Provenance
+
+| Here | From | Changes |
+|---|---|---|
+| `convex/modes/package.ts`, `modes/<slug>/` | takubasa `convex/agents/package.ts` and `agents/<slug>/` (shape) | Cut down to study modes: output kind, tier, guide support, citations, options (count, difficulty, minutes), token allowance |
+| Quiz rules in `modes/quiz/mode.md` | takubasa `agents/taku-study/agent.md` (command words, marks, marking guide, no past papers) and amayi-learn term test approach | Rewritten for an exam board paper with a separate marking scheme |
+
+### Decisions
+
+- **Six launch modes:** Summary, Study guide, Flashcards, Quiz, Mind map, Scroll. Each is a package; adding a mode means adding a folder. Audio overviews and essay feedback come later (Phase 6).
+- **Every item is cited** with ref, page and quote, settled by the same quote check as answers (`settleItems`). Only my material drops unverified items; the tool says how many.
+- **Spaced repetition** uses ts-fsrs (MIT, the open FSRS algorithm, default parameters). "Got it" is Good, "Try again" is Again. A review session freezes its set of cards when it starts.
+- **Test style (D10):** numbered questions, marks in brackets, command words, time and total marks, serif paper layout, a separate marking scheme, print layout with the scheme on its own page. Multiple choice is marked by the app; written answers are marked by the learner against the marking scheme and saved for weak topics (Phase 4).
+- **Read aloud** uses the phone's own voice (Web Speech API): free, no data. Shown on answers and summaries when Read aloud is on in Settings.
+- **Scroll** is a full screen snap feed with hooks; sets end with an end card, no endless autoplay.
+- **Spending caps** also cover study tools and photo reading.
+- **Production deploy** was blocked by this session's permission rules; see the Phase 3 closeout.

@@ -1,0 +1,1 @@
+{ "cases": [ { "id": "biology-notes", "options": {}, "expect": { "minItems": 2, "rubric": "Uses the guide sections that the notes support and cites each point." } } ] }

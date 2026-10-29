@@ -88,6 +88,11 @@ export async function deleteSourceData(ctx: MutationCtx, source: Doc<"sources">)
 export async function deleteNotebookData(ctx: MutationCtx, notebook: Doc<"notebooks">): Promise<void> {
   for (const s of await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect()) await deleteSourceData(ctx, s);
   for (const m of await ctx.db.query("messages").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect()) await ctx.db.delete(m._id);
+  for (const o of await ctx.db.query("outputs").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect()) {
+    for (const c of await ctx.db.query("cards").withIndex("by_output", (q) => q.eq("outputId", o._id)).collect()) await ctx.db.delete(c._id);
+    for (const a of await ctx.db.query("quizAttempts").withIndex("by_output", (q) => q.eq("outputId", o._id)).collect()) await ctx.db.delete(a._id);
+    await ctx.db.delete(o._id);
+  }
   await ctx.db.delete(notebook._id);
 }
 

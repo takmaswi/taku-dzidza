@@ -3,7 +3,10 @@ import { internal } from "../_generated/api";
 import { internalAction } from "../_generated/server";
 import { PROMPTS } from "../data/generated";
 import { DEFAULT_CHAIN, modelChain } from "../ai/models";
+import type { RouterResult } from "../ai/router";
 import { settleParts } from "../sources/modes";
+import { buildContent, checkOptions, toolPrompt } from "../study/tools";
+import { JSON_SCHEMAS } from "../study/shapes";
 import { ANSWER_SCHEMA, parseAnswer, systemPrompt } from "./ask";
 
 /**
@@ -17,14 +20,36 @@ const NOTE = "Photosynthesis\nGreen plants make glucose from carbon dioxide and 
 const QUESTION = "What does chlorophyll do, and what gas is released?";
 
 export const run = internalAction({
-  args: { capUsd: v.number(), photoBase64: v.string() },
-  handler: async (ctx, args) => {
+  args: { capUsd: v.number(), photoBase64: v.string(), only: v.optional(v.string()) },
+  handler: async (ctx, args): Promise<Record<string, unknown>> => {
     if (args.capUsd <= 0 || args.capUsd > 1) throw new ConvexError("capUsd must be above 0 and at most 1.");
     const model = modelChain("main")[0] ?? DEFAULT_CHAIN[0];
     const price = await ctx.runQuery(internal.ai.prices.priceFor, { model });
     const worst = (inputTokens: number, outputTokens: number) => inputTokens * price.promptUsdPerToken + outputTokens * price.completionUsdPerToken;
     let spent = 0;
     const report: Record<string, unknown> = { model };
+
+    if (args.only === "quiz") {
+      const options = checkOptions("quiz", { count: 4, difficulty: "medium", minutes: 15 });
+      if (worst(4000, 7000) > args.capUsd) throw new ConvexError("The cap is too small for the quiz check.");
+      const quiz: RouterResult = await ctx.runAction(internal.ai.router.call, {
+        tier: "main",
+        purpose: "taku_tool",
+        messages: [
+          { role: "system", content: toolPrompt("quiz", { sourceMode: "only_mine", studyStyle: "locked_in" }, options) },
+          { role: "user", content: `<source ref="S1" title="Biology notes" page="1">\n${NOTE}\n</source>` },
+        ],
+        jsonSchema: { name: "taku_quiz", strict: true, schema: JSON_SCHEMAS.quiz },
+        maxTokens: 7000,
+      });
+      let built = null;
+      try {
+        built = quiz.ok ? buildContent("quiz", JSON.parse(quiz.content), "only_mine", (ref, page) => (ref === "S1" && page === 1 ? { sourceId: "S1", text: NOTE } : null)) : null;
+      } catch {
+        built = null;
+      }
+      return { model, quiz: { ok: quiz.ok, refused: quiz.refusedReason, usage: quiz.usage, costUsd: quiz.costUsd, latencyMs: quiz.latencyMs, kept: built?.items ?? 0, dropped: built?.dropped ?? 0, missing: built?.missing ?? null, content: built?.content ?? null, raw: quiz.content.slice(0, 4000) }, totalUsd: quiz.costUsd, capUsd: args.capUsd };
+    }
 
     // 1. A cited answer.
     const answerWorst = worst(4000, 1200);

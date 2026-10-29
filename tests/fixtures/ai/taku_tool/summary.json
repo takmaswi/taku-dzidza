@@ -1,0 +1,15 @@
+{
+  "keyMaterial": {
+    "kind": "tool",
+    "mode": "summarise",
+    "sourceMode": "mine_plus",
+    "options": {}
+  },
+  "response": {
+    "content": "{\"title\": \"Photosynthesis\", \"sections\": [{\"heading\": \"What it is\", \"points\": [{\"text\": \"Plants make glucose from carbon dioxide and water, using light energy.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}]}, {\"heading\": \"The parts involved\", \"points\": [{\"text\": \"Chlorophyll in the chloroplasts absorbs the light.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"text\": \"Oxygen is released as a by product.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}, {\"text\": \"Leaves are wide so they catch more light.\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}]}], \"missing\": \"\"}",
+    "usage": {
+      "promptTokens": 1500,
+      "completionTokens": 600
+    }
+  }
+}
