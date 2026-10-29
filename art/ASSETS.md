@@ -37,6 +37,9 @@ Record native generator dimensions and scale to master in `art/CODEX_NOTES.md`, 
 | `art/assets/study-planner.webp` and `.png` | Study plan and goals setup | 1080x1350 |
 | `art/assets/offline-downloads.webp` and `.png` | Offline downloads and low data mode screen | 1080x1350 |
 | `art/assets/study-group-later.webp` and `.png` | Study groups (later phase); also general marketing | 1080x1350 |
+| `art/assets/style-locked-in.webp` and `.png` | Style quiz card: Locked In (focus, all business) | 1080x1350 |
+| `art/assets/style-cook-mode.webp` and `.png` | Style quiz card: Cook Mode (vibrant, energetic) | 1080x1350 |
+| `art/assets/style-calm.webp` and `.png` | Style quiz card: Calm (subtle, quiet) | 1080x1350 |
 | `art/assets/landing-hero-wide.webp` and `.png` | Landing page hero on tablet and desktop | 1920x1080 (+ 1200x630 social crop `art/assets/og-default.webp`) |
 
 Until a file exists the app shows a labelled placeholder card (`ImageSlot` component, Phase 1) with the slug, so nothing breaks.
@@ -158,7 +161,46 @@ Framing: Medium group shot including all three faces and the shared book, crop s
 Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books and devices. Textbook pages can contain only unlabeled geometric diagrams and soft indistinct tonal marks, with no letter-like glyphs; notes and exercise books show ruling and a few indistinct pencil traces, never readable writing. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Realistic hands, correct fingers and credible object contact.
 ```
 
-### 10. landing-hero-wide
+### 10. style-locked-in
+
+Used on: Style quiz card: Locked In (focus, all business).
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app launching in Zimbabwe. Ultra realistic editorial photography with the authenticity of a candid education magazine shoot. Vertical 4:5 composition, target 2160x2700 pixels, finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warmth. Cream #FFF8EC and butter #F8E2A8 surroundings with small honey #F2B33D highlights. Quiet African warmth, modern international urban life. Real skin pores, subtle imperfections, natural asymmetry, real fabric creases, relaxed unposed posture. Clean soft background, enough breathing room for a large rounded card crop, keep faces and important hands clear of edges. No graphic border.
+Scene: A minimal contemporary study desk in clean morning daylight, pale cream wall, nothing else on the desk but a closed plain textbook, one pen and a glass of water.
+Subject: A Black Zimbabwean woman, age 27, deep brown skin, angular face, slim build, short tapered natural hair. Plain charcoal knit top. She reads a printed set of notes held in both hands, completely absorbed, neutral focused expression, posture upright and still.
+Framing: Seated three-quarter portrait, face and both hands clear, calm uncluttered negative space. Notes show only ruling and indistinct tonal marks.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books and devices. Textbook pages can contain only unlabeled geometric diagrams and soft indistinct tonal marks, with no letter-like glyphs; notes and exercise books show ruling and a few indistinct pencil traces, never readable writing. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Realistic hands, correct fingers and credible object contact.
+```
+
+### 11. style-cook-mode
+
+Used on: Style quiz card: Cook Mode (vibrant, energetic).
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app launching in Zimbabwe. Ultra realistic editorial photography with the authenticity of a candid education magazine shoot. Vertical 4:5 composition, target 2160x2700 pixels, finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warmth. Cream #FFF8EC and butter #F8E2A8 surroundings with small honey #F2B33D highlights. Quiet African warmth, modern international urban life. Real skin pores, subtle imperfections, natural asymmetry, real fabric creases, relaxed unposed posture. Clean soft background, enough breathing room for a large rounded card crop, keep faces and important hands clear of edges. No graphic border.
+Scene: A bright contemporary teenage bedroom study corner in vivid afternoon sun, butter yellow wall, a honey coloured beanbag, a few plain coloured sticky notes with no writing on the wall.
+Subject: A Black Zimbabwean boy, age 15, warm brown skin, oval face, lanky build, short twists. Plain honey yellow hoodie, simple unbranded over-ear headphones around his neck. He holds an unbranded phone in one hand, screen turned away, and grins with genuine surprise as if he just got a quiz question right, other hand raised in a small celebratory fist.
+Framing: Seated waist up portrait with energy and movement, face and both hands clear, warm saturated but natural colour.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books and devices. Textbook pages can contain only unlabeled geometric diagrams and soft indistinct tonal marks, with no letter-like glyphs; notes and exercise books show ruling and a few indistinct pencil traces, never readable writing. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Realistic hands, correct fingers and credible object contact.
+```
+
+### 12. style-calm
+
+Used on: Style quiz card: Calm (subtle, quiet).
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app launching in Zimbabwe. Ultra realistic editorial photography with the authenticity of a candid education magazine shoot. Vertical 4:5 composition, target 2160x2700 pixels, finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warmth. Cream #FFF8EC and butter #F8E2A8 surroundings with small honey #F2B33D highlights. Quiet African warmth, modern international urban life. Real skin pores, subtle imperfections, natural asymmetry, real fabric creases, relaxed unposed posture. Clean soft background, enough breathing room for a large rounded card crop, keep faces and important hands clear of edges. No graphic border.
+Scene: A quiet contemporary living room corner at golden hour, soft window light, pale cream sofa, a small plant and a ceramic mug out of focus.
+Subject: A Black Southern African man, age 31, medium brown skin, round face, medium build, neatly trimmed beard, close cropped hair. Plain sage green cotton shirt. He sits relaxed with a tablet resting on his knee, screen turned away, reading with a gentle unhurried expression.
+Framing: Seated three-quarter portrait, face and hands clear, soft low contrast light, lots of calm space.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books and devices. Textbook pages can contain only unlabeled geometric diagrams and soft indistinct tonal marks, with no letter-like glyphs; notes and exercise books show ruling and a few indistinct pencil traces, never readable writing. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Realistic hands, correct fingers and credible object contact.
+```
+
+### 13. landing-hero-wide
 
 Used on: Landing page hero on tablet and desktop.
 

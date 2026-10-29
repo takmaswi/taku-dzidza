@@ -4,7 +4,7 @@
 
 ## Status
 
-Phase 0: spec written, awaiting approval. No app code yet.
+Phase 0 approved 29 October 2026. Phase 1 next; see `HANDOFF.md`.
 
 - `docs/Takudzidza-Phase0.pdf` is the plan for Takunda (built by `tools/phase0_pdf.py`).
 - `SPEC.md` is the same plan for build agents, with the reuse map and phase gates.

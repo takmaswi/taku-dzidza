@@ -84,6 +84,21 @@ ASSETS = [
      "a Black Zimbabwean man age 23, light brown skin, long face, short twists, plain sage T-shirt; a Southern African woman of mixed heritage age 21, olive brown skin, "
      "curly shoulder length hair, plain honey cardigan. One points to a shared unlabeled diagram in an open book, the others listen. Nobody looks at the camera.\n"
      "Framing: Medium group shot including all three faces and the shared book, crop safe margins, distinct faces with no duplicated expressions."),
+    ("style-locked-in", "Style quiz card: Locked In (focus, all business)", "45",
+     "Scene: A minimal contemporary study desk in clean morning daylight, pale cream wall, nothing else on the desk but a closed plain textbook, one pen and a glass of water.\n"
+     "Subject: A Black Zimbabwean woman, age 27, deep brown skin, angular face, slim build, short tapered natural hair. Plain charcoal knit top. "
+     "She reads a printed set of notes held in both hands, completely absorbed, neutral focused expression, posture upright and still.\n"
+     "Framing: Seated three-quarter portrait, face and both hands clear, calm uncluttered negative space. Notes show only ruling and indistinct tonal marks."),
+    ("style-cook-mode", "Style quiz card: Cook Mode (vibrant, energetic)", "45",
+     "Scene: A bright contemporary teenage bedroom study corner in vivid afternoon sun, butter yellow wall, a honey coloured beanbag, a few plain coloured sticky notes with no writing on the wall.\n"
+     "Subject: A Black Zimbabwean boy, age 15, warm brown skin, oval face, lanky build, short twists. Plain honey yellow hoodie, simple unbranded over-ear headphones around his neck. "
+     "He holds an unbranded phone in one hand, screen turned away, and grins with genuine surprise as if he just got a quiz question right, other hand raised in a small celebratory fist.\n"
+     "Framing: Seated waist up portrait with energy and movement, face and both hands clear, warm saturated but natural colour."),
+    ("style-calm", "Style quiz card: Calm (subtle, quiet)", "45",
+     "Scene: A quiet contemporary living room corner at golden hour, soft window light, pale cream sofa, a small plant and a ceramic mug out of focus.\n"
+     "Subject: A Black Southern African man, age 31, medium brown skin, round face, medium build, neatly trimmed beard, close cropped hair. Plain sage green cotton shirt. "
+     "He sits relaxed with a tablet resting on his knee, screen turned away, reading with a gentle unhurried expression.\n"
+     "Framing: Seated three-quarter portrait, face and hands clear, soft low contrast light, lots of calm space."),
     ("landing-hero-wide", "Landing page hero on tablet and desktop", "wide",
      "Scene: A modern university library reading area with large windows, bright diffused light, light timber tables, softly blurred shelves of plain unlettered spines.\n"
      "Subject: A Black Zimbabwean woman, age 19, warm deep brown skin, oval face, slim build, short natural coils with a small side part. Plain cream cotton shirt. "
