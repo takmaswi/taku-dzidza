@@ -126,3 +126,45 @@ input:focus, select:focus { border-color: var(--ink); outline: none; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .pill, .brand { white-space: nowrap; }
 @media (max-width: 400px) { .brand span { display: none; } .topbar { padding: 0.75rem; } }
+
+/* Notebooks */
+.notebook-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+.notebook-link { display: flex; gap: 0.75rem; align-items: center; padding: 0.85rem 1rem; border-radius: 18px; background: var(--white); border: 1px solid var(--line); text-decoration: none; }
+.notebook-link span { display: flex; flex-direction: column; }
+.back-link { display: inline-flex; gap: 0.4rem; align-items: center; text-decoration: none; font-weight: 600; }
+.notebook-grid { display: grid; gap: 1rem; }
+@media (min-width: 900px) { .notebook-grid { grid-template-columns: 360px 1fr; align-items: start; } }
+.source-list { list-style: none; padding: 0; margin: 0 0 0.5rem; display: grid; gap: 0.4rem; }
+.source-list li { display: flex; justify-content: space-between; gap: 0.5rem; align-items: flex-start; padding: 0.6rem 0; border-top: 1px solid var(--line); }
+.source-list li:first-child { border-top: 0; }
+.source-title { display: flex; gap: 0.5rem; align-items: flex-start; word-break: break-word; }
+.source-title small { display: block; }
+.icon-button { background: none; border: 0; padding: 0.5rem; border-radius: 12px; cursor: pointer; color: var(--ink); min-width: 40px; min-height: 40px; }
+.icon-button:hover { background: var(--cream); }
+.add-form { margin-top: 1rem; }
+textarea { width: 100%; padding: 0.7rem 1rem; border-radius: 16px; border: 1.5px solid var(--line); background: var(--white); color: var(--ink); font: inherit; resize: vertical; }
+textarea:focus { border-color: var(--ink); outline: none; }
+.segmented { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; background: var(--cream); padding: 0.3rem; border-radius: 18px; margin-bottom: 0.5rem; }
+.segmented button { border: 0; background: transparent; border-radius: 14px; padding: 0.6rem; font: inherit; font-size: 0.9rem; cursor: pointer; color: var(--ink); min-height: 44px; }
+.segmented button[aria-pressed="true"] { background: var(--ink); color: var(--cream); font-weight: 600; }
+.small-text { font-size: 0.88rem; }
+.chat { display: flex; flex-direction: column; min-height: 60vh; }
+.messages { flex: 1; display: grid; gap: 0.9rem; align-content: start; margin-bottom: 1rem; }
+.message { padding: 0.9rem 1rem; border-radius: 20px; max-width: 100%; }
+.message.learner { background: var(--cream); justify-self: end; max-width: 85%; }
+.message.taku { background: var(--white); border: 1px solid var(--line); }
+.message .who { display: block; font-size: 0.8rem; color: var(--text-soft); margin-bottom: 0.3rem; }
+.message p { margin-bottom: 0.6rem; }
+.part.added { border-left: 4px solid var(--honey); padding-left: 0.7rem; }
+.added-tag { display: inline-block; font-size: 0.78rem; background: var(--butter); color: var(--ink); border-radius: 999px; padding: 0.05rem 0.55rem; }
+.cite { display: inline; font: inherit; font-size: 0.8rem; background: var(--butter); color: var(--ink); border: 1px solid var(--ink); border-radius: 999px; padding: 0.05rem 0.55rem; cursor: pointer; white-space: normal; }
+.ask-form { display: flex; gap: 0.6rem; align-items: flex-end; }
+.ask-form textarea { flex: 1; }
+.modal-backdrop { position: fixed; inset: 0; background: rgba(17, 17, 17, 0.45); display: flex; align-items: center; justify-content: center; padding: 1rem; z-index: 50; }
+.modal { width: min(720px, 100%); max-height: 85vh; overflow: auto; }
+.modal-head { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; }
+.page-text { white-space: pre-wrap; background: var(--cream); padding: 1rem; border-radius: 16px; }
+.page-text mark { background: var(--honey); color: var(--ink); border-radius: 4px; padding: 0 2px; }
+.quote { border-left: 4px solid var(--honey); margin: 0 0 1rem; padding: 0.5rem 1rem; background: var(--white); }
+/* On a phone, once there is something to ask about, the chat comes first. */
+@media (max-width: 899px) { .notebook-grid.has-sources > .chat { order: -1; } }

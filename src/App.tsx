@@ -14,6 +14,7 @@ const Guardian = lazy(() => import("./pages/Guardian"));
 const StyleQuiz = lazy(() => import("./pages/StyleQuiz"));
 const Home = lazy(() => import("./pages/Home"));
 const Settings = lazy(() => import("./pages/Settings"));
+const Notebook = lazy(() => import("./pages/Notebook"));
 const GetHelp = lazy(() => import("./pages/GetHelp"));
 const Consent = lazy(() => import("./pages/Consent"));
 
@@ -58,7 +59,9 @@ function SignedIn() {
   const me = useQuery(api.accounts.profiles.me);
   const { signOut } = useAuthActions();
   const profile = me?.profile ?? null;
-  useEffect(() => applyTheme(profile), [profile]);
+  useEffect(() => {
+    applyTheme(profile);
+  }, [profile]);
   useEffect(() => {
     if (me === null) void signOut();
   }, [me, signOut]);
@@ -70,6 +73,7 @@ function SignedIn() {
     <Routes>
       <Route path="/" element={<Home profile={profile} />} />
       <Route path="/settings" element={<Settings profile={profile} email={me.email} />} />
+      <Route path="/n/:id" element={<Notebook profile={profile} />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

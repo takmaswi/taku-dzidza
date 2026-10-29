@@ -27,6 +27,7 @@
     "@fontsource-variable/lexend": "^5.2.0",
     "convex": "^1.46.0",
     "lucide-react": "^1.46.0",
+    "pdfjs-dist": "4.10.38",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-router": "^7.18.4",

@@ -1,0 +1,15 @@
+{
+  "keyMaterial": {
+    "kind": "answer",
+    "question": "What does chlorophyll do?",
+    "sourceMode": "mine_plus",
+    "answerMode": "guide"
+  },
+  "response": {
+    "content": "{\"parts\": [{\"text\": \"Look at page 1 of your notes. Which part of the chloroplast takes in light? Try saying it in your own words.\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"\"}",
+    "usage": {
+      "promptTokens": 900,
+      "completionTokens": 160
+    }
+  }
+}

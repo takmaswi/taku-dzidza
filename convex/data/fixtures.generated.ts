@@ -9,5 +9,45 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 4
   },
   "source": "tests/fixtures/ai/safety_check/allow-example.json"
+ },
+ "safety_check/a096457a040ad056": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"school biology\"}",
+  "usage": {
+   "promptTokens": 900,
+   "completionTokens": 160
+  },
+  "source": "tests/fixtures/ai/safety_check/minor-chlorophyll.json"
+ },
+ "safety_check/a89e453c3211727e": {
+  "content": "{\"verdict\": \"redirect\", \"reason\": \"violence\"}",
+  "usage": {
+   "promptTokens": 900,
+   "completionTokens": 160
+  },
+  "source": "tests/fixtures/ai/safety_check/minor-gory.json"
+ },
+ "taku_answer/9d1d2b6e80639923": {
+  "content": "{\"parts\": [{\"text\": \"Look at page 1 of your notes. Which part of the chloroplast takes in light? Try saying it in your own words.\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"\"}",
+  "usage": {
+   "promptTokens": 900,
+   "completionTokens": 160
+  },
+  "source": "tests/fixtures/ai/taku_answer/chlorophyll-guide.json"
+ },
+ "taku_answer/6d03fd22e1e16dc3": {
+  "content": "{\"parts\": [{\"text\": \"Chlorophyll absorbs the light that plants use to make glucose.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"text\": \"Chlorophyll is also stored in the roots for winter.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"chlorophyll is stored in the roots for winter\"}, {\"text\": \"Think of it like a solar panel on a roof.\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"\"}",
+  "usage": {
+   "promptTokens": 900,
+   "completionTokens": 160
+  },
+  "source": "tests/fixtures/ai/taku_answer/chlorophyll-mine-plus.json"
+ },
+ "taku_answer/75208e4bcdbbda0b": {
+  "content": "{\"parts\": [{\"text\": \"Chlorophyll absorbs the light that plants use to make glucose.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"text\": \"Chlorophyll is also stored in the roots for winter.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"chlorophyll is stored in the roots for winter\"}, {\"text\": \"Think of it like a solar panel on a roof.\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"Your notes do not say where chlorophyll is stored.\"}",
+  "usage": {
+   "promptTokens": 900,
+   "completionTokens": 160
+  },
+  "source": "tests/fixtures/ai/taku_answer/chlorophyll-only-mine.json"
  }
 };

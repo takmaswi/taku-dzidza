@@ -23,12 +23,22 @@ import type * as data_generated from "../data/generated.js";
 import type * as data_types from "../data/types.js";
 import type * as http from "../http.js";
 import type * as lib_access from "../lib/access.js";
+import type * as lib_accessQueries from "../lib/accessQueries.js";
 import type * as lib_canonical from "../lib/canonical.js";
 import type * as lib_dates from "../lib/dates.js";
 import type * as lib_env from "../lib/env.js";
 import type * as lib_tokens from "../lib/tokens.js";
+import type * as notebooks_ask from "../notebooks/ask.js";
+import type * as notebooks_notebooks from "../notebooks/notebooks.js";
+import type * as notebooks_read from "../notebooks/read.js";
+import type * as notebooks_sources from "../notebooks/sources.js";
 import type * as privacy_retention from "../privacy/retention.js";
 import type * as safety_prefilter from "../safety/prefilter.js";
+import type * as sources_docx from "../sources/docx.js";
+import type * as sources_fileText from "../sources/fileText.js";
+import type * as sources_limits from "../sources/limits.js";
+import type * as sources_modes from "../sources/modes.js";
+import type * as sources_text from "../sources/text.js";
 
 import type {
   ApiFromModules,
@@ -52,12 +62,22 @@ declare const fullApi: ApiFromModules<{
   "data/types": typeof data_types;
   http: typeof http;
   "lib/access": typeof lib_access;
+  "lib/accessQueries": typeof lib_accessQueries;
   "lib/canonical": typeof lib_canonical;
   "lib/dates": typeof lib_dates;
   "lib/env": typeof lib_env;
   "lib/tokens": typeof lib_tokens;
+  "notebooks/ask": typeof notebooks_ask;
+  "notebooks/notebooks": typeof notebooks_notebooks;
+  "notebooks/read": typeof notebooks_read;
+  "notebooks/sources": typeof notebooks_sources;
   "privacy/retention": typeof privacy_retention;
   "safety/prefilter": typeof safety_prefilter;
+  "sources/docx": typeof sources_docx;
+  "sources/fileText": typeof sources_fileText;
+  "sources/limits": typeof sources_limits;
+  "sources/modes": typeof sources_modes;
+  "sources/text": typeof sources_text;
 }>;
 
 /**

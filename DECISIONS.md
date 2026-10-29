@@ -39,3 +39,26 @@ Source commits: amayi-learn `ec3496e`, takubasa `33f0abc`.
 - **Default model** stays Amayi Learn's checked chain until live calls start; re check on that day.
 - **Icons** are drawn in code (`public/icon.svg` and PNGs): a geometric mark, not a generated image.
 - **Local e2e** uses an anonymous local Convex backend (`CONVEX_AGENT_MODE=anonymous`). The CLI's optional dashboard download fails through this network's proxy; a cached dashboard config skips it.
+
+## Phase 2: notebooks (29 October 2026)
+
+### Provenance
+
+| Here | From | Changes |
+|---|---|---|
+| `convex/sources/docx.ts` | amayi-learn, same path | None (runs in the Node action `convex/sources/fileText.ts`, where DecompressionStream is available) |
+| `convex/sources/limits.ts` | amayi-learn, same path | Widened from teacher schemes to any study material; adds text and link kinds |
+| `convex/sources/modes.ts` | amayi-learn, same path (idea) | Rewritten: a citation counts only when its quote is found on the cited page (`quoteOnPage`) |
+
+### Decisions
+
+- **Search without embeddings (D8, for now).** Notebook chunks use a Convex full text search index filtered by notebook. A notebook of 12 chunks or fewer is sent whole. This needs no extra AI provider and costs nothing per question. Embeddings can be added later if answers miss relevant pages.
+- **Reading costs nothing where it can.** Pasted text, links, Word files and PDFs with a text layer are read with no AI call (pdf.js in a Node action). Photos and PDFs that are mostly scans go to the model (`source_read`), which costs money; they are capped at 20 pages per source.
+- **Quote check.** Every cited part must carry a 5 to 25 word quote. The server normalises words (case, punctuation, quotes) and accepts the quote when at least 85 percent of its words match in place on the cited page, which allows a few misread words in photos. Quotes under 3 words never count.
+- **Source modes.** Only my material drops every part whose quote fails, and the answer says how many points were left out and what is missing. My material plus Taku's ideas keeps them, marked "Taku's idea, not from your notes". New notebooks start in My material plus Taku's ideas.
+- **Answer mode** comes from the learner's profile and can be switched on the notebook screen. Guide me tells Taku to give one hint or question at a time and never a finished essay. The held answer filter for maths comes with the maths check layer in Phase 5.
+- **Safety.** The prefilter runs on every question. Distress opens Get help with no model call. Under 18s: personal details are not sent to any model, and a fast model input check runs first and fails closed. Adults: prefilter only, to keep cost down; revisit with the red team in Phase 3.
+- **Copy rule in answers.** Taku is told not to use em or en dashes, and the server replaces any that slip through with commas.
+- **Links** are fetched server side: http and https only, no local or private addresses, HTML and plain text only, 2 MB cap.
+- **The chat belongs to the learner**: questions and answers are stored in the notebook and deleted with it or with the account.
+- A newer Chromium returns a promise from `scrollIntoView`; effects in this app use braces so they never return a value.

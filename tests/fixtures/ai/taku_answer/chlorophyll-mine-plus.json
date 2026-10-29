@@ -1,0 +1,15 @@
+{
+  "keyMaterial": {
+    "kind": "answer",
+    "question": "What does chlorophyll do?",
+    "sourceMode": "mine_plus",
+    "answerMode": "answer"
+  },
+  "response": {
+    "content": "{\"parts\": [{\"text\": \"Chlorophyll absorbs the light that plants use to make glucose.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"text\": \"Chlorophyll is also stored in the roots for winter.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"chlorophyll is stored in the roots for winter\"}, {\"text\": \"Think of it like a solar panel on a roof.\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"\"}",
+    "usage": {
+      "promptTokens": 900,
+      "completionTokens": 160
+    }
+  }
+}

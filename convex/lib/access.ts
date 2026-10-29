@@ -1,7 +1,8 @@
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { ConvexError } from "convex/values";
 import type { Doc } from "../_generated/dataModel";
-import type { QueryCtx } from "../_generated/server";
+import { internal } from "../_generated/api";
+import type { ActionCtx, QueryCtx } from "../_generated/server";
 import { adminEmails } from "./env";
 
 /**
@@ -12,6 +13,8 @@ import { adminEmails } from "./env";
  *   requireUser     a signed in Convex Auth user
  *   requireProfile  a signed in user who finished sign up
  *   requireLearner  a profile allowed to study: an adult, or a minor whose guardian consented
+ *                   (requireLearnerInAction from an action)
+ *   ownNotebook, ownSource (convex/notebooks) call requireLearner and check ownership
  *   requireAdmin    the owner (ADMIN_EMAILS)
  */
 
@@ -42,6 +45,11 @@ export async function requireLearner(ctx: QueryCtx): Promise<{ user: Doc<"users"
   const found = await requireProfile(ctx);
   if (!canStudy(found.profile)) throw new ConvexError("NEEDS_GUARDIAN_CONSENT");
   return found;
+}
+
+/** requireLearner from an action, through an internal query. */
+export async function requireLearnerInAction(ctx: ActionCtx): Promise<void> {
+  await ctx.runQuery(internal.lib.accessQueries.learnerCheck, {});
 }
 
 export async function requireAdmin(ctx: QueryCtx): Promise<Doc<"users">> {

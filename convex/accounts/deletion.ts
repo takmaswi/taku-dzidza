@@ -2,13 +2,14 @@ import { ConvexError, v } from "convex/values";
 import type { Doc, TableNames } from "../_generated/dataModel";
 import { internalMutation, mutation, type MutationCtx } from "../_generated/server";
 import { profileOf, requireUser } from "../lib/access";
+import { deleteNotebookData } from "../notebooks/notebooks";
 
 /**
  * Deleting an account (Cyber and Data Protection Act; SPEC.md 3.8). In one
  * transaction: the profile, its consent links and consent records, and the
  * sign in rows (user, accounts, sessions, refresh tokens, codes, rate
- * limits). Ported from Amayi Learn (convex/accounts/deletion.ts at ec3496e).
- * Notebooks and sources join this list in Phase 2.
+ * limits), and every notebook with its sources, files, pages and chat.
+ * Ported from Amayi Learn (convex/accounts/deletion.ts at ec3496e).
  */
 
 const BATCH = 200;
@@ -25,6 +26,7 @@ async function drain<T extends { _id: import("convex/values").GenericId<TableNam
 }
 
 export async function deleteProfileData(ctx: MutationCtx, profile: Doc<"profiles">): Promise<void> {
+  for (const n of await ctx.db.query("notebooks").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).collect()) await deleteNotebookData(ctx, n);
   await drain(ctx, () => ctx.db.query("consents").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).take(BATCH));
   await drain(ctx, () => ctx.db.query("consentRequests").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).take(BATCH));
   await ctx.db.delete(profile._id);

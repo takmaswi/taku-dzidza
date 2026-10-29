@@ -1,5 +1,12 @@
 {
   "$schema": "./node_modules/convex/schemas/convex.schema.json",
-  "node": { "nodeVersion": "22" },
-  "aiFiles": { "enabled": false }
+  "node": {
+    "nodeVersion": "22",
+    "externalPackages": [
+      "pdfjs-dist"
+    ]
+  },
+  "aiFiles": {
+    "enabled": false
+  }
 }

@@ -4,7 +4,7 @@
 
 ## Status
 
-Phase 1 (foundation) done 29 October 2026: see `docs/closeouts/phase-1-foundation.md`. Phase 2 (notebooks) next.
+Phases 1 (foundation) and 2 (notebooks) done 29 October 2026: see `docs/closeouts/`. Phase 3 (study outputs) next.
 
 - `docs/Takudzidza-Phase0.pdf` is the plan for Takunda (built by `tools/phase0_pdf.py`).
 - `SPEC.md` is the same plan for build agents, with the reuse map and phase gates.
