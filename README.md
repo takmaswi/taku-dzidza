@@ -1,6 +1,6 @@
 # Takudzidza by Taku
 
-"Takudzidza" is ChiShona for "we are learning". A study platform for anyone from Form 1 upward: ZIMSEC and Cambridge secondary learners, university and college students, and adults studying for professional exams. Chris is the tutor voice inside every study tool.
+"Takudzidza" is ChiShona for "we are learning". A study platform for anyone from Form 1 upward: ZIMSEC and Cambridge secondary learners, university and college students, and adults studying for professional exams. Taku is the tutor voice inside every study tool.
 
 ## Status
 
