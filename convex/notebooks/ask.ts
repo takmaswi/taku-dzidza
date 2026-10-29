@@ -31,6 +31,8 @@ export const REPLIES = {
   companion: "I am Taku, your study tutor, so I keep things to studying. What would you like to work on?",
   noSources: "Add some notes, a PDF, photos or a link to this notebook first, then ask me about them.",
   failed: "I could not answer just now. Your question was saved. Try again in a moment.",
+  learnerCap: "You have asked a lot today. Take a break and come back tomorrow, or review your flashcards in the meantime.",
+  deploymentCap: "Taku is very busy today and has reached today's limit. Please try again tomorrow.",
   nothingFound: "Your material does not seem to cover this.",
 } as const;
 
@@ -210,6 +212,13 @@ export const ask = action({
     // Personal details from an under 18 are not sent to any model.
     if (pre.kind === "personal_info") return await reply({ kind: "redirect", text: "Please leave out phone numbers, addresses, ID numbers and full names. Ask your question again without them." });
 
+    // Spending limits (convex/ai/usage.ts): this question can make up to two model calls.
+    const room = await ctx.runQuery(internal.ai.usage.check, { profileId: c.profileId, calls: c.audience === "minor" ? 2 : 1 });
+    if (!room.allowed) return await reply({ kind: "error", text: room.reason === "learner_cap" ? REPLIES.learnerCap : REPLIES.deploymentCap });
+    const count = async (r: { costUsd: number }) => {
+      await ctx.runMutation(internal.ai.usage.record, { profileId: c.profileId, calls: 1, costUsd: r.costUsd });
+    };
+
     if (c.audience === "minor") {
       const check = await ctx.runAction(internal.ai.router.call, {
         tier: "fast",
@@ -224,6 +233,7 @@ export const ask = action({
         stablePrefixCount: 1,
         fixtureKey: { kind: "input_check", question },
       });
+      await count(check);
       let verdict: string | null = null;
       try {
         verdict = check.ok ? (JSON.parse(check.content) as { verdict?: string }).verdict ?? null : null;
@@ -253,6 +263,7 @@ export const ask = action({
       stablePrefixCount: 1,
       fixtureKey: { kind: "answer", question, sourceMode: c.sourceMode, answerMode: c.answerMode },
     });
+    await count(result);
     const parsed = result.ok ? parseAnswer(result.content) : null;
     if (parsed === null) return await reply({ kind: "error", text: REPLIES.failed });
 

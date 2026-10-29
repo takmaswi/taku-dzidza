@@ -121,6 +121,9 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_notebook", ["notebookId", "createdAt"]),
 
+  /** AI calls and cost per day: one row for the whole deployment (scope "all") and one per learner (their profile id). Numbers only. */
+  aiUsageDaily: defineTable({ day: v.string(), scope: v.string(), calls: v.number(), costUsd: v.number() }).index("by_day_scope", ["day", "scope"]),
+
   /** Count only, no personal data: proof that deletions happen. */
   accountDeletions: defineTable({ deletedAt: v.number(), reason: v.union(v.literal("self"), v.literal("owner"), v.literal("no_consent")) }),
 

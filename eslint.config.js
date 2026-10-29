@@ -73,7 +73,7 @@ export default tseslint.config(
 
   {
     files: ["**/*.{ts,tsx,js,mjs}"],
-    ignores: ["convex/ai/router.ts", "eslint.config.js", "scripts/setup-env.mjs", "tests/convex/router.test.ts"],
+    ignores: ["convex/ai/router.ts", "eslint.config.js", "scripts/setup-env.mjs", "scripts/live-check.mjs", "tests/convex/router.test.ts"],
     rules: { "no-restricted-syntax": ["error", ...openRouterRules] },
   },
   /**
@@ -82,7 +82,7 @@ export default tseslint.config(
    * cannot call the service directly.
    */
   {
-    files: ["tests/convex/router.test.ts", "scripts/setup-env.mjs"],
+    files: ["tests/convex/router.test.ts", "scripts/setup-env.mjs", "scripts/live-check.mjs"],
     rules: { "no-restricted-syntax": ["error", openRouterRules[0], openRouterRules[1]] },
   },
 

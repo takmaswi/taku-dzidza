@@ -72,7 +72,9 @@ function base64(bytes: Uint8Array): string {
 }
 
 /** Photos and scanned PDFs: the model writes out each page's text exactly. */
-async function transcribe(ctx: ActionCtx, args: { name: string; kind: "image" | "pdf"; bytes: Uint8Array; contentType: string }): Promise<string[] | null> {
+async function transcribe(ctx: ActionCtx, args: { profileId: string; name: string; kind: "image" | "pdf"; bytes: Uint8Array; contentType: string }): Promise<string[] | null> {
+  const room = await ctx.runQuery(internal.ai.usage.check, { profileId: args.profileId, calls: 1 });
+  if (!room.allowed) return null;
   const dataUrl = `data:${args.contentType};base64,${base64(args.bytes)}`;
   const part = args.kind === "image" ? { type: "image_url" as const, image_url: { url: dataUrl } } : { type: "file" as const, file: { filename: args.name, file_data: dataUrl } };
   const result = await ctx.runAction(internal.ai.router.call, {
@@ -88,6 +90,7 @@ async function transcribe(ctx: ActionCtx, args: { name: string; kind: "image" | 
     stablePrefixCount: 1,
     fixtureKey: { kind: "transcribe", name: args.name, bytes: args.bytes.length },
   });
+  await ctx.runMutation(internal.ai.usage.record, { profileId: args.profileId, calls: 1, costUsd: result.costUsd });
   if (!result.ok) return null;
   try {
     const parsed = JSON.parse(result.content) as { pages?: unknown };
@@ -118,9 +121,9 @@ export const readFile = internalAction({
         const layer: string[] = await ctx.runAction(internal.sources.fileText.pdf, { storageId: source.storageId });
         const empty = layer.filter((p: string) => p.trim().length < 30).length;
         // Mostly scans: the model reads the pages instead.
-        pages = layer.length > 0 && empty <= layer.length / 2 ? layer : await transcribe(ctx, { name: source.title, kind: "pdf", bytes, contentType: "application/pdf" });
+        pages = layer.length > 0 && empty <= layer.length / 2 ? layer : await transcribe(ctx, { profileId: source.profileId, name: source.title, kind: "pdf", bytes, contentType: "application/pdf" });
       } else if (source.kind === "image") {
-        pages = await transcribe(ctx, { name: source.title, kind: "image", bytes, contentType: blob.type || "image/jpeg" });
+        pages = await transcribe(ctx, { profileId: source.profileId, name: source.title, kind: "image", bytes, contentType: blob.type || "image/jpeg" });
       }
       if (pages === null) return await fail("Taku could not read this file just now. Try again later.");
       await ctx.runMutation(internal.notebooks.read.savePages, { sourceId: args.sourceId, pages });

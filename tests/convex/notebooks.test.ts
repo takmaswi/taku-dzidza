@@ -151,3 +151,37 @@ describe("asking Taku", () => {
     expect(await lastReply(p, notebookId)).toMatchObject({ kind: "redirect", text: REPLIES.noSources });
   });
 });
+
+describe("spending limits", () => {
+  test("a learner over the daily call limit gets a friendly stop, with no model call", async () => {
+    const t = makeT();
+    const p = await makeLearner(t, 20);
+    const notebookId = await notebookWithNotes(t, p);
+    const profile = (await p.as.query(api.accounts.profiles.me, {}))!.profile!;
+    await t.run(async (ctx) => {
+      await ctx.db.insert("aiUsageDaily", { day: new Date().toISOString().slice(0, 10), scope: profile._id, calls: 60, costUsd: 0 });
+    });
+    await p.as.action(api.notebooks.ask.ask, { notebookId, question: QUESTION });
+    expect(await lastReply(p, notebookId)).toMatchObject({ kind: "error", text: REPLIES.learnerCap });
+  });
+
+  test("the deployment stops for the day at its USD cap", async () => {
+    const t = makeT();
+    const p = await makeLearner(t, 20);
+    const notebookId = await notebookWithNotes(t, p);
+    await t.run(async (ctx) => {
+      await ctx.db.insert("aiUsageDaily", { day: new Date().toISOString().slice(0, 10), scope: "all", calls: 10, costUsd: 0.5 });
+    });
+    await p.as.action(api.notebooks.ask.ask, { notebookId, question: QUESTION });
+    expect(await lastReply(p, notebookId)).toMatchObject({ kind: "error", text: REPLIES.deploymentCap });
+  });
+
+  test("each answered question is counted", async () => {
+    const t = makeT();
+    const p = await makeLearner(t, 20);
+    const notebookId = await notebookWithNotes(t, p);
+    await p.as.action(api.notebooks.ask.ask, { notebookId, question: QUESTION });
+    const rows = await t.run(async (ctx) => await ctx.db.query("aiUsageDaily").collect());
+    expect(rows.map((r) => r.calls)).toEqual([1, 1]);
+  });
+});
