@@ -6,7 +6,7 @@ For Codex and build agents. Matches batch 1 (`art/CODEX_NOTES.md`). The asset li
 - Never generate images inside this repo or from the app. Takunda runs Codex on his PC and commits the files; agents only wire them in.
 - No text, letters, digits, readable handwriting, logos, crests, watermarks or signage anywhere in an image, including books, devices, clothing and keyboards (blank keycaps). UI words are added in code.
 - No rural scenes, poverty imagery, flags, safari or tourism motifs, staged luxury.
-- No cartoon, 3D, illustration or mascot. No visible Chris character unless Takunda chooses one (SPEC.md decision D7).
+- No cartoon, 3D, illustration or mascot. No visible tutor character (SPEC.md decision D7: none).
 - No camera facing advertising pose, no stock grin, no glamour retouching or plastic skin.
 - No reuse of Amai Learn or Takubasa portraits as identity references. Every identity is synthetic and new.
 
