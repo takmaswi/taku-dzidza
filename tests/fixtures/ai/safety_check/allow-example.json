@@ -1,0 +1,4 @@
+{
+  "keyMaterial": { "test": "router mock example" },
+  "response": { "content": "{\"verdict\":\"allow\"}", "usage": { "promptTokens": 12, "completionTokens": 4 } }
+}

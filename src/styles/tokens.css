@@ -1,0 +1,78 @@
+/*
+ * Takudzidza design tokens (SPEC.md section 4). Contrast pairs are checked in
+ * tests/unit/contrast.test.ts. Honey is a fill only, never text. Msasa Red
+ * body text never sits on Butter.
+ */
+:root {
+  --cream: #fff8ec;
+  --butter: #f8e2a8;
+  --honey: #f2b33d;
+  --ink: #111111;
+  --ink-soft: #5c5346;
+  --msasa: #b4452f;
+  --sage: #4f6b54;
+  --white: #ffffff;
+
+  --bg: var(--cream);
+  --card: var(--white);
+  --card-warm: var(--butter);
+  --text: var(--ink);
+  --text-soft: var(--ink-soft);
+  --line: #eadbb8;
+  --accent-fill: var(--honey);
+  --danger: var(--msasa);
+  --ok: var(--sage);
+
+  --font: "Lexend Variable", "Lexend", system-ui, sans-serif;
+  --radius-card: 28px;
+  --radius-pill: 999px;
+  --space: 1rem;
+  --text-size: 1rem;
+  --letter: 0;
+  --word: 0;
+  --line-height: 1.55;
+  --measure: 68ch;
+  --shadow: 0 1px 0 rgba(17, 17, 17, 0.04), 0 8px 24px rgba(17, 17, 17, 0.06);
+}
+
+/* Locked In: all business, no faff. */
+:root[data-style="locked_in"] {
+  --card-warm: var(--white);
+  --accent-fill: var(--butter);
+  --radius-card: 18px;
+  --shadow: none;
+}
+
+/* Cook Mode: louder use of the same palette. */
+:root[data-style="cook"] {
+  --bg: var(--butter);
+  --card-warm: var(--honey);
+  --line: #e9c770;
+  --radius-card: 32px;
+}
+
+/* Calm is the base above. */
+
+:root[data-dyslexia="true"] {
+  --letter: 0.05em;
+  --word: 0.12em;
+  --line-height: 1.8;
+  --measure: 60ch;
+}
+
+:root[data-large="true"] {
+  --text-size: 1.2rem;
+}
+
+:root[data-contrast="true"] {
+  --text-soft: var(--ink);
+  --line: var(--ink);
+  --card-warm: var(--white);
+  --bg: var(--white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion: 0;
+  }
+}

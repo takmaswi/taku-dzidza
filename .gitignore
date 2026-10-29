@@ -1,23 +1,15 @@
-# Dependencies
 node_modules/
-
-# Build output
 dist/
-build/
-
-# Environment and secrets
-.env
-.env.*
-
-# Logs
+dev-dist/
+coverage/
+playwright-report/
+test-results/
+.env*
+!.env.example
+.convex/
+.vercel
 *.log
-
-# OS and editor
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
-
-# Models and large assets (kept out of git)
-*.gguf
-models/
+.cache/
+# Copied from art/assets by scripts/gen-data.mjs
+public/art/
+src/art.generated.ts
