@@ -23,3 +23,5 @@ cpSync("dist", ".vercel/output/static", { recursive: true });
 writeFileSync(".vercel/output/config.json", JSON.stringify({ version: 3, routes: [{ handle: "filesystem" }, { src: "/(.*)", dest: "/index.html" }] }));
 writeFileSync(".vercel/project.json", JSON.stringify({ projectId: process.env.VERCEL_PROJECT_ID, orgId: process.env.VERCEL_ORG_ID }));
 run("npx", ["-y", "vercel@48.2.0", "deploy", "--prebuilt", "--prod", "--yes", "--token", process.env.VERCEL_TOKEN]);
+// The production build writes the generated data without test fixtures; put the test version back.
+run("node", ["scripts/gen-data.mjs"]);
