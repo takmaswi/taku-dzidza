@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "Explain osmosis simply",
+    "answerMode": "guide"
+  },
+  "response": {
+    "content": "Let's work it out together. What do you think a partially permeable membrane lets through, and what does it stop?",
+    "usage": {
+      "promptTokens": 600,
+      "completionTokens": 180
+    }
+  }
+}

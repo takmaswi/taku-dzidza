@@ -13,10 +13,10 @@ async function notebook(page: Page, project: string) {
   await page.getByLabel("Month").selectOption({ label: "January" });
   await page.getByLabel("Year").selectOption(String(new Date().getFullYear() - 22));
   await page.getByRole("button", { name: "Continue" }).click();
-  await page.getByRole("button", { name: "Skip for now" }).click();
-  await page.getByRole("button", { name: "New notebook" }).click();
-  await page.getByLabel("Notebook name").fill("Biology");
-  await page.getByRole("button", { name: "Create" }).click();
+  await page.getByRole("button", { name: "Skip" }).click();
+  await page.getByRole("button", { name: "New notebook" }).first().click();
+  await page.getByLabel("What is this notebook for?").fill("Biology");
+  await page.getByRole("button", { name: "Create notebook" }).click();
   await page.getByRole("button", { name: "Paste text" }).click();
   await page.getByLabel("Your text").fill(NOTES);
   await page.getByRole("button", { name: "Add text" }).click();
@@ -31,13 +31,11 @@ test("flashcards, a quiz paper, Scroll and a summary", async ({ page }, info) =>
   await page.getByRole("button", { name: /^Flashcards/ }).click();
   await page.getByLabel("How many").fill("5");
   await page.getByRole("button", { name: "Make flashcards" }).click();
-  await expect(page.getByRole("link", { name: "Review cards" }).first()).toBeVisible();
-  await page.getByRole("link", { name: "Review cards" }).first().click();
   await expect(page.getByTestId("flashcard")).toContainText("1 / 5");
-  await page.getByRole("button", { name: "Show answer" }).click();
+  await page.getByRole("button", { name: "Show answer", exact: true }).click();
   await page.getByRole("button", { name: "Got it" }).click();
   await expect(page.getByTestId("flashcard")).toContainText("2 / 5");
-  await page.getByRole("button", { name: "Show answer" }).click();
+  await page.getByRole("button", { name: "Show answer", exact: true }).click();
   await page.getByRole("button", { name: "Try again" }).click();
   await page.getByRole("link", { name: "Back to notebook" }).click();
 

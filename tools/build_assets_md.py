@@ -99,6 +99,21 @@ ASSETS = [
      "Subject: A Black Southern African man, age 31, medium brown skin, round face, medium build, neatly trimmed beard, close cropped hair. Plain sage green cotton shirt. "
      "He sits relaxed with a tablet resting on his knee, screen turned away, reading with a gentle unhurried expression.\n"
      "Framing: Seated three-quarter portrait, face and hands clear, soft low contrast light, lots of calm space."),
+    ("tile-ask", "Home: Ask Taku tile and chat empty state", "45",
+     "Scene: A tidy contemporary bedroom desk at night, warm desk lamp pool of light, dark blue window behind, pale cream wall, a closed plain textbook and a mug.\n"
+     "Subject: A Black Zimbabwean secondary school girl, age 16, medium brown skin, oval face, slim build, long box braids tied up. Plain cream hoodie. "
+     "She types a question on an unbranded phone held in both hands, screen turned away, with a small curious smile and raised eyebrows, as if the answer just clicked.\n"
+     "Framing: Seated three-quarter portrait, face and both hands clear, warm lamp light on her face, cosy and focused."),
+    ("tile-scroll", "Home: Scroll tile and Scroll intro", "45",
+     "Scene: A bright modern living room sofa in afternoon sun, butter yellow cushions, honey throw, softly blurred plants.\n"
+     "Subject: A Black Zimbabwean man, age 19, deep brown skin, round face, medium build, short twists, plain honey T-shirt. He lies back casually on the sofa scrolling an unbranded phone held above him with one hand, screen turned away, "
+     "a relaxed grin of recognition as if he just remembered a fact, other arm behind his head.\n"
+     "Framing: Waist up from slightly above, face and phone hand clear, relaxed and energetic, warm saturated natural colour."),
+    ("landing-form1", "Landing page collage: secondary learner", "45",
+     "Scene: A modern urban school corridor with large windows, pale cream walls, soft daylight, blurred lockers with no text.\n"
+     "Subject: A Black Zimbabwean boy, age 13, warm brown skin, round face, slim build, short neat hair, plain white short-sleeved school shirt and grey trousers, no tie or crest, a backpack on one shoulder. "
+     "He holds an open plain exercise book against his chest with one arm and laughs naturally at something out of frame.\n"
+     "Framing: Standing waist up portrait, face clear, joyful and natural, crop safe for an arch shaped frame."),
     ("landing-hero-wide", "Landing page hero on tablet and desktop", "wide",
      "Scene: A modern university library reading area with large windows, bright diffused light, light timber tables, softly blurred shelves of plain unlettered spines.\n"
      "Subject: A Black Zimbabwean woman, age 19, warm deep brown skin, oval face, slim build, short natural coils with a small side part. Plain cream cotton shirt. "
@@ -137,7 +152,7 @@ out = [
     "| `art/assets/empty-notebook.webp` | Notebooks, empty state and add source |",
     "| `art/assets/exam-coach.webp` | Exam coach intro |",
     "",
-    "## Batch 2 (to make)",
+    "## Batch 2 (to make, the redesign uses these first: style-locked-in, style-cook-mode, style-calm, tile-ask, tile-scroll, empty-flashcards, landing-form1)",
     "",
     "| File | Used on | Shape |",
     "| --- | --- | --- |",

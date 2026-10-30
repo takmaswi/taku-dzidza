@@ -14,5 +14,5 @@ The three consent functions are the guardian's page, opened from the learner's l
 | `requireProfile` | a user who finished sign up | settings, study style, making a guardian link |
 | `requireLearner` | an adult, or an under 18 whose guardian consented | every study feature (Phase 2 onward) |
 | `requireLearnerInAction` | the same, from an action | asking Taku |
-| `ownNotebook`, `ownSource` | `requireLearner` plus: the notebook or source belongs to this learner | every notebook and source function |
+| `ownNotebook`, `ownSource`, `ownChat` | `requireLearner` plus: the notebook, source or chat belongs to this learner | every notebook, source and chat function |
 | `requireAdmin` | the owner (`ADMIN_EMAILS`) | owner screens (Phase 7) |

@@ -1,7 +1,7 @@
 /*
  * Takudzidza design tokens (SPEC.md section 4). Contrast pairs are checked in
- * tests/unit/contrast.test.ts. Honey is a fill only, never text. Msasa Red
- * body text never sits on Butter.
+ * tests/unit/contrast.test.ts. Honey is a fill only, never text on light
+ * backgrounds. Msasa Red body text never sits on Butter.
  */
 :root {
   --cream: #fff8ec;
@@ -12,6 +12,14 @@
   --msasa: #b4452f;
   --sage: #4f6b54;
   --white: #ffffff;
+
+  /* Tints for tiles: text on them is always Ink. */
+  --butter-tint: #fcefc9;
+  --sage-tint: #e3ebe2;
+  --msasa-tint: #f7e0d8;
+  --ink-2: #1d1b18;
+  --ink-line: #34302a;
+  --on-ink-soft: #cfc6b6;
 
   --bg: var(--cream);
   --card: var(--white);
@@ -24,29 +32,38 @@
   --ok: var(--sage);
 
   --font: "Lexend Variable", "Lexend", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
   --radius-card: 28px;
   --radius-pill: 999px;
-  --space: 1rem;
+  --arch: 999px 999px 28px 28px;
   --text-size: 1rem;
   --letter: 0;
   --word: 0;
   --line-height: 1.55;
   --measure: 68ch;
-  --shadow: 0 1px 0 rgba(17, 17, 17, 0.04), 0 8px 24px rgba(17, 17, 17, 0.06);
+  --shadow: 0 1px 0 rgba(17, 17, 17, 0.04), 0 10px 30px rgba(17, 17, 17, 0.07);
+  --shadow-lift: 0 2px 0 rgba(17, 17, 17, 0.05), 0 18px 40px rgba(17, 17, 17, 0.12);
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --speed: 1;
 }
 
-/* Locked In: all business, no faff. */
+/* Locked In: all business, no faff. Fewer shapes, no motion flourishes. */
 :root[data-style="locked_in"] {
   --card-warm: var(--white);
-  --accent-fill: var(--butter);
+  --butter-tint: #f6f1e6;
+  --sage-tint: #eef0ec;
+  --msasa-tint: #f4ece8;
   --radius-card: 18px;
+  --arch: 22px;
   --shadow: none;
+  --shadow-lift: 0 0 0 2px var(--ink);
 }
 
-/* Cook Mode: louder use of the same palette. */
+/* Cook Mode: the same palette, turned up. */
 :root[data-style="cook"] {
   --bg: var(--butter);
   --card-warm: var(--honey);
+  --butter-tint: #fff4d6;
   --line: #e9c770;
   --radius-card: 32px;
 }
@@ -69,10 +86,11 @@
   --line: var(--ink);
   --card-warm: var(--white);
   --bg: var(--white);
+  --butter-tint: var(--white);
+  --sage-tint: var(--white);
+  --msasa-tint: var(--white);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  :root {
-    --motion: 0;
-  }
+:root[data-motion="off"] {
+  --speed: 0;
 }

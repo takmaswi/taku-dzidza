@@ -10,7 +10,7 @@ import { copy } from "../copy/en";
 const ICONS: Record<string, typeof Brain> = { summary: Sparkles, cards: Layers, quiz: ListChecks, mindmap: Network, scroll: ScrollText };
 
 /** The study tools of one notebook: make a tool, see what was made, review flashcards. */
-export function ToolsPanel({ notebookId }: { notebookId: Id<"notebooks"> }) {
+export function ToolsPanel({ notebookId, initialTool }: { notebookId: Id<"notebooks">; initialTool?: string }) {
   const t = copy.tools;
   const modes = useQuery(api.study.tools.modes);
   const outputs = useQuery(api.study.tools.list, { notebookId });
@@ -19,7 +19,7 @@ export function ToolsPanel({ notebookId }: { notebookId: Id<"notebooks"> }) {
   const generate = useAction(api.study.tools.generate);
   const remove = useMutation(api.study.tools.remove);
   const navigate = useNavigate();
-  const [open, setOpen] = useState<string | null>(null);
+  const [open, setOpen] = useState<string | null>(initialTool === "test" ? "quiz" : initialTool === "cards" ? "flashcards" : initialTool === "scroll" ? "scroll" : null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,7 +32,8 @@ export function ToolsPanel({ notebookId }: { notebookId: Id<"notebooks"> }) {
       if (form.has("difficulty")) options.difficulty = String(form.get("difficulty"));
       if (form.has("minutes")) options.minutes = Number(form.get("minutes"));
       const result = await generate({ notebookId, mode: slug, options });
-      if (result.ok) navigate(`/n/${notebookId}/o/${result.outputId}`);
+      // Flashcards go straight into review; everything else opens what was made.
+      if (result.ok) navigate(slug === "flashcards" ? `/n/${notebookId}/review` : `/n/${notebookId}/o/${result.outputId}`);
       else setError(result.message);
     } catch (e) {
       setError(errorText(e, copy.errors.generic));

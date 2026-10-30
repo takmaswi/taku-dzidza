@@ -9,6 +9,7 @@ import { v } from "convex/values";
  */
 
 export const studyStyleValidator = v.union(v.literal("locked_in"), v.literal("cook"), v.literal("calm"));
+export const studyingForValidator = v.union(v.literal("olevel"), v.literal("alevel"), v.literal("university"), v.literal("professional"), v.literal("learning"));
 export const answerModeValidator = v.union(v.literal("answer"), v.literal("guide"));
 export const consentStateValidator = v.union(v.literal("not_needed"), v.literal("pending"), v.literal("given"), v.literal("withdrawn"));
 export const accessibilityValidator = v.object({
@@ -42,6 +43,8 @@ export default defineSchema({
     accessibility: accessibilityValidator,
     answerMode: answerModeValidator,
     language: v.union(v.literal("en"), v.literal("sn")),
+    /** From onboarding; tunes the starters on the home page. */
+    studyingFor: v.optional(studyingForValidator),
     consentState: consentStateValidator,
     createdAt: v.number(),
   }).index("by_user", ["userId"]).index("by_consent_state", ["consentState", "createdAt"]),
@@ -120,6 +123,16 @@ export default defineSchema({
     answerMode: v.optional(answerModeValidator),
     createdAt: v.number(),
   }).index("by_notebook", ["notebookId", "createdAt"]),
+
+  /** A general chat with Taku, not tied to a notebook. It belongs to the learner. */
+  chats: defineTable({ profileId: v.id("profiles"), title: v.string(), createdAt: v.number(), updatedAt: v.number() }).index("by_profile", ["profileId", "updatedAt"]),
+  chatMessages: defineTable({
+    chatId: v.id("chats"),
+    role: v.union(v.literal("learner"), v.literal("taku")),
+    kind: v.union(v.literal("question"), v.literal("answer"), v.literal("help"), v.literal("redirect"), v.literal("error")),
+    text: v.string(),
+    createdAt: v.number(),
+  }).index("by_chat", ["chatId", "createdAt"]),
 
   /** A study tool Taku made from a notebook (SPEC.md 3.3). content is checked by convex/study/shapes.ts before it is stored. */
   outputs: defineTable({

@@ -1,80 +1,126 @@
 import { useMutation } from "convex/react";
+import { ArrowLeft, Briefcase, GraduationCap, Lightbulb, School, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { scoreQuiz, type StudyStyle } from "../../convex/accounts/styles";
-import { ImageSlot } from "../components/ImageSlot";
-import { Layout } from "../components/Layout";
+import { BrandMark } from "../components/BrandMark";
+import { StylePicker } from "../components/StylePicker";
 import { copy } from "../copy/en";
+import { applyTheme } from "../theme";
 
-const STYLE_ART: Record<StudyStyle, { slug: string; alt: string }> = {
-  locked_in: { slug: "style-locked-in", alt: "A woman reading printed notes at a clear desk, fully focused" },
-  cook: { slug: "style-cook-mode", alt: "A teenage boy in a bright room celebrating a right answer on his phone" },
-  calm: { slug: "style-calm", alt: "A man reading on a tablet in a quiet living room" },
-};
+type StudyingFor = NonNullable<Doc<"profiles">["studyingFor"]>;
+const FOR_ICONS: Record<StudyingFor, typeof School> = { olevel: School, alevel: GraduationCap, university: Sparkles, professional: Briefcase, learning: Lightbulb };
 
-/** The optional style quiz (SPEC.md 3.10). Skipping keeps the age based default. */
+/**
+ * Onboarding after sign up: what you are studying for, three quick style
+ * questions, then your style on photo cards. One question per screen with a
+ * progress bar (the goal step makes a small commitment, as Duolingo does).
+ * Skipping keeps the age based default.
+ */
 export default function StyleQuiz({ profile }: { profile: Doc<"profiles"> }) {
-  const setStyle = useMutation(api.accounts.profiles.setStyle);
-  const skip = useMutation(api.accounts.profiles.skipStyleQuiz);
   const t = copy.quiz;
+  const setStyle = useMutation(api.accounts.profiles.setStyle);
+  const setStudyingFor = useMutation(api.accounts.profiles.setStudyingFor);
+  const skip = useMutation(api.accounts.profiles.skipStyleQuiz);
+  const total = t.questions.length + 2;
+  const [step, setStep] = useState(0);
   const [picks, setPicks] = useState<(StudyStyle | null)[]>(t.questions.map(() => null));
-  const [result, setResult] = useState<StudyStyle | null>(null);
-  const done = picks.every((p) => p !== null);
+  const [chosen, setChosen] = useState<StudyStyle>(profile.studyStyle);
 
-  if (result !== null) {
-    const s = copy.styles[result];
-    return (
-      <Layout signedIn>
-        <div className="narrow stack">
-          <ImageSlot slug={STYLE_ART[result].slug} alt={STYLE_ART[result].alt} />
-          <div className="card warm">
-            <h1>{s.name}</h1>
-            <p>{s.line}</p>
-            <button className="pill" type="button" onClick={() => void setStyle({ studyStyle: result })}>
+  const preview = (s: StudyStyle) => {
+    setChosen(s);
+    applyTheme({ studyStyle: s, accessibility: profile.accessibility });
+  };
+
+  const pickFor = (value: StudyingFor) => {
+    void setStudyingFor({ studyingFor: value });
+    setStep(1);
+  };
+
+  const answer = (qi: number, s: StudyStyle) => {
+    const next = picks.map((p, i) => (i === qi ? s : p));
+    setPicks(next);
+    if (qi === t.questions.length - 1) {
+      preview(scoreQuiz(next.filter((p): p is StudyStyle => p !== null), profile.studyStyle));
+      setStep(total - 1);
+    } else setStep(step + 1);
+  };
+
+  return (
+    <div className="steps-shell">
+      <header className="steps-top">
+        {step > 0 ? (
+          <button type="button" className="icon-button" aria-label={t.back} onClick={() => setStep(step - 1)}>
+            <ArrowLeft size={20} aria-hidden="true" />
+          </button>
+        ) : (
+          <BrandMark />
+        )}
+        <div className="progress" role="progressbar" aria-valuemin={1} aria-valuemax={total} aria-valuenow={step + 1} aria-label={t.stepLabel(step + 1, total)}>
+          <span style={{ width: `${((step + 1) / total) * 100}%` }} />
+        </div>
+        <button type="button" className="link" onClick={() => void skip({})}>
+          {t.skip}
+        </button>
+      </header>
+
+      {step === 0 && (
+        <section className="step-body step-in" key="for">
+          <div>
+            <span className="eyebrow">{t.stepLabel(1, total)}</span>
+            <h1>{t.forTitle}</h1>
+            <p className="lead soft">{t.lead}</p>
+          </div>
+          <div className="answer-cards">
+            {t.forOptions.map((o, i) => {
+              const Icon = FOR_ICONS[o.value as StudyingFor];
+              return (
+                <button key={o.value} type="button" className="answer-card rise" style={{ ["--i" as string]: i }} aria-pressed={profile.studyingFor === o.value} onClick={() => pickFor(o.value as StudyingFor)}>
+                  <span className="ac-icon">
+                    <Icon size={22} aria-hidden="true" />
+                  </span>
+                  <b>{o.label}</b>
+                  <span className="soft">{o.line}</span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {step >= 1 && step <= t.questions.length && (
+        <section className="step-body step-in" key={`q${step}`}>
+          <div>
+            <span className="eyebrow">{t.stepLabel(step + 1, total)}</span>
+            <h1>{t.questions[step - 1].question}</h1>
+          </div>
+          <div className="answer-cards">
+            {t.questions[step - 1].options.map((o, i) => (
+              <button key={o.label} type="button" className="answer-card rise" style={{ ["--i" as string]: i }} aria-pressed={picks[step - 1] === o.style} onClick={() => answer(step - 1, o.style as StudyStyle)}>
+                <b>{o.label}</b>
+                <span className="soft">{o.line}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {step === total - 1 && (
+        <section className="step-body step-in" key="result">
+          <div>
+            <span className="eyebrow">{t.resultEyebrow}</span>
+            <h1>{copy.styles[chosen].name}</h1>
+            <p className="lead soft">{copy.landing.stylesBody}</p>
+          </div>
+          <StylePicker value={chosen} onPick={preview} />
+          <div className="actions">
+            <button type="button" className="pill" onClick={() => void setStyle({ studyStyle: chosen })}>
               {t.start}
             </button>
           </div>
-        </div>
-      </Layout>
-    );
-  }
-
-  return (
-    <Layout signedIn>
-      <div className="narrow stack">
-        <div>
-          <h1>{t.title}</h1>
-          <p className="soft">{t.lead}</p>
-        </div>
-        {t.questions.map((q, qi) => (
-          <fieldset key={q.question} className="card" style={{ margin: 0 }}>
-            <legend className="sr-only">{q.question}</legend>
-            <h2>{q.question}</h2>
-            <div className="choices">
-              {q.options.map((o) => (
-                <button
-                  key={o.label}
-                  type="button"
-                  className="choice"
-                  aria-pressed={picks[qi] === o.style}
-                  onClick={() => setPicks(picks.map((p, i) => (i === qi ? (o.style as StudyStyle) : p)))}
-                >
-                  {o.label}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-        ))}
-        <div className="actions">
-          <button className="pill" type="button" disabled={!done} onClick={() => setResult(scoreQuiz(picks.filter((p): p is StudyStyle => p !== null), profile.studyStyle))}>
-            {t.done}
-          </button>
-          <button className="pill ghost" type="button" onClick={() => void skip({})}>
-            {t.skip}
-          </button>
-        </div>
-      </div>
-    </Layout>
+        </section>
+      )}
+    </div>
   );
 }

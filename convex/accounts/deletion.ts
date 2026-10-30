@@ -26,6 +26,10 @@ async function drain<T extends { _id: import("convex/values").GenericId<TableNam
 }
 
 export async function deleteProfileData(ctx: MutationCtx, profile: Doc<"profiles">): Promise<void> {
+  for (const chat of await ctx.db.query("chats").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).collect()) {
+    await drain(ctx, () => ctx.db.query("chatMessages").withIndex("by_chat", (q) => q.eq("chatId", chat._id)).take(BATCH));
+    await ctx.db.delete(chat._id);
+  }
   for (const n of await ctx.db.query("notebooks").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).collect()) await deleteNotebookData(ctx, n);
   await drain(ctx, () => ctx.db.query("consents").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).take(BATCH));
   await drain(ctx, () => ctx.db.query("consentRequests").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).take(BATCH));

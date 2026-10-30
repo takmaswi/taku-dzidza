@@ -13,6 +13,8 @@ export const PURPOSES = [
   // Taku answering in a notebook, and the study tools (summaries, cards, quizzes).
   "taku_answer",
   "taku_tool",
+  // Taku in a general chat, from general knowledge.
+  "taku_chat",
   // Reading an uploaded source (PDF pages, photos) into text.
   "source_read",
 ] as const;

@@ -3,9 +3,9 @@ import { useMutation } from "convex/react";
 import { useState } from "react";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
-import { STUDY_STYLES } from "../../convex/accounts/styles";
 import { errorText } from "../access";
 import { Layout } from "../components/Layout";
+import { StylePicker } from "../components/StylePicker";
 import { Switch } from "../components/Switch";
 import { copy } from "../copy/en";
 
@@ -29,8 +29,11 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
 
   return (
     <Layout signedIn>
-      <div className="narrow stack">
-        <h1>{t.title}</h1>
+      <div className="stack" style={{ maxWidth: 900 }}>
+        <div>
+          <span className="eyebrow">{copy.nav.settings}</span>
+          <h1>{t.title}</h1>
+        </div>
 
         <section className="card">
           <form
@@ -51,14 +54,7 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
 
         <section className="card">
           <h2>{t.styleTitle}</h2>
-          <div className="choices">
-            {STUDY_STYLES.map((s) => (
-              <button key={s} type="button" className="choice" aria-pressed={profile.studyStyle === s} onClick={() => void setStyle({ studyStyle: s })}>
-                <b>{copy.styles[s].name}</b>
-                <span>{copy.styles[s].line}</span>
-              </button>
-            ))}
-          </div>
+          <StylePicker value={profile.studyStyle} onPick={(s) => void setStyle({ studyStyle: s })} />
         </section>
 
         <section className="card">

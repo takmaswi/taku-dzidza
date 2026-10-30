@@ -15,11 +15,10 @@ test("a learner adds notes, asks Taku, and checks the citation", async ({ page }
   await page.getByLabel("Month").selectOption({ label: "January" });
   await page.getByLabel("Year").selectOption(String(year - 24));
   await page.getByRole("button", { name: "Continue" }).click();
-  await page.getByRole("button", { name: "Skip for now" }).click();
-
-  await page.getByRole("button", { name: "New notebook" }).click();
-  await page.getByLabel("Notebook name").fill("Form 4 Biology");
-  await page.getByRole("button", { name: "Create" }).click();
+  await page.getByRole("button", { name: "Skip" }).click();
+  await page.getByRole("button", { name: "New notebook" }).first().click();
+  await page.getByLabel("What is this notebook for?").fill("Form 4 Biology");
+  await page.getByRole("button", { name: "Create notebook" }).click();
   await expect(page.getByRole("heading", { name: "Form 4 Biology" })).toBeVisible();
 
   await page.getByRole("button", { name: "Paste text" }).click();

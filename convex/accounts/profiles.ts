@@ -2,7 +2,7 @@ import { ConvexError, v } from "convex/values";
 import { mutation, query } from "../_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { profileOf, requireProfile, requireUser } from "../lib/access";
-import { accessibilityValidator, answerModeValidator, studyStyleValidator } from "../schema";
+import { accessibilityValidator, answerModeValidator, studyingForValidator, studyStyleValidator } from "../schema";
 import { checkBirth } from "./age";
 import { defaultStyle } from "./styles";
 
@@ -73,6 +73,14 @@ export const skipStyleQuiz = mutation({
   handler: async (ctx) => {
     const { profile } = await requireProfile(ctx);
     await ctx.db.patch(profile._id, { styleChosen: true });
+  },
+});
+
+export const setStudyingFor = mutation({
+  args: { studyingFor: studyingForValidator },
+  handler: async (ctx, args) => {
+    const { profile } = await requireProfile(ctx);
+    await ctx.db.patch(profile._id, { studyingFor: args.studyingFor });
   },
 });
 

@@ -44,6 +44,7 @@ export default tseslint.config(
       ".convex",
       ".cache",
       "src/art.generated.ts",
+      ".vercel",
     ],
   },
 

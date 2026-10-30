@@ -15,6 +15,8 @@ const StyleQuiz = lazy(() => import("./pages/StyleQuiz"));
 const Home = lazy(() => import("./pages/Home"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Notebook = lazy(() => import("./pages/Notebook"));
+const Chat = lazy(() => import("./pages/Chat"));
+const Notebooks = lazy(() => import("./pages/Notebooks"));
 const Output = lazy(() => import("./pages/Output"));
 const Review = lazy(() => import("./pages/Review"));
 const GetHelp = lazy(() => import("./pages/GetHelp"));
@@ -75,6 +77,9 @@ function SignedIn() {
     <Routes>
       <Route path="/" element={<Home profile={profile} />} />
       <Route path="/settings" element={<Settings profile={profile} email={me.email} />} />
+      <Route path="/chat" element={<Chat profile={profile} />} />
+      <Route path="/chat/:chatId" element={<Chat profile={profile} />} />
+      <Route path="/notebooks" element={<Notebooks />} />
       <Route path="/n/:id" element={<Notebook profile={profile} />} />
       <Route path="/n/:id/o/:outputId" element={<Output profile={profile} />} />
       <Route path="/n/:id/review" element={<Review />} />

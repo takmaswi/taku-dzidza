@@ -53,7 +53,7 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
             <ModePanel notebook={data.notebook} profile={profile} />
             <NotebookActions notebookId={notebookId} />
           </aside>
-          {tab === "ask" ? <Chat notebookId={notebookId} messages={data.messages} titles={titles} onCite={setCitation} readAloud={profile.accessibility.readAloud} /> : <ToolsPanel notebookId={notebookId} />}
+          {tab === "ask" ? <Chat notebookId={notebookId} messages={data.messages} titles={titles} onCite={setCitation} readAloud={profile.accessibility.readAloud} /> : <ToolsPanel notebookId={notebookId} initialTool={params.get("tool") ?? undefined} />}
         </div>
       </div>
       {citation !== null && <CitationViewer citation={citation} onClose={() => setCitation(null)} />}

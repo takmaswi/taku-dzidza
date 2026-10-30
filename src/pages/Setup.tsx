@@ -2,6 +2,7 @@ import { useMutation } from "convex/react";
 import { useState, type FormEvent } from "react";
 import { api } from "../../convex/_generated/api";
 import { errorText } from "../access";
+import { ImageSlot } from "../components/ImageSlot";
 import { Layout } from "../components/Layout";
 import { copy } from "../copy/en";
 
@@ -46,8 +47,10 @@ export default function Setup() {
 
   return (
     <Layout signedIn>
-      <div className="narrow card">
-        <h1>{t.title}</h1>
+      <div className="split-page">
+      <div className="card rise" style={{ maxWidth: 560, width: "100%", justifySelf: "center" }}>
+        <span className="eyebrow">{copy.quiz.stepLabel(1, 2)}</span>
+        <h1 style={{ fontSize: "clamp(2rem, 5vw, 2.8rem)" }}>{t.title}</h1>
         <form onSubmit={submit}>
           <div className="field">
             <label htmlFor="displayName">{t.name}</label>
@@ -94,6 +97,10 @@ export default function Setup() {
             {t.next}
           </button>
         </form>
+      </div>
+      <div className="split-photo rise" style={{ ["--i" as string]: 2 }}>
+        <ImageSlot slug="onboarding-1-secondary-student" alt="A secondary school learner writing in her exercise book" shape="arch" eager />
+      </div>
       </div>
     </Layout>
   );

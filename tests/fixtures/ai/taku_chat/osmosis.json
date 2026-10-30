@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "Explain osmosis simply",
+    "answerMode": "answer"
+  },
+  "response": {
+    "content": "**Osmosis** is the movement of water through a partially permeable membrane, from a dilute solution to a more concentrated one.\n\nThink of it like this:\n1. Water molecules move freely.\n2. The membrane lets water through but stops bigger molecules like sugar.\n3. So water moves to where there is more sugar, to even things out.\n\nWant to try a quick question on it?",
+    "usage": {
+      "promptTokens": 600,
+      "completionTokens": 180
+    }
+  }
+}

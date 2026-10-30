@@ -15,7 +15,7 @@ const PASSWORD = "studyhard2026";
 
 async function signUp(page: Page, email: string) {
   await page.goto("/");
-  await page.getByRole("link", { name: "Get started" }).click();
+  await page.getByRole("link", { name: "Start studying free" }).first().click();
   await page.getByLabel("Email").fill(email);
   await page.getByLabel("Password").fill(PASSWORD);
   await page.getByRole("button", { name: "Create account" }).click();
@@ -35,23 +35,23 @@ test("an adult signs up, takes the style quiz, changes settings and deletes the 
   await signUp(page, email);
   await setUp(page, "Chipo", year - 30);
 
-  await expect(page.getByRole("heading", { name: "How do you like to study?" })).toBeVisible();
-  await page.getByRole("button", { name: "Straight to the point, nothing extra" }).click();
-  await page.getByRole("button", { name: "Dense summaries I can read fast" }).click();
-  await page.getByRole("button", { name: "A patient teacher" }).click();
-  await page.getByRole("button", { name: "See my style" }).click();
-  await expect(page.getByRole("heading", { name: "Locked In" })).toBeVisible();
-  await page.getByRole("button", { name: "Start studying" }).click();
+  await expect(page.getByRole("heading", { name: "What are you studying for?" })).toBeVisible();
+  await page.getByRole("button", { name: /A professional exam/ }).click();
+  await page.getByRole("button", { name: /Straight to the point/ }).click();
+  await page.getByRole("button", { name: /Dense summaries/ }).click();
+  await page.getByRole("button", { name: /Like a patient teacher/ }).click();
+  await expect(page.getByRole("heading", { name: "Locked In", level: 1 })).toBeVisible();
+  await page.getByRole("button", { name: "Let's go" }).click();
 
-  await expect(page.getByRole("heading", { name: "Hello, Chipo" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "What are we studying today, Chipo?" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Explain IAS 16 in plain words" })).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("data-style", "locked_in");
 
-  await page.getByRole("link", { name: "Get help" }).click();
+  await page.getByRole("link", { name: "Get help" }).first().click();
   await expect(page.getByText("Childline Zimbabwe: call 116")).toBeVisible();
   await page.goBack();
 
-  await page.getByRole("button", { name: "Open menu" }).click();
-  await page.getByRole("link", { name: "Settings" }).click();
+  await page.getByRole("link", { name: "Settings" }).first().click();
   await page.getByRole("switch", { name: "Dyslexia friendly" }).check();
   await expect(page.locator("html")).toHaveAttribute("data-dyslexia", "true");
   await page.getByRole("button", { name: /Guide me/ }).click();
@@ -59,7 +59,7 @@ test("an adult signs up, takes the style quiz, changes settings and deletes the 
 
   await page.getByLabel("Type your email address to confirm").fill(email);
   await page.getByRole("button", { name: "Delete my account for good" }).click();
-  await expect(page.getByRole("heading", { name: "Study smarter with your own notes." })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Start studying free" }).first()).toBeVisible();
 });
 
 test("a 14 year old waits for a guardian, who consents from the link", async ({ page, browser }, info) => {
@@ -86,9 +86,9 @@ test("a 14 year old waits for a guardian, who consents from the link", async ({ 
   await guardianContext.close();
 
   // The learner's page updates by itself.
-  await expect(page.getByRole("heading", { name: "How do you like to study?" })).toBeVisible();
-  await page.getByRole("button", { name: "Skip for now" }).click();
-  await expect(page.getByRole("heading", { name: "Hello, Tafara" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "What are you studying for?" })).toBeVisible();
+  await page.getByRole("button", { name: "Skip" }).click();
+  await expect(page.getByRole("heading", { name: "What are we studying today, Tafara?" })).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("data-style", "cook");
 });
 
@@ -97,4 +97,13 @@ test("under 12 is pointed to Amai Learn", async ({ page }, info) => {
   await setUp(page, "Kuda", new Date().getFullYear() - 11);
   await expect(page.getByRole("heading", { name: "Takudzidza starts at Form 1" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Go to Amai Learn" })).toHaveAttribute("href", "https://amayi-learn.vercel.app");
+});
+
+test("from home, a starter question opens a chat with Taku's answer", async ({ page }, info) => {
+  await signUp(page, freshEmail(info.project.name));
+  await setUp(page, "Rudo", new Date().getFullYear() - 20);
+  await page.getByRole("button", { name: "Skip" }).click();
+  await page.getByRole("button", { name: "Explain osmosis simply" }).first().click();
+  await expect(page.getByTestId("chat-taku").last()).toContainText("partially permeable membrane");
+  await expect(page.getByRole("heading", { name: "Explain osmosis simply" })).toBeVisible();
 });

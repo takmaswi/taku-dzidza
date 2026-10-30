@@ -56,6 +56,19 @@ export const due = query({
   },
 });
 
+/** How many cards are due across all the learner's notebooks, for the home page. */
+export const dueCount = query({
+  args: { now: v.number() },
+  handler: async (ctx, args) => {
+    const { profile } = await requireLearner(ctx);
+    const due = await ctx.db.query("cards").withIndex("by_profile_due", (q) => q.eq("profileId", profile._id).lte("due", args.now)).take(500);
+    const byNotebook = new Map<string, number>();
+    for (const c of due) byNotebook.set(c.notebookId, (byNotebook.get(c.notebookId) ?? 0) + 1);
+    const first = [...byNotebook.entries()].sort((a, b) => b[1] - a[1])[0];
+    return { count: due.length, notebookId: first?.[0] ?? null };
+  },
+});
+
 export const review = mutation({
   args: { cardId: v.id("cards"), got: v.boolean() },
   handler: async (ctx, args) => {

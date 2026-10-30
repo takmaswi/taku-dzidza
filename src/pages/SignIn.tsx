@@ -2,6 +2,7 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import { useState, type FormEvent } from "react";
 import { useSearchParams } from "react-router";
 import { errorText } from "../access";
+import { ImageSlot } from "../components/ImageSlot";
 import { Layout } from "../components/Layout";
 import { copy } from "../copy/en";
 
@@ -31,8 +32,10 @@ export default function SignIn() {
 
   return (
     <Layout>
-      <div className="narrow card">
-        <h1>{mode === "signIn" ? t.signInTitle : t.signUpTitle}</h1>
+      <div className="split-page">
+      <div className="card rise" style={{ maxWidth: 520, width: "100%", justifySelf: "center" }}>
+        <span className="eyebrow">{copy.appName}</span>
+        <h1 style={{ fontSize: "clamp(2rem, 5vw, 2.8rem)" }}>{mode === "signIn" ? t.signInTitle : t.signUpTitle}</h1>
         <form onSubmit={submit}>
           <div className="field">
             <label htmlFor="email">{t.email}</label>
@@ -57,6 +60,14 @@ export default function SignIn() {
             </button>
           </div>
         </form>
+      </div>
+      <div className="split-photo rise" style={{ ["--i" as string]: 2 }}>
+        <ImageSlot slug="onboarding-2-senior-student" alt="A student revising with his phone and textbook" shape="arch" eager />
+        <div className="card float-card">
+          <span className="eyebrow">Taku</span>
+          {copy.landing.floatCard}
+        </div>
+      </div>
       </div>
     </Layout>
   );

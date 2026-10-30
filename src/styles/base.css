@@ -1,0 +1,119 @@
+@import "@fontsource-variable/lexend";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/600.css";
+@import "./tokens.css";
+
+* { box-sizing: border-box; }
+html { font-size: var(--text-size); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: var(--line-height);
+  letter-spacing: var(--letter);
+  word-spacing: var(--word);
+  -webkit-font-smoothing: antialiased;
+  transition: background calc(0.4s * var(--speed)) var(--ease);
+}
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+::selection { background: var(--honey); color: var(--ink); }
+h1, h2, h3 { line-height: 1.08; letter-spacing: -0.025em; margin: 0 0 0.6rem; font-weight: 700; }
+h1 { font-size: clamp(2.1rem, 6vw, 3.6rem); }
+h2 { font-size: clamp(1.25rem, 2.6vw, 1.6rem); font-weight: 650; }
+h3 { font-size: 1.08rem; font-weight: 600; letter-spacing: -0.01em; }
+p { margin: 0 0 0.9rem; max-width: var(--measure); }
+.soft { color: var(--text-soft); }
+.lead { font-size: clamp(1.05rem, 1.6vw, 1.22rem); }
+.small-text { font-size: 0.88rem; }
+.stack > * + * { margin-top: 1rem; }
+.stack-lg > * + * { margin-top: 2rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.app-loading { padding: 3rem; text-align: center; color: var(--text-soft); }
+
+/* Mono labels, as in Takubasa: dates, steps, small metadata. */
+.eyebrow { font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-soft); margin: 0 0 0.6rem; display: block; }
+.eyebrow.on-ink { color: var(--on-ink-soft); }
+
+/* Buttons */
+.pill {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  min-height: 48px; padding: 0.7rem 1.4rem; border-radius: var(--radius-pill);
+  border: 2px solid var(--ink); background: var(--ink); color: var(--cream);
+  font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; white-space: nowrap;
+  transition: transform calc(0.18s * var(--speed)) var(--ease), background 0.2s, box-shadow 0.2s;
+}
+.pill:hover { transform: translateY(calc(-2px * var(--speed))); box-shadow: 0 8px 18px rgba(17, 17, 17, 0.18); }
+.pill:active { transform: translateY(0) scale(0.98); }
+.pill:disabled { opacity: 0.55; cursor: progress; transform: none; box-shadow: none; }
+.pill.ghost { background: transparent; color: var(--ink); }
+.pill.honey { background: var(--honey); border-color: var(--honey); color: var(--ink); }
+.pill.cream { background: var(--cream); border-color: var(--cream); color: var(--ink); }
+.pill.small { min-height: 40px; padding: 0.4rem 1rem; font-size: 0.92rem; }
+.pill.danger { background: var(--msasa); border-color: var(--msasa); color: var(--white); }
+.link { background: none; border: 0; padding: 0; font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; color: var(--ink); }
+.icon-button { background: none; border: 0; padding: 0.5rem; border-radius: 12px; cursor: pointer; color: var(--ink); min-width: 40px; min-height: 40px; display: inline-flex; align-items: center; justify-content: center; }
+.icon-button:hover { background: rgba(17, 17, 17, 0.06); }
+
+/* Cards and tiles */
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-card); padding: 1.4rem; box-shadow: var(--shadow); }
+.card.warm { background: var(--card-warm); }
+.card.flat { box-shadow: none; }
+.grid { display: grid; gap: 1rem; }
+@media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } .grid.three { grid-template-columns: repeat(3, 1fr); } }
+.row { display: flex; gap: 0.75rem; }
+.row > * { flex: 1; }
+.row-between { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; flex-wrap: wrap; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.notice { background: var(--white); border-left: 6px solid var(--sage); padding: 0.9rem 1rem; border-radius: 14px; }
+.error { color: var(--msasa); font-weight: 600; }
+.ok-text { color: var(--sage); font-weight: 600; }
+
+/* Forms */
+label { display: block; font-weight: 600; margin-bottom: 0.35rem; }
+.field { margin-bottom: 1rem; }
+.field small { display: block; color: var(--text-soft); margin-top: 0.3rem; font-weight: 400; }
+input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="number"], input[type="url"], select, textarea {
+  width: 100%; min-height: 50px; padding: 0.75rem 1rem; border-radius: 16px; border: 1.5px solid var(--line);
+  background: var(--white); color: var(--ink); font: inherit; transition: border-color 0.15s, box-shadow 0.15s;
+}
+textarea { resize: vertical; }
+input:focus, select:focus, textarea:focus { border-color: var(--ink); outline: none; box-shadow: 0 0 0 4px rgba(242, 179, 61, 0.35); }
+.check { display: flex; gap: 0.7rem; align-items: flex-start; font-weight: 400; margin-bottom: 0.8rem; }
+.check input { width: 1.3rem; height: 1.3rem; margin-top: 0.15rem; accent-color: var(--ink); flex: none; }
+
+/* Photos in arches and pills (from Takubasa), with a designed stand in until Codex delivers. */
+.image-slot { border-radius: var(--radius-card); overflow: hidden; aspect-ratio: 4 / 5; background: var(--butter); position: relative; }
+.image-slot.arch { border-radius: var(--arch); }
+.image-slot.pill-shape { border-radius: 999px; aspect-ratio: 3 / 4; }
+.image-slot img { width: 100%; height: 100%; object-fit: cover; transition: transform calc(0.6s * var(--speed)) var(--ease); }
+.image-slot.standin { display: flex; align-items: flex-end; justify-content: flex-start; padding: 1.2rem; background: radial-gradient(circle at 70% 28%, var(--honey) 0 18%, transparent 18.5%), var(--butter); }
+.image-slot.standin span { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+
+/* Motion: things rise in, staggered by --i. Off when the learner or the phone asks. */
+@keyframes rise { from { opacity: 0; transform: translateY(calc(14px * var(--speed))); } to { opacity: 1; transform: none; } }
+.rise { animation: rise calc(0.6s * var(--speed)) var(--ease) both; animation-delay: calc(var(--i, 0) * 70ms * var(--speed)); }
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  :root { --speed: 0; }
+  .reveal { opacity: 1; transform: none; }
+}
+:root[data-motion="off"] .reveal { opacity: 1; transform: none; }
+
+/* Fine grain over colour blocks (Takubasa). */
+.grain { position: relative; isolation: isolate; }
+.grain::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: -1; opacity: 0.18; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.07 0 0 0 0 0.07 0 0 0 0 0.07 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Tags */
+.tag { display: inline-flex; align-items: center; gap: 0.35rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.25rem 0.6rem; border-radius: 999px; background: var(--ink); color: var(--cream); }
+.tag.honey { background: var(--honey); color: var(--ink); }
+.tag.light { background: var(--white); color: var(--ink); border: 1px solid var(--line); }
+.added-tag { display: inline-block; font-size: 0.78rem; background: var(--butter); color: var(--ink); border-radius: 999px; padding: 0.05rem 0.55rem; }
+.cite { display: inline; font: inherit; font-size: 0.8rem; background: var(--butter); color: var(--ink); border: 1px solid var(--ink); border-radius: 999px; padding: 0.05rem 0.55rem; cursor: pointer; white-space: normal; }
+.cite.static { cursor: default; }

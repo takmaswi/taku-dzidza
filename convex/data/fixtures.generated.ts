@@ -50,6 +50,22 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/taku_answer/chlorophyll-only-mine.json"
  },
+ "taku_chat/e8c8bd1298f3b97e": {
+  "content": "Let's work it out together. What do you think a partially permeable membrane lets through, and what does it stop?",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 180
+  },
+  "source": "tests/fixtures/ai/taku_chat/osmosis-guide.json"
+ },
+ "taku_chat/65645da2cbc69067": {
+  "content": "**Osmosis** is the movement of water through a partially permeable membrane, from a dilute solution to a more concentrated one.\n\nThink of it like this:\n1. Water molecules move freely.\n2. The membrane lets water through but stops bigger molecules like sugar.\n3. So water moves to where there is more sugar, to even things out.\n\nWant to try a quick question on it?",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 180
+  },
+  "source": "tests/fixtures/ai/taku_chat/osmosis.json"
+ },
  "taku_tool/252c99d2fc702cf8": {
   "content": "{\"cards\": [{\"front\": \"What do green plants make in photosynthesis?\", \"back\": \"Glucose\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"front\": \"Which two raw materials does photosynthesis use?\", \"back\": \"Carbon dioxide and water\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"front\": \"What absorbs the light in a leaf?\", \"back\": \"Chlorophyll in the chloroplasts\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"front\": \"Which gas is released as a by product?\", \"back\": \"Oxygen\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}, {\"front\": \"Where does photosynthesis happen in a plant cell?\", \"back\": \"In the chloroplasts\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"The notes support 4 cards from the material.\"}",
   "usage": {
