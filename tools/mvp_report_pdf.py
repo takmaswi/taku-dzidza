@@ -136,11 +136,11 @@ s.append(table([
     ["17", "Privacy and terms", "Public draft pages, based only on what the code does."],
     ["18", "Red team", "A script for answer leaks, companion requests and unsafe topics. Mock in CI, live only with a spending cap."],
 ], [7, 36, 127]))
-s.append(para(f"I also added a CI workflow ({c('.github/workflows/ci.yml')}): lint, typecheck, tests, mock red team and build on every push. It has not run yet, so check the first run on GitHub. Printing a paper also used to include the sidebar and tab bar; that is fixed.", SMALL))
+s.append(para(f"I also added a CI workflow ({c('.github/workflows/ci.yml')}): lint, typecheck, tests, mock red team and build on every push. Its first run, on this commit, passed. Browser journeys do not run in CI, because they need a local backend. Printing a paper also used to include the sidebar and tab bar; that is fixed.", SMALL))
 
 s.append(KeepTogether([
     para("What a security review found", H2),
-    para("I ran a read only security review on the auth, consent, link and cap code before committing. It found these, and the first four are fixed with tests:"),
+    para("I ran a read only security review on the auth, consent, link and cap code before committing. It found these. The first four changed the code, and tests cover those changes:"),
     *bullets([
         "<b>High, narrowed but not closed:</b> many calls at once could all pass the cap, because cost is only known after the model answers. A learner can now start 12 things a minute, or 20 for reading photos. They can still pass the cap by what one minute of starts costs, and many learners together can pass the deployment cap by a little.",
         "<b>Medium, fixed:</b> a guardian who gave, withdrew and gave again could not withdraw a second time.",

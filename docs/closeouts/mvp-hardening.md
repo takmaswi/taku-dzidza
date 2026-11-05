@@ -13,7 +13,7 @@ Date: 5 November 2026. Scope: the 18 item build list in the brief. Rollback tag:
 
 ## Checks
 
-All in mock AI mode, with no live AI call. Final numbers are in the commit's report (`docs/MVP-Report.pdf`).
+All in mock AI mode, with no live AI call. Final run on a54d2f6: 250 tests, 24 of them the mock red team, and 40 browser journeys, none skipped.
 
 - `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm redteam`, `pnpm build`, `pnpm e2e` on phone and desktop projects.
 - A read only security review ran on the auth, consent, link, cap and maths code. Fixed: parallel calls past the caps (narrowed by a limit on starts), withdraw after re consent, quadratic HTML parsing, bad character codes.
@@ -27,5 +27,5 @@ All in mock AI mode, with no live AI call. Final numbers are in the commit's rep
 - Not deployed. Production env vars untouched.
 - Open decision: the phone code proves control of a phone, not identity.
 - Follow up: unverified abandoned accounts are not swept.
-- CI workflow has not run yet.
+- CI passed on the work commit. It does not run the browser journeys, which need a local backend.
 - `og-default.webp` comes from Codex on `codex/art-batch-2`. Art, public icons and `src/art.generated.ts` were not touched.
