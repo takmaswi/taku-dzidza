@@ -30,6 +30,12 @@ All in mock AI mode, with no live AI call.
 - `pnpm e2e`: 44 browser journeys on the phone and desktop projects, 0 failed, 0 skipped. New: where the sources live (phone sheet, desktop rail that folds and remembers), the question box after six answers at 360 by 640 and 1280 by 800, the citation opening the source page, focus mode open and exit, and no image in an arch, circle or box frame (`e2e/design.spec.ts`).
 - Found and fixed on the way: a tap on send or a question box chip missed on phones (the box jumped as focus moved), the paste form showed twice in an empty desktop notebook, the guardian and under 12 pages were squashed into the rail column on desktop, and the phone Get help button had no name.
 
+## Deployed
+
+6 November 2026, from babf056, the same way as the last deploy (stored Convex and Vercel CLI logins, no tokens). Targets confirmed first: Convex `prod:disciplined-condor-946` (a dry run showed no function changes; no Convex code changed in this redesign) and Vercel project `takudzidza` (`prj_VXSP2nXy5izpDyRZydbsIIe41bV5`). Production Convex environment variables were not touched. The bundle was checked for the production URL and for no local URL or test fixtures before publishing.
+
+Live check: https://takudzidza.vercel.app serves `index-CecaYIIP.js` (was `index-2-Fa8kPU.js`), `icon-512.png` and `icon.svg` match the new files, and the landing page loads with no console errors or failed requests at 1280 by 800 and 360 by 780. No account was made on production.
+
 ## Not done or not verified
 
 - Exam countdown on Home: there is no exam date in the data, so it is not shown. It needs a field and a place to set it.
