@@ -574,3 +574,298 @@ Input SHA-256: `af7d2bb47ea20894ff4f6d278942e2ebf66a2eb08933a671d2a3030ae0965a7f
 ```text
 Edit this exact wide photograph. Preserve this exact university woman's identity, short natural coils, cream shirt, quiet half smile, both hands, phone face down, modern library, light and horizontal 16:9 framing. Keep her in the RIGHT THIRD and retain the existing calm empty LEFT side for later code-added text, especially the whole left third. Change ONLY the visible book and notebook pages: remove every printed paragraph, handwritten mark, tiny glyph, mathematical label, digit and pseudo-text. Replace these with blank cream paper, fine ruling and at most two unlabelled simple geometric line drawings such as a triangle and circle. No paragraph-like grey texture, labels or numerals anywhere, even blurred. Retain paper curvature, fibres, natural shadows and all other photographic details. Absolutely no text, logo, watermark or UI. One standalone horizontal 16:9 photograph.
 ```
+
+
+## Batch 3 - background textures
+
+Created: 2026-11-05 (Africa/Harare).
+
+Branch: `codex/textures`, created from `main` at `bc5cc40`. No merge into main is part of this work.
+
+### Generator
+
+Procedural, not an image model. Python 3.13, NumPy 2.4.6, SciPy 1.17.1, Pillow 12.2.0. The script below ran from a temporary folder outside the repo and only its output files are committed. It is deterministic: a second run produced byte-identical WebPs. Script SHA-256: `7ebd3331c3070983556ceb67b66f7231b585542206b4d654b45da2e68e570700`.
+
+There are no PNG masters, because the brief asked for WebP only and the script regenerates every file. All sizes are native renders with no upscaling. WebP uses method 6 and the highest integer quality from 95 down that stays strictly below the limit; every file passed at 95, so no quality was traded for size. KB means 1,000 bytes.
+
+The board was rendered in Chromium 145 through Playwright, so the WebPs are decoded and tiled as a browser does. Board type is Lexend 400, 500 and 600. The board is the only file containing text.
+
+### File inventory
+
+| File | Use | Dimensions | Bytes | Byte limit | WebP quality | SHA-256 |
+| --- | --- | --- | ---: | ---: | ---: | --- |
+| `art/textures/paper-grain.webp` | Seamless tile | 1024x1024 | 60,604 | 80,000 | 95 | `4406626ee4407ccadd63e496263be79b505f9c6b6ad34180a1833fdb5536cff7` |
+| `art/textures/honey-waves.webp` | Desktop | 2560x1600 | 146,644 | 200,000 | 95 | `a1cc94cd0951d74206ac3734b909b4e52d1ccb5f5279f4d8b8810dd16db38ab1` |
+| `art/textures/honey-waves-phone.webp` | Phone | 1080x2340 | 92,668 | 150,000 | 95 | `ec2879af96c330d4401a0dea66cf0018b10c71c102462b41e3d33b28cd462be9` |
+| `art/textures/honey-waves-dark.webp` | Dark desktop | 2560x1600 | 112,654 | 200,000 | 95 | `ed4c5ab87348758d7017fbcf061192d93d6df3eb4b0d38111d5b71c1ff8b35d7` |
+| `art/textures/honey-waves-dark-phone.webp` | Dark phone | 1080x2340 | 71,238 | 150,000 | 95 | `8070cd0e64db48070df54dd465aacf0c4cdd2cc7c1a9c185ebec3ec7244279b3` |
+| `art/textures/board.png` | Preview board | 2560x3284 | 2,541,157 | none | - | `8b18969f334fcc67ea8c9f4f50aae5d447e1a807f644247c129fb9c9e1ba4868` |
+
+### How the images are built
+
+- paper-grain: FFT filtered noise (fibres at seven angles, fine grain, tooth, mottle) on `#FFF3DC`. FFT noise wraps by construction. No feature is larger than about 110 px, so repeats do not read at 1024 px.
+- honey-waves: one wave field, sampled in world coordinates so desktop and phone are windows on the same shapes. Colour runs through a PCHIP ramp over `#FFF3DC`, `#FFE6AE`, `#F8E2A8`, `#FCD99A`, which avoids Mach bands at the stops.
+- honey-waves-dark: the same field through `#2B2D42`, `#262940`, `#1E2030`. Crests map to the lightest charcoal. Teal `#2A9D8F` is mixed in soft lobes at a measured peak of 7.5 percent.
+- Banding control: multi scale monochrome grain (standard deviation about 1.3 levels on the light set) is added before encoding. Coarse octaves survive lossy WebP and break up contour lines.
+
+### Measurements on the decoded WebPs
+
+| Check | paper-grain | honey-waves | honey-waves-phone | honey-waves-dark | honey-waves-dark-phone |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Flat 16x16 luma blocks | 0.00% | 0.01% | 0.03% | 0.06% | 0.04% |
+| Longest flat luma run | 54 px | 68 px | 71 px | 84 px | 68 px |
+| Steepest slope after 16 px blur, luma levels per 100 px | 3.0 | 17.5 | 15.0 | 13.2 | 15.3 |
+| Worst text contrast (0.1 percentile pixel) | 11.83:1 Ink | 9.83:1 Ink | 9.83:1 Ink | 11.64:1 Cream | 11.61:1 Cream |
+| White card against darkest / lightest area | 1.14 / 1.07 | 1.37 / 1.08 | 1.37 / 1.08 | 12.29 at lightest | 12.26 at lightest |
+
+Contrast uses Ink as `#2B2D42` and Cream as `#FFF8EC`. Paper-grain mean colour decodes to RGB 254.55, 243.20, 220.19 against the target 255, 243, 220.
+
+Banding baseline: the same desktop field with no grain, at the same encoder settings, decodes with 38.92 percent flat blocks on the light set and 60.47 percent on the dark set.
+
+Palette: median RGB distance from the allowed colour set is 1.05 on the light files and 0.83 on the dark files, which is the grain. The 99.9th percentile is under 4.5. The single worst sampled pixel is 9.43 away.
+
+Same shapes: blurred luma correlation between light and dark is 0.90 on desktop and 0.88 on phone. Both use the same field; the difference comes from the different ramps and the teal glow.
+
+Tile seam: the raw tile is exactly periodic (neighbour difference 1.04 across the wrap, 1.00 inside). WebP smooths inside the frame but cannot smooth across the wrap, so the decoded file differs by 1.28 levels across the x seam and 1.20 across the y seam, against 0.47 inside. The seam has no persistent offset: its largest 32 px running mean is 1.38, against 1.34 on an interior column. No seam was visible in a four tile corner crop at 6x contrast.
+
+### Known limits
+
+- A white card has very low contrast against the light textures (1.07 to 1.37:1), so card edges depend on a shadow or border. The board uses a soft shadow.
+- `#FFF3DC`, `#FFE6AE`, `#FCD99A` and the dark tones come from the task brief, not `art/STYLE.md`. The app's `--ink` is `#111111`; the board button uses the brief's charcoal `#2B2D42`.
+- Visual review covered the board, native pixel crops and 6x contrast crops in Chromium's and Pillow's decoders only. Not checked on a physical phone or a calibrated display.
+- No changes under `src/`, `convex/` or `public/`. No application build, tests or integration were run for this asset-only task.
+
+### Generator source
+
+```python
+"""Procedural background textures for Takudzidza. Deterministic: same seeds, same pixels.
+
+Usage: python make_textures.py <output_dir>
+"""
+import io
+import sys
+from pathlib import Path
+
+import numpy as np
+from PIL import Image
+from scipy.interpolate import PchipInterpolator
+from scipy.ndimage import gaussian_filter
+
+KB = 1000  # same convention as the earlier batches in CODEX_NOTES.md
+
+
+def hex_rgb(value):
+    return np.array([int(value[i:i + 2], 16) for i in (1, 3, 5)], dtype=np.float64)
+
+
+# Ordered from crest (t=0) to trough (t=1).
+HONEY_STOPS = [(0.00, "#FFF3DC"), (0.40, "#FFE6AE"), (0.68, "#F8E2A8"), (1.00, "#FCD99A")]
+DARK_STOPS = [(0.00, "#2B2D42"), (0.50, "#262940"), (1.00, "#1E2030")]
+TEAL = hex_rgb("#2A9D8F")
+TEAL_STRENGTH = 0.11  # peak mix towards teal, crest and glow lobe both at full
+
+DESKTOP = (2560, 1600, 1600.0)  # width, height, pixels per world unit
+PHONE = (1080, 2340, 1560.0)
+FIELD_SEED = 20261105
+
+
+def ramp(t, stops):
+    positions = [p for p, _ in stops]
+    colours = np.stack([hex_rgb(c) for _, c in stops])
+    return np.stack(
+        [np.clip(PchipInterpolator(positions, colours[:, i])(t), 0, 255) for i in range(3)],
+        axis=-1,
+    )
+
+
+def smoothstep(a, b, x):
+    u = np.clip((x - a) / (b - a), 0, 1)
+    return u * u * u * (u * (6 * u - 15) + 10)
+
+
+class Rff:
+    """Random Fourier field: smooth, defined on the whole plane, resolution independent."""
+
+    def __init__(self, seed, count, fmin, fmax):
+        rng = np.random.default_rng(seed)
+        angle = rng.uniform(0, 2 * np.pi, count)
+        freq = rng.uniform(fmin, fmax, count)
+        self.fx = freq * np.cos(angle) * 2 * np.pi
+        self.fy = freq * np.sin(angle) * 2 * np.pi
+        self.phase = rng.uniform(0, 2 * np.pi, count)
+        self.amp = 1 / (freq / fmin) / np.sqrt(count / 2)
+
+    def __call__(self, x, y):
+        out = np.zeros_like(x)
+        for fx, fy, phase, amp in zip(self.fx, self.fy, self.phase, self.amp):
+            out = out + amp * np.sin(fx * x + fy * y + phase)
+        return out
+
+
+def world_grid(size):
+    width, height, ppu = size
+    xs = (np.arange(width, dtype=np.float64) + 0.5 - width / 2) / ppu
+    ys = (np.arange(height, dtype=np.float64) + 0.5 - height / 2) / ppu
+    return np.meshgrid(xs, ys)
+
+
+def wave_field(size):
+    """Returns t in [0,1] (0 crest, 1 trough) and a glow mask, from one shared world field."""
+    x, y = world_grid(size)
+    warp_a = Rff(FIELD_SEED + 1, 6, 0.18, 0.5)
+    warp_b = Rff(FIELD_SEED + 2, 6, 0.18, 0.5)
+    warp_c = Rff(FIELD_SEED + 3, 6, 0.22, 0.62)
+    px = x + 0.22 * warp_a(x, y)
+    py = y + 0.22 * warp_b(x, y)
+
+    theta = np.deg2rad(-17)
+    v = -x * np.sin(theta) + y * np.cos(theta)
+    u = x * np.cos(theta) + y * np.sin(theta)
+
+    # Main swell: about 800 px per cycle on desktop. The warp gradient stays below the
+    # base gradient so contours never close into ovals. The skew gives each dune a long
+    # lee slope and a shorter, still very soft, rise.
+    phase = 2 * np.pi * (2.0 * v + 0.10 * u + 0.30 * warp_c(px, py))
+    main = 0.5 + 0.5 * np.sin(phase + 0.45 * np.sin(phase))
+
+    # A slower crossing swell lifts and sinks the crests along their length.
+    cross_phase = 2 * np.pi * (0.42 * u - 0.16 * v + 0.14 * warp_a(px + 0.7, py - 0.4))
+    cross = 0.5 + 0.5 * np.sin(cross_phase)
+
+    t = 0.78 * main + 0.22 * cross
+    t = (t - t.min()) / (t.max() - t.min())
+    t = gaussian_filter(t, 6, mode="nearest")
+    # Widen the light crests: more area in the lighter tones, troughs stay as accents.
+    t = t ** 1.45
+
+    lobes = Rff(FIELD_SEED + 4, 6, 0.3, 0.7)(x + 0.2, y - 0.1)
+    lobes = smoothstep(-0.25, 0.85, lobes)
+    glow = lobes * smoothstep(0.05, 0.75, 1 - t)
+    return t, glow
+
+
+def organic_grain(shape, seed, octaves):
+    """Multi scale monochrome grain. Coarse octaves survive lossy WebP and break contour lines."""
+    rng = np.random.default_rng(seed)
+    out = np.zeros(shape, dtype=np.float64)
+    for sigma, amplitude in octaves:
+        layer = rng.standard_normal(shape)
+        if sigma > 0:
+            layer = gaussian_filter(layer, sigma, mode="wrap")
+        out = out + amplitude * layer / layer.std()
+    return out
+
+
+def to_uint8(rgb, seed):
+    # TPDF dither at rounding keeps sub level gradient information before encoding.
+    rng = np.random.default_rng(seed)
+    dither = rng.uniform(-0.5, 0.5, rgb.shape[:2]) + rng.uniform(-0.5, 0.5, rgb.shape[:2])
+    return np.clip(np.floor(rgb + dither[..., None] + 0.5), 0, 255).astype(np.uint8)
+
+
+def encode_under(image, limit, start=95, floor=40):
+    """Project rule: method 6, highest integer quality from 95 down strictly under the limit."""
+    for quality in range(start, floor - 1, -1):
+        buffer = io.BytesIO()
+        image.save(buffer, "WEBP", quality=quality, method=6)
+        if buffer.tell() < limit:
+            return buffer.getvalue(), quality
+    raise RuntimeError(f"nothing under {limit} bytes at quality >= {floor}")
+
+
+def tileable_noise(n, seed, spectrum):
+    rng = np.random.default_rng(seed)
+    fy = np.fft.fftfreq(n)[:, None]
+    fx = np.fft.rfftfreq(n)[None, :]
+    white = np.fft.rfft2(rng.standard_normal((n, n)))
+    field = np.fft.irfft2(white * spectrum(fx, fy), s=(n, n))
+    return field / field.std()
+
+
+def paper_grain():
+    n = 1024
+    base = hex_rgb("#FFF3DC")
+
+    def band(lo_px, hi_px):
+        def spectrum(fx, fy):
+            f = np.hypot(fx, fy)
+            return np.exp(-((f * lo_px) ** 2)) * (1 - np.exp(-((f * hi_px) ** 2)))
+        return spectrum
+
+    def fibre(angle):
+        ca, sa = np.cos(angle), np.sin(angle)
+
+        def spectrum(fx, fy):
+            along = fx * ca + fy * sa
+            across = -fx * sa + fy * ca
+            f = np.hypot(fx, fy)
+            return np.exp(-((along * 36) ** 2)) * np.exp(-((across * 3.2) ** 2)) * (f > 1 / 256)
+        return spectrum
+
+    fibres = np.zeros((n, n))
+    for i, angle in enumerate(np.linspace(0, np.pi, 7, endpoint=False) + 0.21):
+        fibres = fibres + tileable_noise(n, 900 + i, fibre(angle))
+    fibres = fibres / fibres.std()
+
+    fine = tileable_noise(n, 880, band(2.4, 8))
+    tooth = tileable_noise(n, 881, band(6, 26))
+    # Mottle stops at 110 px, so nothing large enough to read as a repeat at 1024 px.
+    mottle = tileable_noise(n, 882, band(26, 110))
+    height = 1.05 * fibres + 0.95 * fine + 0.55 * tooth + 0.45 * mottle
+    height = height - height.mean()
+
+    # Warm shift: darker specks lean towards honey, so grain is colour, not grey.
+    rgb = np.stack([
+        base[0] + 0.55 * height,
+        base[1] + 1.00 * height,
+        base[2] + 1.55 * height,
+    ], axis=-1)
+    # No per pixel dither: the encoder drops it, and it decorrelates the tile edges.
+    return np.clip(np.round(rgb), 0, 255).astype(np.uint8)
+
+
+def honey_rgb(t, grain):
+    rgb = ramp(t, HONEY_STOPS)
+    return rgb + grain[..., None] * np.array([0.65, 1.0, 1.35])
+
+
+def dark_rgb(t, glow, grain):
+    rgb = ramp(t, DARK_STOPS)
+    strength = (TEAL_STRENGTH * glow)[..., None]
+    rgb = rgb * (1 - strength) + TEAL * strength
+    return rgb + grain[..., None] * np.array([0.9, 1.0, 1.25])
+
+
+LIGHT_GRAIN = [(1.0, 0.75), (2.4, 0.75), (6.0, 0.6), (18.0, 0.55)]
+DARK_GRAIN = [(1.0, 0.55), (2.4, 0.7), (6.0, 0.6), (18.0, 0.42)]
+
+
+def main():
+    out = Path(sys.argv[1])
+    out.mkdir(parents=True, exist_ok=True)
+    report = []
+
+    def ship(name, array, limit):
+        data, quality = encode_under(Image.fromarray(array, "RGB"), limit)
+        (out / name).write_bytes(data)
+        report.append((name, array.shape[1], array.shape[0], len(data), quality, limit))
+
+    ship("paper-grain.webp", paper_grain(), 80 * KB)
+    for size, suffix, limit, seed in (
+        (DESKTOP, "", 200 * KB, 101),
+        (PHONE, "-phone", 150 * KB, 102),
+    ):
+        t, glow = wave_field(size)
+        shape = t.shape
+        ship(f"honey-waves{suffix}.webp",
+             to_uint8(honey_rgb(t, organic_grain(shape, seed, LIGHT_GRAIN)), seed + 10), limit)
+        ship(f"honey-waves-dark{suffix}.webp",
+             to_uint8(dark_rgb(t, glow, organic_grain(shape, seed + 1, DARK_GRAIN)), seed + 11), limit)
+
+    for name, width, height, size_bytes, quality, limit in report:
+        print(f"{name:32} {width}x{height:<5} {size_bytes:>8,} bytes  q{quality}  limit {limit:,}")
+
+
+if __name__ == "__main__":
+    main()
+```
