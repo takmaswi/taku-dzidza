@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "widget",
+    "slug": "fill-blanks",
+    "sourceMode": "mine_plus"
+  },
+  "response": {
+    "content": "{\"title\": \"Photosynthesis words\", \"items\": [{\"before\": \"\", \"answer\": \"Chlorophyll\", \"after\": \"in the chloroplasts absorbs the light.\", \"alternatives\": [], \"hint\": \"The green pigment.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"before\": \"\", \"answer\": \"Oxygen\", \"after\": \"is released as a by product.\", \"alternatives\": [\"O2\"], \"hint\": \"The gas you breathe in.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}, {\"before\": \"Plants store chlorophyll in their\", \"answer\": \"roots\", \"after\": \"for winter.\", \"alternatives\": [], \"hint\": \"\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"chlorophyll is stored in the roots for winter\"}]}",
+    "usage": {
+      "promptTokens": 600,
+      "completionTokens": 120
+    }
+  }
+}

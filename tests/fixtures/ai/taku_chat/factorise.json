@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "How do I factorise x^2 + 5x + 6?",
+    "answerMode": "answer"
+  },
+  "response": {
+    "content": "To factorise $x^2 + 5x + 6$, find two numbers that multiply to $6$ and add to $5$.\n\nThose numbers are $2$ and $3$, so the answer is $(x + 2)(x + 3)$.\n\nThe same care with balancing applies in chemistry: $\\ce{2H2 + O2 -> 2H2O}$.",
+    "usage": {
+      "promptTokens": 600,
+      "completionTokens": 120
+    }
+  }
+}

@@ -10,3 +10,13 @@ export async function tokenHash(token: string): Promise<string> {
   const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token));
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
+
+/** A code of random digits with no bias towards low digits. */
+export function randomDigits(length: number): string {
+  let out = "";
+  while (out.length < length) {
+    const [n] = crypto.getRandomValues(new Uint8Array(1));
+    if (n < 250) out += String(n % 10);
+  }
+  return out;
+}

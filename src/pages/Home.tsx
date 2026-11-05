@@ -1,9 +1,10 @@
 import { useAction, useMutation, useQuery } from "convex/react";
-import { ArrowRight, ArrowUp, BookOpen, FileUp, Layers, ListChecks, Plus, ScrollText, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowUp, BookOpen, Check, Circle, FileUp, Layers, ListChecks, Plus, ScrollText, Sparkles } from "lucide-react";
 import { useState, type FormEvent, type KeyboardEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
+import { useTrack } from "../analytics";
 import { errorText } from "../access";
 import { ImageSlot } from "../components/ImageSlot";
 import { Layout } from "../components/Layout";
@@ -25,6 +26,9 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
   const t = copy.home;
   const navigate = useNavigate();
   const send = useAction(api.chat.chats.send);
+  const start = useMutation(api.chat.chats.start);
+  const firstRun = useQuery(api.accounts.progress.firstRun);
+  const track = useTrack();
   const setAnswerMode = useMutation(api.accounts.profiles.setAnswerMode);
   const createNotebook = useMutation(api.notebooks.notebooks.create);
   const createSample = useMutation(api.notebooks.sample.create);
@@ -46,7 +50,10 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
     setBusy(true);
     setError(null);
     try {
-      const { chatId } = await send({ message: text });
+      track("chat_sent");
+      // Open the chat straight away and let the reply arrive there.
+      const chatId = await start({ message: text });
+      void send({ chatId, message: text }).catch(() => undefined);
       navigate(`/chat/${chatId}`);
     } catch (e) {
       setError(errorText(e, copy.errors.generic));
@@ -64,6 +71,7 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
     const title = String(new FormData(event.currentTarget).get("title") ?? "");
     try {
       const id = await createNotebook({ title });
+      track("notebook_created");
       navigate(`/n/${id}`);
     } catch (e) {
       setError(errorText(e, copy.errors.generic));
@@ -135,6 +143,37 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
             <ImageSlot slug="tile-ask" fallback="onboarding-1-secondary-student" alt="A student typing a question on her phone at her desk" shape="arch" eager />
           </div>
         </section>
+
+        {firstRun !== undefined && !(firstRun.addedNotes && firstRun.asked && firstRun.madeCards) && (
+          <section className="card checklist rise" aria-labelledby="first-run">
+            <h2 id="first-run">{copy.firstRun.title}</h2>
+            <ol>
+              {[
+                { done: firstRun.addedNotes, step: copy.firstRun.notes, go: () => setNewOpen(true) },
+                { done: firstRun.asked, step: copy.firstRun.ask, go: () => navigate("/chat") },
+                { done: firstRun.madeCards, step: copy.firstRun.cards, go: () => openTool("cards") },
+              ].map(({ done, step, go }) => (
+                <li key={step.label} className={done ? "done" : undefined}>
+                  <span className="status">
+                    {done ? <Check size={18} aria-hidden="true" /> : <Circle size={18} aria-hidden="true" />}
+                    <span className="sr-only">{done ? copy.firstRun.done : copy.firstRun.todo}</span>
+                  </span>
+                  <span className="grow">
+                    <b>{step.label}</b>
+                    <small className="soft">{step.line}</small>
+                  </span>
+                  {done ? (
+                    <small className="soft">{copy.firstRun.done}</small>
+                  ) : (
+                    <button type="button" className="pill ghost small" aria-label={`${copy.firstRun.go}: ${step.label}`} onClick={go}>
+                      {copy.firstRun.go}
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
 
         {due !== undefined && due.count > 0 && (
           <section className="due-banner rise grain">

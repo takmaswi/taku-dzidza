@@ -1,0 +1,19 @@
+{
+  "keyMaterial": {
+    "kind": "tool",
+    "mode": "quiz",
+    "sourceMode": "mine_plus",
+    "options": {
+      "count": 3,
+      "difficulty": "easy",
+      "minutes": 10
+    }
+  },
+  "response": {
+    "content": "{\"title\": \"Maths and chemistry check\", \"minutes\": 10, \"questions\": [{\"kind\": \"short\", \"prompt\": \"Simplify $\\\\frac{6x^2}{3x}$.\", \"options\": [], \"marks\": 2, \"answer\": \"$2x$\", \"markingPoints\": [\"divides the numbers\", \"$2x$\"], \"ref\": \"\", \"page\": 0, \"quote\": \"\"}, {\"kind\": \"short\", \"prompt\": \"Balance the equation for water, written as $\\\\ce{H2 + O2 -> H2O}$.\", \"options\": [], \"marks\": 1, \"answer\": \"$\\\\ce{2H2 + O2 -> 2H2O}$\", \"markingPoints\": [\"$\\\\ce{2H2 + O2 -> 2H2O}$\"], \"ref\": \"\", \"page\": 0, \"quote\": \"\"}, {\"kind\": \"short\", \"prompt\": \"Work out $7 \\\\times 8$.\", \"options\": [], \"marks\": 1, \"answer\": \"$54$\", \"markingPoints\": [\"$54$\"], \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"\"}",
+    "usage": {
+      "promptTokens": 1200,
+      "completionTokens": 300
+    }
+  }
+}

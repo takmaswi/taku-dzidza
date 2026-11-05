@@ -103,4 +103,46 @@ describe("study tools", () => {
     const left = await t.run(async (ctx) => (await ctx.db.query("outputs").collect()).length + (await ctx.db.query("cards").collect()).length);
     expect(left).toBe(0);
   });
+
+  test("a question whose marking scheme fails the second opinion is dropped, and maths stays as LaTeX", async () => {
+    const t = makeT();
+    const p = await makeLearner(t, 20);
+    const output = await make(p, await setUp(p), "quiz", { count: 3, difficulty: "easy", minutes: 10 });
+    const quiz = output.content as QuizContent;
+    expect(quiz.schemeChecked).toBe(true);
+    // The recorded paper has a wrong answer to 7 times 8; the recorded second opinion rejects it.
+    expect(quiz.questions).toHaveLength(2);
+    expect(quiz.questions.some((q) => q.prompt.includes("7 \\times 8"))).toBe(false);
+    expect(quiz.questions.map((q) => q.prompt).join(" ")).toContain("\\ce{");
+  });
+
+  test("the widget list comes from the packages, and each widget is made and stored", async () => {
+    const t = makeT();
+    const p = await makeLearner(t, 20);
+    const notebookId = await setUp(p);
+    expect((await p.as.query(api.study.widgets.list, {})).map((w) => w.slug).sort()).toEqual(["equation-steps", "fill-blanks", "long-division"]);
+
+    const blanks = await p.as.action(api.study.widgets.generate, { notebookId, slug: "fill-blanks" });
+    if (!blanks.ok) throw new Error(blanks.message);
+    const stored = (await p.as.query(api.study.tools.get, { outputId: blanks.outputId })).output;
+    expect(stored.kind).toBe("widget");
+    const content = stored.content as { slug: string; data: { items: { origin: { page: number } }[] } };
+    expect(content.slug).toBe("fill-blanks");
+    // The recorded response has three blanks; the third is not in the notes, so only two survive.
+    expect(content.data.items).toHaveLength(2);
+    expect(content.data.items.every((i) => i.origin.page === 1)).toBe(true);
+
+    for (const slug of ["equation-steps", "long-division"]) {
+      expect((await p.as.action(api.study.widgets.generate, { notebookId, slug })).ok).toBe(true);
+    }
+    await expect(p.as.action(api.study.widgets.generate, { notebookId, slug: "nope" })).rejects.toThrow();
+  });
+
+  test("another learner cannot make a widget in someone else's notebook", async () => {
+    const t = makeT();
+    const owner = await makeLearner(t, 20);
+    const other = await makeLearner(t, 21);
+    const notebookId = await setUp(owner);
+    await expect(other.as.action(api.study.widgets.generate, { notebookId, slug: "fill-blanks" })).rejects.toThrow(/Notebook not found/);
+  });
 });

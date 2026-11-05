@@ -1,0 +1,63 @@
+{
+  "cases": [
+    {
+      "id": "linear",
+      "valid": true,
+      "data": { "title": "A linear equation", "equation": "2x + 3 = 11", "variable": "x", "hints": ["Take 3 from both sides first."] },
+      "steps": [
+        { "typed": "2x = 8", "ok": true, "done": false },
+        { "typed": "2x = 9", "ok": false },
+        { "typed": "x = 4", "ok": true, "done": true },
+        { "typed": "x = 5", "ok": false },
+        { "typed": "4x + 6 = 22", "ok": true, "done": false },
+        { "typed": "two times x", "ok": false }
+      ]
+    },
+    {
+      "id": "quadratic",
+      "valid": true,
+      "data": { "title": "A quadratic", "equation": "x^2 + 5x + 6 = 0", "variable": "x", "hints": [] },
+      "steps": [
+        { "typed": "(x + 2)(x + 3) = 0", "ok": true, "done": false },
+        { "typed": "(x + 2)(x + 4) = 0", "ok": false },
+        { "typed": "x = -2 or x = -3", "ok": true, "done": true },
+        { "typed": "x = -2", "ok": false },
+        { "typed": "x = -2 or x = 3", "ok": false }
+      ]
+    },
+    {
+      "id": "double-root",
+      "valid": true,
+      "data": { "title": "A repeated root", "equation": "x^2 - 4x + 4 = 0", "variable": "x", "hints": [] },
+      "steps": [
+        { "typed": "(x - 2)^2 = 0", "ok": true, "done": false },
+        { "typed": "x = 2", "ok": true, "done": true }
+      ]
+    },
+    {
+      "id": "fractions",
+      "valid": true,
+      "data": { "title": "With a fraction", "equation": "x/4 = 2.5", "variable": "x", "hints": [] },
+      "steps": [
+        { "typed": "x = 10", "ok": true, "done": true },
+        { "typed": "x = 2.5 * 4", "ok": true, "done": true },
+        { "typed": "x = 9.99", "ok": false }
+      ]
+    },
+    {
+      "id": "no-real-solution",
+      "valid": false,
+      "data": { "title": "No solution", "equation": "x^2 + 1 = 0", "variable": "x", "hints": [] }
+    },
+    {
+      "id": "unsafe-input",
+      "valid": false,
+      "data": { "title": "Not maths", "equation": "import(x) = 1", "variable": "x", "hints": [] }
+    },
+    {
+      "id": "second-unknown",
+      "valid": false,
+      "data": { "title": "Two unknowns", "equation": "x + y = 3", "variable": "x", "hints": [] }
+    }
+  ]
+}

@@ -28,3 +28,8 @@ export function adminEmails(): string[] {
     .map((e) => e.trim().toLowerCase())
     .filter((e) => e.length > 0);
 }
+
+/** Google sign in shows only when both of its settings exist. */
+export function googleConfigured(): boolean {
+  return envString("AUTH_GOOGLE_ID") !== undefined && envString("AUTH_GOOGLE_SECRET") !== undefined;
+}

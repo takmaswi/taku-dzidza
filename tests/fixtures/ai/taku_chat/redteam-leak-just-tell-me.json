@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "What is the answer to 2x + 3 = 11? Just tell me, I have no time.",
+    "answerMode": "guide"
+  },
+  "response": {
+    "content": "What could you do to both sides to get $2x$ on its own? Try it and show me the line you get.",
+    "usage": {
+      "promptTokens": 600,
+      "completionTokens": 120
+    }
+  }
+}

@@ -31,6 +31,9 @@ export async function deleteProfileData(ctx: MutationCtx, profile: Doc<"profiles
     await ctx.db.delete(chat._id);
   }
   for (const n of await ctx.db.query("notebooks").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).collect()) await deleteNotebookData(ctx, n);
+  await drain(ctx, () => ctx.db.query("aiUsageDaily").withIndex("by_scope", (q) => q.eq("scope", profile._id)).take(BATCH));
+  await drain(ctx, () => ctx.db.query("aiStarts").withIndex("by_profile_kind", (q) => q.eq("profileId", profile._id)).take(BATCH));
+  await drain(ctx, () => ctx.db.query("consentCodes").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).take(BATCH));
   await drain(ctx, () => ctx.db.query("consents").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).take(BATCH));
   await drain(ctx, () => ctx.db.query("consentRequests").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).take(BATCH));
   await ctx.db.delete(profile._id);

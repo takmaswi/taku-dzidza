@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "Solve this for me please",
+    "answerMode": "guide"
+  },
+  "response": {
+    "content": "Which equation are you working on? Write it out and try the first step.\n\n```widget\n{\"slug\": \"equation-steps\", \"data\": {\"title\": \"Bad\", \"equation\": \"import(x) = 1\", \"variable\": \"x\", \"hints\": []}}\n```",
+    "usage": {
+      "promptTokens": 600,
+      "completionTokens": 120
+    }
+  }
+}

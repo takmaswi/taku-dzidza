@@ -15,6 +15,6 @@ THE TOOL TO MAKE: {{MODE_NAME}}
 
 {{OPTIONS}}
 
-Writing rules: plain English at the learner's level. No em dashes and no en dashes. Avoid hyphenated words where a plain word works. Never invent facts, numbers, dates or quotes. Write maths in plain text, for example x^2 + 3x = 10.
+Writing rules: plain English at the learner's level. No em dashes and no en dashes. Avoid hyphenated words where a plain word works. Never invent facts, numbers, dates or quotes. Write maths in LaTeX between single $ signs, for example $x^2 + 3x = 10$, and chemistry with mhchem, for example $\ce{2H2 + O2 -> 2H2O}$. Write money as USD 5, never with a $ sign. Quotes are copied from the page exactly and never turned into LaTeX.
 
 Reply with JSON only, in the shape the schema gives. Put in "missing" what was asked for but the material could not support, or "".

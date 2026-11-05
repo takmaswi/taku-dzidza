@@ -1,8 +1,10 @@
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useMutation } from "convex/react";
 import { useState } from "react";
+import { Link } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
+import { ADULT_AGE, ageOn } from "../../convex/accounts/age";
 import { errorText } from "../access";
 import { Layout } from "../components/Layout";
 import { StylePicker } from "../components/StylePicker";
@@ -19,6 +21,7 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
   const setAccessibility = useMutation(api.accounts.profiles.setAccessibility);
   const setDisplayName = useMutation(api.accounts.profiles.setDisplayName);
   const deleteMyAccount = useMutation(api.accounts.deletion.deleteMyAccount);
+  const setAnalytics = useMutation(api.analytics.setConsent);
   const { signOut } = useAuthActions();
   const [name, setName] = useState(profile.displayName);
   const [saved, setSaved] = useState(false);
@@ -26,6 +29,8 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
   const [error, setError] = useState<string | null>(null);
   // Switches move at once; the server copy follows (and the theme with it).
   const [access, setAccess] = useState<Access>(profile.accessibility);
+  const [analytics, setAnalyticsOn] = useState(profile.analyticsConsent === true);
+  const adult = ageOn(profile.birthYear, profile.birthMonth, new Date()) >= ADULT_AGE;
 
   return (
     <Layout signedIn>
@@ -54,7 +59,7 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
 
         <section className="card">
           <h2>{t.styleTitle}</h2>
-          <StylePicker value={profile.studyStyle} onPick={(s) => void setStyle({ studyStyle: s })} />
+          <StylePicker compact value={profile.studyStyle} onPick={(s) => void setStyle({ studyStyle: s })} />
         </section>
 
         <section className="card">
@@ -91,6 +96,37 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
               />
             </div>
           ))}
+        </section>
+
+        <section className="card">
+          <h2>{t.accountTitle}</h2>
+          <p className="soft">{t.signedInAs(email)}</p>
+          {adult && (
+            <div className="toggle-row">
+              <label htmlFor="analytics" style={{ margin: 0 }}>
+                {t.analyticsTitle}
+                <small className="soft" style={{ display: "block", fontWeight: 400 }}>
+                  {t.analyticsLine}
+                </small>
+              </label>
+              <Switch
+                id="analytics"
+                label={t.analyticsTitle}
+                checked={analytics}
+                onChange={(value) => {
+                  setAnalyticsOn(value);
+                  void setAnalytics({ consent: value });
+                }}
+              />
+            </div>
+          )}
+          <p className="actions" style={{ marginTop: "1rem" }}>
+            <Link to="/privacy">{copy.legal.privacyLink}</Link>
+            <Link to="/terms">{copy.legal.termsLink}</Link>
+          </p>
+          <button type="button" className="pill ghost" onClick={() => void signOut()}>
+            {copy.menu.signOut}
+          </button>
         </section>
 
         <section className="card">

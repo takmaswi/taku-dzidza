@@ -7,10 +7,13 @@ import {
   PURPOSES,
   acceptsSampling,
   costOf,
+  DEFAULT_CHAIN,
   modelChain,
   needsCacheMarker,
   openRouterAttribution,
   roundCost,
+  seedPrice,
+  sseEvents,
   STRUCTURED_OUTPUT_PROVIDERS,
   type Usage,
 } from "./models";
@@ -37,7 +40,8 @@ import {
  *   6. Retry once on 429 or 5xx, then return a canned failure. Never let a
  *      provider error reach the client.
  *
- * No streaming: replies are returned when complete.
+ * Replies are returned when complete. A caller that passes streamTo (the
+ * general chat) also gets the text saved to that message as it arrives.
  */
 
 const ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
@@ -47,6 +51,8 @@ const SPEECH_TIMEOUT_MS = 25_000;
 
 const REQUEST_TIMEOUT_MS = 90_000;
 const RETRY_BASE_DELAY_MS = 400;
+/** How often a streaming reply is saved, so a long answer is not a write per word. */
+const DRAFT_INTERVAL_MS = 250;
 
 export const CANNED_FAILURE =
   "I could not reach the assistant just now. Nothing you entered was lost. Try again in a moment.";
@@ -112,6 +118,25 @@ function isMock(): boolean {
   return envValue("AI_MODE") === "mock";
 }
 
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/** Mock replies can be slowed down so e2e journeys see progress. Unit tests and production never set this. */
+function mockDelayMs(): number {
+  const ms = Number(envValue("MOCK_AI_DELAY_MS") ?? "0");
+  return Number.isFinite(ms) && ms > 0 ? ms : 0;
+}
+
+/** The fixture in a few pieces at word boundaries, the way a real stream arrives. */
+export function mockChunks(content: string, pieces = 4): string[] {
+  const words = content.split(/(?<=\s)/);
+  const size = Math.max(1, Math.ceil(words.length / pieces));
+  const out: string[] = [];
+  for (let i = 0; i < words.length; i += size) out.push(words.slice(i, i + size).join(""));
+  return out;
+}
+
 function jitter(ms: number): number {
   return ms + Math.floor(Math.random() * ms);
 }
@@ -161,6 +186,8 @@ export const call = internalAction({
     stablePrefixCount: v.optional(v.number()),
     /** Mock mode key material. Ignored in live mode. */
     fixtureKey: v.optional(v.any()),
+    /** Save the reply to this chat message as it arrives. */
+    streamTo: v.optional(v.id("chatMessages")),
     /**
      * Reasoning budget. On most providers max_tokens covers reasoning and the
      * visible reply together, so short structured calls pass "none" or they
@@ -187,17 +214,30 @@ export const call = internalAction({
       const key = await fixtureKeyFor(args.fixtureKey ?? null);
       const fixture = args.fixtureKey === undefined ? undefined : AI_FIXTURES[`${args.purpose}/${key}`];
       if (fixture === undefined) throw new MissingFixtureError(args.purpose, key);
+      const delay = mockDelayMs();
+      const usage: Usage = {
+        promptTokens: fixture.usage?.promptTokens ?? 0,
+        cachedTokens: fixture.usage?.cachedTokens ?? 0,
+        completionTokens: fixture.usage?.completionTokens ?? 0,
+      };
+      if (args.streamTo !== undefined) {
+        let sent = "";
+        for (const chunk of mockChunks(fixture.content ?? "")) {
+          sent += chunk;
+          await ctx.runMutation(internal.chat.chats.saveDraft, { messageId: args.streamTo, text: sent });
+          if (delay > 0) await sleep(delay);
+        }
+      } else if (delay > 0) {
+        await sleep(delay);
+      }
       return {
         ok: true,
         content: fixture.content ?? "",
         model: "mock",
         finishReason: "stop",
-        usage: {
-          promptTokens: fixture.usage?.promptTokens ?? 0,
-          cachedTokens: fixture.usage?.cachedTokens ?? 0,
-          completionTokens: fixture.usage?.completionTokens ?? 0,
-        },
-        costUsd: 0,
+        usage,
+        // Priced like the default model, so caps and per tool costs can be tested.
+        costUsd: roundCost(costOf(usage, seedPrice(DEFAULT_CHAIN[0]))),
         latencyMs: Date.now() - startedAt,
         refusedReason: null,
       };
@@ -234,6 +274,7 @@ export const call = internalAction({
     if (acceptsSampling(chain)) body.temperature = args.temperature ?? 0.3;
     if (args.reasoningEffort !== undefined) body.reasoning = { effort: args.reasoningEffort };
     if (args.jsonSchema !== undefined) body.response_format = { type: "json_schema", json_schema: args.jsonSchema };
+    if (args.streamTo !== undefined) body.stream = true;
     // The model reads PDFs itself; never a separate OCR service, which would be another processor.
     if (hasFile(args.messages)) body.plugins = [{ id: "file-parser", pdf: { engine: "native" } }];
 
@@ -271,12 +312,43 @@ export const call = internalAction({
           break;
         }
 
-        const payload = (await response.json()) as {
+        type Payload = {
           model?: string;
-          choices?: { finish_reason?: string; message?: { content?: string | null } }[];
+          choices?: { finish_reason?: string | null; message?: { content?: string | null }; delta?: { content?: string | null } }[];
           usage?: unknown;
           error?: { message?: string };
         };
+        let payload: Payload;
+        if (args.streamTo !== undefined && response.body !== null) {
+          // One reply in pieces: gather them into the same shape as a whole reply.
+          const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+          let buffer = "";
+          let text = "";
+          let savedAt = 0;
+          let finish: string | null = null;
+          const whole: Payload = {};
+          for (;;) {
+            const { value, done } = await reader.read();
+            if (done) break;
+            const parsed = sseEvents(buffer + value);
+            buffer = parsed.rest;
+            for (const event of parsed.events as Payload[]) {
+              if (event.error !== undefined) whole.error = event.error;
+              if (event.model !== undefined) whole.model = event.model;
+              if (event.usage !== undefined) whole.usage = event.usage;
+              const piece = event.choices?.[0];
+              if (piece?.finish_reason != null) finish = piece.finish_reason;
+              text += piece?.delta?.content ?? "";
+            }
+            if (text !== "" && Date.now() - savedAt >= DRAFT_INTERVAL_MS) {
+              savedAt = Date.now();
+              await ctx.runMutation(internal.chat.chats.saveDraft, { messageId: args.streamTo, text });
+            }
+          }
+          payload = { ...whole, choices: [{ finish_reason: finish, message: { content: text } }] };
+        } else {
+          payload = (await response.json()) as Payload;
+        }
         if (payload.error !== undefined) {
           lastError = "provider reported an error";
           break;
@@ -288,6 +360,8 @@ export const call = internalAction({
           console.warn(`model call returned no content (${args.purpose}, ${modelUsed}, finish ${choice?.finish_reason ?? "none"})`);
         }
         const usage = parseUsage(payload.usage);
+        // The provider's own figure when it gives one: a fallback model may not have a price row yet.
+        const reported = (payload.usage as { cost?: unknown } | undefined)?.cost;
         const price = await ctx.runQuery(internal.ai.prices.priceFor, { model: modelUsed });
         return {
           ok: true,
@@ -295,7 +369,7 @@ export const call = internalAction({
           model: modelUsed,
           finishReason: choice?.finish_reason ?? null,
           usage,
-          costUsd: roundCost(costOf(usage, price)),
+          costUsd: roundCost(typeof reported === "number" && Number.isFinite(reported) ? reported : costOf(usage, price)),
           latencyMs: Date.now() - startedAt,
           refusedReason: null,
         };

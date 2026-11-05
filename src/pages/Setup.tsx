@@ -1,3 +1,4 @@
+import { useAuthActions } from "@convex-dev/auth/react";
 import { useMutation } from "convex/react";
 import { useState, type FormEvent } from "react";
 import { api } from "../../convex/_generated/api";
@@ -8,6 +9,7 @@ import { copy } from "../copy/en";
 
 export default function Setup() {
   const create = useMutation(api.accounts.profiles.create);
+  const { signOut } = useAuthActions();
   const [error, setError] = useState<string | null>(null);
   const [tooYoung, setTooYoung] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -39,7 +41,10 @@ export default function Setup() {
           <p>{copy.tooYoung.body}</p>
           <a className="pill" href="https://amayi-learn.vercel.app">
             {copy.tooYoung.link}
-          </a>
+          </a>{" "}
+          <button type="button" className="link" onClick={() => void signOut()}>
+            {copy.menu.signOut}
+          </button>
         </div>
       </Layout>
     );

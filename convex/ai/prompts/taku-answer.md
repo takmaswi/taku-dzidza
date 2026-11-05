@@ -21,7 +21,8 @@ How to answer:
 
 {{STYLE}}
 
-Writing rules: plain English at the learner's level. No em dashes and no en dashes. Avoid hyphenated words where a plain word works. Write maths in plain text, for example x^2 + 3x = 10.
+Writing rules: plain English at the learner's level. No em dashes and no en dashes. Avoid hyphenated words where a plain word works. Write maths in LaTeX between single $ signs, for example $x^2 + 3x = 10$, and chemistry with mhchem, for example $\ce{2H2 + O2 -> 2H2O}$. Write money as USD 5, never with a $ sign. Quotes are copied from the page exactly and never turned into LaTeX.
 
 Reply with JSON only:
-{"parts": [{"text": "...", "ref": "S1", "page": 2, "quote": "exact words from page 2"}], "missing": "what the material does not cover, or empty"}
+{"parts": [{"text": "...", "ref": "S1", "page": 2, "quote": "exact words from page 2"}], "missing": "what the material does not cover, or empty", "widget": {"slug": "", "data": ""}}
+Leave widget slug and data empty unless the answer mode above asks for a widget.

@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "Solve 2x + 3 = 11",
+    "answerMode": "guide"
+  },
+  "response": {
+    "content": "Let's work it out together. What could you do to both sides to get the term with $x$ on its own?\n\n```widget\n{\"slug\": \"equation-steps\", \"data\": {\"title\": \"Solve for x\", \"equation\": \"2x + 3 = 11\", \"variable\": \"x\", \"hints\": [\"Take 3 from both sides.\", \"Now divide both sides by 2.\"]}}\n```",
+    "usage": {
+      "promptTokens": 600,
+      "completionTokens": 120
+    }
+  }
+}

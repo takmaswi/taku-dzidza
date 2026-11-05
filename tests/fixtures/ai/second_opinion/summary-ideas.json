@@ -1,0 +1,16 @@
+{
+  "keyMaterial": {
+    "kind": "second_opinion",
+    "check": "ideas",
+    "items": [
+      "Leaves are wide so they catch more light."
+    ]
+  },
+  "response": {
+    "content": "{\"verdicts\": [{\"id\": \"1.2\", \"ok\": true}]}",
+    "usage": {
+      "promptTokens": 300,
+      "completionTokens": 40
+    }
+  }
+}

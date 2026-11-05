@@ -19,7 +19,7 @@ function allowlistFromSpec(): string[] {
   return [...listPart.matchAll(/`([\w/]+:\w+)`/g)].map((m) => m[1]).sort();
 }
 
-const ALLOWLIST = ["accounts/consent:give", "accounts/consent:requestInfo", "accounts/consent:withdraw", "auth:isAuthenticated", "auth:signIn", "auth:signOut"];
+const ALLOWLIST = ["accounts/authOptions:available", "accounts/consent:give", "accounts/consent:requestInfo", "accounts/consent:sendCode", "accounts/consent:withdraw", "auth:isAuthenticated", "auth:signIn", "auth:signOut"];
 
 describe("access scan", () => {
   test("the allowlist is exactly the one in docs/ACCESS.md", () => {

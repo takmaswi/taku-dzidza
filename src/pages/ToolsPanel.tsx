@@ -4,10 +4,11 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
+import { useTrack } from "../analytics";
 import { errorText } from "../access";
 import { copy } from "../copy/en";
 
-const ICONS: Record<string, typeof Brain> = { summary: Sparkles, cards: Layers, quiz: ListChecks, mindmap: Network, scroll: ScrollText };
+const ICONS: Record<string, typeof Brain> = { summary: Sparkles, cards: Layers, quiz: ListChecks, mindmap: Network, scroll: ScrollText, widget: Brain };
 
 /** The study tools of one notebook: make a tool, see what was made, review flashcards. */
 export function ToolsPanel({ notebookId, initialTool }: { notebookId: Id<"notebooks">; initialTool?: string }) {
@@ -17,6 +18,9 @@ export function ToolsPanel({ notebookId, initialTool }: { notebookId: Id<"notebo
   const [now] = useState(() => Date.now());
   const due = useQuery(api.study.cards.due, { notebookId, now });
   const generate = useAction(api.study.tools.generate);
+  const widgets = useQuery(api.study.widgets.list);
+  const makeWidget = useAction(api.study.widgets.generate);
+  const track = useTrack();
   const remove = useMutation(api.study.tools.remove);
   const navigate = useNavigate();
   const [open, setOpen] = useState<string | null>(initialTool === "test" ? "quiz" : initialTool === "cards" ? "flashcards" : initialTool === "scroll" ? "scroll" : null);
@@ -32,9 +36,26 @@ export function ToolsPanel({ notebookId, initialTool }: { notebookId: Id<"notebo
       if (form.has("difficulty")) options.difficulty = String(form.get("difficulty"));
       if (form.has("minutes")) options.minutes = Number(form.get("minutes"));
       const result = await generate({ notebookId, mode: slug, options });
+      if (result.ok) track("tool_made");
       // Flashcards go straight into review; everything else opens what was made.
       if (result.ok) navigate(slug === "flashcards" ? `/n/${notebookId}/review` : `/n/${notebookId}/o/${result.outputId}`);
       else setError(result.message);
+    } catch (e) {
+      setError(errorText(e, copy.errors.generic));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const makeOne = async (slug: string) => {
+    setBusy(true);
+    setError(null);
+    try {
+      const result = await makeWidget({ notebookId, slug });
+      if (result.ok) {
+        track("widget_made");
+        navigate(`/n/${notebookId}/o/${result.outputId}`);
+      } else setError(result.message);
     } catch (e) {
       setError(errorText(e, copy.errors.generic));
     } finally {
@@ -110,6 +131,18 @@ export function ToolsPanel({ notebookId, initialTool }: { notebookId: Id<"notebo
             </div>
           );
         })}
+      </section>
+      <section className="card">
+        <h2>{t.widgetsTitle}</h2>
+        <p className="soft">{t.widgetsLead}</p>
+        <div className="widget-picks">
+          {(widgets ?? []).map((w) => (
+            <button key={w.slug} type="button" className="choice" disabled={busy} onClick={() => void makeOne(w.slug)}>
+              <b>{w.title}</b>
+              <span>{w.tagline}</span>
+            </button>
+          ))}
+        </div>
       </section>
       {error !== null && (
         <p className="error" role="alert">

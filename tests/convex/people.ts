@@ -1,5 +1,5 @@
 import { convexTest } from "convex-test";
-import { api } from "../../convex/_generated/api";
+import { api, internal } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import schema from "../../convex/schema";
 import { modules } from "./setup";
@@ -24,6 +24,24 @@ export async function makeUser(t: T): Promise<Person> {
 export function birthForAge(age: number, now = new Date()): { birthYear: number; birthMonth: number } {
   // Born in January, so the age is already reached this year.
   return { birthYear: now.getUTCFullYear() - age, birthMonth: 1 };
+}
+
+export const GUARDIAN_PHONE = "+263771234567";
+
+/** The code the mock text message carried, read from the test outbox. */
+export async function lastCode(t: T, to: string): Promise<string> {
+  const code = await t.query(internal.accounts.outbox.latest, { to });
+  if (code === null) throw new Error(`no code was sent to ${to}`);
+  return code;
+}
+
+/** A guardian gives permission the way the page does: asks for a code, then types it. */
+export async function addConsent(t: T, p: Person, phone = GUARDIAN_PHONE): Promise<string> {
+  const { token } = await p.as.mutation(api.accounts.consent.createRequest, {});
+  await t.action(api.accounts.consent.sendCode, { token, phone });
+  const code = await lastCode(t, phone);
+  await t.mutation(api.accounts.consent.give, { token, guardianName: "Rudo Moyo", relationship: "mother", guardianContact: phone, code, confirmsGuardian: true, agrees: true });
+  return token;
 }
 
 export async function makeLearner(t: T, age: number, displayName = "Tari"): Promise<Person> {

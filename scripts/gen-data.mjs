@@ -117,6 +117,19 @@ export function buildModes() {
   return modes;
 }
 
+/** Widget packages (widgets/<slug>/), checked by tests/unit/widgets.test.ts. */
+export function buildWidgets() {
+  const widgets = {};
+  for (const slug of listDirs(join(ROOT, "widgets"))) {
+    const dir = join(ROOT, "widgets", slug);
+    const text = read(join(dir, "widget.md"));
+    const match = text.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+    if (match === null) throw new Error(`widgets/${slug}/widget.md needs frontmatter.`);
+    widgets[slug] = { frontmatter: parseYaml(match[1]), body: match[2].trim(), listing: JSON.parse(read(join(dir, "listing.json"))) };
+  }
+  return widgets;
+}
+
 export function build() {
   const prompts = {};
   for (const name of listFiles(join(ROOT, "convex", "ai", "prompts"), (n) => n.endsWith(".md"))) {
@@ -125,11 +138,13 @@ export function build() {
   const includeFixtures = process.env.TAKU_GEN_FIXTURES !== "0";
   const fixtures = includeFixtures ? buildFixtures() : {};
   const modes = buildModes();
+  const widgets = buildWidgets();
   const a = writeIfChanged(
     join(OUT_DIR, "generated.ts"),
-    tsModule('import type { ModePackageData } from "./types";', [
+    tsModule('import type { ModePackageData, WidgetPackageData } from "./types";', [
       ["PROMPTS", "Record<string, string>", prompts],
       ["MODES", "Record<string, ModePackageData>", modes],
+      ["WIDGETS", "Record<string, WidgetPackageData>", widgets],
     ]),
   );
   const b = writeIfChanged(

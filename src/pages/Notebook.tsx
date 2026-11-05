@@ -4,13 +4,18 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
+import { useTrack } from "../analytics";
 import { errorText } from "../access";
 import { Layout } from "../components/Layout";
+import { MathText } from "../components/MathText";
 import { ReadAloud } from "../components/ReadAloud";
 import { copy } from "../copy/en";
+import { WidgetHost } from "../widgets/WidgetHost";
 import { ToolsPanel } from "./ToolsPanel";
 
-type Origin = { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added" };
+type Origin = { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added"; unchecked?: boolean };
+/** An answer this old that never finished has lost its server, so the progress line stops. */
+const STUCK_MS = 3 * 60 * 1000;
 type Citation = { sourceId: Id<"sources">; page: number; quote: string };
 
 /** One notebook: its sources, the source mode, and the chat with Taku (SPEC.md 3.2). */
@@ -19,6 +24,7 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
   const notebookId = id as Id<"notebooks">;
   const data = useQuery(api.notebooks.notebooks.get, { notebookId });
   const [citation, setCitation] = useState<Citation | null>(null);
+  const [sheet, setSheet] = useState(false);
   const [params, setParams] = useSearchParams();
   const tab = params.get("tab") === "tools" ? "tools" : "ask";
   const t = copy.notebook;
@@ -32,6 +38,7 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
   }
 
   const titles = new Map(data.sources.map((s) => [s._id as string, s.title]));
+  const titleRecord = Object.fromEntries(titles);
   return (
     <Layout signedIn>
       <div className="stack">
@@ -39,6 +46,7 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
           <ArrowLeft size={18} aria-hidden="true" /> {t.back}
         </Link>
         <h1>{data.notebook.title}</h1>
+        <div className="row-between nb-bar">
         <div className="tabs" role="tablist">
           <button type="button" role="tab" aria-selected={tab === "ask"} onClick={() => setParams({})}>
             {copy.tools.tabAsk}
@@ -47,13 +55,25 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
             {copy.tools.tabTools}
           </button>
         </div>
-        <div className={`notebook-grid${data.sources.length > 0 ? " has-sources" : ""}`}>
-          <aside className="stack">
+        <button type="button" className="chip nb-sources-chip" aria-expanded={sheet} onClick={() => setSheet(true)}>
+          <FileText size={16} aria-hidden="true" /> {t.sourcesChip(data.sources.length)}
+        </button>
+        </div>
+        <div className="notebook-grid">
+          {/* A column on wide screens; on phones a sheet behind the Sources chip, so Ask Taku comes first. */}
+          {sheet && <div className="sheet-backdrop" onClick={() => setSheet(false)} />}
+          <aside className={`stack nb-side${sheet ? " open" : ""}`} aria-label={t.sourcesSheet}>
+            <div className="row-between nb-sheet-head">
+              <h2>{t.sourcesSheet}</h2>
+              <button type="button" className="pill ghost small" onClick={() => setSheet(false)}>
+                {t.done}
+              </button>
+            </div>
             <SourcesPanel notebookId={notebookId} sources={data.sources} />
             <ModePanel notebook={data.notebook} profile={profile} />
             <NotebookActions notebookId={notebookId} />
           </aside>
-          {tab === "ask" ? <Chat notebookId={notebookId} messages={data.messages} titles={titles} onCite={setCitation} readAloud={profile.accessibility.readAloud} /> : <ToolsPanel notebookId={notebookId} initialTool={params.get("tool") ?? undefined} />}
+          {tab === "ask" ? <Chat notebookId={notebookId} messages={data.messages} titles={titles} titleRecord={titleRecord} hasSources={data.sources.length > 0} onAddNotes={() => setSheet(true)} onCite={setCitation} readAloud={profile.accessibility.readAloud} /> : <ToolsPanel notebookId={notebookId} initialTool={params.get("tool") ?? undefined} />}
         </div>
       </div>
       {citation !== null && <CitationViewer citation={citation} onClose={() => setCitation(null)} />}
@@ -68,6 +88,7 @@ function SourcesPanel({ notebookId, sources }: { notebookId: Id<"notebooks">; so
   const addText = useMutation(api.notebooks.sources.addText);
   const addLink = useMutation(api.notebooks.sources.addLink);
   const remove = useMutation(api.notebooks.sources.remove);
+  const track = useTrack();
   const [panel, setPanel] = useState<"none" | "paste" | "link">("none");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -78,6 +99,7 @@ function SourcesPanel({ notebookId, sources }: { notebookId: Id<"notebooks">; so
     setBusy(true);
     try {
       await work();
+      track("source_added");
       setPanel("none");
     } catch (e) {
       setError(errorText(e, copy.errors.generic));
@@ -245,9 +267,10 @@ function NotebookActions({ notebookId }: { notebookId: Id<"notebooks"> }) {
   );
 }
 
-function Chat({ notebookId, messages, titles, onCite, readAloud }: { notebookId: Id<"notebooks">; messages: Doc<"messages">[]; titles: Map<string, string>; onCite: (c: Citation) => void; readAloud: boolean }) {
+function Chat({ notebookId, messages, titles, titleRecord, hasSources, onAddNotes, onCite, readAloud }: { notebookId: Id<"notebooks">; messages: Doc<"messages">[]; titles: Map<string, string>; titleRecord: Record<string, string>; hasSources: boolean; onAddNotes: () => void; onCite: (c: Citation) => void; readAloud: boolean }) {
   const t = copy.notebook;
   const ask = useAction(api.notebooks.ask.ask);
+  const track = useTrack();
   const [question, setQuestion] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -256,6 +279,7 @@ function Chat({ notebookId, messages, titles, onCite, readAloud }: { notebookId:
     // Newer browsers return a promise here; an effect must return nothing.
     void end.current?.scrollIntoView({ block: "end" });
   }, [messages.length]);
+  const working = messages[messages.length - 1]?.stage !== undefined;
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -263,8 +287,13 @@ function Chat({ notebookId, messages, titles, onCite, readAloud }: { notebookId:
     setBusy(true);
     setError(null);
     try {
-      await ask({ notebookId, question });
+      track("question_asked");
+      const asked = question;
       setQuestion("");
+      await ask({ notebookId, question: asked }).catch((e: unknown) => {
+        setQuestion(asked);
+        throw e;
+      });
     } catch (e) {
       setError(errorText(e, copy.errors.generic));
     } finally {
@@ -275,15 +304,29 @@ function Chat({ notebookId, messages, titles, onCite, readAloud }: { notebookId:
   return (
     <section className="card chat">
       <div className="messages" aria-live="polite">
+        {!hasSources && messages.length === 0 && (
+          <div className="nb-first">
+            <p className="soft">{t.addNotesFirst}</p>
+            <button type="button" className="pill small nb-sources-chip" onClick={onAddNotes}>
+              <Upload size={16} aria-hidden="true" /> {t.addTitle}
+            </button>
+          </div>
+        )}
         {messages.map((m) => (
           <article key={m._id} className={`message ${m.role}`} data-testid={`message-${m.role}`}>
             <b className="who">{m.role === "learner" ? t.you : t.taku}</b>
+            {m.stage !== undefined && (
+              <p className="stage" role="status" data-testid="answer-stage">
+                {Date.now() - m.createdAt > STUCK_MS ? t.stuck : t.stages[m.stage]}
+              </p>
+            )}
             {m.text !== "" && <p>{m.text}</p>}
             {m.parts?.map((part, i) => (
               <Part key={i} text={part.text} origin={part.origin as Origin} titles={titles} onCite={onCite} />
             ))}
+            {m.widget !== undefined && <WidgetHost widget={m.widget} titles={titleRecord} />}
             {m.note !== undefined && <p className="soft small-text">{m.note}</p>}
-            {readAloud && m.role === "taku" && <ReadAloud text={[m.text, ...(m.parts ?? []).map((x) => x.text)].join(" ")} />}
+            {readAloud && m.role === "taku" && m.stage === undefined && <ReadAloud text={[m.text, ...(m.parts ?? []).map((x) => x.text)].join(" ")} />}
             {m.kind === "help" && (
               <Link to="/help" className="pill small">
                 {t.getHelp}
@@ -291,7 +334,7 @@ function Chat({ notebookId, messages, titles, onCite, readAloud }: { notebookId:
             )}
           </article>
         ))}
-        {busy && <p className="soft">{t.thinking}</p>}
+        {busy && !working && <p className="stage">{t.stages.reading}</p>}
         <div ref={end} />
       </div>
       <form onSubmit={submit} className="ask-form">
@@ -317,14 +360,14 @@ function Part({ text, origin, titles, onCite }: { text: string; origin: Origin; 
   if (origin.kind === "added") {
     return (
       <p className="part added">
-        {text} <span className="added-tag">{t.addedByTaku}</span>
+        <MathText text={text} /> <span className="added-tag">{origin.unchecked === true ? t.uncheckedByTaku : t.addedByTaku}</span>
       </p>
     );
   }
   const title = titles.get(origin.sourceId) ?? "";
   return (
     <p className="part">
-      {text}{" "}
+      <MathText text={text} />{" "}
       <button type="button" className="cite" onClick={() => onCite({ sourceId: origin.sourceId as Id<"sources">, page: origin.page, quote: origin.quote })}>
         {t.fromPage(title, origin.page)}
       </button>

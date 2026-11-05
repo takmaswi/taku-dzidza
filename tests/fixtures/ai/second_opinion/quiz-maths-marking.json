@@ -1,0 +1,18 @@
+{
+  "keyMaterial": {
+    "kind": "second_opinion",
+    "check": "marking",
+    "items": [
+      "Question: Simplify $\\frac{6x^2}{3x}$.\nAnswer: $2x$\nMarks: 2\nMarking points: divides the numbers; $2x$",
+      "Question: Balance the equation for water, written as $\\ce{H2 + O2 -> H2O}$.\nAnswer: $\\ce{2H2 + O2 -> 2H2O}$\nMarks: 1\nMarking points: $\\ce{2H2 + O2 -> 2H2O}$",
+      "Question: Work out $7 \\times 8$.\nAnswer: $54$\nMarks: 1\nMarking points: $54$"
+    ]
+  },
+  "response": {
+    "content": "{\"verdicts\": [{\"id\": \"1\", \"ok\": true}, {\"id\": \"2\", \"ok\": true}, {\"id\": \"3\", \"ok\": false}]}",
+    "usage": {
+      "promptTokens": 300,
+      "completionTokens": 40
+    }
+  }
+}

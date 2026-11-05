@@ -10,7 +10,7 @@ import type { OutputKind } from "../modes/package";
 const cite = { ref: z.string(), page: z.number(), quote: z.string() };
 export const originSchema = z.union([
   z.object({ kind: z.literal("source"), sourceId: z.string(), page: z.number(), quote: z.string() }),
-  z.object({ kind: z.literal("added") }),
+  z.object({ kind: z.literal("added"), unchecked: z.boolean().optional() }),
 ]);
 
 export const rawSchemas = {
@@ -38,7 +38,8 @@ export const rawSchemas = {
 
 export type SummaryContent = { title: string; sections: { heading: string; points: { text: string; origin: z.infer<typeof originSchema> }[] }[] };
 export type QuizQuestion = { number: number; kind: "mcq" | "short" | "structured"; prompt: string; options: string[]; marks: number; answer: string; markingPoints: string[]; origin: z.infer<typeof originSchema> };
-export type QuizContent = { title: string; minutes: number; totalMarks: number; questions: QuizQuestion[] };
+/** schemeChecked is false when the second opinion could not check the marking scheme; papers made before the check do not have it. */
+export type QuizContent = { title: string; minutes: number; totalMarks: number; questions: QuizQuestion[]; schemeChecked?: boolean };
 export type MindmapContent = { central: string; branches: { label: string; leaves: { text: string; origin: z.infer<typeof originSchema> }[] }[] };
 export type ScrollCard = { hook: string; type: "fact" | "question" | "truefalse"; text: string; answer: string; origin: z.infer<typeof originSchema> };
 export type ScrollContent = { cards: ScrollCard[] };

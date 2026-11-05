@@ -21,10 +21,11 @@ const Output = lazy(() => import("./pages/Output"));
 const Review = lazy(() => import("./pages/Review"));
 const GetHelp = lazy(() => import("./pages/GetHelp"));
 const Consent = lazy(() => import("./pages/Consent"));
+const Legal = lazy(() => import("./pages/Legal"));
 
 /**
- * Takudzidza routes. Public: "/", "/signin", "/help" and "/consent/:token"
- * (a guardian's page, opened on their own phone). Signed in learners move
+ * Takudzidza routes. Public: "/", "/signin", "/help", "/privacy", "/terms" and
+ * "/consent/:token" (a guardian's page, opened on their own phone). Signed in learners move
  * through setup, guardian consent (under 18), the optional style quiz, then
  * the app.
  */
@@ -34,6 +35,8 @@ export default function App() {
       <Routes>
         <Route path="/help" element={<GetHelp />} />
         <Route path="/consent/:token" element={<Consent />} />
+        <Route path="/privacy" element={<Legal page="privacy" />} />
+        <Route path="/terms" element={<Legal page="terms" />} />
         <Route
           path="*"
           element={
@@ -69,6 +72,9 @@ function SignedIn() {
   useEffect(() => {
     if (me === null) void signOut();
   }, [me, signOut]);
+  useEffect(() => {
+    document.getElementById("prerender")?.remove();
+  }, []);
   if (me === undefined || me === null) return <p className="app-loading">{copy.loading}</p>;
   if (profile === null) return <Setup />;
   if (!canStudyState(profile.consentState)) return <Guardian state={profile.consentState} />;

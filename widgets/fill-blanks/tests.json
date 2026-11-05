@@ -1,0 +1,40 @@
+{
+  "cases": [
+    {
+      "id": "cited",
+      "valid": true,
+      "data": {
+        "title": "Photosynthesis words",
+        "items": [
+          { "before": "", "answer": "Chlorophyll", "after": "in the chloroplasts absorbs the light.", "alternatives": [], "hint": "The green pigment.", "ref": "S1", "page": 1, "quote": "Chlorophyll in the chloroplasts absorbs the light" }
+        ]
+      },
+      "steps": [
+        { "typed": "chlorophyll", "ok": true },
+        { "typed": "  CHLOROPHYLL. ", "ok": true },
+        { "typed": "chloroplast", "ok": false },
+        { "typed": "", "ok": false }
+      ]
+    },
+    {
+      "id": "quote-not-on-page",
+      "valid": false,
+      "data": {
+        "title": "Invented",
+        "items": [
+          { "before": "Plants store", "answer": "chlorophyll", "after": "in their roots.", "alternatives": [], "hint": "", "ref": "S1", "page": 1, "quote": "chlorophyll is stored in the roots for winter" }
+        ]
+      }
+    },
+    {
+      "id": "answer-not-in-quote",
+      "valid": false,
+      "data": {
+        "title": "Wrong quote",
+        "items": [
+          { "before": "The gas released is", "answer": "nitrogen", "after": ".", "alternatives": [], "hint": "", "ref": "S1", "page": 1, "quote": "Oxygen is released as a by product" }
+        ]
+      }
+    }
+  ]
+}

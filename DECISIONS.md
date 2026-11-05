@@ -82,3 +82,47 @@ Source commits: amayi-learn `ec3496e`, takubasa `33f0abc`.
 - **Scroll** is a full screen snap feed with hooks; sets end with an end card, no endless autoplay.
 - **Spending caps** also cover study tools and photo reading.
 - **Production deploy** was blocked by this session's permission rules; see the Phase 3 closeout.
+
+## MVP hardening (5 November 2026)
+
+Rollback point: annotated tag `checkpoint-before-mvp` (commit bb8677b).
+
+### Provenance
+
+| Here | From | Changes |
+|---|---|---|
+| `scripts/redteam.mjs`, `scripts/redteam/cases.json`, `convex/safety/redteam.ts` | amayi-learn `scripts/kids-redteam.mjs` at ec3496e (pattern: a fixed case list, each stating the reply kind it must get; a cap on live runs; results file) | Rewritten for Takudzidza's groups (answer leak in Guide me, companion requests, unsafe topics for under 18s); mock fixtures run in vitest and CI; live refuses to run without `--cap` and works only on the local deployment |
+| `katex`, `katex/contrib/mhchem`, `mathjs/number`, `@sentry/react` | npm packages, added at the versions in package.json | Maths and chemistry drawing, line checking, error reports |
+| Audit findings | `Takudzidza-Audit-2026-11-04.pdf`, read from the sibling worktree `../taku-dzidza/docs/`, untracked there | Read for context; the numbered build list in the brief was the scope |
+
+### Decisions
+
+- **Tutor name:** Taku. It matches the code. The audit raised Chris; no rename was needed.
+- **Link reader (A1):** every hop goes through `linkProblem` plus an address check in the connection's own DNS lookup, so a host cannot resolve to a public address for the check and a private one for the fetch. Three hops at most. The fetch moved to a `"use node"` action, because only Node exposes that lookup.
+- **Email codes (A2):** Convex Auth email codes through Resend. Three modes in `convex/accounts/mail.ts`: `resend` when `RESEND_API_KEY` is set, `mock` when `AI_MODE=mock`, otherwise `off`. Off means sign up works with no verification and no password reset, so deploying before the key exists locks nobody out. A real account's mail is never sent in mock mode; codes go to a mock outbox that refuses writes outside mock mode.
+- **requireAdmin (A2)** now needs a verified email as well as a listed one. No function calls it yet, so nothing changes today.
+- **Google sign in (A3):** configured only when both `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` are set; the button is hidden otherwise. Only id, email and verified flag are taken from Google's profile.
+- **Guardian consent (A4):** consent needs the 6 digit code. Codes are hashed with the request and phone, so a code works only for the phone it went to. Five sends a day per learner and per phone, one per minute, five tries, ten minutes. The link stays. **Consequence: with no SMS provider, a new under 18 cannot finish consent in production.** The guardian's page says so plainly. This follows the brief ("consent completes only with code", "real provider unconfigured"). Limit of the check, raised again by the security review: it proves control of a phone, not who the person is. A learner holds the link and could type their own number. Decide how to handle this before adding a real SMS provider.
+- **Per learner USD cap (B5):** call counts are gone. `LEARNER_DAILY_USD_CAP` defaults to USD 0.05 a day. **That number is an assumption, not a measurement.** `AI_DAILY_USD_CAP` keeps its USD 0.50 default; at that level very few learners can use the app in one day. Takunda should set both; production settings were not touched here. Cost is recorded per learner, per deployment and per tool; alerts are rows in `spendAlerts` at 50 and 80 percent, read with `npx convex run ai/usage:alerts`.
+- **Parallel calls and the caps (security review):** cost is known only after a model answers, so parallel calls could all pass the check. `admit` is a mutation, so Convex runs each in turn, and it limits starts: 12 a minute per learner, 20 a minute for reading photos and scans. This bounds the overshoot rather than ending it: a learner can pass the cap by what one minute of starts costs, and many learners at once can pass the deployment cap by a little. A reservation system would close it fully; not worth the cost at this size.
+- **HTML to text (security review):** rewritten as one pass with indexOf, because the old regexes went quadratic on 2 MB of open tags from a hostile page. An unclosed tag now drops the rest of the page.
+- **Model chains (B5):** `MODEL_MAIN` and `MODEL_FAST` take comma lists. The default chain is unchanged; no new ids were invented. Fallback across providers is still limited by the zero data retention provider rule in the router.
+- **Mock mode is priced.** Mock calls cost the default model's price for the fixture's token counts, so caps and alerts can be exercised. These are modelled numbers, never a real cost.
+- **Second opinion (B6):** fast tier, on Taku's ideas in summaries, flashcards and answers, and on quiz marking schemes. Rejected items are dropped. If the check itself fails, items stay marked "not checked" and a paper shows a note: a failed check should not empty a paper. It is skipped for Guide me hints, where the extra call buys little. It catches errors a second model can see, and it is not proof of correctness.
+- **Maths (C7):** LaTeX between $ signs with a money guard ("$5 and $10" stays text). KaTeX and mhchem load only when a page has maths. `trust: false` and `throwOnError: false`, so source text can never make a link or crash a page.
+- **Widgets (C8):** packages under `widgets/<slug>/`, same shape as `modes/`. Taku supplies data; the app renders and a deterministic checker marks. Equation steps uses mathjs with a whitelist of node types (nothing else is evaluated) and a hint that states the answer is removed. Long division takes only two numbers from Taku and works out every step itself. Fill in the blanks drops any blank whose quote is not on the cited page or does not hold the answer, whatever the source mode. The checkers are shared TypeScript in `convex/widgets/`, used by server and browser.
+- **Streaming (D11):** the chat row exists from the start and is patched as text arrives, using Convex subscriptions rather than an HTTP stream, which keeps auth and storage in one place. Rows left unfinished for more than three minutes show as failed on the client. A half written widget block never shows.
+- **Sign out (D10):** Settings. Guardian, Setup and too young screens keep their own button, since Settings cannot be reached from them.
+- **Landing (D15):** the page's HTML is rendered into `dist/index.html` at build time, and the build fails if the copy goes missing. It is removed before paint for anyone with a saved session or on another address. `/art/og-default.webp` comes from the art batch; WebP support in link preview crawlers varies and has not been tested, because nothing is deployed.
+- **Sentry (E16):** loaded only when `VITE_SENTRY_DSN` is set. No user info, no breadcrumbs, no bodies, and guardian link tokens are cut from URLs before an event leaves.
+- **Analytics (E16):** a daily count per event in this deployment's own table, with no vendor, no user id and no content. Off until an adult switches it on; the server refuses under 18s whatever the browser sends.
+- **Privacy notice and terms (E17):** drafts, marked "Draft for legal review" on the page, written only from what the code does. They claim compliance with no law. A lawyer has not read them.
+- **Red team (E18):** the mock run proves the app's own layers route each case; its replies were written by hand, so it says nothing about what a model would do. **The live run has not been done.** No held answer output filter was added; that is still Phase 5.
+- **Attribution:** commits in this work carry no co author line, because the brief forbids model identifiers in commits.
+
+### Follow ups
+
+- Accounts that sign up and never verify are not swept yet.
+- Choose an SMS provider and implement `SmsSender`.
+- Measure real cost per learner, then set the caps from data.
+- Run `pnpm redteam --cap 0.10` before under 18s use the app.

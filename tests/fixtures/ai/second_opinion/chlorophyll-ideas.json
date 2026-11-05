@@ -1,0 +1,17 @@
+{
+  "keyMaterial": {
+    "kind": "second_opinion",
+    "check": "ideas",
+    "items": [
+      "Chlorophyll is also stored in the roots for winter.",
+      "Think of it like a solar panel on a roof."
+    ]
+  },
+  "response": {
+    "content": "{\"verdicts\": [{\"id\": \"1\", \"ok\": false}, {\"id\": \"2\", \"ok\": true}]}",
+    "usage": {
+      "promptTokens": 300,
+      "completionTokens": 40
+    }
+  }
+}

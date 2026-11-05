@@ -46,4 +46,35 @@ describe("general chat with Taku", () => {
     const left = await t.run(async (ctx) => (await ctx.db.query("chats").collect()).length + (await ctx.db.query("chatMessages").collect()).length);
     expect(left).toBe(0);
   });
+
+  test("a started chat is open before Taku replies, and the streaming mark clears at the end", async () => {
+    const t = makeT();
+    const p = await makeLearner(t, 20);
+    const chatId = await p.as.mutation(api.chat.chats.start, { message: "Explain osmosis simply" });
+    const started = await p.as.query(api.chat.chats.get, { chatId });
+    expect(started.chat.title).toBe("Explain osmosis simply");
+    expect(started.messages).toEqual([]);
+    await p.as.action(api.chat.chats.send, { chatId, message: "Explain osmosis simply" });
+    const data = await p.as.query(api.chat.chats.get, { chatId });
+    expect(data.messages.map((m) => m.role)).toEqual(["learner", "taku"]);
+    expect(data.messages[1].streaming).toBeUndefined();
+    expect(data.messages[1].text).toMatch(/partially permeable membrane/);
+  });
+
+  test("Guide me can return a widget, and a broken one falls back to plain text", async () => {
+    const t = makeT();
+    const p = await makeLearner(t, 20);
+    await p.as.mutation(api.accounts.profiles.setAnswerMode, { answerMode: "guide" });
+    const solved = await p.as.action(api.chat.chats.send, { message: "Solve 2x + 3 = 11" });
+    const data = await p.as.query(api.chat.chats.get, { chatId: solved.chatId });
+    expect(data.messages[1].widget?.slug).toBe("equation-steps");
+    expect(data.messages[1].text).not.toContain("```");
+    expect(data.messages[1].text).not.toMatch(/x\s*=\s*4/);
+
+    const broken = await p.as.action(api.chat.chats.send, { message: "Solve this for me please" });
+    const reply = (await p.as.query(api.chat.chats.get, { chatId: broken.chatId })).messages[1];
+    expect(reply.widget).toBeUndefined();
+    expect(reply.text).toMatch(/Which equation/);
+    expect(reply.text).not.toContain("```");
+  });
 });

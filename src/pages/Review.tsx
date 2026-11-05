@@ -5,6 +5,8 @@ import { Link, useParams } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import { Layout } from "../components/Layout";
+import { speakable } from "../components/math";
+import { MathText } from "../components/MathText";
 import { copy } from "../copy/en";
 
 /**
@@ -74,7 +76,7 @@ export default function Review() {
               className={`flip${shown ? " flipped" : ""}`}
               role="button"
               tabIndex={0}
-              aria-label={shown ? card.back : `${card.front}. ${t.showAnswer}`}
+              aria-label={shown ? speakable(card.back) : `${speakable(card.front)}. ${t.showAnswer}`}
               onClick={() => setShown(!shown)}
               onKeyDown={(e) => {
                 if (e.key === " " || e.key === "Enter") {
@@ -86,11 +88,15 @@ export default function Review() {
               <div className="flip-inner">
                 <div className="flip-face flip-front" aria-hidden={shown}>
                   <span className="eyebrow">Question</span>
-                  <p>{card.front}</p>
+                  <p>
+                    <MathText text={card.front} />
+                  </p>
                 </div>
                 <div className="flip-face flip-back" aria-hidden={!shown}>
                   <span className="eyebrow on-ink">Answer</span>
-                  <p className="flash-back-text">{card.back}</p>
+                  <p className="flash-back-text">
+                    <MathText text={card.back} />
+                  </p>
                 </div>
               </div>
             </div>

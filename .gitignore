@@ -1,6 +1,10 @@
 node_modules/
 dist/
+.prerender/
+eval-results/
 dev-dist/
+.prerender/
+eval-results/
 coverage/
 playwright-report/
 test-results/

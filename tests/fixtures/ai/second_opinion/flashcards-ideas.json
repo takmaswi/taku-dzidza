@@ -1,0 +1,16 @@
+{
+  "keyMaterial": {
+    "kind": "second_opinion",
+    "check": "ideas",
+    "items": [
+      "Where does photosynthesis happen in a plant cell? In the chloroplasts"
+    ]
+  },
+  "response": {
+    "content": "{\"verdicts\": [{\"id\": \"4\", \"ok\": true}]}",
+    "usage": {
+      "promptTokens": 300,
+      "completionTokens": 40
+    }
+  }
+}

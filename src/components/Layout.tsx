@@ -1,6 +1,5 @@
-import { useAuthActions } from "@convex-dev/auth/react";
 import { useQuery } from "convex/react";
-import { BookOpen, Home, Layers, LifeBuoy, LogOut, MessageCircle, Settings } from "lucide-react";
+import { BookOpen, Home, Layers, LifeBuoy, MessageCircle, Settings } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Link, NavLink } from "react-router";
 import { api } from "../../convex/_generated/api";
@@ -40,7 +39,6 @@ function AppShell({ children }: { children: ReactNode }) {
   const due = useQuery(api.study.cards.dueCount, ready ? { now } : "skip");
   const chats = useQuery(api.chat.chats.list, ready ? {} : "skip");
   const notebooks = useQuery(api.notebooks.notebooks.list, ready ? {} : "skip");
-  const { signOut } = useAuthActions();
   const n = copy.nav;
   const dueCount = due?.count ?? 0;
   const reviewTo = due?.notebookId != null ? `/n/${due.notebookId}/review` : "/notebooks";
@@ -112,9 +110,6 @@ function AppShell({ children }: { children: ReactNode }) {
             <Link to="/help" className="pill small">
               <LifeBuoy size={16} aria-hidden="true" /> {copy.menu.help}
             </Link>
-            <button type="button" className="pill small" onClick={() => void signOut()} aria-label={copy.menu.signOut}>
-              <LogOut size={16} aria-hidden="true" />
-            </button>
           </div>
         </div>
       </aside>
@@ -129,9 +124,6 @@ function AppShell({ children }: { children: ReactNode }) {
             <LifeBuoy size={16} aria-hidden="true" />
             {copy.menu.help}
           </Link>
-          <button type="button" className="icon-button" onClick={() => void signOut()} aria-label={copy.menu.signOut}>
-            <LogOut size={18} aria-hidden="true" />
-          </button>
         </div>
       </header>
 

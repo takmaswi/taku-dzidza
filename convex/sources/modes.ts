@@ -17,7 +17,7 @@ export type SourceMode = (typeof SOURCE_MODES)[number];
 /** One part of Taku's answer as the model returns it. ref is a source label like "S2", or "" for none. */
 export type RawPart = { text: string; ref: string; page: number; quote: string };
 
-export type Origin = { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added" };
+export type Origin = { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added"; unchecked?: boolean };
 export type SettledPart = { text: string; origin: Origin };
 
 export type PageLookup = (ref: string, page: number) => { sourceId: string; text: string } | null;

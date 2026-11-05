@@ -1,6 +1,7 @@
 import { Square, Volume2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { copy } from "../copy/en";
+import { speakable } from "./math";
 
 /**
  * Read aloud with the phone's own voice (Web Speech API): free, no data, and
@@ -19,7 +20,7 @@ export function ReadAloud({ text }: { text: string }) {
       setSpeaking(false);
       return;
     }
-    const u = new SpeechSynthesisUtterance(text);
+    const u = new SpeechSynthesisUtterance(speakable(text));
     u.lang = "en";
     u.onend = () => setSpeaking(false);
     u.onerror = () => setSpeaking(false);

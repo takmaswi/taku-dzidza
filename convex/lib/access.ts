@@ -15,7 +15,7 @@ import { adminEmails } from "./env";
  *   requireLearner  a profile allowed to study: an adult, or a minor whose guardian consented
  *                   (requireLearnerInAction from an action)
  *   ownNotebook, ownSource (convex/notebooks) call requireLearner and check ownership
- *   requireAdmin    the owner (ADMIN_EMAILS)
+ *   requireAdmin    the owner: an email on ADMIN_EMAILS that has been verified
  */
 
 export async function requireUser(ctx: QueryCtx): Promise<Doc<"users">> {
@@ -55,6 +55,7 @@ export async function requireLearnerInAction(ctx: ActionCtx): Promise<void> {
 export async function requireAdmin(ctx: QueryCtx): Promise<Doc<"users">> {
   const user = await requireUser(ctx);
   const email = (user.email ?? "").toLowerCase();
-  if (email === "" || !adminEmails().includes(email)) throw new ConvexError("Only the owner can see this.");
+  // Without verification anyone could register the owner's address and be admin.
+  if (email === "" || user.emailVerificationTime === undefined || !adminEmails().includes(email)) throw new ConvexError("Only the owner can see this.");
   return user;
 }

@@ -1,8 +1,9 @@
 import { describe, expect, test } from "vitest";
-import { api } from "../../convex/_generated/api";
+import { api, internal } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { REPLIES } from "../../convex/notebooks/ask";
-import { makeLearner, makeT, type Person, type T } from "./people";
+import { DEFAULT_DAILY_USD_CAP, DEFAULT_LEARNER_DAILY_USD_CAP, STARTS_PER_MINUTE } from "../../convex/ai/usage";
+import { addConsent, makeLearner, makeT, type Person, type T } from "./people";
 
 const NOTES = "Photosynthesis\nGreen plants make glucose from carbon dioxide and water using light energy.\nChlorophyll in the chloroplasts absorbs the light.\nOxygen is released as a by product.";
 const QUESTION = "What does chlorophyll do?";
@@ -87,7 +88,9 @@ describe("asking Taku", () => {
     await p.as.action(api.notebooks.ask.ask, { notebookId, question: QUESTION });
     const reply = await lastReply(p, notebookId);
     expect(reply.kind).toBe("answer");
-    expect(reply.parts?.map((x) => x.origin.kind)).toEqual(["source", "added", "added"]);
+    // The second opinion (fixture second_opinion/chlorophyll-ideas) drops the first of Taku's ideas and keeps the second.
+    expect(reply.parts?.map((x) => x.origin.kind)).toEqual(["source", "added"]);
+    expect(reply.stage).toBeUndefined();
     expect(reply.parts?.[0].origin).toMatchObject({ kind: "source", page: 1, quote: "Chlorophyll in the chloroplasts absorbs the light" });
   });
 
@@ -134,8 +137,7 @@ describe("asking Taku", () => {
   test("an under 18 with consent goes through the model input check first", async () => {
     const t = makeT();
     const p = await makeLearner(t, 16);
-    const { token } = await p.as.mutation(api.accounts.consent.createRequest, {});
-    await t.mutation(api.accounts.consent.give, { token, guardianName: "Rudo Moyo", relationship: "mother", guardianContact: "rudo@example.com", confirmsGuardian: true, agrees: true });
+    await addConsent(t, p);
     const notebookId = await notebookWithNotes(t, p);
     await p.as.action(api.notebooks.ask.ask, { notebookId, question: QUESTION });
     expect((await lastReply(p, notebookId)).kind).toBe("answer");
@@ -153,15 +155,18 @@ describe("asking Taku", () => {
 });
 
 describe("spending limits", () => {
-  test("a learner over the daily call limit gets a friendly stop, with no model call", async () => {
+  test("a learner over the daily USD limit gets a friendly stop, with no model call", async () => {
     const t = makeT();
     const p = await makeLearner(t, 20);
     const notebookId = await notebookWithNotes(t, p);
     const profile = (await p.as.query(api.accounts.profiles.me, {}))!.profile!;
     await t.run(async (ctx) => {
-      await ctx.db.insert("aiUsageDaily", { day: new Date().toISOString().slice(0, 10), scope: profile._id, calls: 60, costUsd: 0 });
+      await ctx.db.insert("aiUsageDaily", { day: new Date().toISOString().slice(0, 10), scope: profile._id, calls: 3, costUsd: DEFAULT_LEARNER_DAILY_USD_CAP });
     });
+    const before = process.env.LEARNER_DAILY_USD_CAP;
+    delete process.env.LEARNER_DAILY_USD_CAP;
     await p.as.action(api.notebooks.ask.ask, { notebookId, question: QUESTION });
+    if (before !== undefined) process.env.LEARNER_DAILY_USD_CAP = before;
     expect(await lastReply(p, notebookId)).toMatchObject({ kind: "error", text: REPLIES.learnerCap });
   });
 
@@ -176,12 +181,67 @@ describe("spending limits", () => {
     expect(await lastReply(p, notebookId)).toMatchObject({ kind: "error", text: REPLIES.deploymentCap });
   });
 
-  test("each answered question is counted", async () => {
+  test("starts are limited per minute, so parallel calls cannot all pass before any cost is recorded", async () => {
+    const t = makeT();
+    const a = await makeLearner(t, 20);
+    const b = await makeLearner(t, 21);
+    const idOf = async (p: Person) => (await p.as.query(api.accounts.profiles.me, {}))!.profile!._id;
+    const [mine, theirs] = [await idOf(a), await idOf(b)];
+    const verdicts = await Promise.all(Array.from({ length: STARTS_PER_MINUTE.ask + 5 }, () => t.mutation(internal.ai.usage.admit, { profileId: mine, kind: "ask" })));
+    expect(verdicts.filter((v) => v.allowed)).toHaveLength(STARTS_PER_MINUTE.ask);
+    expect(verdicts.filter((v) => !v.allowed && v.reason === "busy")).toHaveLength(5);
+    // Another learner, and reading a photo, are counted apart.
+    expect(await t.mutation(internal.ai.usage.admit, { profileId: theirs, kind: "ask" })).toEqual({ allowed: true });
+    expect(await t.mutation(internal.ai.usage.admit, { profileId: mine, kind: "read" })).toEqual({ allowed: true });
+
+    const notebookId = await notebookWithNotes(t, a);
+    await a.as.action(api.notebooks.ask.ask, { notebookId, question: QUESTION });
+    expect(await lastReply(a, notebookId)).toMatchObject({ kind: "error", text: REPLIES.busy });
+    const tool = await a.as.action(api.study.tools.generate, { notebookId, mode: "summarise", options: {} });
+    expect(tool).toMatchObject({ ok: false, message: expect.stringMatching(/a lot at once/) });
+
+    // A minute later it opens again.
+    await t.run(async (ctx) => {
+      for (const row of await ctx.db.query("aiStarts").collect()) await ctx.db.patch(row._id, { windowStart: Date.now() - 61 * 1000 });
+    });
+    expect(await t.mutation(internal.ai.usage.admit, { profileId: mine, kind: "ask" })).toEqual({ allowed: true });
+  });
+
+  test("the alerts fire once each at 50 and 80 percent, and cost per tool can be read", async () => {
+    const t = makeT();
+    const before = process.env.AI_DAILY_USD_CAP;
+    delete process.env.AI_DAILY_USD_CAP;
+    try {
+      await t.mutation(internal.ai.usage.record, { profileId: "p", tool: "chat", costUsd: DEFAULT_DAILY_USD_CAP * 0.4 });
+      expect(await t.query(internal.ai.usage.alerts, {})).toEqual([]);
+      await t.mutation(internal.ai.usage.record, { profileId: "p", tool: "chat", costUsd: DEFAULT_DAILY_USD_CAP * 0.2 });
+      expect((await t.query(internal.ai.usage.alerts, {})).map((a) => a.percent)).toEqual([50]);
+      await t.mutation(internal.ai.usage.record, { profileId: "p", tool: "quiz", costUsd: DEFAULT_DAILY_USD_CAP * 0.3 });
+      await t.mutation(internal.ai.usage.record, { profileId: "p", tool: "quiz", costUsd: DEFAULT_DAILY_USD_CAP * 0.01 });
+      expect((await t.query(internal.ai.usage.alerts, {})).map((a) => a.percent).sort()).toEqual([50, 80]);
+      const tools = await t.query(internal.ai.usage.costPerTool, {});
+      expect(tools.map((r) => [r.tool, r.calls])).toEqual([
+        ["chat", 2],
+        ["quiz", 2],
+      ]);
+    } finally {
+      if (before !== undefined) process.env.AI_DAILY_USD_CAP = before;
+    }
+  });
+
+  test("each answered question is counted for the learner, the deployment and the tool", async () => {
     const t = makeT();
     const p = await makeLearner(t, 20);
     const notebookId = await notebookWithNotes(t, p);
+    const profile = (await p.as.query(api.accounts.profiles.me, {}))!.profile!;
     await p.as.action(api.notebooks.ask.ask, { notebookId, question: QUESTION });
     const rows = await t.run(async (ctx) => await ctx.db.query("aiUsageDaily").collect());
-    expect(rows.map((r) => r.calls)).toEqual([1, 1]);
+    const by = new Map(rows.map((r) => [r.scope, r]));
+    // One answer plus one second opinion.
+    expect(by.get("all")?.calls).toBe(2);
+    expect(by.get(profile._id)?.calls).toBe(2);
+    expect(by.get("tool:answer")?.calls).toBe(1);
+    expect(by.get("tool:second_opinion")?.calls).toBe(1);
+    expect(by.get("all")?.costUsd).toBeGreaterThan(0);
   });
 });

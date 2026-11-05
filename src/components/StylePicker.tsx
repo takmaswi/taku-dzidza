@@ -4,7 +4,24 @@ import { copy } from "../copy/en";
 import { ImageSlot } from "./ImageSlot";
 import { STYLE_ART } from "./styleArt";
 
-export function StylePicker({ value, onPick }: { value: StudyStyle; onPick: (s: StudyStyle) => void }) {
+export function StylePicker({ value, onPick, compact = false }: { value: StudyStyle; onPick: (s: StudyStyle) => void; compact?: boolean }) {
+  if (compact) {
+    // For Settings: the photo cards belong to onboarding, where choosing a style is the whole screen.
+    return (
+      <div className="style-compact" role="radiogroup" aria-label={copy.home.styleTitle}>
+        {(["locked_in", "cook", "calm"] as const).map((s) => (
+          <button key={s} type="button" role="radio" aria-checked={value === s} className={`style-chip ${STYLE_ART[s].cls}`} onClick={() => onPick(s)}>
+            <span className="sc-band" />
+            <span className="sc-name">
+              <b>{copy.styles[s].name}</b>
+              {value === s && <Check size={16} aria-hidden="true" />}
+            </span>
+            <small>{copy.styles[s].line}</small>
+          </button>
+        ))}
+      </div>
+    );
+  }
   return (
     <div className="style-cards" role="radiogroup" aria-label={copy.home.styleTitle}>
       {(["locked_in", "cook", "calm"] as const).map((s, i) => {

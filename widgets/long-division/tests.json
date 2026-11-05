@@ -1,0 +1,15 @@
+{
+  "cases": [
+    {
+      "id": "with-remainder",
+      "valid": true,
+      "data": { "title": "1234 by 7", "dividend": 1234, "divisor": 7 },
+      "steps": [
+        { "typed": "1", "ok": true },
+        { "typed": "2", "ok": false }
+      ]
+    },
+    { "id": "divisor-zero", "valid": false, "data": { "title": "Bad", "dividend": 10, "divisor": 0 } },
+    { "id": "not-whole", "valid": false, "data": { "title": "Bad", "dividend": 10.5, "divisor": 2 } }
+  ]
+}

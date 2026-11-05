@@ -22,3 +22,10 @@ export type ModePackageData = {
   body: string;
   listing: { title: string; tagline: string; description: string };
 };
+
+/** A compiled widget package (widgets/<slug>/, checked by tests/unit/widgets.test.ts). */
+export type WidgetPackageData = {
+  frontmatter: { name: string; slug: string; modelTier: "fast" | "main"; guide: boolean; notes: "required" | "optional"; description: string; maxTokens: number };
+  body: string;
+  listing: { title: string; tagline: string };
+};

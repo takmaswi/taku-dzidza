@@ -25,8 +25,10 @@ export const sourceModeValidator = v.union(v.literal("only_mine"), v.literal("mi
 export const sourceKindValidator = v.union(v.literal("pdf"), v.literal("docx"), v.literal("image"), v.literal("text"), v.literal("link"));
 export const originValidator = v.union(
   v.object({ kind: v.literal("source"), sourceId: v.string(), page: v.number(), quote: v.string() }),
-  v.object({ kind: v.literal("added") }),
+  v.object({ kind: v.literal("added"), unchecked: v.optional(v.boolean()) }),
 );
+/** An interactive widget attached to an answer or stored as a study tool (convex/widgets). */
+export const widgetValidator = v.object({ slug: v.string(), data: v.any() });
 
 export default defineSchema({
   ...authTables,
@@ -46,6 +48,8 @@ export default defineSchema({
     /** From onboarding; tunes the starters on the home page. */
     studyingFor: v.optional(studyingForValidator),
     consentState: consentStateValidator,
+    /** Adults only: said yes to counting which features are used, with no content (convex/analytics.ts). */
+    analyticsConsent: v.optional(v.boolean()),
     createdAt: v.number(),
   }).index("by_user", ["userId"]).index("by_consent_state", ["consentState", "createdAt"]),
 
@@ -66,8 +70,25 @@ export default defineSchema({
     guardianContact: v.string(),
     consentTextVersion: v.string(),
     givenAt: v.number(),
+    /** When the guardian typed the code sent to guardianContact. Older consents predate the code. */
+    phoneVerifiedAt: v.optional(v.number()),
     withdrawnAt: v.optional(v.number()),
   }).index("by_profile", ["profileId"]).index("by_request", ["requestId"]),
+
+  /** One code sent to a guardian's phone. Kept 24 hours to count sends per day, then swept. Only the code's hash is stored. */
+  consentCodes: defineTable({
+    requestId: v.id("consentRequests"),
+    profileId: v.id("profiles"),
+    phone: v.string(),
+    codeHash: v.string(),
+    attempts: v.number(),
+    createdAt: v.number(),
+    expiresAt: v.number(),
+  })
+    .index("by_request", ["requestId", "createdAt"])
+    .index("by_profile", ["profileId", "createdAt"])
+    .index("by_phone", ["phone", "createdAt"])
+    .index("by_created", ["createdAt"]),
 
   /** A learner's notebook (SPEC.md 3.2). */
   notebooks: defineTable({
@@ -121,6 +142,9 @@ export default defineSchema({
     note: v.optional(v.string()),
     sourceMode: v.optional(sourceModeValidator),
     answerMode: v.optional(answerModeValidator),
+    /** Set while Taku is still working on this answer; what the learner sees meanwhile. */
+    stage: v.optional(v.union(v.literal("reading"), v.literal("writing"), v.literal("checking"))),
+    widget: v.optional(widgetValidator),
     createdAt: v.number(),
   }).index("by_notebook", ["notebookId", "createdAt"]),
 
@@ -131,6 +155,9 @@ export default defineSchema({
     role: v.union(v.literal("learner"), v.literal("taku")),
     kind: v.union(v.literal("question"), v.literal("answer"), v.literal("help"), v.literal("redirect"), v.literal("error")),
     text: v.string(),
+    /** True while the reply is still arriving. */
+    streaming: v.optional(v.boolean()),
+    widget: v.optional(widgetValidator),
     createdAt: v.number(),
   }).index("by_chat", ["chatId", "createdAt"]),
 
@@ -139,7 +166,7 @@ export default defineSchema({
     notebookId: v.id("notebooks"),
     profileId: v.id("profiles"),
     mode: v.string(),
-    kind: v.union(v.literal("summary"), v.literal("cards"), v.literal("quiz"), v.literal("mindmap"), v.literal("scroll")),
+    kind: v.union(v.literal("summary"), v.literal("cards"), v.literal("quiz"), v.literal("mindmap"), v.literal("scroll"), v.literal("widget")),
     title: v.string(),
     content: v.any(),
     sourceMode: sourceModeValidator,
@@ -181,8 +208,20 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_output", ["outputId"]).index("by_profile", ["profileId", "createdAt"]),
 
-  /** AI calls and cost per day: one row for the whole deployment (scope "all") and one per learner (their profile id). Numbers only. */
-  aiUsageDaily: defineTable({ day: v.string(), scope: v.string(), calls: v.number(), costUsd: v.number() }).index("by_day_scope", ["day", "scope"]),
+  /** AI calls and cost per day: one row for the whole deployment (scope "all"), one per learner (their profile id) and one per tool ("tool:quiz"). Numbers only. */
+  aiUsageDaily: defineTable({ day: v.string(), scope: v.string(), calls: v.number(), costUsd: v.number() }).index("by_day_scope", ["day", "scope"]).index("by_scope", ["scope"]),
+
+  /** How many things a learner started in the current minute (convex/ai/usage.ts). One row per learner and kind. */
+  aiStarts: defineTable({ profileId: v.string(), kind: v.union(v.literal("ask"), v.literal("read")), windowStart: v.number(), count: v.number() }).index("by_profile_kind", ["profileId", "kind"]),
+
+  /** The deployment passed a share of its daily cap. Read by the owner with npx convex run ai/usage:alerts. */
+  spendAlerts: defineTable({ day: v.string(), percent: v.number(), costUsd: v.number(), capUsd: v.number(), createdAt: v.number() }).index("by_day_percent", ["day", "percent"]),
+
+  /** How many times a feature was used per day, from adults who said yes. A count, with no user and no content. */
+  analyticsDaily: defineTable({ day: v.string(), event: v.string(), count: v.number() }).index("by_day_event", ["day", "event"]),
+
+  /** Codes the mock email and SMS senders would have sent. Written only in mock mode, read only by tests. */
+  mockOutbox: defineTable({ channel: v.union(v.literal("email"), v.literal("sms")), to: v.string(), code: v.string(), createdAt: v.number() }).index("by_to", ["to", "createdAt"]),
 
   /** Count only, no personal data: proof that deletions happen. */
   accountDeletions: defineTable({ deletedAt: v.number(), reason: v.union(v.literal("self"), v.literal("owner"), v.literal("no_consent")) }),

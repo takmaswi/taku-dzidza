@@ -74,6 +74,32 @@ describe("links", () => {
   });
 });
 
+describe("web pages to text", () => {
+  test("hidden parts go, lines stay, and the title is found", () => {
+    const { title, text } = htmlToText("<HTML><head><title> Cell\n parts </title><STYLE>b{}</STYLE></head><body><nav>Menu</nav><h1>Cells</h1><!-- note --><p>One &amp; two</p>three<br/>four<form><input></form><footer>Foot</footer></body></html>");
+    expect(title).toBe("Cell parts");
+    expect(text).toBe("Cells\n One & two\nthree\nfour");
+  });
+
+  test("an unclosed tag or block drops the rest, and a stray comment does not throw", () => {
+    expect(htmlToText("<p>kept</p><script>never closes").text).toBe("kept");
+    expect(htmlToText("<p>kept</p><!-- never closes").text).toBe("kept");
+    expect(htmlToText("<p>kept</p><a href=").text).toBe("kept");
+  });
+
+  test("a bad character number does not throw", () => {
+    expect(htmlToText("a&#9999999;b &#65; &#99999999;").text).toBe("a b A &#99999999;");
+  });
+
+  test("2 MB of hostile markup is read quickly", () => {
+    for (const unit of ["<", "<script>", "<!--", "<script", "<title>", "</p", "&#"]) {
+      const started = Date.now();
+      htmlToText(unit.repeat(Math.floor((2 * 1024 * 1024) / unit.length)));
+      expect(Date.now() - started, unit).toBeLessThan(2000);
+    }
+  });
+});
+
 describe("PDF text layer", () => {
   test("reads each page of a text PDF with no AI call", async () => {
     const pages = await pdfPages(new Uint8Array(readFileSync(join(process.cwd(), "tests", "fixtures", "sources", "biology-notes.pdf"))));

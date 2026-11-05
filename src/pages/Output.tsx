@@ -6,10 +6,12 @@ import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import type { MindmapContent, QuizContent, ScrollContent, SummaryContent } from "../../convex/study/shapes";
 import { Layout } from "../components/Layout";
+import { MathText } from "../components/MathText";
 import { ReadAloud } from "../components/ReadAloud";
 import { copy } from "../copy/en";
+import { WidgetHost } from "../widgets/WidgetHost";
 
-type Origin = { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added" };
+type Origin = { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added"; unchecked?: boolean };
 
 /** One study tool Taku made: a summary or study guide, a quiz paper, a mind map or a Scroll feed. */
 export default function Output({ profile }: { profile: Doc<"profiles"> }) {
@@ -34,6 +36,7 @@ export default function Output({ profile }: { profile: Doc<"profiles"> }) {
         {output.kind === "summary" && <Summary content={output.content as SummaryContent} titles={titles} readAloud={profile.accessibility.readAloud} />}
         {output.kind === "quiz" && <QuizPaper output={output} content={output.content as QuizContent} />}
         {output.kind === "mindmap" && <MindMap content={output.content as MindmapContent} />}
+        {output.kind === "widget" && <WidgetHost widget={output.content as { slug: string; data: unknown }} titles={titles} />}
         {output.kind === "cards" && (
           <div className="card">
             <h1>{output.title}</h1>
@@ -49,7 +52,7 @@ export default function Output({ profile }: { profile: Doc<"profiles"> }) {
 }
 
 function Cite({ origin, titles }: { origin: Origin; titles: Record<string, string> }) {
-  if (origin.kind === "added") return <span className="added-tag">{copy.notebook.addedByTaku}</span>;
+  if (origin.kind === "added") return <span className="added-tag">{origin.unchecked === true ? copy.notebook.uncheckedByTaku : copy.notebook.addedByTaku}</span>;
   return <span className="cite static">{copy.notebook.fromPage(titles[origin.sourceId] ?? "", origin.page)}</span>;
 }
 
@@ -67,7 +70,7 @@ function Summary({ content, titles, readAloud }: { content: SummaryContent; titl
           <ul className="points">
             {s.points.map((p, i) => (
               <li key={i} className={p.origin.kind === "added" ? "added" : undefined}>
-                {p.text} <Cite origin={p.origin as Origin} titles={titles} />
+                <MathText text={p.text} /> <Cite origin={p.origin as Origin} titles={titles} />
               </li>
             ))}
           </ul>
@@ -102,6 +105,7 @@ function QuizPaper({ output, content }: { output: Doc<"outputs">; content: QuizC
           <span>{t.quizTotal(content.totalMarks)}</span>
         </div>
         <p className="paper-instructions">{t.quizInstructions}</p>
+        {content.schemeChecked === false && <p className="notice no-print">{t.schemeUnchecked}</p>}
         <button type="button" className="pill ghost small no-print" onClick={() => window.print()}>
           <Printer size={16} aria-hidden="true" /> {t.print}
         </button>
@@ -111,7 +115,9 @@ function QuizPaper({ output, content }: { output: Doc<"outputs">; content: QuizC
           <li key={q.number} className="question">
             <div className="question-line">
               <span className="qnum">{q.number}</span>
-              <span className="qtext">{q.prompt}</span>
+              <span className="qtext">
+                <MathText text={q.prompt} />
+              </span>
               <span className="qmarks">{t.marks(q.marks)}</span>
             </div>
             {q.kind === "mcq" ? (
@@ -119,7 +125,7 @@ function QuizPaper({ output, content }: { output: Doc<"outputs">; content: QuizC
                 {q.options.map((o, i) => (
                   <label key={o} className="option">
                     <input type="radio" name={`q${q.number}`} value={o} disabled={marking} checked={answers[q.number] === o} onChange={() => setAnswers({ ...answers, [q.number]: o })} />
-                    <span className="letter">{String.fromCharCode(65 + i)}</span> {o}
+                    <span className="letter">{String.fromCharCode(65 + i)}</span> <MathText text={o} />
                   </label>
                 ))}
               </div>
@@ -129,7 +135,7 @@ function QuizPaper({ output, content }: { output: Doc<"outputs">; content: QuizC
             {marking && (
               <div className="scheme">
                 {q.kind === "mcq" ? (
-                  <p className={answers[q.number] === q.answer ? "ok-text" : "error"}>{answers[q.number] === q.answer ? t.correct : t.wrong(q.answer)}</p>
+                  <p className={answers[q.number] === q.answer ? "ok-text" : "error"}>{answers[q.number] === q.answer ? t.correct : <MathText text={t.wrong(q.answer)} />}</p>
                 ) : (
                   <>
                     <p>
@@ -137,7 +143,9 @@ function QuizPaper({ output, content }: { output: Doc<"outputs">; content: QuizC
                     </p>
                     <ul>
                       {q.markingPoints.map((m) => (
-                        <li key={m}>{m}</li>
+                        <li key={m}>
+                          <MathText text={m} />
+                        </li>
                       ))}
                     </ul>
                     <label className="marks-input">
@@ -179,8 +187,16 @@ function QuizPaper({ output, content }: { output: Doc<"outputs">; content: QuizC
         <ol>
           {content.questions.map((q) => (
             <li key={q.number}>
-              {q.answer} {t.marks(q.marks)}
-              {q.markingPoints.length > 0 && <ul>{q.markingPoints.map((m) => <li key={m}>{m}</li>)}</ul>}
+              <MathText text={q.answer} /> {t.marks(q.marks)}
+              {q.markingPoints.length > 0 && (
+                <ul>
+                  {q.markingPoints.map((m) => (
+                    <li key={m}>
+                      <MathText text={m} />
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ol>
@@ -201,7 +217,7 @@ function MindMap({ content }: { content: MindmapContent }) {
               <ul>
                 {b.leaves.map((l, i) => (
                   <li key={i} className={l.origin.kind === "added" ? "added" : undefined}>
-                    {l.text}
+                    <MathText text={l.text} />
                   </li>
                 ))}
               </ul>
@@ -228,10 +244,14 @@ function Scroll({ notebookId, content, titles }: { notebookId: string; content: 
         return (
           <section key={i} className={`scroll-card ${c.type}`} aria-label={`Card ${i + 1} of ${content.cards.length}`}>
             <p className="scroll-hook">{c.hook}</p>
-            <p className="scroll-text">{c.text}</p>
+            <p className="scroll-text">
+              <MathText text={c.text} />
+            </p>
             {c.type === "question" &&
               (revealed[i] ? (
-                <p className="scroll-answer">{c.answer}</p>
+                <p className="scroll-answer">
+                  <MathText text={c.answer} />
+                </p>
               ) : (
                 <button type="button" className="pill" onClick={() => setRevealed({ ...revealed, [i]: true })}>
                   {t.tapReveal}
@@ -249,7 +269,7 @@ function Scroll({ notebookId, content, titles }: { notebookId: string; content: 
                 </div>
               ) : (
                 <p className="scroll-answer">
-                  {picked[i] === truth ? t.correct : ""} {c.answer}
+                  {picked[i] === truth ? t.correct : ""} <MathText text={c.answer} />
                 </p>
               ))}
             <small className="scroll-source">{c.origin.kind === "source" ? copy.notebook.fromPage(titles[c.origin.sourceId] ?? "", c.origin.page) : copy.notebook.addedByTaku}</small>

@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { describe, expect, test } from "vitest";
 import { CONSENT_POINTS } from "../../convex/accounts/consentText";
 import { copy } from "../../src/copy/en";
+import { legal } from "../../src/copy/legal";
 import { walk } from "../convex/scan-helpers";
 
 /**
@@ -25,7 +26,7 @@ function strings(value: unknown): string[] {
 
 describe("copy rule", () => {
   test("UI copy and consent text have no hyphens or dashes", () => {
-    const bad = [...strings(copy), ...CONSENT_POINTS].filter((s) => /[-\u2010-\u2015]/.test(s));
+    const bad = [...strings(copy), ...strings(legal), ...CONSENT_POINTS].filter((s) => /[-\u2010-\u2015]/.test(s));
     expect(bad).toEqual([]);
   });
 
@@ -34,6 +35,7 @@ describe("copy rule", () => {
     const files = [
       ...walk(join(root, "src"), (p) => /\.(ts|tsx|css)$/.test(p)),
       ...walk(join(root, "convex"), (p) => /\.(ts|md)$/.test(p) && !p.includes("_generated")),
+      ...walk(join(root, "widgets"), (p) => /\.(md|json)$/.test(p)),
       join(root, "index.html"),
     ];
     const offenders = files.filter((f) => {

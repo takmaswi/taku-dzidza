@@ -17,6 +17,10 @@ export const PURPOSES = [
   "taku_chat",
   // Reading an uploaded source (PDF pages, photos) into text.
   "source_read",
+  // Checking Taku's own ideas and marking schemes before a learner sees them.
+  "second_opinion",
+  // The structured data of an interactive widget.
+  "taku_widget",
 ] as const;
 
 export type Purpose = (typeof PURPOSES)[number];
@@ -135,4 +139,27 @@ export function openRouterAttribution(): { siteUrl: string; appName: string } {
     siteUrl: env("OPENROUTER_SITE_URL") ?? env("SITE_URL") ?? "http://localhost:5173",
     appName: env("OPENROUTER_APP_NAME") ?? "Takudzidza by Taku",
   };
+}
+
+/**
+ * Splits server sent events into parsed data lines and the unfinished rest.
+ * Comment lines (keep alives) and the final [DONE] are skipped, and so is a
+ * line that does not parse.
+ */
+export function sseEvents(buffer: string): { events: unknown[]; rest: string } {
+  const lines = buffer.split("\n");
+  const rest = lines.pop() ?? "";
+  const events: unknown[] = [];
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line.startsWith("data:")) continue;
+    const data = line.slice(5).trim();
+    if (data === "" || data === "[DONE]") continue;
+    try {
+      events.push(JSON.parse(data));
+    } catch {
+      // A malformed event is ignored; the reply is judged when it ends.
+    }
+  }
+  return { events, rest };
 }

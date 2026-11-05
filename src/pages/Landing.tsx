@@ -1,4 +1,5 @@
 import { ArrowRight, BookOpen, Check, Layers, ListChecks, Network, ScrollText, Sparkles } from "lucide-react";
+import { useLayoutEffect } from "react";
 import { Link } from "react-router";
 import { BrandMark, Chevron } from "../components/BrandMark";
 import { ImageSlot } from "../components/ImageSlot";
@@ -19,6 +20,10 @@ const RING_ICONS = [Layers, ListChecks, ScrollText, Sparkles, Network, BookOpen]
 export default function Landing() {
   const t = copy.landing;
   useReveal();
+  useLayoutEffect(() => {
+    // The real page is about to paint, so the prerendered copy (scripts/prerender.mjs) can go.
+    document.getElementById("prerender")?.remove();
+  }, []);
   return (
     <Layout>
       <section className="l-hero">
@@ -184,6 +189,8 @@ export default function Landing() {
           {copy.appName} {copy.byline}. {t.footer}
         </span>
         <Link to="/help">{copy.menu.help}</Link>
+        <Link to="/privacy">{copy.legal.privacyLink}</Link>
+        <Link to="/terms">{copy.legal.termsLink}</Link>
       </footer>
     </Layout>
   );

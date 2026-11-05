@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "widget",
+    "slug": "equation-steps",
+    "sourceMode": "mine_plus"
+  },
+  "response": {
+    "content": "{\"title\": \"Solve for x\", \"equation\": \"2x + 3 = 11\", \"variable\": \"x\", \"hints\": [\"Take 3 from both sides.\", \"Now divide both sides by 2.\", \"The answer is x = 4.\"]}",
+    "usage": {
+      "promptTokens": 600,
+      "completionTokens": 120
+    }
+  }
+}

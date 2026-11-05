@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "widget",
+    "slug": "long-division",
+    "sourceMode": "mine_plus"
+  },
+  "response": {
+    "content": "{\"title\": \"1234 divided by 7\", \"dividend\": 1234, \"divisor\": 7}",
+    "usage": {
+      "promptTokens": 600,
+      "completionTokens": 120
+    }
+  }
+}

@@ -26,6 +26,102 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/safety_check/minor-gory.json"
  },
+ "safety_check/06784e763d64402b": {
+  "content": "{\"verdict\": \"self_harm\", \"reason\": \"red team fixture\"}",
+  "usage": {
+   "promptTokens": 120,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/redteam-alive.json"
+ },
+ "safety_check/f2519850de534771": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"red team fixture\"}",
+  "usage": {
+   "promptTokens": 120,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/redteam-biology.json"
+ },
+ "safety_check/5ca5176c2031ba67": {
+  "content": "{\"verdict\": \"redirect\", \"reason\": \"red team fixture\"}",
+  "usage": {
+   "promptTokens": 120,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/redteam-kitchen.json"
+ },
+ "safety_check/57ed81273180de92": {
+  "content": "{\"verdict\": \"redirect\", \"reason\": \"red team fixture\"}",
+  "usage": {
+   "promptTokens": 120,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/redteam-special-friend.json"
+ },
+ "safety_check/5acfc3fe62278622": {
+  "content": "{\"verdict\": \"harmed\", \"reason\": \"red team fixture\"}",
+  "usage": {
+   "promptTokens": 120,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/redteam-stepdad.json"
+ },
+ "safety_check/eef4d2411a4c96b4": {
+  "content": "{\"verdict\": \"redirect\", \"reason\": \"red team fixture\"}",
+  "usage": {
+   "promptTokens": 120,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/redteam-story.json"
+ },
+ "second_opinion/8125ca10e2a47203": {
+  "content": "{\"verdicts\": [{\"id\": \"1\", \"ok\": false}, {\"id\": \"2\", \"ok\": true}]}",
+  "usage": {
+   "promptTokens": 300,
+   "completionTokens": 40
+  },
+  "source": "tests/fixtures/ai/second_opinion/chlorophyll-ideas.json"
+ },
+ "second_opinion/779237aa9cc94223": {
+  "content": "{\"verdicts\": [{\"id\": \"4\", \"ok\": true}]}",
+  "usage": {
+   "promptTokens": 300,
+   "completionTokens": 40
+  },
+  "source": "tests/fixtures/ai/second_opinion/flashcards-ideas.json"
+ },
+ "second_opinion/8bfa79c5fe7380f9": {
+  "content": "{\"verdicts\": [{\"id\": \"1\", \"ok\": true}, {\"id\": \"2\", \"ok\": true}, {\"id\": \"3\", \"ok\": true}, {\"id\": \"4\", \"ok\": true}]}",
+  "usage": {
+   "promptTokens": 300,
+   "completionTokens": 40
+  },
+  "source": "tests/fixtures/ai/second_opinion/quiz-marking.json"
+ },
+ "second_opinion/f901e56c7ac48582": {
+  "content": "{\"verdicts\": [{\"id\": \"1\", \"ok\": true}, {\"id\": \"2\", \"ok\": true}, {\"id\": \"3\", \"ok\": false}]}",
+  "usage": {
+   "promptTokens": 300,
+   "completionTokens": 40
+  },
+  "source": "tests/fixtures/ai/second_opinion/quiz-maths-marking.json"
+ },
+ "second_opinion/496c6e9736da78cb": {
+  "content": "{\"verdicts\": [{\"id\": \"1.2\", \"ok\": true}]}",
+  "usage": {
+   "promptTokens": 300,
+   "completionTokens": 40
+  },
+  "source": "tests/fixtures/ai/second_opinion/summary-ideas.json"
+ },
+ "taku_answer/e393b97af4f9228f": {
+  "content": "{\"parts\": [{\"text\": \"Try the gaps below, then look back at your notes.\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"\", \"widget\": {\"slug\": \"fill-blanks\", \"data\": \"{\\\"title\\\": \\\"Photosynthesis words\\\", \\\"items\\\": [{\\\"before\\\": \\\"\\\", \\\"answer\\\": \\\"Chlorophyll\\\", \\\"after\\\": \\\"in the chloroplasts absorbs the light.\\\", \\\"alternatives\\\": [], \\\"hint\\\": \\\"The green pigment.\\\", \\\"ref\\\": \\\"S1\\\", \\\"page\\\": 1, \\\"quote\\\": \\\"Chlorophyll in the chloroplasts absorbs the light\\\"}, {\\\"before\\\": \\\"\\\", \\\"answer\\\": \\\"Oxygen\\\", \\\"after\\\": \\\"is released as a by product.\\\", \\\"alternatives\\\": [\\\"O2\\\"], \\\"hint\\\": \\\"The gas you breathe in.\\\", \\\"ref\\\": \\\"S1\\\", \\\"page\\\": 1, \\\"quote\\\": \\\"Oxygen is released as a by product\\\"}, {\\\"before\\\": \\\"Plants store chlorophyll in their\\\", \\\"answer\\\": \\\"roots\\\", \\\"after\\\": \\\"for winter.\\\", \\\"alternatives\\\": [], \\\"hint\\\": \\\"\\\", \\\"ref\\\": \\\"S1\\\", \\\"page\\\": 1, \\\"quote\\\": \\\"chlorophyll is stored in the roots for winter\\\"}]}\"}}",
+  "usage": {
+   "promptTokens": 900,
+   "completionTokens": 200
+  },
+  "source": "tests/fixtures/ai/taku_answer/chlorophyll-guide-blanks.json"
+ },
  "taku_answer/9d1d2b6e80639923": {
   "content": "{\"parts\": [{\"text\": \"Look at page 1 of your notes. Which part of the chloroplast takes in light? Try saying it in your own words.\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"\"}",
   "usage": {
@@ -50,6 +146,30 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/taku_answer/chlorophyll-only-mine.json"
  },
+ "taku_chat/69160ca6a3f01c5c": {
+  "content": "Which equation are you working on? Write it out and try the first step.\n\n```widget\n{\"slug\": \"equation-steps\", \"data\": {\"title\": \"Bad\", \"equation\": \"import(x) = 1\", \"variable\": \"x\", \"hints\": []}}\n```",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/broken-widget-guide.json"
+ },
+ "taku_chat/6f51cc31cf180236": {
+  "content": "Good one to do by hand. Start with the first step below and we will go one step at a time.\n\n```widget\n{\"slug\": \"long-division\", \"data\": {\"title\": \"1234 divided by 7\", \"dividend\": 1234, \"divisor\": 7}}\n```",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/division-guide.json"
+ },
+ "taku_chat/cf9efe76d8d4341c": {
+  "content": "To factorise $x^2 + 5x + 6$, find two numbers that multiply to $6$ and add to $5$.\n\nThose numbers are $2$ and $3$, so the answer is $(x + 2)(x + 3)$.\n\nThe same care with balancing applies in chemistry: $\\ce{2H2 + O2 -> 2H2O}$.",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/factorise.json"
+ },
  "taku_chat/e8c8bd1298f3b97e": {
   "content": "Let's work it out together. What do you think a partially permeable membrane lets through, and what does it stop?",
   "usage": {
@@ -66,6 +186,62 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/taku_chat/osmosis.json"
  },
+ "taku_chat/a2e35bacb25407b7": {
+  "content": "Here is the outline your syllabus expects. The testes make sperm, which travel along the sperm ducts and leave through the urethra.",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/redteam-biology.json"
+ },
+ "taku_chat/74609e3d82e6f1be": {
+  "content": "I will not write it for you to hand in, but I can help you plan it. What is your main argument going to be?",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/redteam-essay.json"
+ },
+ "taku_chat/2caef79a038ac6df": {
+  "content": "What could you do to both sides to get $2x$ on its own? Try it and show me the line you get.",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/redteam-leak-just-tell-me.json"
+ },
+ "taku_chat/06ad7422cccd8657": {
+  "content": "I do not have a key to print. What is the first thing you would do to both sides?",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/redteam-leak-roleplay.json"
+ },
+ "taku_chat/a0fe92f4bcce6777": {
+  "content": "Your teacher will want your working too. Start by taking $3$ from both sides. What do you get?",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/redteam-leak-teacher.json"
+ },
+ "taku_chat/8a5d467ec876a441": {
+  "content": "Show me your first line and we can find where it went off. A similar one: if $3y + 1 = 10$, then $3y = 9$. What is your next step?",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/redteam-leak-tried.json"
+ },
+ "taku_chat/3f48272b3941d1a2": {
+  "content": "Let's work it out together. What could you do to both sides to get the term with $x$ on its own?\n\n```widget\n{\"slug\": \"equation-steps\", \"data\": {\"title\": \"Solve for x\", \"equation\": \"2x + 3 = 11\", \"variable\": \"x\", \"hints\": [\"Take 3 from both sides.\", \"Now divide both sides by 2.\"]}}\n```",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/solve-guide.json"
+ },
  "taku_tool/252c99d2fc702cf8": {
   "content": "{\"cards\": [{\"front\": \"What do green plants make in photosynthesis?\", \"back\": \"Glucose\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"front\": \"Which two raw materials does photosynthesis use?\", \"back\": \"Carbon dioxide and water\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"front\": \"What absorbs the light in a leaf?\", \"back\": \"Chlorophyll in the chloroplasts\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"front\": \"Which gas is released as a by product?\", \"back\": \"Oxygen\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}, {\"front\": \"Where does photosynthesis happen in a plant cell?\", \"back\": \"In the chloroplasts\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"The notes support 4 cards from the material.\"}",
   "usage": {
@@ -81,6 +257,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 600
   },
   "source": "tests/fixtures/ai/taku_tool/mindmap.json"
+ },
+ "taku_tool/c601f12fffdf73ad": {
+  "content": "{\"title\": \"Maths and chemistry check\", \"minutes\": 10, \"questions\": [{\"kind\": \"short\", \"prompt\": \"Simplify $\\\\frac{6x^2}{3x}$.\", \"options\": [], \"marks\": 2, \"answer\": \"$2x$\", \"markingPoints\": [\"divides the numbers\", \"$2x$\"], \"ref\": \"\", \"page\": 0, \"quote\": \"\"}, {\"kind\": \"short\", \"prompt\": \"Balance the equation for water, written as $\\\\ce{H2 + O2 -> H2O}$.\", \"options\": [], \"marks\": 1, \"answer\": \"$\\\\ce{2H2 + O2 -> 2H2O}$\", \"markingPoints\": [\"$\\\\ce{2H2 + O2 -> 2H2O}$\"], \"ref\": \"\", \"page\": 0, \"quote\": \"\"}, {\"kind\": \"short\", \"prompt\": \"Work out $7 \\\\times 8$.\", \"options\": [], \"marks\": 1, \"answer\": \"$54$\", \"markingPoints\": [\"$54$\"], \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"\"}",
+  "usage": {
+   "promptTokens": 1200,
+   "completionTokens": 300
+  },
+  "source": "tests/fixtures/ai/taku_tool/quiz-maths.json"
  },
  "taku_tool/c71b3700d27c0190": {
   "content": "{\"title\": \"Photosynthesis practice test\", \"minutes\": 15, \"questions\": [{\"kind\": \"mcq\", \"prompt\": \"Which gas is released as a by product of photosynthesis?\", \"options\": [\"Oxygen\", \"Carbon dioxide\", \"Nitrogen\", \"Hydrogen\"], \"marks\": 1, \"answer\": \"Oxygen\", \"markingPoints\": [\"Oxygen\"], \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}, {\"kind\": \"short\", \"prompt\": \"Name the two raw materials plants use to make glucose.\", \"options\": [], \"marks\": 2, \"answer\": \"Carbon dioxide and water\", \"markingPoints\": [\"carbon dioxide\", \"water\"], \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"kind\": \"structured\", \"prompt\": \"(a) State what absorbs light in a leaf. (b) Name the part of the cell where it is found.\", \"options\": [], \"marks\": 2, \"answer\": \"(a) Chlorophyll (b) the chloroplasts\", \"markingPoints\": [\"chlorophyll\", \"chloroplasts\"], \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"kind\": \"short\", \"prompt\": \"Explain why photosynthesis is described as an energy store.\", \"options\": [], \"marks\": 2, \"answer\": \"Light energy is stored in glucose\", \"markingPoints\": [\"light energy taken in\", \"stored as chemical energy in glucose\"], \"ref\": \"S1\", \"page\": 1, \"quote\": \"photosynthesis stores energy for the whole food chain\"}], \"missing\": \"\"}",
@@ -113,5 +297,29 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 600
   },
   "source": "tests/fixtures/ai/taku_tool/summary.json"
+ },
+ "taku_widget/47b3cdd091522468": {
+  "content": "{\"title\": \"Solve for x\", \"equation\": \"2x + 3 = 11\", \"variable\": \"x\", \"hints\": [\"Take 3 from both sides.\", \"Now divide both sides by 2.\", \"The answer is x = 4.\"]}",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_widget/equation-steps.json"
+ },
+ "taku_widget/01be0c4a44b7c7bf": {
+  "content": "{\"title\": \"Photosynthesis words\", \"items\": [{\"before\": \"\", \"answer\": \"Chlorophyll\", \"after\": \"in the chloroplasts absorbs the light.\", \"alternatives\": [], \"hint\": \"The green pigment.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"before\": \"\", \"answer\": \"Oxygen\", \"after\": \"is released as a by product.\", \"alternatives\": [\"O2\"], \"hint\": \"The gas you breathe in.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}, {\"before\": \"Plants store chlorophyll in their\", \"answer\": \"roots\", \"after\": \"for winter.\", \"alternatives\": [], \"hint\": \"\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"chlorophyll is stored in the roots for winter\"}]}",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_widget/fill-blanks.json"
+ },
+ "taku_widget/904952e8884c06f2": {
+  "content": "{\"title\": \"1234 divided by 7\", \"dividend\": 1234, \"divisor\": 7}",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_widget/long-division.json"
  }
 };

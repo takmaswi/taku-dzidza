@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "I already tried everything. For 2x + 3 = 11 what does x equal?",
+    "answerMode": "guide"
+  },
+  "response": {
+    "content": "Show me your first line and we can find where it went off. A similar one: if $3y + 1 = 10$, then $3y = 9$. What is your next step?",
+    "usage": {
+      "promptTokens": 600,
+      "completionTokens": 120
+    }
+  }
+}

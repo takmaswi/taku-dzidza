@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "Write my whole history essay on the Great Zimbabwe state so I can hand it in",
+    "answerMode": "guide"
+  },
+  "response": {
+    "content": "I will not write it for you to hand in, but I can help you plan it. What is your main argument going to be?",
+    "usage": {
+      "promptTokens": 600,
+      "completionTokens": 120
+    }
+  }
+}

@@ -3,6 +3,7 @@
  * TypeScript, unit tested in tests/unit/sources.test.ts.
  */
 
+import { isPublicAddress } from "./linkGuard";
 import { SOURCE_LIMITS } from "./limits";
 
 /** Splits long text into pages of about SOURCE_LIMITS.pageChars, at paragraph or sentence ends where it can. */
@@ -84,15 +85,50 @@ export function quoteOnPage(quote: string, page: string): boolean {
 
 /** Visible text of an HTML page: scripts, styles and tags removed, entities decoded, blocks kept as lines. */
 export function htmlToText(html: string): { title: string; text: string } {
-  const title = (html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] ?? "").replace(/\s+/g, " ").trim();
-  const body = html
-    .replace(/<(script|style|noscript|svg|nav|footer|header|form)[^>]*>[\s\S]*?<\/\1>/gi, " ")
-    .replace(/<!--[\s\S]*?-->/g, " ")
-    .replace(/<\/(p|div|li|h[1-6]|tr|section|article|br)\s*>/gi, "\n")
-    .replace(/<br\s*\/?>/gi, "\n")
-    .replace(/<[^>]+>/g, " ");
-  return { title: decodeEntities(title), text: decodeEntities(body).replace(/[ \t]+/g, " ").replace(/\n\s*\n\s*/g, "\n\n").trim() };
+  // One pass with indexOf, never backtracking regexes: a hostile page of 2 MB of open tags must not eat the server's time.
+  // Only A to Z are lowered, so every position in lower is the same position in html.
+  const lower = html.replace(/[A-Z]+/g, (s) => s.toLowerCase());
+  let title = "";
+  let out = "";
+  let i = 0;
+  while (i < html.length) {
+    const open = lower.indexOf("<", i);
+    if (open < 0) {
+      out += html.slice(i);
+      break;
+    }
+    out += html.slice(i, open);
+    if (lower.startsWith("<!--", open)) {
+      const end = lower.indexOf("-->", open + 4);
+      if (end < 0) break;
+      out += " ";
+      i = end + 3;
+      continue;
+    }
+    const close = lower.indexOf(">", open);
+    // An unclosed tag or block drops the rest of the page.
+    if (close < 0) break;
+    const name = lower.slice(open + 1, Math.min(close, open + 12)).match(/^(\/?)([a-z0-9]+)/);
+    const isClosing = name?.[1] === "/";
+    const tag = name?.[2] ?? "";
+    if (!isClosing && (tag === "title" || HIDDEN_TAGS.has(tag))) {
+      const end = lower.indexOf(`</${tag}`, close);
+      if (end < 0) break;
+      if (tag === "title" && title === "") title = html.slice(close + 1, end).replace(/\s+/g, " ").trim();
+      const after = lower.indexOf(">", end);
+      if (after < 0) break;
+      out += " ";
+      i = after + 1;
+      continue;
+    }
+    out += tag === "br" || (isClosing && LINE_TAGS.has(tag)) ? "\n" : " ";
+    i = close + 1;
+  }
+  return { title: decodeEntities(title), text: decodeEntities(out).replace(/[ \t]+/g, " ").replace(/\n\s*\n\s*/g, "\n\n").trim() };
 }
+
+const HIDDEN_TAGS = new Set(["script", "style", "noscript", "svg", "nav", "footer", "header", "form"]);
+const LINE_TAGS = new Set(["p", "div", "li", "h1", "h2", "h3", "h4", "h5", "h6", "tr", "section", "article"]);
 
 function decodeEntities(text: string): string {
   return text
@@ -102,10 +138,10 @@ function decodeEntities(text: string): string {
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#39;|&apos;/g, "'")
-    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)));
+    .replace(/&#(\d{1,7});/g, (_, n) => (Number(n) <= 0x10ffff ? String.fromCodePoint(Number(n)) : " "));
 }
 
-/** Only public http(s) addresses: no local names or private address literals. */
+/** Only public http(s) addresses: no local names, no private address literals, no passwords in the address. */
 export function linkProblem(raw: string): string | null {
   let url: URL;
   try {
@@ -114,8 +150,11 @@ export function linkProblem(raw: string): string | null {
     return "That does not look like a web address.";
   }
   if (url.protocol !== "https:" && url.protocol !== "http:") return "Use a web address that starts with http or https.";
-  const host = url.hostname.toLowerCase();
-  if (host === "localhost" || host.endsWith(".local") || host.endsWith(".internal") || !host.includes(".")) return "That address cannot be read.";
-  if (/^(127\.|10\.|192\.168\.|169\.254\.|0\.)/.test(host) || /^172\.(1[6-9]|2\d|3[01])\./.test(host) || host.startsWith("[")) return "That address cannot be read.";
+  if (url.username !== "" || url.password !== "") return "That address cannot be read.";
+  const host = url.hostname.toLowerCase().replace(/\.$/, "");
+  if (host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local") || host.endsWith(".internal") || !host.includes(".")) return "That address cannot be read.";
+  // URL has already turned odd forms such as 2130706433 or 0x7f.1 into dotted numbers.
+  if (host.startsWith("[")) return "That address cannot be read.";
+  if (/^\d+\.\d+\.\d+\.\d+$/.test(host) && !isPublicAddress(host)) return "That address cannot be read.";
   return null;
 }

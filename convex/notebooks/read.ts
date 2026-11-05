@@ -3,6 +3,7 @@ import { internal } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
 import { internalAction, internalMutation, internalQuery, type ActionCtx, type MutationCtx } from "../_generated/server";
 import { PROMPTS } from "../data/generated";
+import type { LinkOutcome } from "../sources/linkGuard";
 import { SOURCE_LIMITS } from "../sources/limits";
 import { chunkPage, htmlToText, linkProblem, splitPages } from "../sources/text";
 
@@ -72,9 +73,9 @@ function base64(bytes: Uint8Array): string {
 }
 
 /** Photos and scanned PDFs: the model writes out each page's text exactly. */
-async function transcribe(ctx: ActionCtx, args: { profileId: string; name: string; kind: "image" | "pdf"; bytes: Uint8Array; contentType: string }): Promise<string[] | null> {
-  const room = await ctx.runQuery(internal.ai.usage.check, { profileId: args.profileId, calls: 1 });
-  if (!room.allowed) return null;
+async function transcribe(ctx: ActionCtx, args: { profileId: string; name: string; kind: "image" | "pdf"; bytes: Uint8Array; contentType: string }): Promise<string[] | "limit" | null> {
+  const room = await ctx.runMutation(internal.ai.usage.admit, { profileId: args.profileId, kind: "read" });
+  if (!room.allowed) return "limit";
   const dataUrl = `data:${args.contentType};base64,${base64(args.bytes)}`;
   const part = args.kind === "image" ? { type: "image_url" as const, image_url: { url: dataUrl } } : { type: "file" as const, file: { filename: args.name, file_data: dataUrl } };
   const result = await ctx.runAction(internal.ai.router.call, {
@@ -90,7 +91,7 @@ async function transcribe(ctx: ActionCtx, args: { profileId: string; name: strin
     stablePrefixCount: 1,
     fixtureKey: { kind: "transcribe", name: args.name, bytes: args.bytes.length },
   });
-  await ctx.runMutation(internal.ai.usage.record, { profileId: args.profileId, calls: 1, costUsd: result.costUsd });
+  await ctx.runMutation(internal.ai.usage.record, { profileId: args.profileId, tool: "source_read", costUsd: result.costUsd });
   if (!result.ok) return null;
   try {
     const parsed = JSON.parse(result.content) as { pages?: unknown };
@@ -113,7 +114,7 @@ export const readFile = internalAction({
       const blob = await ctx.storage.get(source.storageId);
       if (blob === null) return await fail("The file is missing. Add it again.");
       const bytes = new Uint8Array(await blob.arrayBuffer());
-      let pages: string[] | null = null;
+      let pages: string[] | "limit" | null = null;
       if (source.kind === "docx") {
         const read: string[] = await ctx.runAction(internal.sources.fileText.docx, { storageId: source.storageId });
         pages = read.flatMap((p) => (p.length > SOURCE_LIMITS.pageChars * 2 ? splitPages(p) : [p]));
@@ -125,6 +126,7 @@ export const readFile = internalAction({
       } else if (source.kind === "image") {
         pages = await transcribe(ctx, { profileId: source.profileId, name: source.title, kind: "image", bytes, contentType: blob.type || "image/jpeg" });
       }
+      if (pages === "limit") return await fail("You have used today's Taku allowance, so this file was not read. Add it again after 2am Harare time.");
       if (pages === null) return await fail("Taku could not read this file just now. Try again later.");
       await ctx.runMutation(internal.notebooks.read.savePages, { sourceId: args.sourceId, pages });
     } catch (error) {
@@ -133,8 +135,6 @@ export const readFile = internalAction({
     }
   },
 });
-
-export const LINK_TIMEOUT_MS = 15_000;
 
 export const readLink = internalAction({
   args: { sourceId: v.id("sources") },
@@ -145,22 +145,14 @@ export const readLink = internalAction({
       await ctx.runMutation(internal.notebooks.read.markFailed, { sourceId: args.sourceId, error });
     };
     if (linkProblem(source.url) !== null) return await fail("That address cannot be read.");
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), LINK_TIMEOUT_MS);
-    try {
-      const response: Response = await fetch(source.url, { signal: controller.signal, redirect: "follow", headers: { "User-Agent": "Takudzidza source reader" } });
-      if (!response.ok) return await fail(`The page answered with an error (${response.status}).`);
-      const type = response.headers.get("content-type") ?? "";
-      if (!/text\/html|text\/plain/.test(type)) return await fail("Only web pages can be added as links. Download a PDF and add it as a file.");
-      const raw = (await response.text()).slice(0, SOURCE_LIMITS.maxLinkBytes);
-      const { title, text } = type.includes("html") ? htmlToText(raw) : { title: "", text: raw };
-      const pages = splitPages(text);
-      if (pages.length === 0) return await fail("No text could be read from this page.");
-      await ctx.runMutation(internal.notebooks.read.savePages, { sourceId: args.sourceId, pages, title });
-    } catch {
-      await fail("The page could not be reached.");
-    } finally {
-      clearTimeout(timer);
-    }
+    const outcome: LinkOutcome = await ctx.runAction(internal.sources.linkFetch.fetchLink, { url: source.url });
+    if (!outcome.ok) return await fail(outcome.error);
+    const { status, contentType, body } = outcome.response;
+    if (status < 200 || status >= 300) return await fail(`The page answered with an error (${status}).`);
+    if (!/text\/html|text\/plain/.test(contentType)) return await fail("Only web pages can be added as links. Download a PDF and add it as a file.");
+    const { title, text } = contentType.includes("html") ? htmlToText(body) : { title: "", text: body };
+    const pages = splitPages(text);
+    if (pages.length === 0) return await fail("No text could be read from this page.");
+    await ctx.runMutation(internal.notebooks.read.savePages, { sourceId: args.sourceId, pages, title });
   },
 });

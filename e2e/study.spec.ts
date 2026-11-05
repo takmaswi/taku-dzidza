@@ -1,31 +1,17 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page, type TestInfo } from "@playwright/test";
+import { adultOnHome, newNotebook, pasteNotes } from "./helpers";
 
 /** Phase 3: study tools from a notebook (mock fixtures, no AI spend). */
 
-const NOTES = "Photosynthesis\nGreen plants make glucose from carbon dioxide and water using light energy.\nChlorophyll in the chloroplasts absorbs the light.\nOxygen is released as a by product.";
-
-async function notebook(page: Page, project: string) {
-  await page.goto("/signin?mode=signUp");
-  await page.getByLabel("Email").fill(`e2e-study-${project}-${Date.now()}@example.com`);
-  await page.getByLabel("Password").fill("studyhard2026");
-  await page.getByRole("button", { name: "Create account" }).click();
-  await page.getByLabel("What should Taku call you?").fill("Farai");
-  await page.getByLabel("Month").selectOption({ label: "January" });
-  await page.getByLabel("Year").selectOption(String(new Date().getFullYear() - 22));
-  await page.getByRole("button", { name: "Continue" }).click();
-  await page.getByRole("button", { name: "Skip" }).click();
-  await page.getByRole("button", { name: "New notebook" }).first().click();
-  await page.getByLabel("What is this notebook for?").fill("Biology");
-  await page.getByRole("button", { name: "Create notebook" }).click();
-  await page.getByRole("button", { name: "Paste text" }).click();
-  await page.getByLabel("Your text").fill(NOTES);
-  await page.getByRole("button", { name: "Add text" }).click();
-  await expect(page.getByText("1 page")).toBeVisible();
+async function notebook(page: Page, info: TestInfo) {
+  await adultOnHome(page, info, "e2e-study");
+  await newNotebook(page, "Biology");
+  await pasteNotes(page, info);
   await page.getByRole("tab", { name: "Study tools" }).click();
 }
 
 test("flashcards, a quiz paper, Scroll and a summary", async ({ page }, info) => {
-  await notebook(page, info.project.name);
+  await notebook(page, info);
 
   // Flashcards and review.
   await page.getByRole("button", { name: /^Flashcards/ }).click();

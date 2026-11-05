@@ -1,8 +1,19 @@
 import { Fragment, type ReactNode } from "react";
+import { MathText } from "./MathText";
 
-/** Taku's replies use short paragraphs, numbered and bulleted lists and **bold**. This renders just that, never HTML. */
+/** Taku's replies use short paragraphs, numbered and bulleted lists, **bold** and $maths$. This renders just that, never HTML. */
 function inline(text: string): ReactNode[] {
-  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) => (part.startsWith("**") && part.endsWith("**") ? <b key={i}>{part.slice(2, -2)}</b> : <Fragment key={i}>{part}</Fragment>));
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith("**") && part.endsWith("**") ? (
+      <b key={i}>
+        <MathText text={part.slice(2, -2)} />
+      </b>
+    ) : (
+      <Fragment key={i}>
+        <MathText text={part} />
+      </Fragment>
+    ),
+  );
 }
 
 export function Markdown({ text }: { text: string }) {

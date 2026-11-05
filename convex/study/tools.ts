@@ -3,12 +3,14 @@ import { internal } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
 import { action, internalMutation, internalQuery, mutation, query } from "../_generated/server";
 import { createEmptyCard } from "ts-fsrs";
+import { secondOpinion } from "../ai/secondOpinion";
 import { MODES, PROMPTS } from "../data/generated";
 import { requireLearner, requireLearnerInAction } from "../lib/access";
 import type { OutputKind } from "../modes/package";
 import { cleanDashes } from "../notebooks/ask";
 import { ownNotebook } from "../notebooks/notebooks";
 import { settleItems, type SourceMode } from "../sources/modes";
+import { applyIdeas, applyMarking, ideaItems, markingItems } from "./opinion";
 import { JSON_SCHEMAS, rawSchemas, type QuizContent } from "./shapes";
 
 /**
@@ -129,9 +131,15 @@ export const TOOL_MESSAGES = {
   noSources: "Add some notes to this notebook first.",
   failed: "Taku could not make this just now. Try again in a moment.",
   empty: "Your material does not support this tool yet. Add more notes, or switch to My material plus Taku's ideas.",
-  learnerCap: "You have used Taku a lot today. Come back tomorrow, or review your flashcards in the meantime.",
-  deploymentCap: "Taku has reached today's limit. Please try again tomorrow.",
+  learnerCap: "You have used today's Taku allowance. It comes back at 2am Harare time. Your flashcards still work in the meantime.",
+  deploymentCap: "Taku has reached today's limit for everyone. It comes back at 2am Harare time.",
+  busy: "That is a lot at once. Wait a minute, then try again.",
 } as const;
+
+export function capMessage(reason: "learner_cap" | "deployment_cap" | "busy"): string {
+  if (reason === "busy") return TOOL_MESSAGES.busy;
+  return reason === "learner_cap" ? TOOL_MESSAGES.learnerCap : TOOL_MESSAGES.deploymentCap;
+}
 
 export const generate = action({
   args: { notebookId: v.id("notebooks"), mode: v.string(), options: v.object({ count: v.optional(v.number()), difficulty: v.optional(v.string()), minutes: v.optional(v.number()) }) },
@@ -142,8 +150,8 @@ export const generate = action({
     const options = checkOptions(args.mode, args.options as ToolOptions);
     const c: { profileId: Id<"profiles">; studyStyle: Doc<"profiles">["studyStyle"]; sourceMode: SourceMode; pages: Page[] } = await ctx.runQuery(internal.study.tools.toolContext, { notebookId: args.notebookId });
     if (c.pages.length === 0) return { ok: false, message: TOOL_MESSAGES.noSources };
-    const room = await ctx.runQuery(internal.ai.usage.check, { profileId: c.profileId, calls: 1 });
-    if (!room.allowed) return { ok: false, message: room.reason === "learner_cap" ? TOOL_MESSAGES.learnerCap : TOOL_MESSAGES.deploymentCap };
+    const room = await ctx.runMutation(internal.ai.usage.admit, { profileId: c.profileId, kind: "ask" });
+    if (!room.allowed) return { ok: false, message: capMessage(room.reason) };
 
     const kind = mode.frontmatter.output as OutputKind;
     const sourceBlock = c.pages.map((p) => `<source ref="${p.ref}" title="${p.title.replace(/[<>"]/g, "'")}" page="${p.page}">\n${p.text.replace(/<\/?\s*source\b[^>]*>/gi, " ")}\n</source>`).join("\n");
@@ -159,7 +167,7 @@ export const generate = action({
       stablePrefixCount: 1,
       fixtureKey: { kind: "tool", mode: args.mode, sourceMode: c.sourceMode, options },
     });
-    await ctx.runMutation(internal.ai.usage.record, { profileId: c.profileId, calls: 1, costUsd: result.costUsd });
+    await ctx.runMutation(internal.ai.usage.record, { profileId: c.profileId, tool: args.mode, costUsd: result.costUsd });
     if (!result.ok) return { ok: false, message: TOOL_MESSAGES.failed };
 
     let raw: unknown;
@@ -174,12 +182,20 @@ export const generate = action({
       const found = byRefPage.get(`${ref}:${page}`);
       return found === undefined ? null : { sourceId: found.sourceId as string, text: found.text };
     };
-    const built = buildContent(kind, raw, c.sourceMode, lookup);
-    if (built === null) return { ok: false, message: TOOL_MESSAGES.failed };
+    const first = buildContent(kind, raw, c.sourceMode, lookup);
+    if (first === null) return { ok: false, message: TOOL_MESSAGES.failed };
+    if (first.items === 0) return { ok: false, message: TOOL_MESSAGES.empty };
+    // A second opinion on Taku's own ideas, and on every marking scheme.
+    const checked =
+      kind === "quiz"
+        ? applyMarking(first, await secondOpinion(ctx, { profileId: c.profileId, check: "marking", items: markingItems(first) }))
+        : applyIdeas(kind, first, await secondOpinion(ctx, { profileId: c.profileId, check: "ideas", items: ideaItems(kind, first) }));
+    const built = checked.built;
     if (built.items === 0) return { ok: false, message: TOOL_MESSAGES.empty };
     const notes: string[] = [];
     if (built.missing.length > 0) notes.push(cleanDashes(built.missing));
     if (built.dropped > 0) notes.push(`${built.dropped} ${built.dropped === 1 ? "item was" : "items were"} left out because ${built.dropped === 1 ? "it" : "they"} could not be found in your material.`);
+    if (checked.left > 0) notes.push(`${checked.left} ${checked.left === 1 ? "item was" : "items were"} left out because a second check did not agree.`);
     const outputId: Id<"outputs"> = await ctx.runMutation(internal.study.tools.saveOutput, {
       notebookId: args.notebookId,
       profileId: c.profileId,

@@ -207,7 +207,7 @@ Same stack as Amai Learn and Takubasa so code moves byte for byte:
 
 - Vite, React 19, React Router 7, TypeScript, vite-plugin-pwa (PWA, installable on Android).
 - Convex (database, functions, file storage, crons) with Convex Auth (password, Google later).
-- AI: one router file (port `amayi-learn/convex/ai/router.ts`), the only file that knows OpenRouter. Mock mode returns recorded fixtures or throws `MissingFixtureError`; never a default. Structured output routing to schema enforcing providers. Purposes: `source_read`, `chris_answer`, `chris_tool`, `input_check`, `output_check`, `speech`, `embed`.
+- AI: one router file (port `amayi-learn/convex/ai/router.ts`), the only file that knows OpenRouter. Mock mode returns recorded fixtures or throws `MissingFixtureError`; never a default. Structured output routing to schema enforcing providers. Purposes: `source_read`, `taku_answer`, `taku_tool`, `input_check`, `output_check`, `speech`, `embed`.
 - Budgets and usage: port `takubasa/convex/ai/budget.ts` (per user daily token budget, monthly spend cap that drops to the fast tier) and `convex/usage.ts`.
 - Brains: port `takubasa/convex/ai/brains.ts` naming pattern and owner decisions; the brains console and admin console come in Phase 7. Model ids are chosen in Phase 1 by checking the OpenRouter models and ZDR endpoint list on that day, not from this document.
 - Jev decision scoring (`takubasa/convex/decisions/jev.ts`): optional, `JEV_MODE=off` by default; candidate use is classifying work type (studying or assessed).
@@ -299,7 +299,7 @@ Payment provider options for EcoCash: Paynow, or EcoCash's own merchant API. Cho
 
 | # | Decision | Answer |
 |---|---|---|
-| D1 | Tutor | Tools first, one tutor voice named **Taku** |
+| D1 | Tutor | Tools first, one tutor voice named **Taku** (name confirmed by Takunda again on 5 November 2026) |
 | D1b | Answers or guidance | Learner toggle; default "Show me the answer" with working, "Guide me" toggle |
 | D2 | Pricing | **Open.** Free tier at launch; no billing code until Takunda decides. Paid features planned: reels, podcast, story mode |
 | D3 | Exams | Any course works from uploads; first syllabus packs ZIMSEC O and A Level and Cambridge; ACCA next |

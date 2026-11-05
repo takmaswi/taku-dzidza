@@ -4,7 +4,10 @@ import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import { ConvexReactClient } from "convex/react";
 import { BrowserRouter } from "react-router";
 import App from "./App";
+import { startErrorTracking } from "./observability";
 import "./styles/app.css";
+
+void startErrorTracking();
 
 const url = import.meta.env.VITE_CONVEX_URL as string | undefined;
 const convex = url ? new ConvexReactClient(url) : null;

@@ -12,7 +12,9 @@ describe("AI router in mock mode", () => {
       messages: [{ role: "user", content: "anything" }],
       fixtureKey: { test: "router mock example" },
     });
-    expect(result).toMatchObject({ ok: true, content: '{"verdict":"allow"}', model: "mock", costUsd: 0 });
+    expect(result).toMatchObject({ ok: true, content: '{"verdict":"allow"}', model: "mock" });
+    // Mock calls cost a modelled amount, so the spending limits can be tested with no real money.
+    if (result.ok) expect(result.costUsd).toBeGreaterThan(0);
   });
 
   test("throws MissingFixtureError for an unknown key instead of calling a model", async () => {

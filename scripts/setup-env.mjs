@@ -75,6 +75,12 @@ if (siteUrl !== undefined) {
   values.OPENROUTER_SITE_URL = siteUrl;
 }
 if (!prod && local.OPENROUTER_API_KEY) values.OPENROUTER_API_KEY = local.OPENROUTER_API_KEY;
+if (mode === "mock") {
+  // Mock replies are priced, so repeated test runs must not hit the real cap; slowed down so journeys see progress.
+  values.AI_DAILY_USD_CAP = "1000";
+  values.LEARNER_DAILY_USD_CAP = "1000";
+  values.MOCK_AI_DELAY_MS = "120";
+}
 if (rotate || !have.has("JWT_PRIVATE_KEY") || !have.has("JWKS")) {
   const keys = await generateKeyPair("RS256", { extractable: true });
   const privateKey = await exportPKCS8(keys.privateKey);

@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "How does the male reproductive system work? It is in my biology syllabus.",
+    "answerMode": "answer"
+  },
+  "response": {
+    "content": "Here is the outline your syllabus expects. The testes make sperm, which travel along the sperm ducts and leave through the urethra.",
+    "usage": {
+      "promptTokens": 600,
+      "completionTokens": 120
+    }
+  }
+}

@@ -3,11 +3,13 @@ import { internal } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
 import { action, internalMutation, internalQuery } from "../_generated/server";
 import { ADULT_AGE, ageOn } from "../accounts/age";
+import { secondOpinion } from "../ai/secondOpinion";
 import { PROMPTS } from "../data/generated";
 import { requireLearner, requireLearnerInAction } from "../lib/access";
 import { prefilter, type Audience } from "../safety/prefilter";
 import { settleParts, type RawPart, type SourceMode } from "../sources/modes";
-import { originValidator } from "../schema";
+import { originValidator, widgetValidator } from "../schema";
+import { widgetFromText, type StoredWidget } from "../widgets/inline";
 
 /**
  * Ask Taku about a notebook (SPEC.md 2.2 and 3.2). In order:
@@ -17,8 +19,11 @@ import { originValidator } from "../schema";
  *   4. search the notebook's chunks for the question;
  *   5. Taku answers with a ref, page and quote per part;
  *   6. every quote is checked on its page (sources/modes.ts) and the
- *      source mode decides what happens to parts that fail.
- * The question and answer are kept in the notebook, which the learner owns.
+ *      source mode decides what happens to parts that fail;
+ *   7. Taku's own ideas get a second opinion (ai/secondOpinion.ts).
+ * The question and an unfinished answer are saved first, and the answer's
+ * stage moves along so the app can show real progress. The question and answer
+ * are kept in the notebook, which the learner owns.
  */
 
 export const MAX_QUESTION = 2000;
@@ -31,10 +36,16 @@ export const REPLIES = {
   companion: "I am Taku, your study tutor, so I keep things to studying. What would you like to work on?",
   noSources: "Add some notes, a PDF, photos or a link to this notebook first, then ask me about them.",
   failed: "I could not answer just now. Your question was saved. Try again in a moment.",
-  learnerCap: "You have asked a lot today. Take a break and come back tomorrow, or review your flashcards in the meantime.",
-  deploymentCap: "Taku is very busy today and has reached today's limit. Please try again tomorrow.",
+  learnerCap: "You have used today's Taku allowance. It comes back at 2am Harare time. Your flashcards still work in the meantime.",
+  deploymentCap: "Taku is very busy and has reached today's limit for everyone. It comes back at 2am Harare time.",
+  busy: "That is a lot at once. Wait a minute, then ask again.",
   nothingFound: "Your material does not seem to cover this.",
 } as const;
+
+export function capReply(reason: "learner_cap" | "deployment_cap" | "busy"): string {
+  if (reason === "busy") return REPLIES.busy;
+  return reason === "learner_cap" ? REPLIES.learnerCap : REPLIES.deploymentCap;
+}
 
 export type AskContext = {
   profileId: Id<"profiles">;
@@ -90,24 +101,37 @@ export const retrieve = internalQuery({
 
 const partValidator = v.object({ text: v.string(), origin: originValidator });
 
-export const save = internalMutation({
+/** The question, and an unfinished answer that shows the first stage. */
+export const begin = internalMutation({
+  args: { notebookId: v.id("notebooks"), question: v.string(), sourceMode: v.union(v.literal("only_mine"), v.literal("mine_plus")), answerMode: v.union(v.literal("answer"), v.literal("guide")) },
+  handler: async (ctx, args): Promise<Id<"messages">> => {
+    const now = Date.now();
+    await ctx.db.insert("messages", { notebookId: args.notebookId, role: "learner", kind: "question", text: args.question, createdAt: now });
+    await ctx.db.patch(args.notebookId, { updatedAt: now });
+    return await ctx.db.insert("messages", { notebookId: args.notebookId, role: "taku", kind: "answer", text: "", stage: "reading", sourceMode: args.sourceMode, answerMode: args.answerMode, createdAt: now + 1 });
+  },
+});
+
+export const setStage = internalMutation({
+  args: { messageId: v.id("messages"), stage: v.union(v.literal("reading"), v.literal("writing"), v.literal("checking")) },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.messageId, { stage: args.stage });
+  },
+});
+
+export const finish = internalMutation({
   args: {
-    notebookId: v.id("notebooks"),
-    question: v.string(),
+    messageId: v.id("messages"),
     reply: v.object({
       kind: v.union(v.literal("answer"), v.literal("help"), v.literal("redirect"), v.literal("error")),
       text: v.string(),
       parts: v.optional(v.array(partValidator)),
       note: v.optional(v.string()),
-      sourceMode: v.optional(v.union(v.literal("only_mine"), v.literal("mine_plus"))),
-      answerMode: v.optional(v.union(v.literal("answer"), v.literal("guide"))),
+      widget: v.optional(widgetValidator),
     }),
   },
   handler: async (ctx, args) => {
-    const now = Date.now();
-    await ctx.db.insert("messages", { notebookId: args.notebookId, role: "learner", kind: "question", text: args.question, createdAt: now });
-    await ctx.db.insert("messages", { notebookId: args.notebookId, role: "taku", ...args.reply, createdAt: now + 1 });
-    await ctx.db.patch(args.notebookId, { updatedAt: now });
+    await ctx.db.patch(args.messageId, { ...args.reply, stage: undefined });
   },
 });
 
@@ -130,8 +154,12 @@ const SOURCE_MODE_TEXT: Record<SourceMode, string> = {
 
 const ANSWER_MODE_TEXT: Record<Doc<"profiles">["answerMode"], string> = {
   answer: "ANSWER MODE: SHOW ME THE ANSWER. Give the answer with full working, step by step, so the learner can follow every step.",
-  guide:
-    "ANSWER MODE: GUIDE ME. Do not give the final answer. Give one hint or one guiding question at a time that moves the learner to the next step, and ask them to try. If they have clearly tried and are stuck, show a worked example of a similar problem with different numbers. Never write a finished essay or paragraph for them to hand in.",
+  guide: `ANSWER MODE: GUIDE ME. Do not give the final answer. Give one hint or one guiding question at a time that moves the learner to the next step, and ask them to try. If they have clearly tried and are stuck, show a worked example of a similar problem with different numbers. Never write a finished essay or paragraph for them to hand in.
+
+WIDGETS IN GUIDE ME. When it helps the learner practise, set widget to one of these, with data as a JSON string. Never put the final answer in a hint.
+- slug "equation-steps" for an equation in one unknown. data: {"title": "...", "equation": "2x + 3 = 11", "variable": "x", "hints": ["..."]}
+- slug "long-division" for a long division. data: {"title": "...", "dividend": 1234, "divisor": 7}
+- slug "fill-blanks" to recall facts from the pages. data: {"title": "...", "items": [{"before": "words before the gap", "answer": "the missing word", "after": "words after the gap", "alternatives": [], "hint": "...", "ref": "S1", "page": 1, "quote": "exact words from that page that include the answer"}]}`,
 };
 
 const STYLE_TEXT: Record<Doc<"profiles">["studyStyle"], string> = {
@@ -161,23 +189,31 @@ export const ANSWER_SCHEMA = {
         },
       },
       missing: { type: "string" },
+      widget: {
+        type: "object",
+        properties: { slug: { type: "string", enum: ["", "equation-steps", "fill-blanks", "long-division"] }, data: { type: "string" } },
+        required: ["slug", "data"],
+        additionalProperties: false,
+      },
     },
-    required: ["parts", "missing"],
+    required: ["parts", "missing", "widget"],
     additionalProperties: false,
   },
 };
 
-export function parseAnswer(content: string): { parts: RawPart[]; missing: string } | null {
+export function parseAnswer(content: string): { parts: RawPart[]; missing: string; widget: { slug: string; data: string } | null } | null {
   try {
     const trimmed = content.trim();
-    const parsed = JSON.parse(trimmed.slice(trimmed.indexOf("{"), trimmed.lastIndexOf("}") + 1)) as { parts?: unknown; missing?: unknown };
+    const parsed = JSON.parse(trimmed.slice(trimmed.indexOf("{"), trimmed.lastIndexOf("}") + 1)) as { parts?: unknown; missing?: unknown; widget?: { slug?: unknown; data?: unknown } };
     if (!Array.isArray(parsed.parts)) return null;
     const parts: RawPart[] = [];
     for (const p of parsed.parts as Record<string, unknown>[]) {
       if (typeof p?.text !== "string") continue;
       parts.push({ text: p.text, ref: typeof p.ref === "string" ? p.ref : "", page: typeof p.page === "number" ? p.page : 0, quote: typeof p.quote === "string" ? p.quote : "" });
     }
-    return { parts, missing: typeof parsed.missing === "string" ? parsed.missing : "" };
+    const w = parsed.widget;
+    const widget = typeof w?.slug === "string" && w.slug !== "" && typeof w.data === "string" ? { slug: w.slug, data: w.data } : null;
+    return { parts, missing: typeof parsed.missing === "string" ? parsed.missing : "", widget };
   } catch {
     return null;
   }
@@ -194,6 +230,8 @@ const INPUT_SCHEMA = {
   },
 };
 
+type AskReply = { kind: "answer" | "help" | "redirect" | "error"; text: string; parts?: { text: string; origin: { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added"; unchecked?: boolean } }[]; note?: string; widget?: StoredWidget };
+
 export const ask = action({
   args: { notebookId: v.id("notebooks"), question: v.string() },
   handler: async (ctx, args): Promise<{ kind: string }> => {
@@ -201,80 +239,101 @@ export const ask = action({
     const c: AskContext = await ctx.runQuery(internal.notebooks.ask.context, { notebookId: args.notebookId });
     const question = args.question.trim().slice(0, MAX_QUESTION);
     if (question.length === 0) throw new ConvexError("Type a question first.");
-    const reply = async (r: { kind: "answer" | "help" | "redirect" | "error"; text: string; parts?: { text: string; origin: { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added" } }[]; note?: string }) => {
-      await ctx.runMutation(internal.notebooks.ask.save, { notebookId: args.notebookId, question, reply: { ...r, sourceMode: c.sourceMode, answerMode: c.answerMode } });
+    const messageId: Id<"messages"> = await ctx.runMutation(internal.notebooks.ask.begin, { notebookId: args.notebookId, question, sourceMode: c.sourceMode, answerMode: c.answerMode });
+    const reply = async (r: AskReply) => {
+      await ctx.runMutation(internal.notebooks.ask.finish, { messageId, reply: r });
       return { kind: r.kind };
     };
-
-    const pre = prefilter(question, c.audience);
-    if (pre.kind === "distress") return await reply({ kind: "help", text: REPLIES.help });
-    if (pre.kind === "redirect") return await reply({ kind: "redirect", text: pre.category === "companion" || pre.category === "romance" ? REPLIES.companion : REPLIES.redirect });
-    // Personal details from an under 18 are not sent to any model.
-    if (pre.kind === "personal_info") return await reply({ kind: "redirect", text: "Please leave out phone numbers, addresses, ID numbers and full names. Ask your question again without them." });
-
-    // Spending limits (convex/ai/usage.ts): this question can make up to two model calls.
-    const room = await ctx.runQuery(internal.ai.usage.check, { profileId: c.profileId, calls: c.audience === "minor" ? 2 : 1 });
-    if (!room.allowed) return await reply({ kind: "error", text: room.reason === "learner_cap" ? REPLIES.learnerCap : REPLIES.deploymentCap });
-    const count = async (r: { costUsd: number }) => {
-      await ctx.runMutation(internal.ai.usage.record, { profileId: c.profileId, calls: 1, costUsd: r.costUsd });
+    const count = async (tool: string, r: { costUsd: number }) => {
+      await ctx.runMutation(internal.ai.usage.record, { profileId: c.profileId, tool, costUsd: r.costUsd });
     };
 
-    if (c.audience === "minor") {
-      const check = await ctx.runAction(internal.ai.router.call, {
-        tier: "fast",
-        purpose: "safety_check",
-        messages: [
-          { role: "system", content: PROMPTS["safety-input"] },
-          { role: "user", content: `<text>${asData(question)}</text>` },
-        ],
-        jsonSchema: INPUT_SCHEMA,
-        maxTokens: 120,
-        reasoningEffort: "none",
-        stablePrefixCount: 1,
-        fixtureKey: { kind: "input_check", question },
-      });
-      await count(check);
-      let verdict: string | null = null;
-      try {
-        verdict = check.ok ? (JSON.parse(check.content) as { verdict?: string }).verdict ?? null : null;
-      } catch {
-        verdict = null;
+    try {
+      const pre = prefilter(question, c.audience);
+      if (pre.kind === "distress") return await reply({ kind: "help", text: REPLIES.help });
+      if (pre.kind === "redirect") return await reply({ kind: "redirect", text: pre.category === "companion" || pre.category === "romance" ? REPLIES.companion : REPLIES.redirect });
+      // Personal details from an under 18 are not sent to any model.
+      if (pre.kind === "personal_info") return await reply({ kind: "redirect", text: "Please leave out phone numbers, addresses, ID numbers and full names. Ask your question again without them." });
+
+      // Spending limits (convex/ai/usage.ts).
+      const room = await ctx.runMutation(internal.ai.usage.admit, { profileId: c.profileId, kind: "ask" });
+      if (!room.allowed) return await reply({ kind: "error", text: capReply(room.reason) });
+
+      if (c.audience === "minor") {
+        const check = await ctx.runAction(internal.ai.router.call, {
+          tier: "fast",
+          purpose: "safety_check",
+          messages: [
+            { role: "system", content: PROMPTS["safety-input"] },
+            { role: "user", content: `<text>${asData(question)}</text>` },
+          ],
+          jsonSchema: INPUT_SCHEMA,
+          maxTokens: 120,
+          reasoningEffort: "none",
+          stablePrefixCount: 1,
+          fixtureKey: { kind: "input_check", question },
+        });
+        await count("safety_check", check);
+        let verdict: string | null = null;
+        try {
+          verdict = check.ok ? (JSON.parse(check.content) as { verdict?: string }).verdict ?? null : null;
+        } catch {
+          verdict = null;
+        }
+        if (verdict === "self_harm" || verdict === "harmed") return await reply({ kind: "help", text: REPLIES.help });
+        if (verdict === "redirect") return await reply({ kind: "redirect", text: REPLIES.redirect });
+        // Fail closed: no clear allow, no answer.
+        if (verdict !== "allow") return await reply({ kind: "error", text: REPLIES.failed });
       }
-      if (verdict === "self_harm" || verdict === "harmed") return await reply({ kind: "help", text: REPLIES.help });
-      if (verdict === "redirect") return await reply({ kind: "redirect", text: REPLIES.redirect });
-      // Fail closed: no clear allow, no answer.
-      if (verdict !== "allow") return await reply({ kind: "error", text: REPLIES.failed });
+
+      if (c.readySources === 0) return await reply({ kind: "redirect", text: REPLIES.noSources });
+      const pages: Retrieved[] = await ctx.runQuery(internal.notebooks.ask.retrieve, { notebookId: args.notebookId, question });
+      if (pages.length === 0) return await reply({ kind: "answer", text: REPLIES.nothingFound, parts: [], note: "Try other words, or add material that covers this." });
+
+      await ctx.runMutation(internal.notebooks.ask.setStage, { messageId, stage: "writing" });
+      const sourceBlock = pages.map((p) => `<source ref="${p.ref}" title="${asData(p.title).replace(/"/g, "'")}" page="${p.page}">\n${asData(p.text)}\n</source>`).join("\n");
+      const result = await ctx.runAction(internal.ai.router.call, {
+        tier: "main",
+        purpose: "taku_answer",
+        messages: [
+          { role: "system", content: systemPrompt(c) },
+          { role: "user", content: `${sourceBlock}\n<question>${asData(question)}</question>` },
+        ],
+        jsonSchema: ANSWER_SCHEMA,
+        maxTokens: 2400,
+        stablePrefixCount: 1,
+        fixtureKey: { kind: "answer", question, sourceMode: c.sourceMode, answerMode: c.answerMode },
+      });
+      await count("answer", result);
+      const parsed = result.ok ? parseAnswer(result.content) : null;
+      if (parsed === null) return await reply({ kind: "error", text: REPLIES.failed });
+
+      await ctx.runMutation(internal.notebooks.ask.setStage, { messageId, stage: "checking" });
+      const byRefPage = new Map(pages.map((p) => [`${p.ref}:${p.page}`, p]));
+      const lookup = (ref: string, page: number) => {
+        const found = byRefPage.get(`${ref}:${page}`);
+        return found === undefined ? null : { sourceId: found.sourceId as string, text: found.text };
+      };
+      const { kept, dropped } = settleParts(parsed.parts.map((p) => ({ ...p, text: cleanDashes(p.text) })), c.sourceMode, lookup);
+
+      // A hint in Guide me is a question, not a claim, so only full answers get a second opinion.
+      const ideas = c.answerMode === "answer" ? kept.flatMap((p, i) => (p.origin.kind === "added" ? [{ id: String(i), text: p.text }] : [])) : [];
+      const opinion = await secondOpinion(ctx, { profileId: c.profileId, check: "ideas", items: ideas });
+      const final = kept.flatMap((p, i) => {
+        if (opinion.rejected.has(String(i))) return [];
+        return opinion.unchecked.has(String(i)) ? [{ text: p.text, origin: { kind: "added" as const, unchecked: true } }] : [p];
+      });
+
+      const notes: string[] = [];
+      if (parsed.missing.trim().length > 0) notes.push(cleanDashes(parsed.missing.trim()));
+      if (dropped > 0) notes.push(`${dropped} ${dropped === 1 ? "point was" : "points were"} left out because ${dropped === 1 ? "it" : "they"} could not be found in your material.`);
+      if (opinion.rejected.size > 0) notes.push(`${opinion.rejected.size} of Taku's ideas ${opinion.rejected.size === 1 ? "was" : "were"} left out because a second check did not agree.`);
+      const widget = c.answerMode === "guide" && parsed.widget !== null ? widgetFromText(JSON.stringify(parsed.widget), ["equation-steps", "fill-blanks", "long-division"], lookup) : null;
+      return await reply({ kind: "answer", text: final.length === 0 ? REPLIES.nothingFound : "", parts: final, note: notes.length > 0 ? notes.join(" ") : undefined, ...(widget === null ? {} : { widget }) });
+    } catch (error) {
+      // Never leave an answer stuck on its progress line.
+      await ctx.runMutation(internal.notebooks.ask.finish, { messageId, reply: { kind: "error", text: REPLIES.failed } });
+      throw error;
     }
-
-    if (c.readySources === 0) return await reply({ kind: "redirect", text: REPLIES.noSources });
-    const pages: Retrieved[] = await ctx.runQuery(internal.notebooks.ask.retrieve, { notebookId: args.notebookId, question });
-    if (pages.length === 0) return await reply({ kind: "answer", text: REPLIES.nothingFound, parts: [], note: "Try other words, or add material that covers this." });
-
-    const sourceBlock = pages.map((p) => `<source ref="${p.ref}" title="${asData(p.title).replace(/"/g, "'")}" page="${p.page}">\n${asData(p.text)}\n</source>`).join("\n");
-    const result = await ctx.runAction(internal.ai.router.call, {
-      tier: "main",
-      purpose: "taku_answer",
-      messages: [
-        { role: "system", content: systemPrompt(c) },
-        { role: "user", content: `${sourceBlock}\n<question>${asData(question)}</question>` },
-      ],
-      jsonSchema: ANSWER_SCHEMA,
-      maxTokens: 2400,
-      stablePrefixCount: 1,
-      fixtureKey: { kind: "answer", question, sourceMode: c.sourceMode, answerMode: c.answerMode },
-    });
-    await count(result);
-    const parsed = result.ok ? parseAnswer(result.content) : null;
-    if (parsed === null) return await reply({ kind: "error", text: REPLIES.failed });
-
-    const byRefPage = new Map(pages.map((p) => [`${p.ref}:${p.page}`, p]));
-    const { kept, dropped } = settleParts(parsed.parts.map((p) => ({ ...p, text: cleanDashes(p.text) })), c.sourceMode, (ref, page) => {
-      const found = byRefPage.get(`${ref}:${page}`);
-      return found === undefined ? null : { sourceId: found.sourceId, text: found.text };
-    });
-    const notes: string[] = [];
-    if (parsed.missing.trim().length > 0) notes.push(cleanDashes(parsed.missing.trim()));
-    if (dropped > 0) notes.push(`${dropped} ${dropped === 1 ? "point was" : "points were"} left out because ${dropped === 1 ? "it" : "they"} could not be found in your material.`);
-    return await reply({ kind: "answer", text: kept.length === 0 ? REPLIES.nothingFound : "", parts: kept, note: notes.length > 0 ? notes.join(" ") : undefined });
   },
 });

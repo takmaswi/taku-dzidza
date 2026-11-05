@@ -1,0 +1,15 @@
+{
+  "keyMaterial": {
+    "kind": "answer",
+    "question": "Test me on what chlorophyll does",
+    "sourceMode": "mine_plus",
+    "answerMode": "guide"
+  },
+  "response": {
+    "content": "{\"parts\": [{\"text\": \"Try the gaps below, then look back at your notes.\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"\", \"widget\": {\"slug\": \"fill-blanks\", \"data\": \"{\\\"title\\\": \\\"Photosynthesis words\\\", \\\"items\\\": [{\\\"before\\\": \\\"\\\", \\\"answer\\\": \\\"Chlorophyll\\\", \\\"after\\\": \\\"in the chloroplasts absorbs the light.\\\", \\\"alternatives\\\": [], \\\"hint\\\": \\\"The green pigment.\\\", \\\"ref\\\": \\\"S1\\\", \\\"page\\\": 1, \\\"quote\\\": \\\"Chlorophyll in the chloroplasts absorbs the light\\\"}, {\\\"before\\\": \\\"\\\", \\\"answer\\\": \\\"Oxygen\\\", \\\"after\\\": \\\"is released as a by product.\\\", \\\"alternatives\\\": [\\\"O2\\\"], \\\"hint\\\": \\\"The gas you breathe in.\\\", \\\"ref\\\": \\\"S1\\\", \\\"page\\\": 1, \\\"quote\\\": \\\"Oxygen is released as a by product\\\"}, {\\\"before\\\": \\\"Plants store chlorophyll in their\\\", \\\"answer\\\": \\\"roots\\\", \\\"after\\\": \\\"for winter.\\\", \\\"alternatives\\\": [], \\\"hint\\\": \\\"\\\", \\\"ref\\\": \\\"S1\\\", \\\"page\\\": 1, \\\"quote\\\": \\\"chlorophyll is stored in the roots for winter\\\"}]}\"}}",
+    "usage": {
+      "promptTokens": 900,
+      "completionTokens": 200
+    }
+  }
+}

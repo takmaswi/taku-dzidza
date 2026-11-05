@@ -1,0 +1,19 @@
+{
+  "keyMaterial": {
+    "kind": "second_opinion",
+    "check": "marking",
+    "items": [
+      "Question: Which gas is released as a by product of photosynthesis?\nOptions: Oxygen; Carbon dioxide; Nitrogen; Hydrogen\nAnswer: Oxygen\nMarks: 1\nMarking points: Oxygen",
+      "Question: Name the two raw materials plants use to make glucose.\nAnswer: Carbon dioxide and water\nMarks: 2\nMarking points: carbon dioxide; water",
+      "Question: (a) State what absorbs light in a leaf. (b) Name the part of the cell where it is found.\nAnswer: (a) Chlorophyll (b) the chloroplasts\nMarks: 2\nMarking points: chlorophyll; chloroplasts",
+      "Question: Explain why photosynthesis is described as an energy store.\nAnswer: Light energy is stored in glucose\nMarks: 2\nMarking points: light energy taken in; stored as chemical energy in glucose"
+    ]
+  },
+  "response": {
+    "content": "{\"verdicts\": [{\"id\": \"1\", \"ok\": true}, {\"id\": \"2\", \"ok\": true}, {\"id\": \"3\", \"ok\": true}, {\"id\": \"4\", \"ok\": true}]}",
+    "usage": {
+      "promptTokens": 300,
+      "completionTokens": 40
+    }
+  }
+}
