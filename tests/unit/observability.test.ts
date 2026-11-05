@@ -38,8 +38,8 @@ describe("what crawlers and link previews read", () => {
 
   test("Open Graph and Twitter tags point at the social image", () => {
     for (const tag of ['property="og:title"', 'property="og:description"', 'property="og:url"', 'property="og:type"', 'name="twitter:title"', 'name="twitter:description"']) expect(html).toContain(tag);
-    expect(html).toMatch(/property="og:image" content="https:\/\/[^"]+\/art\/og-default\.webp"/);
-    expect(html).toMatch(/name="twitter:image" content="https:\/\/[^"]+\/art\/og-default\.webp"/);
+    expect(html).toMatch(/property="og:image" content="https:\/\/[^"]+\/art\/og-landing\.jpg"/);
+    expect(html).toMatch(/name="twitter:image" content="https:\/\/[^"]+\/art\/og-landing\.jpg"/);
     expect(html).toContain('name="twitter:card" content="summary_large_image"');
   });
 

@@ -1,10 +1,11 @@
 import { useMutation, useQuery } from "convex/react";
-import { ArrowLeft, Check, RotateCcw } from "lucide-react";
+import { Check, RotateCcw } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
-import { Layout } from "../components/Layout";
+import { Cutout } from "../components/Art";
+import { FocusShell } from "../components/Layout";
 import { speakable } from "../components/math";
 import { MathText } from "../components/MathText";
 import { copy } from "../copy/en";
@@ -42,14 +43,12 @@ export default function Review() {
   };
 
   return (
-    <Layout signedIn>
-      <div className="narrow stack">
-        <Link to={`/n/${id}?tab=tools`} className="back-link">
-          <ArrowLeft size={18} aria-hidden="true" /> {t.back}
-        </Link>
+    <FocusShell exitTo={`/n/${id}`} title={t.reviewTitle}>
+      <div className="review narrow stack">
+
         <div>
           <span className="eyebrow">{card !== undefined ? `${index + 1} / ${cards.length}` : t.reviewTitle}</span>
-          <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.6rem)" }}>{t.reviewTitle}</h1>
+          <h1>{t.reviewTitle}</h1>
         </div>
         {cards.length > 0 && (
           <div className="progress" aria-hidden="true">
@@ -58,7 +57,8 @@ export default function Review() {
         )}
         {session === null && <p>{copy.loading}</p>}
         {session !== null && card === undefined && (
-          <div className="card warm rise">
+          <div className="panel review-done rise">
+            <Cutout slug="empty-flashcards" alt="" sizes="200px" className="review-done-art" />
             <h2>{cards.length === 0 ? t.reviewNone : t.reviewDone}</h2>
             {cards.length > 0 && (
               <p className="eyebrow" style={{ margin: 0 }}>
@@ -117,6 +117,6 @@ export default function Review() {
           </div>
         )}
       </div>
-    </Layout>
+    </FocusShell>
   );
 }

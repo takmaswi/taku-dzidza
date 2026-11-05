@@ -16,7 +16,7 @@ export default function GetHelp() {
           <h1>{t.title}</h1>
           <p className="lead">{t.lead}</p>
         </div>
-        <section className="card warm">
+        <section className="panel">
           <h2>{t.under18Title}</h2>
           <p className="help-number">{t.childline}</p>
           <p>{t.childlineLine}</p>
@@ -24,7 +24,7 @@ export default function GetHelp() {
             <Phone size={18} aria-hidden="true" /> {t.callChildline}
           </a>
         </section>
-        <section className="card">
+        <section className="panel">
           <h2>{t.everyoneTitle}</h2>
           <p>{t.danger}</p>
           <p>{t.talk}</p>

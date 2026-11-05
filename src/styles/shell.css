@@ -1,55 +1,138 @@
-/* Public pages: a light top bar. */
+/* ---------- Public pages: a light bar with the lockup, and a page that scrolls normally. ---------- */
 .public-shell { min-height: 100dvh; display: flex; flex-direction: column; }
-.topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.9rem clamp(1rem, 4vw, 2.5rem); max-width: 1240px; width: 100%; margin: 0 auto; }
-.brand { text-decoration: none; display: inline-flex; align-items: center; gap: 0.55rem; white-space: nowrap; }
-.brand b { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; }
-.brand small { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-soft); }
-.brand-mark { width: 30px; height: 30px; flex: none; }
-.topbar-actions { display: flex; gap: 0.5rem; align-items: center; }
+.public-top {
+  position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  height: var(--bar); padding: 0 clamp(1rem, 4vw, 2.5rem);
+  background: var(--topbar); backdrop-filter: saturate(1.3) blur(14px); -webkit-backdrop-filter: saturate(1.3) blur(14px);
+  border-bottom: 1px solid rgb(240 226 198 / 0.7);
+}
+.brand-link { display: inline-flex; align-items: center; }
+.lockup { display: block; height: 60px; width: auto; aspect-ratio: 1134 / 353; margin-left: -10px; }
+@media (max-width: 520px) { .lockup { height: 50px; } }
 .public-main { flex: 1; width: 100%; max-width: 1240px; margin: 0 auto; padding: 0.5rem clamp(1rem, 4vw, 2.5rem) 4rem; }
 .narrow { max-width: 560px; margin: 0 auto; }
 
-/* Signed in: an ink sidebar on desktop, a bottom tab bar on phones. */
-.app-shell { min-height: 100dvh; }
-.sidebar { display: none; }
-.app-top { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: saturate(1.2) blur(8px); }
-.app-main { padding: 0.5rem clamp(1rem, 4vw, 3rem) 6.5rem; max-width: 1180px; margin: 0 auto; }
+/* ---------- The app: full height, never scrolls; only panes scroll. ---------- */
+:root[data-shell="app"], :root[data-shell="app"] body { height: 100%; overflow: hidden; }
+:root[data-shell="app"] #root { height: 100%; }
+.app { height: 100dvh; display: grid; grid-template-columns: 1fr; }
+.app-col { min-width: 0; min-height: 0; display: flex; flex-direction: column; height: 100dvh; }
+.app-main { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 1rem clamp(1rem, 4vw, 2.5rem) 2rem; }
+.app-main.panes { overflow: hidden; padding: 0; display: flex; flex-direction: column; }
+.spacer { flex: 1; }
+
+/* Frosted top bar, 64 px. */
+.topbar {
+  flex: none; height: var(--bar); display: flex; align-items: center; gap: 0.6rem; padding: 0 clamp(0.75rem, 2vw, 1.5rem); z-index: 20;
+  background: var(--topbar); backdrop-filter: saturate(1.3) blur(14px); -webkit-backdrop-filter: saturate(1.3) blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-mark .mark, .topbar-mark .mark-auto { width: 34px; height: 34px; }
+.topbar-title { font-weight: 600; font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.show-narrow { display: none; }
+@media (max-width: 520px) { .hide-narrow { display: none; } .show-narrow { display: inline; } }
+
+/* The mark: two variants in one place, the right one shows for the surface. */
+.mark { display: block; width: 32px; height: 32px; }
+.mark-auto { display: inline-grid; }
+.mark-auto > svg { grid-area: 1 / 1; width: 100%; height: 100%; }
+.mark-auto .mark-dark { visibility: hidden; }
+@media (prefers-color-scheme: dark) {
+  :root[data-shell="app"]:not([data-contrast="true"]) .mark-auto .mark-light { visibility: hidden; }
+  :root[data-shell="app"]:not([data-contrast="true"]) .mark-auto .mark-dark { visibility: visible; }
+}
+
+/* Phone tab bar: part of the column, not floating, so content never hides under it. Hidden while typing. */
 .tabbar {
-  position: fixed; left: 0.75rem; right: 0.75rem; bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)); z-index: 30;
-  display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.25rem; padding: 0.4rem;
-  background: var(--ink); border-radius: 26px; box-shadow: 0 14px 30px rgba(17, 17, 17, 0.28);
+  flex: none; position: relative; display: grid; grid-template-columns: repeat(5, 1fr);
+  padding: 0.35rem 0.4rem calc(0.35rem + env(safe-area-inset-bottom, 0px));
+  background: var(--topbar); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--line);
 }
-.tabbar a { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; padding: 0.45rem 0.2rem; border-radius: 20px; text-decoration: none; color: var(--on-ink-soft); font-size: 0.7rem; font-weight: 600; position: relative; }
-.tabbar a.active { color: var(--ink); background: var(--honey); }
-.tabbar .badge, .side-nav .badge { position: absolute; top: 0.2rem; right: 22%; min-width: 1.15rem; height: 1.15rem; border-radius: 999px; background: var(--msasa); color: var(--white); font-size: 0.66rem; display: grid; place-items: center; padding: 0 0.25rem; }
+.tabbar a { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 0.1rem; padding: 0.35rem 0.1rem; text-decoration: none; color: var(--text-soft); font-size: 0.7rem; font-weight: 500; }
+.tabbar a.active { color: var(--text); font-weight: 600; }
+.tab-indicator {
+  position: absolute; top: 0.35rem; left: 0.4rem; width: calc((100% - 0.8rem) / 5); height: calc(100% - 0.7rem - env(safe-area-inset-bottom, 0px));
+  border-radius: 14px; background: var(--pick); transform: translateX(calc(var(--active) * 100%));
+  transition: transform calc(0.35s * var(--speed)) var(--ease), opacity 0.2s;
+}
+.badge { position: absolute; top: 0.1rem; right: 22%; min-width: 1.1rem; height: 1.1rem; border-radius: 999px; background: var(--msasa); color: var(--white); font-size: 0.65rem; font-weight: 600; display: grid; place-items: center; padding: 0 0.25rem; }
+body:has(.composer textarea:focus) .tabbar { display: none; }
+.rail { display: none; }
 
-@media (min-width: 960px) {
-  .app-shell { padding-left: 268px; }
-  .sidebar {
-    display: flex; flex-direction: column; gap: 1.6rem; position: fixed; left: 0; top: 0; bottom: 0; width: 268px; overflow-y: auto; z-index: 30; padding: 1.6rem 1.1rem;
-    background: var(--ink); color: var(--cream);
-  }
-  .sidebar .brand b { color: var(--cream); }
-  .sidebar .brand small { color: var(--on-ink-soft); }
-  .side-nav { display: grid; gap: 0.2rem; }
-  .side-nav a { display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 0.9rem; border-radius: 16px; text-decoration: none; color: var(--on-ink-soft); font-weight: 600; position: relative; transition: background 0.15s, color 0.15s; }
-  .side-nav a:hover { background: var(--ink-2); color: var(--cream); }
-  .side-nav a.active { background: var(--honey); color: var(--ink); }
-  .side-nav .badge { position: static; margin-left: auto; }
-  .side-section { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--on-ink-soft); margin: 0 0.9rem; }
-  .side-list { display: grid; gap: 0.1rem; }
-  .side-list a { padding: 0.45rem 0.9rem; border-radius: 12px; text-decoration: none; color: var(--on-ink-soft); font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .side-list a:hover { color: var(--cream); background: var(--ink-2); }
-  .side-foot { margin-top: auto; display: grid; gap: 0.8rem; border-top: 1px solid var(--ink-line); padding-top: 1rem; }
-  .side-foot .who b { display: block; color: var(--cream); }
-  .side-foot .who small { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--on-ink-soft); }
-  .side-foot .pill { background: transparent; color: var(--cream); border-color: var(--ink-line); }
-  .app-top { display: none; }
+@media (min-width: 900px) {
+  /* Before setup is finished there is no rail, so the column takes the full width and the mark sits in the top bar. */
+  .app:has(> .rail) { grid-template-columns: var(--rail) 1fr; }
   .tabbar { display: none; }
-  .app-main { padding: 2.2rem clamp(1.5rem, 4vw, 3.5rem) 4rem; }
+  .app:has(> .rail) .topbar-mark { display: none; }
+  .rail {
+    display: flex; flex-direction: column; align-items: center; gap: 0.75rem; height: 100dvh; padding: 0.75rem 0;
+    background: var(--panel-fill); border-right: 1px solid var(--line); z-index: 25;
+  }
+  .rail-mark { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 16px; }
+  .rail-mark .mark-auto { width: 40px; height: 40px; }
+  .rail-items { position: relative; display: grid; gap: 0; margin-top: 0.5rem; }
+  .rail-items a {
+    position: relative; z-index: 1; width: 64px; height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.15rem;
+    border-radius: 14px; text-decoration: none; color: var(--text-soft); font-size: 0.66rem; font-weight: 500; text-align: center; line-height: 1.1;
+  }
+  .rail-items a:hover { color: var(--text); }
+  .rail-items a.active { color: var(--text); font-weight: 600; }
+  .rail-items .badge { top: 0.3rem; right: 0.6rem; }
+  .rail-indicator {
+    position: absolute; left: 0; top: 0; width: 64px; height: 60px; border-radius: 14px; background: var(--pick); box-shadow: inset 0 0 0 1px var(--pick-line);
+    transform: translateY(calc(var(--active) * 60px)); transition: transform calc(0.35s * var(--speed)) var(--ease), opacity 0.2s;
+  }
+  .avatar {
+    margin-top: auto; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; text-decoration: none;
+    background: var(--ink); color: var(--cream); font-weight: 600;
+  }
 }
 
-.menu { position: relative; }
-.menu-panel { position: absolute; right: 0; top: calc(100% + 8px); min-width: 210px; z-index: 40; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 0.5rem; box-shadow: var(--shadow-lift); }
-.menu-panel a, .menu-panel button { display: block; width: 100%; text-align: left; padding: 0.7rem 0.9rem; border-radius: 14px; background: none; border: 0; font: inherit; color: inherit; text-decoration: none; cursor: pointer; }
-.menu-panel a:hover, .menu-panel button:hover { background: var(--cream); }
+/* ---------- Menus and chip menus ---------- */
+.menu { position: relative; display: inline-flex; }
+.menu-button { background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; display: inline-flex; }
+.menu-panel {
+  position: absolute; top: calc(100% + 6px); z-index: 60; min-width: 220px; max-width: min(320px, 86vw); padding: 0.4rem;
+  background: var(--raised); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow-lift);
+  animation: rise calc(0.18s * var(--speed)) var(--ease) both;
+}
+.menu-panel.start { left: 0; }
+.menu-panel.end { right: 0; }
+.menu-panel.up { top: auto; bottom: calc(100% + 6px); }
+.menu-panel > a, .menu-panel > button { display: flex; align-items: center; gap: 0.6rem; width: 100%; text-align: left; padding: 0.6rem 0.75rem; border-radius: 10px; background: none; border: 0; font: inherit; color: var(--text); text-decoration: none; cursor: pointer; }
+.menu-panel > a:hover, .menu-panel > button:hover { background: var(--sunken); }
+.menu-panel .danger-item { color: var(--danger); }
+.menu-choice { display: grid !important; gap: 0.1rem; position: relative; padding-right: 2rem !important; }
+.menu-choice span { color: var(--text-soft); font-size: 0.85rem; }
+.menu-choice[aria-checked="true"] { background: var(--pick) !important; }
+.menu-choice[aria-checked="true"]::after { content: ""; position: absolute; right: 0.75rem; top: 0.85rem; width: 6px; height: 11px; border: solid var(--text); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+
+/* ---------- Sheets (phones) ---------- */
+.scrim { position: fixed; inset: 0; z-index: 70; background: var(--scrim); animation: fade calc(0.2s * var(--speed)) both; }
+@keyframes fade { from { opacity: 0; } }
+@keyframes sheet-up { from { transform: translateY(100%); } }
+.sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 71; max-height: 88dvh; display: flex; flex-direction: column;
+  background: var(--panel-fill); border-radius: 24px 24px 0 0; box-shadow: var(--shadow-lift); outline: none;
+  animation: sheet-up calc(0.3s * var(--speed)) var(--ease) both;
+}
+.sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.9rem 1rem 0.4rem; }
+.sheet-head h2 { margin: 0; font-size: 1.15rem; }
+.sheet-body { overflow-y: auto; padding: 0.25rem 1rem calc(1.25rem + env(safe-area-inset-bottom, 0px)); }
+
+/* ---------- Focus mode ---------- */
+.focus { height: 100dvh; display: flex; flex-direction: column; }
+.focus-bar { flex: none; height: var(--bar); display: flex; align-items: center; gap: 1rem; padding: 0 clamp(0.75rem, 3vw, 2rem); background: var(--topbar); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); z-index: 10; }
+.focus-title { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.focus-main { flex: 1; min-height: 0; overflow-y: auto; padding: clamp(1rem, 3vw, 2.5rem) clamp(1rem, 4vw, 2.5rem) 3rem; }
+.focus-dark { background: var(--ink); color: var(--cream); }
+.focus-dark .focus-bar { background: rgb(43 45 66 / 0.85); border-color: #3d4058; }
+.focus-dark .focus-exit { color: var(--cream); border-color: #5b5e78; }
+.focus-dark .focus-main { padding: 0; }
+
+@media print {
+  .rail, .topbar, .tabbar, .focus-bar, .no-print { display: none !important; }
+  :root[data-shell="app"], :root[data-shell="app"] body, .app, .app-col, .focus, .focus-main, .app-main { height: auto !important; overflow: visible !important; }
+  body::before { display: none; }
+  body { background: #fff; }
+}

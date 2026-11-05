@@ -1,21 +1,22 @@
 import { ArrowRight, BookOpen, Check, Layers, ListChecks, Network, ScrollText, Sparkles } from "lucide-react";
 import { useLayoutEffect } from "react";
 import { Link } from "react-router";
-import { BrandMark, Chevron } from "../components/BrandMark";
-import { ImageSlot } from "../components/ImageSlot";
+import { Cutout, Decor, DecorLine, Scene } from "../components/Art";
+import { BrandMark } from "../components/BrandMark";
 import { Layout } from "../components/Layout";
 import { STYLE_ART } from "../components/styleArt";
 import { useReveal } from "../components/useReveal";
 import { copy } from "../copy/en";
 
-const RING_COLOURS = ["var(--butter)", "var(--honey)", "var(--sage-tint)", "var(--msasa-tint)", "var(--white)", "var(--butter-tint)"];
+const RING_COLOURS = ["var(--butter)", "var(--tint)", "var(--cream)", "var(--butter-pick)", "var(--white)", "var(--paper)"];
 const RING_ICONS = [Layers, ListChecks, ScrollText, Sparkles, Network, BookOpen];
 
 /**
- * The public front door. Motion follows Takunda's portfolio (a rolling
- * headline, rise on scroll, a 3D ring of cards) and layout follows the
- * Takubasa landing (photos in arches and pills, a chevron divider, colour
- * bands). Everything is still with reduced motion.
+ * The public front door. The hero is the landing scene, people stand on the
+ * page as cutouts in the feature sections, and a few stationery marks sit in
+ * the margins (never behind body text, at most two on a screen). Motion: a
+ * rolling headline, rise on scroll and a ring of tool cards, all still with
+ * reduced motion.
  */
 export default function Landing() {
   const t = copy.landing;
@@ -27,7 +28,8 @@ export default function Landing() {
   return (
     <Layout>
       <section className="l-hero">
-        <div className="rise">
+        <Scene slug="landing-hero" alt={t.heroAlt} sizes="(min-width: 960px) 72vw, 100vw" eager className="l-hero-scene" />
+        <div className="l-hero-text rise">
           <span className="eyebrow">{t.eyebrow}</span>
           <h1>
             {t.titleStart}{" "}
@@ -38,9 +40,10 @@ export default function Landing() {
                 ))}
               </span>
             </span>
+            <DecorLine name="underline-swoop" className="l-swoop" />
           </h1>
-          <p className="lead soft">{t.lead}</p>
-          <div className="actions" style={{ marginTop: "1.5rem" }}>
+          <p className="lead">{t.lead}</p>
+          <div className="actions">
             <Link to="/signin?mode=signUp" className="pill">
               {t.start} <ArrowRight size={18} aria-hidden="true" />
             </Link>
@@ -48,33 +51,17 @@ export default function Landing() {
               {t.signIn}
             </Link>
           </div>
-        </div>
-        <div className="collage rise" style={{ ["--i" as string]: 2 }}>
-          <span className="blob" />
-          <div className="c1">
-            <ImageSlot slug="landing-form1" fallback="onboarding-1-secondary-student" alt="A secondary school learner studying" shape="arch" eager />
-          </div>
-          <div className="c2">
-            <ImageSlot slug="dashboard-hero-university" alt="Two university students revising together" shape="pill" eager />
-          </div>
-          <div>
-            <ImageSlot slug="onboarding-3-professional" alt="An adult studying for a professional exam" shape="arch" />
-          </div>
-          <div className="chip-float">
-            <span className="eyebrow" style={{ marginBottom: "0.3rem" }}>
-              Taku
-            </span>
-            {t.floatCard}
+          <div className="raised l-float">
+            <BrandMark variant="on-cream" className="mark" />
+            <span>{t.floatCard}</span>
           </div>
         </div>
       </section>
 
-      <Chevron />
-
-      <section className="l-split reveal" style={{ padding: "3rem 0" }}>
+      <section className="l-split reveal">
         <div>
           <span className="eyebrow">{t.howEyebrow}</span>
-          <h2 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)" }}>{t.howTitle}</h2>
+          <h2 className="l-h2">{t.howTitle}</h2>
           <ol className="l-steps">
             {t.howSteps.map((s) => (
               <li key={s.title}>
@@ -87,38 +74,49 @@ export default function Landing() {
             ))}
           </ol>
         </div>
-        <div className="mock-phone" aria-hidden="true">
-          <span className="eyebrow">Form 3 Biology</span>
-          <div className="bubble learner">What does chlorophyll do?</div>
-          <div className="bubble taku">
-            Chlorophyll absorbs light energy, which the plant uses to make glucose. <span className="cite static">Biology notes, page 1</span>
-          </div>
-          <div className="bubble taku" style={{ borderLeft: "4px solid var(--honey)" }}>
-            Think of it like a solar panel. <span className="added-tag">{copy.notebook.addedByTaku}</span>
+        <div className="l-demo">
+          <Cutout slug="landing-form1" alt={t.howAlt} sizes="(min-width: 900px) 420px, 80vw" className="l-demo-art" />
+          <div className="mock-chat raised" aria-hidden="true">
+            <span className="eyebrow">Form 3 Biology</span>
+            <div className="msg learner">
+              <p>What does chlorophyll do?</p>
+            </div>
+            <div className="msg taku">
+              <BrandMark variant="on-cream" className="msg-mark" />
+              <div className="msg-body">
+                <p>
+                  Chlorophyll absorbs light energy, which the plant uses to make glucose.<span className="cite-mark static">1</span>
+                </p>
+                <p className="part added">
+                  Think of it like a solar panel. <span className="added-tag">{copy.notebook.addedByTaku}</span>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="l-band ink grain reveal">
+      <section className="l-band reveal">
         <div className="l-split">
           <div>
-            <span className="eyebrow on-ink">{t.citeEyebrow}</span>
-            <h2 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)" }}>{t.citeTitle}</h2>
+            <span className="eyebrow">{t.citeEyebrow}</span>
+            <h2 className="l-h2">{t.citeTitle}</h2>
             <p className="lead soft">{t.citeBody}</p>
           </div>
-          <div className="cite-demo">
+          <div className="cite-demo raised">
             <span className="eyebrow">Biology notes, page 1</span>
-            <p style={{ margin: 0 }}>
+            <p>
               Green plants make their own food by photosynthesis. <mark>Chlorophyll, the green pigment in the chloroplasts, absorbs light energy.</mark> The plant uses this energy to turn carbon dioxide and water into glucose.
             </p>
+            <Decor name="page-corner-curl" className="cite-curl" />
           </div>
         </div>
       </section>
 
-      <section className="reveal" style={{ padding: "3rem 0 1rem" }}>
-        <div style={{ textAlign: "center" }}>
+      <section className="reveal l-tools">
+        <div className="l-center">
           <span className="eyebrow">{t.toolsEyebrow}</span>
-          <h2 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)" }}>{t.toolsTitle}</h2>
+          <h2 className="l-h2">{t.toolsTitle}</h2>
         </div>
         <div className="tool-ring" aria-label={t.tools.map((x) => x.name).join(", ")}>
           <div className="ring">
@@ -139,16 +137,16 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="l-band butter grain reveal">
+      <section className="l-styles reveal">
         <span className="eyebrow">{t.stylesEyebrow}</span>
-        <h2 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)" }}>{t.stylesTitle}</h2>
+        <h2 className="l-h2">{t.stylesTitle}</h2>
         <p className="lead">{t.stylesBody}</p>
-        <div className="style-cards" style={{ marginTop: "1.5rem" }}>
+        <div className="style-cards">
           {(["locked_in", "cook", "calm"] as const).map((s) => (
             <div key={s} className={`style-card ${STYLE_ART[s].cls}`}>
-              <span className="sc-band" />
-              <ImageSlot slug={STYLE_ART[s].slug} fallback={STYLE_ART[s].fallback} alt={STYLE_ART[s].alt} />
+              <Cutout slug={STYLE_ART[s].slug} alt={STYLE_ART[s].alt} sizes="(min-width: 760px) 300px, 80vw" />
               <span className="sc-body">
+                <span className="tag">{copy.styles[s].tag}</span>
                 <b>{copy.styles[s].name}</b>
                 <span>{copy.styles[s].line}</span>
               </span>
@@ -157,28 +155,30 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="l-band sage grain reveal">
+      <section className="l-band l-safe reveal">
         <div className="l-split">
           <div>
-            <span className="eyebrow on-ink">{t.safeEyebrow}</span>
-            <h2 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)" }}>{t.safeTitle}</h2>
+            <span className="eyebrow">{t.safeEyebrow}</span>
+            <h2 className="l-h2">{t.safeTitle}</h2>
+            <ul className="l-checks">
+              {t.safePoints.map((p) => (
+                <li key={p}>
+                  <span className="l-check">
+                    <Check size={16} aria-hidden="true" />
+                  </span>
+                  <span>{p}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "0.9rem" }}>
-            {t.safePoints.map((p) => (
-              <li key={p} style={{ display: "flex", gap: "0.7rem", alignItems: "flex-start" }}>
-                <span style={{ background: "var(--honey)", color: "var(--ink)", borderRadius: "50%", width: 28, height: 28, display: "grid", placeItems: "center", flex: "none" }}>
-                  <Check size={16} aria-hidden="true" />
-                </span>
-                <span>{p}</span>
-              </li>
-            ))}
-          </ul>
+          <Cutout slug="guardian-consent" alt={t.safeAlt} sizes="(min-width: 900px) 460px, 80vw" className="l-safe-art" />
         </div>
       </section>
 
       <section className="l-final reveal">
-        <BrandMark className="brand-mark" />
-        <h2 style={{ fontSize: "clamp(2rem, 5.5vw, 3.6rem)", maxWidth: "16ch" }}>{t.finalTitle}</h2>
+        <DecorLine name="sparks" className="l-sparks" />
+        <BrandMark variant="on-cream" className="l-final-mark" />
+        <h2 className="l-h2">{t.finalTitle}</h2>
         <Link to="/signin?mode=signUp" className="pill">
           {t.finalCta} <ArrowRight size={18} aria-hidden="true" />
         </Link>

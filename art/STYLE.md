@@ -26,9 +26,12 @@ For Codex and build agents. Matches batch 1 (`art/CODEX_NOTES.md`). The asset li
 - Masters may be enlarged from the generator's native size; say so in `art/CODEX_NOTES.md` with native size, scale and SHA 256 of the source, as batch 1 did. Do not call them native 4K.
 - Export: Pillow Lanczos, centred aspect fit, no sharpening, no skin retouching, no recolouring. WebP limits per shape are in `art/ASSETS.md`.
 - Commit message: `Art batch <n>`.
+- Procedural textures made by a script are allowed; record the script in CODEX_NOTES.md.
 
 ## In the app
-- Photos sit in large rounded cards on Cream or Butter. Never put text directly on a photo; captions go below or beside on a solid token colour.
-- Every image has meaningful alt text in English and ChiShona.
-- Low data mode replaces photos with a Butter card and the alt text.
-- Missing images render the `ImageSlot` placeholder: a Butter card with a dashed Ink Soft border and the slug, so pages never break while Codex batches are pending.
+- People stand on the page as cutouts with a soft warm shadow under them. Scenes (landing hero, home dashboard, empty notebook) fade into the page on every edge.
+- No arch, circle or box photo frames anywhere. The e2e journey `e2e/design.spec.ts` checks this.
+- Never put text directly on a photo; captions go below or beside on a solid token colour.
+- Decor (stationery marks, line marks) is sparing: at most two on a screen, never behind body text. Line marks are suffix amber `#B0822F` or ink.
+- Every image has meaningful alt text. Images load lazily with `srcset` and `sizes`, except the landing hero.
+- Web sizes are made from the masters by `art/web/build_web.py` and copied into `public/art` by `scripts/gen-data.mjs`.

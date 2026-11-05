@@ -4,10 +4,9 @@ import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { api } from "../../convex/_generated/api";
 import { errorText } from "../access";
-import { Layout } from "../components/Layout";
+import { Cutout } from "../components/Art";
+import { AppShell } from "../components/Layout";
 import { copy } from "../copy/en";
-
-const NB_COLOURS = ["var(--butter)", "var(--sage-tint)", "var(--msasa-tint)", "var(--honey)"];
 
 export default function Notebooks() {
   const t = copy.notebooks;
@@ -30,23 +29,25 @@ export default function Notebooks() {
   };
 
   return (
-    <Layout signedIn>
-      <div className="stack-lg">
-        <div className="rise">
-          <span className="eyebrow">{copy.nav.notebooks}</span>
-          <h1>{t.title}</h1>
-          <p className="lead soft">{t.lead}</p>
-          <div className="actions">
-            <button type="button" className="pill" onClick={() => setOpen(true)}>
-              <Plus size={18} aria-hidden="true" /> {h.newNotebook}
-            </button>
-            <button type="button" className="pill ghost" onClick={() => void createSample({}).then((id) => navigate(`/n/${id}`))}>
-              <Sparkles size={18} aria-hidden="true" /> {h.tiles.sample.title}
-            </button>
+    <AppShell title={t.title}>
+      <div className="page stack-lg">
+        <div className="page-head rise">
+          <div>
+            <h1>{t.title}</h1>
+            <p className="soft">{t.lead}</p>
+            <div className="actions">
+              <button type="button" className="pill" onClick={() => setOpen(true)}>
+                <Plus size={18} aria-hidden="true" /> {h.newNotebook}
+              </button>
+              <button type="button" className="pill ghost" onClick={() => void createSample({}).then((id) => navigate(`/n/${id}`))}>
+                <Sparkles size={18} aria-hidden="true" /> {h.tiles.sample.title}
+              </button>
+            </div>
           </div>
+          {notebooks !== undefined && notebooks.length === 0 && <Cutout slug="empty-notebook" alt="" sizes="200px" className="page-head-art" />}
         </div>
         {open && (
-          <form onSubmit={submit} className="card stack rise">
+          <form onSubmit={submit} className="panel stack rise new-notebook">
             <div className="field" style={{ margin: 0 }}>
               <label htmlFor="title">{h.newName}</label>
               <input id="title" name="title" type="text" placeholder={h.newPlaceholder} maxLength={80} required autoFocus />
@@ -63,21 +64,18 @@ export default function Notebooks() {
           </form>
         )}
         {notebooks !== undefined && notebooks.length === 0 && <p className="soft">{t.empty}</p>}
-        <div className="grid three">
+        <div className="nb-grid">
           {(notebooks ?? []).map((nb, i) => (
-            <Link key={nb._id} to={`/n/${nb._id}`} className="nb-card rise" style={{ ["--nb" as string]: NB_COLOURS[i % NB_COLOURS.length], ["--i" as string]: i }}>
-              <BookOpen size={22} aria-hidden="true" style={{ position: "relative" }} />
-              <span>
-                <b>{nb.title}</b>
-                <br />
-                <span className="eyebrow" style={{ margin: 0 }}>
-                  {h.sources(nb.sourceCount)}
-                </span>
+            <Link key={nb._id} to={`/n/${nb._id}`} className="nb-card lift rise" style={{ ["--i" as string]: i }}>
+              <span className="ct-icon">
+                <BookOpen size={18} aria-hidden="true" />
               </span>
+              <b>{nb.title}</b>
+              <small>{h.sources(nb.sourceCount)}</small>
             </Link>
           ))}
         </div>
       </div>
-    </Layout>
+    </AppShell>
   );
 }

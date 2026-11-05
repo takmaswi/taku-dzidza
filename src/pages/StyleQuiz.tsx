@@ -1,5 +1,5 @@
 import { useMutation } from "convex/react";
-import { ArrowLeft, Briefcase, GraduationCap, Lightbulb, School, Sparkles } from "lucide-react";
+import { ArrowLeft, Briefcase, Check, GraduationCap, Lightbulb, School, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
@@ -72,16 +72,19 @@ export default function StyleQuiz({ profile }: { profile: Doc<"profiles"> }) {
             <h1>{t.forTitle}</h1>
             <p className="lead soft">{t.lead}</p>
           </div>
-          <div className="answer-cards">
+          <div className="choices three">
             {t.forOptions.map((o, i) => {
               const Icon = FOR_ICONS[o.value as StudyingFor];
               return (
-                <button key={o.value} type="button" className="answer-card rise" style={{ ["--i" as string]: i }} aria-pressed={profile.studyingFor === o.value} onClick={() => pickFor(o.value as StudyingFor)}>
-                  <span className="ac-icon">
+                <button key={o.value} type="button" className="choice rise" style={{ ["--i" as string]: i }} aria-pressed={profile.studyingFor === o.value} onClick={() => pickFor(o.value as StudyingFor)}>
+                  <span className="ct-icon">
                     <Icon size={22} aria-hidden="true" />
                   </span>
                   <b>{o.label}</b>
-                  <span className="soft">{o.line}</span>
+                  <span>{o.line}</span>
+                  <span className="ct-tick">
+                    <Check size={14} aria-hidden="true" />
+                  </span>
                 </button>
               );
             })}
@@ -95,11 +98,14 @@ export default function StyleQuiz({ profile }: { profile: Doc<"profiles"> }) {
             <span className="eyebrow">{t.stepLabel(step + 1, total)}</span>
             <h1>{t.questions[step - 1].question}</h1>
           </div>
-          <div className="answer-cards">
+          <div className="choices three">
             {t.questions[step - 1].options.map((o, i) => (
-              <button key={o.label} type="button" className="answer-card rise" style={{ ["--i" as string]: i }} aria-pressed={picks[step - 1] === o.style} onClick={() => answer(step - 1, o.style as StudyStyle)}>
+              <button key={o.label} type="button" className="choice rise" style={{ ["--i" as string]: i }} aria-pressed={picks[step - 1] === o.style} onClick={() => answer(step - 1, o.style as StudyStyle)}>
                 <b>{o.label}</b>
-                <span className="soft">{o.line}</span>
+                <span>{o.line}</span>
+                  <span className="ct-tick">
+                    <Check size={14} aria-hidden="true" />
+                  </span>
               </button>
             ))}
           </div>

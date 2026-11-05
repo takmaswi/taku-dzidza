@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import { Link, useSearchParams } from "react-router";
 import { api } from "../../convex/_generated/api";
 import { errorText } from "../access";
-import { ImageSlot } from "../components/ImageSlot";
+import { Cutout } from "../components/Art";
 import { Layout } from "../components/Layout";
 import { copy } from "../copy/en";
 
@@ -98,11 +98,11 @@ export default function SignIn() {
   return (
     <Layout>
       <div className="split-page">
-        <div className="card rise" style={{ maxWidth: 520, width: "100%", justifySelf: "center" }}>
-          <span className="eyebrow">{copy.appName}</span>
+        <div className="panel rise auth-card">
+          <span className="eyebrow">{copy.appName} {copy.byline}</span>
           {step === "form" && (
             <>
-              <h1 style={{ fontSize: "clamp(2rem, 5vw, 2.8rem)" }}>{mode === "signIn" ? t.signInTitle : t.signUpTitle}</h1>
+              <h1>{mode === "signIn" ? t.signInTitle : t.signUpTitle}</h1>
               {options?.google === true && (
                 <button type="button" className="pill ghost" style={{ width: "100%", marginBottom: "1rem" }} disabled={busy} onClick={() => void run(async () => void (await signIn("google")), t.failed)}>
                   {t.google}
@@ -143,7 +143,7 @@ export default function SignIn() {
 
           {step === "verify" && (
             <>
-              <h1 style={{ fontSize: "clamp(2rem, 5vw, 2.8rem)" }}>{t.verifyTitle}</h1>
+              <h1>{t.verifyTitle}</h1>
               <p>{t.verifyBody(email)}</p>
               <form onSubmit={verify}>
                 <div className="field">
@@ -165,7 +165,7 @@ export default function SignIn() {
 
           {step === "forgot" && (
             <>
-              <h1 style={{ fontSize: "clamp(2rem, 5vw, 2.8rem)" }}>{t.forgotTitle}</h1>
+              <h1>{t.forgotTitle}</h1>
               <p>{t.forgotBody}</p>
               <form onSubmit={forgot}>
                 <div className="field">
@@ -187,7 +187,7 @@ export default function SignIn() {
 
           {step === "reset" && (
             <>
-              <h1 style={{ fontSize: "clamp(2rem, 5vw, 2.8rem)" }}>{t.resetTitle}</h1>
+              <h1>{t.resetTitle}</h1>
               <p>{t.resetBody(email)}</p>
               <form onSubmit={reset}>
                 <div className="field">
@@ -213,8 +213,8 @@ export default function SignIn() {
           )}
         </div>
         <div className="split-photo rise" style={{ ["--i" as string]: 2 }}>
-          <ImageSlot slug="onboarding-2-senior-student" alt="A student revising with his phone and textbook" shape="arch" eager />
-          <div className="card float-card">
+          <Cutout slug="onboarding-2-senior-student" alt="A student revising with his phone and textbook" sizes="(min-width: 960px) 480px, 0px" eager />
+          <div className="raised float-card">
             <span className="eyebrow">Taku</span>
             {copy.landing.floatCard}
           </div>

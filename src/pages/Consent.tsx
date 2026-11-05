@@ -59,7 +59,7 @@ export default function Consent() {
 
   return (
     <Layout>
-      <div className="narrow card stack">
+      <div className="narrow panel stack">
         <h1>{t.title}</h1>
         {info === undefined && <p>{copy.loading}</p>}
         {info === null && <p>{t.expired}</p>}

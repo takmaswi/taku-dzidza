@@ -1,1 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#111111"/><circle cx="372" cy="140" r="56" fill="#f2b33d"/><rect x="128" y="160" width="208" height="56" rx="28" fill="#fff8ec"/><rect x="204" y="160" width="56" height="224" rx="28" fill="#fff8ec"/></svg>
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+  <g class="taku-mark">
+    <rect x="12" y="16" width="40" height="24" rx="12" fill="#D6B879"></rect>
+    <rect x="48" y="16" width="40" height="24" rx="12" fill="#B0822F"></rect>
+    <rect x="38" y="28" width="24" height="60" rx="12" fill="#8A5A1F"></rect>
+  </g>
+</svg>

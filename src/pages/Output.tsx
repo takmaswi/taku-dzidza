@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import type { MindmapContent, QuizContent, ScrollContent, SummaryContent } from "../../convex/study/shapes";
-import { Layout } from "../components/Layout";
+import { AppShell, FocusShell } from "../components/Layout";
 import { MathText } from "../components/MathText";
 import { ReadAloud } from "../components/ReadAloud";
 import { copy } from "../copy/en";
@@ -13,44 +13,86 @@ import { WidgetHost } from "../widgets/WidgetHost";
 
 type Origin = { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added"; unchecked?: boolean };
 
-/** One study tool Taku made: a summary or study guide, a quiz paper, a mind map or a Scroll feed. */
+/**
+ * One study tool Taku made. Practice papers and Scroll open in focus mode,
+ * with the menus hidden. Summaries, study guides, mind maps and widgets open
+ * in the Study tools panel on wide screens (PanelOutput) and on this page on
+ * phones.
+ */
 export default function Output({ profile }: { profile: Doc<"profiles"> }) {
   const { id = "", outputId = "" } = useParams();
   const data = useQuery(api.study.tools.get, { outputId: outputId as Id<"outputs"> });
   const t = copy.tools;
+  const back = `/n/${id}`;
   if (data === undefined) {
     return (
-      <Layout signedIn>
+      <FocusShell exitTo={back} title={copy.loading}>
         <p>{copy.loading}</p>
-      </Layout>
+      </FocusShell>
     );
   }
   const { output, titles } = data;
-  if (output.kind === "scroll") return <Scroll notebookId={id} content={output.content as ScrollContent} titles={titles} />;
+  if (output.kind === "scroll") {
+    return (
+      <FocusShell exitTo={back} title={output.title} dark>
+        <Scroll notebookId={id} content={output.content as ScrollContent} titles={titles} />
+      </FocusShell>
+    );
+  }
+  if (output.kind === "quiz") {
+    return (
+      <FocusShell exitTo={back} title={output.title}>
+        <div className="paper-wrap">
+          <QuizPaper output={output} content={output.content as QuizContent} />
+          {output.note !== undefined && <p className="soft small-text">{output.note}</p>}
+        </div>
+      </FocusShell>
+    );
+  }
   return (
-    <Layout signedIn>
-      <div className="stack">
-        <Link to={`/n/${id}?tab=tools`} className="back-link no-print">
+    <AppShell title={output.title}>
+      <div className="page-narrow stack">
+        <Link to={`${back}?tab=tools`} className="back-link no-print">
           <ArrowLeft size={18} aria-hidden="true" /> {t.back}
         </Link>
-        {output.kind === "summary" && <Summary content={output.content as SummaryContent} titles={titles} readAloud={profile.accessibility.readAloud} />}
-        {output.kind === "quiz" && <QuizPaper output={output} content={output.content as QuizContent} />}
-        {output.kind === "mindmap" && <MindMap content={output.content as MindmapContent} />}
-        {output.kind === "widget" && <WidgetHost widget={output.content as { slug: string; data: unknown }} titles={titles} />}
-        {output.kind === "cards" && (
-          <div className="card">
-            <h1>{output.title}</h1>
-            <Link to={`/n/${id}/review`} className="pill">
-              {t.reviewStart}
-            </Link>
-          </div>
-        )}
-        {output.note !== undefined && <p className="soft small-text">{output.note}</p>}
+        <OutputBody output={output} titles={titles} notebookId={id} readAloud={profile.accessibility.readAloud} />
       </div>
-    </Layout>
+    </AppShell>
   );
 }
 
+export function OutputBody({ output, titles, notebookId, readAloud }: { output: Doc<"outputs">; titles: Record<string, string>; notebookId: string; readAloud: boolean }) {
+  const t = copy.tools;
+  return (
+    <>
+      {output.kind === "summary" && <Summary content={output.content as SummaryContent} titles={titles} readAloud={readAloud} />}
+      {output.kind === "mindmap" && <MindMap content={output.content as MindmapContent} />}
+      {output.kind === "widget" && <WidgetHost widget={output.content as { slug: string; data: unknown }} titles={titles} />}
+      {output.kind === "cards" && (
+        <div className="panel">
+          <h2>{output.title}</h2>
+          <Link to={`/n/${notebookId}/review`} className="pill">
+            {t.reviewStart}
+          </Link>
+        </div>
+      )}
+      {output.note !== undefined && <p className="soft small-text">{output.note}</p>}
+    </>
+  );
+}
+
+/** A tool result inside the Study tools panel. */
+export function PanelOutput({ outputId, notebookId, readAloud, onBack }: { outputId: Id<"outputs">; notebookId: string; readAloud: boolean; onBack: () => void }) {
+  const data = useQuery(api.study.tools.get, { outputId });
+  return (
+    <div className="panel-output" data-testid="panel-output">
+      <button type="button" className="icon-button" onClick={onBack}>
+        <ArrowLeft size={16} aria-hidden="true" /> {copy.tools.backToTools}
+      </button>
+      {data === undefined ? <p className="soft">{copy.loading}</p> : <OutputBody output={data.output} titles={data.titles} notebookId={notebookId} readAloud={readAloud} />}
+    </div>
+  );
+}
 function Cite({ origin, titles }: { origin: Origin; titles: Record<string, string> }) {
   if (origin.kind === "added") return <span className="added-tag">{origin.unchecked === true ? copy.notebook.uncheckedByTaku : copy.notebook.addedByTaku}</span>;
   return <span className="cite static">{copy.notebook.fromPage(titles[origin.sourceId] ?? "", origin.page)}</span>;
@@ -59,7 +101,7 @@ function Cite({ origin, titles }: { origin: Origin; titles: Record<string, strin
 function Summary({ content, titles, readAloud }: { content: SummaryContent; titles: Record<string, string>; readAloud: boolean }) {
   const text = useMemo(() => [content.title, ...content.sections.flatMap((s) => [s.heading, ...s.points.map((p) => p.text)])].join(". "), [content]);
   return (
-    <article className="card stack">
+    <article className="panel stack summary">
       <div className="row-between">
         <h1>{content.title}</h1>
         {readAloud && <ReadAloud text={text} />}
@@ -207,7 +249,7 @@ function QuizPaper({ output, content }: { output: Doc<"outputs">; content: QuizC
 
 function MindMap({ content }: { content: MindmapContent }) {
   return (
-    <article className="card">
+    <article className="panel">
       <div className="mindmap">
         <div className="mm-central">{content.central}</div>
         <div className="mm-branches">
@@ -236,9 +278,7 @@ function Scroll({ notebookId, content, titles }: { notebookId: string; content: 
   const [picked, setPicked] = useState<Record<number, boolean>>({});
   return (
     <div className="scroll-feed" data-testid="scroll-feed">
-      <Link to={`/n/${notebookId}?tab=tools`} className="scroll-close pill small">
-        <ArrowLeft size={16} aria-hidden="true" /> {t.back}
-      </Link>
+
       {content.cards.map((c, i) => {
         const truth = c.answer.trim().toLowerCase().startsWith("true");
         return (
@@ -279,7 +319,7 @@ function Scroll({ notebookId, content, titles }: { notebookId: string; content: 
       })}
       <section className="scroll-card end">
         <p className="scroll-hook">{t.scrollEnd}</p>
-        <Link to={`/n/${notebookId}?tab=tools`} className="pill">
+        <Link to={`/n/${notebookId}`} className="pill">
           {t.back}
         </Link>
       </section>

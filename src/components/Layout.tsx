@@ -1,159 +1,145 @@
 import { useQuery } from "convex/react";
-import { BookOpen, Home, Layers, LifeBuoy, MessageCircle, Settings } from "lucide-react";
-import { useState, type ReactNode } from "react";
-import { Link, NavLink } from "react-router";
+import { BookOpen, Home, Layers, LifeBuoy, MessageCircle, Settings, X } from "lucide-react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { Link, NavLink, useLocation } from "react-router";
 import { api } from "../../convex/_generated/api";
 import { copy } from "../copy/en";
-import { BrandMark } from "./BrandMark";
+import { BrandMark, Lockup } from "./BrandMark";
 
 /**
- * The frame of every page. Public pages get a light top bar. Signed in pages
- * get an ink sidebar on desktop and a bottom tab bar on phones (the pattern
- * from Takubasa's home). Get help is always one tap away (SPEC.md 3.13).
+ * The frame of every page. Public pages: a light top bar with the lockup.
+ * Signed in pages: a full height shell that never scrolls (100dvh). A slim
+ * icon rail on wide screens, a frosted top bar, and a bottom tab bar on
+ * phones that hides while the learner types. Only the content pane scrolls.
  */
-export function Layout({ children, signedIn = false }: { children: ReactNode; signedIn?: boolean }) {
-  if (signedIn) return <AppShell>{children}</AppShell>;
+export function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="public-shell">
-      <header className="topbar">
-        <Link to="/" className="brand" aria-label={`${copy.appName} ${copy.byline}`}>
-          <BrandMark />
-          <b>{copy.appName}</b>
+      <header className="public-top">
+        <Link to="/" className="brand-link">
+          <Lockup />
         </Link>
-        <div className="topbar-actions">
-          <Link to="/help" className="pill ghost small">
-            <LifeBuoy size={18} aria-hidden="true" />
-            {copy.menu.help}
-          </Link>
-        </div>
+        <Link to="/help" className="pill ghost small">
+          <LifeBuoy size={16} aria-hidden="true" />
+          {copy.menu.help}
+        </Link>
       </header>
       <main className="public-main">{children}</main>
     </div>
   );
 }
 
-function AppShell({ children }: { children: ReactNode }) {
+/** Marks <html> while the app shell is up: the page itself stops scrolling and dark mode may apply. */
+function useAppShellMarker() {
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.shell = "app";
+    return () => {
+      delete root.dataset.shell;
+    };
+  }, []);
+}
+
+function activeIndex(path: string): number {
+  if (path === "/") return 0;
+  if (path.startsWith("/chat")) return 1;
+  if (/^\/n\/[^/]+\/review/.test(path)) return 3;
+  if (path.startsWith("/notebooks") || path.startsWith("/n/")) return 2;
+  if (path.startsWith("/settings")) return 4;
+  return -1;
+}
+
+export function AppShell({ children, bar, title, scroll = "page" }: { children: ReactNode; bar?: ReactNode; title?: string; scroll?: "page" | "panes" }) {
+  useAppShellMarker();
   const me = useQuery(api.accounts.profiles.me);
   const ready = me?.profile != null && (me.profile.consentState === "not_needed" || me.profile.consentState === "given") && me.profile.styleChosen;
   const [now] = useState(() => Date.now());
   const due = useQuery(api.study.cards.dueCount, ready ? { now } : "skip");
-  const chats = useQuery(api.chat.chats.list, ready ? {} : "skip");
-  const notebooks = useQuery(api.notebooks.notebooks.list, ready ? {} : "skip");
+  const { pathname } = useLocation();
   const n = copy.nav;
   const dueCount = due?.count ?? 0;
   const reviewTo = due?.notebookId != null ? `/n/${due.notebookId}/review` : "/notebooks";
-  const style = me?.profile ? copy.styles[me.profile.studyStyle] : null;
+  const name = me?.profile?.displayName ?? "";
+  const active = activeIndex(pathname);
+  const items = [
+    { to: "/", label: n.home, Icon: Home, end: true },
+    { to: "/chat", label: n.chat, Icon: MessageCircle },
+    { to: "/notebooks", label: n.notebooks, Icon: BookOpen },
+    { to: reviewTo, label: n.review, Icon: Layers, badge: dueCount },
+    { to: "/settings", label: n.settings, Icon: Settings },
+  ];
+  const indicator = { ["--active" as string]: Math.max(active, 0), opacity: active < 0 ? 0 : 1 } as CSSProperties;
 
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
-        <Link to="/" className="brand">
-          <BrandMark inverse />
-          <span>
-            <b>{copy.appName}</b>
-            <br />
-            <small>{copy.byline}</small>
-          </span>
-        </Link>
-        {ready && (
-          <nav className="side-nav" aria-label="Main">
-            <NavLink to="/" end>
-              <Home size={18} aria-hidden="true" /> {n.home}
-            </NavLink>
-            <NavLink to="/chat">
-              <MessageCircle size={18} aria-hidden="true" /> {n.chat}
-            </NavLink>
-            <NavLink to="/notebooks">
-              <BookOpen size={18} aria-hidden="true" /> {n.notebooks}
-            </NavLink>
-            <NavLink to={reviewTo} className={({ isActive }) => (isActive ? "active" : "")}>
-              <Layers size={18} aria-hidden="true" /> {n.review}
-              {dueCount > 0 && <span className="badge">{dueCount}</span>}
-            </NavLink>
-            <NavLink to="/settings">
-              <Settings size={18} aria-hidden="true" /> {n.settings}
-            </NavLink>
-          </nav>
-        )}
-        {ready && (notebooks?.length ?? 0) > 0 && (
-          <div>
-            <p className="side-section">{n.notebooksList}</p>
-            <div className="side-list">
-              {notebooks!.slice(0, 5).map((nb) => (
-                <Link key={nb._id} to={`/n/${nb._id}`}>
-                  {nb.title}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-        {ready && (chats?.length ?? 0) > 0 && (
-          <div>
-            <p className="side-section">{n.recentChats}</p>
-            <div className="side-list">
-              {chats!.slice(0, 5).map((c) => (
-                <Link key={c._id} to={`/chat/${c._id}`}>
-                  {c.title}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-        <div className="side-foot">
-          {me?.profile && (
-            <div className="who">
-              <b>{me.profile.displayName}</b>
-              {style && <small>{style.name}</small>}
-            </div>
-          )}
-          <div className="actions">
-            <Link to="/help" className="pill small">
-              <LifeBuoy size={16} aria-hidden="true" /> {copy.menu.help}
-            </Link>
-          </div>
-        </div>
-      </aside>
-
-      <header className="app-top">
-        <Link to="/" className="brand" aria-label={copy.appName}>
-          <BrandMark />
-          <b>{copy.appName}</b>
-        </Link>
-        <div className="topbar-actions">
-          <Link to="/help" className="pill ghost small">
-            <LifeBuoy size={16} aria-hidden="true" />
-            {copy.menu.help}
-          </Link>
-        </div>
-      </header>
-
-      <main className="app-main">{children}</main>
-
+    <div className="app">
       {ready && (
-        <nav className="tabbar" aria-label="Main">
-          <NavLink to="/" end>
-            <Home size={20} aria-hidden="true" />
-            {n.home}
-          </NavLink>
-          <NavLink to="/chat">
-            <MessageCircle size={20} aria-hidden="true" />
-            {n.chat}
-          </NavLink>
-          <NavLink to="/notebooks">
-            <BookOpen size={20} aria-hidden="true" />
-            {n.notebooks}
-          </NavLink>
-          <NavLink to={reviewTo}>
-            <Layers size={20} aria-hidden="true" />
-            {n.review}
-            {dueCount > 0 && <span className="badge">{dueCount}</span>}
-          </NavLink>
-          <NavLink to="/settings">
-            <Settings size={20} aria-hidden="true" />
-            {n.settings}
-          </NavLink>
+        <nav className="rail" aria-label="Main">
+          <Link to="/" className="rail-mark" aria-label={`${copy.appName} ${copy.byline}`}>
+            <BrandMark />
+          </Link>
+          <div className="rail-items">
+            <span className="rail-indicator" style={indicator} aria-hidden="true" />
+            {items.map(({ to, label, Icon, end, badge }, i) => (
+              <NavLink key={label} to={to} end={end} className={i === active ? "active" : undefined} aria-current={i === active ? "page" : undefined}>
+                <Icon size={20} aria-hidden="true" />
+                <span>{label}</span>
+                {badge !== undefined && badge > 0 && <span className="badge">{badge}</span>}
+              </NavLink>
+            ))}
+          </div>
+          <Link to="/settings" className="avatar" aria-label={`${name}, ${n.settings}`} title={name}>
+            {name.slice(0, 1).toUpperCase()}
+          </Link>
         </nav>
       )}
+      <div className="app-col">
+        <header className="topbar">
+          {bar ?? (
+            <>
+              <Link to="/" className="topbar-mark" aria-label={copy.appName}>
+                <BrandMark />
+              </Link>
+              <span className="topbar-title">{title ?? copy.appName}</span>
+              <span className="spacer" />
+              <Link to="/help" className="pill ghost small">
+                <LifeBuoy size={16} aria-hidden="true" />
+                <span className="hide-narrow">{copy.menu.help}</span>
+                <span className="sr-only show-narrow">{copy.menu.help}</span>
+              </Link>
+            </>
+          )}
+        </header>
+        <main className={`app-main${scroll === "panes" ? " panes" : ""}`}>{children}</main>
+        {ready && (
+          <nav className="tabbar" aria-label="Main">
+            <span className="tab-indicator" style={indicator} aria-hidden="true" />
+            {items.map(({ to, label, Icon, end, badge }, i) => (
+              <NavLink key={label} to={to} end={end} className={i === active ? "active" : undefined} aria-current={i === active ? "page" : undefined}>
+                <Icon size={20} aria-hidden="true" />
+                {label}
+                {badge !== undefined && badge > 0 && <span className="badge">{badge}</span>}
+              </NavLink>
+            ))}
+          </nav>
+        )}
+      </div>
     </div>
   );
 }
+
+/** Focus mode: flashcards, practice papers and Scroll take the whole screen with the menus hidden, and a clear way out. */
+export function FocusShell({ children, exitTo, title, dark = false }: { children: ReactNode; exitTo: string; title: string; dark?: boolean }) {
+  useAppShellMarker();
+  return (
+    <div className={`focus${dark ? " focus-dark" : ""}`} data-testid="focus-mode">
+      <header className="focus-bar">
+        <Link to={exitTo} className="pill ghost small focus-exit">
+          <X size={16} aria-hidden="true" /> {copy.focus.exit}
+        </Link>
+        <span className="focus-title">{title}</span>
+      </header>
+      <main className="focus-main">{children}</main>
+    </div>
+  );
+}
+

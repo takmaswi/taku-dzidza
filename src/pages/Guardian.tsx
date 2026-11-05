@@ -4,7 +4,7 @@ import { useState } from "react";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { errorText } from "../access";
-import { Layout } from "../components/Layout";
+import { AppShell } from "../components/Layout";
 import { copy } from "../copy/en";
 
 /** Shown to a learner under 18 until a guardian consents. The profile query updates live when they do. */
@@ -27,8 +27,8 @@ export default function Guardian({ state }: { state: Doc<"profiles">["consentSta
   };
 
   return (
-    <Layout signedIn>
-      <div className="narrow card stack">
+    <AppShell>
+      <div className="narrow panel stack">
         <h1>{t.title}</h1>
         {state === "withdrawn" && <p className="notice">{t.withdrawn}</p>}
         <p>{t.body}</p>
@@ -67,6 +67,6 @@ export default function Guardian({ state }: { state: Doc<"profiles">["consentSta
           {copy.menu.signOut}
         </button>
       </div>
-    </Layout>
+    </AppShell>
   );
 }

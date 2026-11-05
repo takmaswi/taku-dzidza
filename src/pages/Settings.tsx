@@ -1,12 +1,13 @@
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useMutation } from "convex/react";
+import { Check, Eye, Lightbulb } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { ADULT_AGE, ageOn } from "../../convex/accounts/age";
 import { errorText } from "../access";
-import { Layout } from "../components/Layout";
+import { AppShell } from "../components/Layout";
 import { StylePicker } from "../components/StylePicker";
 import { Switch } from "../components/Switch";
 import { copy } from "../copy/en";
@@ -33,14 +34,12 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
   const adult = ageOn(profile.birthYear, profile.birthMonth, new Date()) >= ADULT_AGE;
 
   return (
-    <Layout signedIn>
-      <div className="stack" style={{ maxWidth: 900 }}>
-        <div>
-          <span className="eyebrow">{copy.nav.settings}</span>
-          <h1>{t.title}</h1>
-        </div>
-
-        <section className="card">
+    <AppShell title={t.title}>
+      <div className="page">
+        <h1>{t.title}</h1>
+        <div className="settings-grid">
+        <div className="settings-col">
+        <section className="panel">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -57,24 +56,35 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
           </form>
         </section>
 
-        <section className="card">
+        <section className="panel">
           <h2>{t.styleTitle}</h2>
           <StylePicker compact value={profile.studyStyle} onPick={(s) => void setStyle({ studyStyle: s })} />
         </section>
 
-        <section className="card">
+        <section className="panel">
           <h2>{t.answersTitle}</h2>
           <div className="choices">
-            {(["answer", "guide"] as const).map((m) => (
-              <button key={m} type="button" className="choice" aria-pressed={profile.answerMode === m} onClick={() => void setAnswerMode({ answerMode: m })}>
-                <b>{t[m].name}</b>
-                <span>{t[m].line}</span>
-              </button>
-            ))}
+            {(["answer", "guide"] as const).map((m) => {
+              const Icon = m === "answer" ? Eye : Lightbulb;
+              return (
+                <button key={m} type="button" className="choice" aria-pressed={profile.answerMode === m} onClick={() => void setAnswerMode({ answerMode: m })}>
+                  <span className="ct-icon">
+                    <Icon size={20} aria-hidden="true" />
+                  </span>
+                  <b>{t[m].name}</b>
+                  <span>{t[m].line}</span>
+                  <span className="ct-tick">
+                    <Check size={14} aria-hidden="true" />
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </section>
+        </div>
 
-        <section className="card">
+        <div className="settings-col">
+        <section className="panel">
           <h2>{t.accessTitle}</h2>
           {ACCESS_KEYS.map((key) => (
             <div className="toggle-row" key={key}>
@@ -98,7 +108,7 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
           ))}
         </section>
 
-        <section className="card">
+        <section className="panel">
           <h2>{t.accountTitle}</h2>
           <p className="soft">{t.signedInAs(email)}</p>
           {adult && (
@@ -129,7 +139,7 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
           </button>
         </section>
 
-        <section className="card">
+        <section className="panel danger-zone">
           <h2>{t.deleteTitle}</h2>
           <p>{t.deleteBody}</p>
           <div className="field">
@@ -156,7 +166,9 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
             {t.deleteButton}
           </button>
         </section>
+        </div>
+        </div>
       </div>
-    </Layout>
+    </AppShell>
   );
 }

@@ -8,7 +8,7 @@ export default function Legal({ page }: { page: "privacy" | "terms" }) {
   const doc = legal[page];
   return (
     <Layout>
-      <article className="narrow card stack legal">
+      <article className="narrow panel stack legal">
         <p className="notice" role="note">
           <b>{legal.draftTitle}.</b> {legal.draftBody}
         </p>

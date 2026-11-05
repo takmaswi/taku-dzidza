@@ -3,8 +3,8 @@ import { useMutation } from "convex/react";
 import { useState, type FormEvent } from "react";
 import { api } from "../../convex/_generated/api";
 import { errorText } from "../access";
-import { ImageSlot } from "../components/ImageSlot";
-import { Layout } from "../components/Layout";
+import { Cutout } from "../components/Art";
+import { AppShell } from "../components/Layout";
 import { copy } from "../copy/en";
 
 export default function Setup() {
@@ -35,8 +35,8 @@ export default function Setup() {
 
   if (tooYoung) {
     return (
-      <Layout signedIn>
-        <div className="narrow card warm">
+      <AppShell>
+        <div className="narrow panel">
           <h1>{copy.tooYoung.title}</h1>
           <p>{copy.tooYoung.body}</p>
           <a className="pill" href="https://amayi-learn.vercel.app">
@@ -46,16 +46,16 @@ export default function Setup() {
             {copy.menu.signOut}
           </button>
         </div>
-      </Layout>
+      </AppShell>
     );
   }
 
   return (
-    <Layout signedIn>
+    <AppShell>
       <div className="split-page">
-      <div className="card rise" style={{ maxWidth: 560, width: "100%", justifySelf: "center" }}>
+      <div className="panel rise auth-card">
         <span className="eyebrow">{copy.quiz.stepLabel(1, 2)}</span>
-        <h1 style={{ fontSize: "clamp(2rem, 5vw, 2.8rem)" }}>{t.title}</h1>
+        <h1>{t.title}</h1>
         <form onSubmit={submit}>
           <div className="field">
             <label htmlFor="displayName">{t.name}</label>
@@ -104,9 +104,9 @@ export default function Setup() {
         </form>
       </div>
       <div className="split-photo rise" style={{ ["--i" as string]: 2 }}>
-        <ImageSlot slug="onboarding-1-secondary-student" alt="A secondary school learner writing in her exercise book" shape="arch" eager />
+        <Cutout slug="onboarding-1-secondary-student" alt="A secondary school learner writing in her exercise book" sizes="(min-width: 960px) 420px, 0px" eager />
       </div>
       </div>
-    </Layout>
+    </AppShell>
   );
 }

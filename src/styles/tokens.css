@@ -1,71 +1,133 @@
 /*
- * Takudzidza design tokens (SPEC.md section 4). Contrast pairs are checked in
- * tests/unit/contrast.test.ts. Honey is a fill only, never text on light
- * backgrounds. Msasa Red body text never sits on Butter.
+ * Takudzidza design tokens: the Taku Education palette (art/brand/takudzidza/kit/palette.css)
+ * with charcoal ink. Every text and background pair in use is checked in
+ * tests/unit/contrast.test.ts, which reads the hex values from this file.
+ * Honey is a fill only, never text. Suffix amber is for the logo and line
+ * marks, never body text.
  */
 :root {
-  --cream: #fff8ec;
-  --butter: #f8e2a8;
+  --ink: #2b2d42;
+  --grey: #5c677d;
+  --cream: #fff8f0;
+  --paper: #faf3e6;
+  --tint: #f4e8d3;
+  --mid: #d6b879;
+  --deep: #8a5a1f;
+  --brown: #4a3010;
+  --suffix: #b0822f;
   --honey: #f2b33d;
-  --ink: #111111;
-  --ink-soft: #5c5346;
+  --butter: #f8e2a8;
+  --butter-pick: #ffe3a3;
+  --white: #ffffff;
   --msasa: #b4452f;
   --sage: #4f6b54;
-  --white: #ffffff;
+  --on-ink-soft: #d8d2c6;
+  --panel-line: #f0e2c6;
 
-  /* Tints for tiles: text on them is always Ink. */
-  --butter-tint: #fcefc9;
-  --sage-tint: #e3ebe2;
-  --msasa-tint: #f7e0d8;
-  --ink-2: #1d1b18;
-  --ink-line: #34302a;
-  --on-ink-soft: #cfc6b6;
+  /* Dark set, used by the signed in app when the phone or computer is in dark mode. */
+  --d-page: #2b2d42;
+  --d-panel: #33354b;
+  --d-raised: #3c3f57;
+  --d-line: #50536c;
+  --d-text: #fff8f0;
+  --d-soft: #d3ccbf;
+  --d-accent: #e2c992;
+  --d-danger: #f4ab98;
+  --d-ok: #b2cdb5;
+  --d-pick: #5b4a2c;
 
-  --bg: var(--cream);
-  --card: var(--white);
-  --card-warm: var(--butter);
   --text: var(--ink);
-  --text-soft: var(--ink-soft);
-  --line: #eadbb8;
-  --accent-fill: var(--honey);
+  --text-soft: var(--grey);
+  --accent-text: var(--deep);
+  --panel: var(--cream);
+  --raised: var(--white);
+  --sunken: var(--paper);
+  --line: var(--panel-line);
+  --line-strong: var(--mid);
+  --primary: var(--ink);
+  --on-primary: var(--cream);
+  --pick: var(--butter-pick);
+  --pick-line: var(--honey);
+  --bubble: var(--ink);
+  --on-bubble: var(--cream);
   --danger: var(--msasa);
   --ok: var(--sage);
+  --mark-line: var(--suffix);
+  --topbar: rgb(255 248 240 / 0.78);
+  --scrim: rgb(43 45 66 / 0.45);
 
-  --font: "Lexend Variable", "Lexend", system-ui, sans-serif;
+  --page-image: url("/art/textures/honey-waves.webp");
+  --page-image-phone: url("/art/textures/honey-waves-phone.webp");
+  --grain: url("/art/textures/paper-grain.webp");
+  --panel-fill: linear-gradient(rgb(255 248 240 / 0.9), rgb(255 248 240 / 0.9)), var(--grain) 0 0 / 512px 512px, var(--cream);
+
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, monospace;
-  --radius-card: 28px;
+  --radius: 20px;
+  --radius-sm: 14px;
   --radius-pill: 999px;
-  --arch: 999px 999px 28px 28px;
   --text-size: 1rem;
   --letter: 0;
   --word: 0;
-  --line-height: 1.55;
+  --line-height: 1.6;
   --measure: 68ch;
-  --shadow: 0 1px 0 rgba(17, 17, 17, 0.04), 0 10px 30px rgba(17, 17, 17, 0.07);
-  --shadow-lift: 0 2px 0 rgba(17, 17, 17, 0.05), 0 18px 40px rgba(17, 17, 17, 0.12);
+  --shadow-panel: 0 1px 2px rgb(90 60 0 / 0.06), 0 10px 30px rgb(90 60 0 / 0.07);
+  --shadow-raised: 0 1px 2px rgb(90 60 0 / 0.08), 0 14px 36px rgb(90 60 0 / 0.11);
+  --shadow-lift: 0 2px 4px rgb(90 60 0 / 0.08), 0 22px 46px rgb(90 60 0 / 0.15);
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --speed: 1;
+
+  --rail: 76px;
+  --bar: 64px;
+  --sources: 280px;
+  --sources-folded: 56px;
+  --tools: 340px;
+  --reading: 720px;
 }
 
-/* Locked In: all business, no faff. Fewer shapes, no motion flourishes. */
+/* Dark mode in the signed in app. Public pages stay on cream, where the lockup lives. */
+@media (prefers-color-scheme: dark) {
+  :root[data-shell="app"]:not([data-contrast="true"]) {
+    color-scheme: dark;
+    --text: var(--d-text);
+    --text-soft: var(--d-soft);
+    --accent-text: var(--d-accent);
+    --panel: var(--d-panel);
+    --raised: var(--d-raised);
+    --sunken: var(--d-page);
+    --line: var(--d-line);
+    --line-strong: var(--d-line);
+    --primary: var(--honey);
+    --on-primary: var(--ink);
+    --pick: var(--d-pick);
+    --bubble: var(--d-raised);
+    --on-bubble: var(--d-text);
+    --danger: var(--d-danger);
+    --ok: var(--d-ok);
+    --mark-line: var(--d-accent);
+    --topbar: rgb(43 45 66 / 0.8);
+    --scrim: rgb(0 0 0 / 0.55);
+    --page-image: url("/art/textures/honey-waves-dark.webp");
+    --page-image-phone: url("/art/textures/honey-waves-dark-phone.webp");
+    --panel-fill: var(--d-panel);
+    --shadow-panel: 0 1px 2px rgb(0 0 0 / 0.25), 0 10px 30px rgb(0 0 0 / 0.25);
+    --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.3), 0 14px 36px rgb(0 0 0 / 0.3);
+    --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.3), 0 22px 46px rgb(0 0 0 / 0.38);
+  }
+}
+
+/* Locked In: all business. Tighter corners, flatter surfaces, no flourishes. */
 :root[data-style="locked_in"] {
-  --card-warm: var(--white);
-  --butter-tint: #f6f1e6;
-  --sage-tint: #eef0ec;
-  --msasa-tint: #f4ece8;
-  --radius-card: 18px;
-  --arch: 22px;
-  --shadow: none;
+  --radius: 12px;
+  --radius-sm: 10px;
+  --shadow-panel: 0 1px 2px rgb(90 60 0 / 0.06);
   --shadow-lift: 0 0 0 2px var(--ink);
 }
 
-/* Cook Mode: the same palette, turned up. */
+/* Cook Mode: the same palette, turned up. Honey takes the selected states. */
 :root[data-style="cook"] {
-  --bg: var(--butter);
-  --card-warm: var(--honey);
-  --butter-tint: #fff4d6;
-  --line: #e9c770;
-  --radius-card: 32px;
+  --pick: var(--butter);
+  --radius: 24px;
 }
 
 /* Calm is the base above. */
@@ -84,11 +146,14 @@
 :root[data-contrast="true"] {
   --text-soft: var(--ink);
   --line: var(--ink);
-  --card-warm: var(--white);
-  --bg: var(--white);
-  --butter-tint: var(--white);
-  --sage-tint: var(--white);
-  --msasa-tint: var(--white);
+  --line-strong: var(--ink);
+  --panel: var(--white);
+  --panel-fill: var(--white);
+  --sunken: var(--white);
+  --page-image: none;
+  --page-image-phone: none;
+  --pick: var(--butter);
+  --pick-line: var(--ink);
 }
 
 :root[data-motion="off"] {

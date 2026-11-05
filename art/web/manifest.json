@@ -1,0 +1,213 @@
+{
+ "generator": "art/web/build_web.py (Pillow, procedural)",
+ "cutouts": {
+  "audio-overview": {
+   "width": 1134,
+   "height": 1427,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "class-share-teacher": {
+   "width": 1134,
+   "height": 1419,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "dashboard-hero-university": {
+   "width": 1546,
+   "height": 1041,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "empty-flashcards": {
+   "width": 1167,
+   "height": 1385,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "empty-notebook": {
+   "width": 1145,
+   "height": 1394,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "empty-quiz": {
+   "width": 1123,
+   "height": 1403,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "exam-coach": {
+   "width": 1377,
+   "height": 1147,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "guardian-consent": {
+   "width": 1455,
+   "height": 1110,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "landing-form1": {
+   "width": 1113,
+   "height": 1411,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "landing-hero-wide": {
+   "width": 1412,
+   "height": 1048,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "maths-hints": {
+   "width": 1560,
+   "height": 1038,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "offline-downloads": {
+   "width": 1132,
+   "height": 1424,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "onboarding-1-secondary-student": {
+   "width": 1146,
+   "height": 1370,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "onboarding-2-senior-student": {
+   "width": 1358,
+   "height": 1165,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "onboarding-3-professional": {
+   "width": 1202,
+   "height": 1341,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "study-group-later": {
+   "width": 1560,
+   "height": 1035,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "study-planner": {
+   "width": 1306,
+   "height": 1223,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "style-calm": {
+   "width": 1145,
+   "height": 1394,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "style-cook-mode": {
+   "width": 1133,
+   "height": 1425,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "style-locked-in": {
+   "width": 1167,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "tile-ask": {
+   "width": 1127,
+   "height": 1427,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "tile-scroll": {
+   "width": 1174,
+   "height": 1372,
+   "widths": [
+    480,
+    800
+   ]
+  }
+ },
+ "scenes": {
+  "empty-notebook": {
+   "width": 1200,
+   "height": 900,
+   "widths": [
+    640,
+    1200
+   ]
+  },
+  "home-dashboard": {
+   "width": 1600,
+   "height": 900,
+   "widths": [
+    640,
+    1280,
+    1600
+   ]
+  },
+  "landing-hero": {
+   "width": 2560,
+   "height": 1600,
+   "widths": [
+    640,
+    1280,
+    1920
+   ]
+  }
+ },
+ "icons": {
+  "maskableFarthestPx": 191.2,
+  "maskableSafeRadiusPx": 204.8
+ }
+}

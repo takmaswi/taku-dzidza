@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { adultOnHome, closeSources, freshEmail, newNotebook, NOTES, openSources, outboxCode, PASSWORD, pasteNotes, setUp } from "./helpers";
+import { adultOnHome, ask, freshEmail, newNotebook, NOTES, openTools, outboxCode, PASSWORD, pasteNotes, pickChip, setUp } from "./helpers";
 
 /** The MVP hardening items: accounts, maths, widgets and the phone fixes (mock fixtures, no AI spend). */
 
@@ -78,7 +78,7 @@ test.describe("accounts", () => {
     await expect(counts).toBeChecked();
     // The compact style picker: all three, no photos.
     await expect(page.getByRole("radio")).toHaveCount(3);
-    await expect(page.locator(".style-compact img")).toHaveCount(0);
+    await expect(page.getByRole("radiogroup").locator("img")).toHaveCount(0);
   });
 
   test("the privacy notice and terms are public and marked as drafts", async ({ page }) => {
@@ -158,8 +158,7 @@ test.describe("streaming and progress", () => {
         }
       }).observe(document.body, { subtree: true, childList: true, characterData: true });
     });
-    await page.getByLabel("Ask Taku about your notes").fill("What does chlorophyll do?");
-    await page.getByRole("button", { name: "Ask", exact: true }).click();
+    await ask(page, "What does chlorophyll do?");
     const answer = page.getByTestId("message-taku").last();
     await expect(answer).toContainText("Chlorophyll absorbs the light");
     await expect(page.locator(".stage")).toHaveCount(0);
@@ -169,47 +168,28 @@ test.describe("streaming and progress", () => {
   });
 });
 
-test.describe("notebook on phones", () => {
-  test("Ask Taku comes first, and sources and settings wait behind the Sources sheet", async ({ page }, info) => {
-    await adultOnHome(page, info, "sheet");
-    await newNotebook(page, "Biology");
-    const paste = page.getByRole("button", { name: "Paste text" });
-    const ask = page.getByLabel("Ask Taku about your notes");
-    await expect(ask).toBeVisible();
-    if (info.project.name === "phone") {
-      await expect(paste).toBeHidden();
-      await page.getByRole("button", { name: "Add a source" }).click();
-      await expect(paste).toBeVisible();
-      await page.getByRole("button", { name: "Done" }).click();
-      await expect(paste).toBeHidden();
-      await expect(page.getByRole("button", { name: /^Sources: 0/ })).toBeVisible();
-    } else {
-      await expect(paste).toBeVisible();
-      await expect(page.getByRole("button", { name: /^Sources/ })).toBeHidden();
-    }
-    await pasteNotes(page, info);
-    if (info.project.name === "phone") await expect(page.getByRole("button", { name: /^Sources: 1/ })).toBeVisible();
-    await openSources(page, info);
-    await expect(page.getByRole("button", { name: "Only my material" })).toBeVisible();
-    await closeSources(page, info);
-  });
-});
-
 async function toolsTab(page: Page, info: Parameters<typeof pasteNotes>[1]) {
   await adultOnHome(page, info, "tools");
   await newNotebook(page, "Biology");
   await pasteNotes(page, info);
-  await page.getByRole("tab", { name: "Study tools" }).click();
+  await openTools(page, info);
+}
+
+/** Step by step widgets sit behind one tile in the Study tools panel. */
+async function openWidget(page: Page, info: Parameters<typeof pasteNotes>[1], name: RegExp) {
+  await toolsTab(page, info);
+  await page.getByRole("button", { name: /^Step by step/ }).click();
+  await page.getByRole("button", { name }).click();
 }
 
 test.describe("maths on papers", () => {
-  test("a quiz paper draws maths and chemistry, on screen and in the print scheme", async ({ page }, info) => {
+  test("a practice paper draws maths and chemistry, on screen and in the print scheme", async ({ page }, info) => {
     await toolsTab(page, info);
-    await page.getByRole("button", { name: /^Quiz/ }).click();
+    await page.getByRole("button", { name: /^Practice paper/ }).click();
     await page.getByLabel("How many").fill("3");
     await page.getByLabel("Difficulty").selectOption("easy");
     await page.getByLabel("Minutes").fill("10");
-    await page.getByRole("button", { name: "Make quiz" }).click();
+    await page.getByRole("button", { name: "Make practice paper" }).click();
     await expect(page.getByText("Time: 10 minutes")).toBeVisible();
     await expect(page.locator(".qtext .katex").first()).toBeVisible();
     await expect(page.locator(".qtext").first()).not.toContainText("$");
@@ -223,9 +203,8 @@ test.describe("maths on papers", () => {
 });
 
 test.describe("widgets", () => {
-  test("equation steps marks each line, from the Study tools tab", async ({ page }, info) => {
-    await toolsTab(page, info);
-    await page.getByRole("button", { name: /^Equation steps/ }).click();
+  test("equation steps marks each line, from the Study tools panel", async ({ page }, info) => {
+    await openWidget(page, info, /^Equation steps/);
     const widget = page.getByTestId("widget-equation");
     await expect(widget).toBeVisible();
     const line = widget.getByLabel("Your next line");
@@ -246,8 +225,7 @@ test.describe("widgets", () => {
   });
 
   test("fill in the blanks marks each blank and cites the page", async ({ page }, info) => {
-    await toolsTab(page, info);
-    await page.getByRole("button", { name: /^Fill in the blanks/ }).click();
+    await openWidget(page, info, /^Fill in the blanks/);
     const widget = page.getByTestId("widget-blanks");
     await expect(widget).toBeVisible();
     // The recorded response has a third blank that is not in the notes, so only two are left.
@@ -265,8 +243,7 @@ test.describe("widgets", () => {
   });
 
   test("long division goes one step at a time, with a hint after two tries", async ({ page }, info) => {
-    await toolsTab(page, info);
-    await page.getByRole("button", { name: /^Long division/ }).click();
+    await openWidget(page, info, /^Long division/);
     const widget = page.getByTestId("widget-division");
     await expect(widget).toBeVisible();
     const answer = widget.getByRole("textbox");
@@ -292,7 +269,7 @@ test.describe("widgets", () => {
   test("Guide me in chat can hand back a working widget, with no answer given away", async ({ page }, info) => {
     await adultOnHome(page, info, "guide");
     await page.goto("/chat");
-    await page.getByRole("button", { name: "Guide me" }).click();
+    await pickChip(page, /^How Taku answers/, /^Guide me/);
     await page.locator("#chat-input").fill("Solve 2x + 3 = 11");
     await page.getByRole("button", { name: "Send" }).click();
     const widget = page.getByTestId("widget-equation");
@@ -310,8 +287,7 @@ test.describe("widgets", () => {
     await page.getByRole("link", { name: "Home" }).first().click();
     await newNotebook(page, "Biology");
     await pasteNotes(page, info, NOTES);
-    await page.getByLabel("Ask Taku about your notes").fill("Test me on what chlorophyll does");
-    await page.getByRole("button", { name: "Ask", exact: true }).click();
+    await ask(page, "Test me on what chlorophyll does");
     await expect(page.getByTestId("message-taku").last().getByTestId("widget-blanks")).toBeVisible();
   });
 });

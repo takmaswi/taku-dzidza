@@ -1324,3 +1324,15 @@ Every changed delivery/support file is listed below. Source-native dimensions an
 | `art/textures/honey-waves-dark.webp` | 2560x1600 | make_warm_dark.py | Native deterministic opaque raster; no removal |
 | `art/textures/make_warm_dark.py` | - | Production helper, provenance, license or documentation | Not applicable; no background removal |
 | `art/textures/warm-dark-manifest.json` | - | Production helper, provenance, license or documentation | Not applicable; no background removal |
+
+## Redesign 2: web sizes and app icons (2026-11-05)
+
+Script: `art/web/build_web.py` (Pillow, deterministic, no generation). It reads the existing cutout and scene masters and writes:
+
+- `art/web/cutouts/<slug>-480.webp`, `-800.webp` and `<slug>-shadow.webp` for 22 cutouts: Lanczos resize of the existing alpha cutouts and their existing shadow layers.
+- `art/web/scenes/<slug>-<width>.webp` for landing-hero (640, 1280, 1920), home-dashboard (640, 1280, 1600) and empty-notebook (640, 1200): Lanczos resize only.
+- `art/web/og-landing.jpg`: a 1200x630 crop of the landing hero scene for link previews.
+- `art/web/manifest.json`: sizes for `src/art.generated.ts`.
+- The app icons in `public/` (`icon.svg`, `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `apple-touch-icon.png`, `favicon.ico`): drawn from the three rectangles of `art/brand/takudzidza/kit/taku-education-mark-on-cream.svg` at 8x on Cream `#FFF8F0` and downsampled. `icon.svg` is a byte copy of the kit file. The maskable icon keeps the mark inside the 80% safe circle (asserted by the script).
+
+No pixel of any person was edited. The old tile T logo files were removed from `art/brand/` and archived outside the repo.

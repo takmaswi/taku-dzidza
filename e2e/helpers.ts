@@ -60,12 +60,24 @@ export async function adultOnHome(page: Page, info: TestInfo, tag = "e2e", name 
   return email;
 }
 
-/** On phones the sources and settings live in a sheet; on wide screens they are always showing. */
+export const phone = (info: TestInfo) => info.project.name === "phone";
+
+/**
+ * On phones the sources live in a sheet behind the "Sources: n" chip. On wide
+ * screens they sit in the rail, which folds once the learner is chatting.
+ */
 export async function openSources(page: Page, info: TestInfo) {
-  if (info.project.name === "phone") await page.getByRole("button", { name: /^Sources/ }).click();
+  if (phone(info)) await page.getByRole("button", { name: /^Sources: \d/ }).click();
+  else if ((await page.getByTestId("sources-rail").getAttribute("data-state")) === "folded") await page.getByRole("button", { name: /^Open sources/ }).click();
 }
 export async function closeSources(page: Page, info: TestInfo) {
-  if (info.project.name === "phone") await page.getByRole("button", { name: "Done" }).click();
+  if (phone(info)) await page.getByRole("dialog").getByRole("button", { name: "Done" }).click();
+}
+
+/** Study tools: a panel beside the chat on a wide screen, a sheet on a phone. */
+export async function openTools(page: Page, info: TestInfo) {
+  if (phone(info)) await page.getByRole("button", { name: "Study tools", exact: true }).click();
+  await expect(page.getByRole("group", { name: "Study tools" })).toBeVisible();
 }
 
 export async function newNotebook(page: Page, title: string) {
@@ -75,11 +87,28 @@ export async function newNotebook(page: Page, title: string) {
   await expect(page.getByRole("heading", { name: title })).toBeVisible();
 }
 
-export async function pasteNotes(page: Page, info: TestInfo, text = NOTES) {
-  await openSources(page, info);
-  await page.getByRole("button", { name: "Paste text" }).click();
+/** An empty notebook offers the add tiles in the middle, on every screen. */
+export async function pasteNotes(page: Page, info: TestInfo, text = NOTES, title?: string) {
+  await page.getByRole("button", { name: /^Paste text/ }).click();
+  if (title !== undefined) await page.getByLabel("Title").fill(title);
   await page.getByLabel("Your text").fill(text);
   await page.getByRole("button", { name: "Add text" }).click();
-  await expect(page.getByText("1 page")).toBeVisible();
+  await expectSource(page, info, "1 page");
+}
+
+export async function expectSource(page: Page, info: TestInfo, text: string, timeout = 15_000) {
+  await openSources(page, info);
+  await expect(page.getByText(text)).toBeVisible({ timeout });
   await closeSources(page, info);
+}
+
+export async function ask(page: Page, question: string) {
+  await page.getByLabel("Ask Taku about your notes").fill(question);
+  await page.getByRole("button", { name: "Ask", exact: true }).click();
+}
+
+/** Pick from one of the question box chips, such as "Taku uses" or "How Taku answers". */
+export async function pickChip(page: Page, chip: RegExp, choice: RegExp) {
+  await page.getByRole("button", { name: chip }).click();
+  await page.getByRole("menuitemradio", { name: choice }).click();
 }
