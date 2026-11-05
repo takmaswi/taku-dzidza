@@ -1,0 +1,237 @@
+[
+  {
+    "file": "art/decor/arrow-curved.svg",
+    "bytes": 258,
+    "sha256": "278d5902810c87d59febd8918f1adb1a7689470fb44d7b8c4c265cf8be7dcd19"
+  },
+  {
+    "file": "art/decor/board.png",
+    "bytes": 1953614,
+    "sha256": "820a42423ea67941970059985b3a41fefc93b682a7d6a3ae0edaaf580ce471fd",
+    "size": [
+      2400,
+      2200
+    ],
+    "mode": "RGB"
+  },
+  {
+    "file": "art/decor/book-stack.png",
+    "bytes": 2421152,
+    "sha256": "b667d7622c9047e9d9aad73c77614b768024de7b4d954a5122f52060b097831e",
+    "size": [
+      1536,
+      1024
+    ],
+    "mode": "RGBA"
+  },
+  {
+    "file": "art/decor/book-stack.webp",
+    "bytes": 81706,
+    "sha256": "fb0791da18efbe4a66c00c804e862e924a191de98bf97b09c95f755a4f08aa3e",
+    "size": [
+      720,
+      480
+    ],
+    "mode": "RGBA"
+  },
+  {
+    "file": "art/decor/build_decor.py",
+    "bytes": 8630,
+    "sha256": "01d421da5348853d361583505a1e749872b57c57fb038fd271fc0282a33aae07"
+  },
+  {
+    "file": "art/decor/circle-loop.svg",
+    "bytes": 301,
+    "sha256": "ba8abfd38c0e28c965854785838a0085caa6de3d3eb7ebf115c2b57eef54b384"
+  },
+  {
+    "file": "art/decor/edges-200pct-dark.png",
+    "bytes": 433743,
+    "sha256": "337678c715464692dbcba4e355c0ff0800859dd51f2c0b74749c233480a701bd",
+    "size": [
+      1300,
+      2400
+    ],
+    "mode": "RGB"
+  },
+  {
+    "file": "art/decor/edges-200pct-light.png",
+    "bytes": 425573,
+    "sha256": "2a5bd828cf251d899f053f6100097c11019aca92cc545fc3c865597501193156",
+    "size": [
+      1300,
+      2400
+    ],
+    "mode": "RGB"
+  },
+  {
+    "file": "art/decor/generation-prompts.json",
+    "bytes": 10004,
+    "sha256": "1554157b8fc88372645d659616ea2f083e109d71c61382291bbd2ace891169d5"
+  },
+  {
+    "file": "art/decor/generation-review.png",
+    "bytes": 592022,
+    "sha256": "22707dacd43e19a990f1648077ca0a3bf71b51667dee761960d29ca229296063",
+    "size": [
+      1600,
+      1460
+    ],
+    "mode": "RGB"
+  },
+  {
+    "file": "art/decor/highlighter-stroke.png",
+    "bytes": 1284259,
+    "sha256": "612491766870deac08f18973deb1c0dfc6b8e5857aabf539854b0be270cedccd",
+    "size": [
+      2172,
+      724
+    ],
+    "mode": "RGBA"
+  },
+  {
+    "file": "art/decor/highlighter-stroke.webp",
+    "bytes": 27992,
+    "sha256": "0fa6c4d4624b654818fad173e259b95e2ef11d3b55dabf063fe5fb73a88ad0cf",
+    "size": [
+      720,
+      240
+    ],
+    "mode": "RGBA"
+  },
+  {
+    "file": "art/decor/manifest.json",
+    "bytes": 15192,
+    "sha256": "119e01306a7afe393fa75e340bea1a7e78ed68fc5ddf6db915792d0630f5fcc3"
+  },
+  {
+    "file": "art/decor/margin-formula.svg",
+    "bytes": 382,
+    "sha256": "3151ce8ba12bb26e4f12266fb33f699eacb0941211681a7f826e0c5f1ebd15ed"
+  },
+  {
+    "file": "art/decor/page-corner-curl.png",
+    "bytes": 1422914,
+    "sha256": "94aade0134c4def6e5b02cfd94bb5e7c4f7b62680e3d6c710f8d2f7eb7d29e7f",
+    "size": [
+      1536,
+      1024
+    ],
+    "mode": "RGBA"
+  },
+  {
+    "file": "art/decor/page-corner-curl.webp",
+    "bytes": 39186,
+    "sha256": "158b3d869b9794ce83ae5d589371ab52274e96c5e071cced50429b05231967ee",
+    "size": [
+      720,
+      480
+    ],
+    "mode": "RGBA"
+  },
+  {
+    "file": "art/decor/pencil-honey.png",
+    "bytes": 1172968,
+    "sha256": "db166522db237834e6bad791bc26227e2d54b3c56da55698a09c3f4be0539c89",
+    "size": [
+      1536,
+      1024
+    ],
+    "mode": "RGBA"
+  },
+  {
+    "file": "art/decor/pencil-honey.webp",
+    "bytes": 28060,
+    "sha256": "57ff0413ec57843a8d4fcf8ed547d6c8dd2d93670419509cb7dce6574c178832",
+    "size": [
+      720,
+      480
+    ],
+    "mode": "RGBA"
+  },
+  {
+    "file": "art/decor/source-inter.ttf",
+    "bytes": 122592,
+    "sha256": "8cef08a43f01bc476c061f101041d1dea13e0dbe99883fa66ab708102247d604"
+  },
+  {
+    "file": "art/decor/sparks.svg",
+    "bytes": 396,
+    "sha256": "e15f2a430a80545e9d71df890182928c1788ccda5ac6d7f67e8e923e6398694c"
+  },
+  {
+    "file": "art/decor/stars.svg",
+    "bytes": 370,
+    "sha256": "b3c6be65b01cdc4e80e9e8acc60cf4be0929dbbb21a128424e0889bd26823fdc"
+  },
+  {
+    "file": "art/decor/sticky-note-butter.png",
+    "bytes": 1870502,
+    "sha256": "4b8f5770d39f2ac471ba498049e01d86da4895f6fb8c4f17401399029dc6f737",
+    "size": [
+      1263,
+      1246
+    ],
+    "mode": "RGBA"
+  },
+  {
+    "file": "art/decor/sticky-note-butter.webp",
+    "bytes": 67060,
+    "sha256": "0c8b66c49e4f88f98fa66b288acfc0b790c72653424e22eb32af77588d4950cc",
+    "size": [
+      720,
+      710
+    ],
+    "mode": "RGBA"
+  },
+  {
+    "file": "art/decor/torn-paper-amber.png",
+    "bytes": 1730837,
+    "sha256": "7cb1a3a239c881d6b013a339fe19c010a1a12a614d213bd2133d8580ad97ebf3",
+    "size": [
+      1928,
+      815
+    ],
+    "mode": "RGBA"
+  },
+  {
+    "file": "art/decor/torn-paper-amber.webp",
+    "bytes": 50782,
+    "sha256": "85631035b2d52d8e4501275a98ab1ae25ebf18a736f21dcbf3db5896536b0203",
+    "size": [
+      720,
+      304
+    ],
+    "mode": "RGBA"
+  },
+  {
+    "file": "art/decor/torn-paper-cream.png",
+    "bytes": 1807693,
+    "sha256": "2581ad240b4930670208220aab7ba6a76bf6d6fb9cd5635733c6785b48e67e3e",
+    "size": [
+      1774,
+      887
+    ],
+    "mode": "RGBA"
+  },
+  {
+    "file": "art/decor/torn-paper-cream.webp",
+    "bytes": 51342,
+    "sha256": "0133f688a7464d0f5381ba4594def19ca9a7f9ae04d2f476d16bae02f19dea75",
+    "size": [
+      720,
+      360
+    ],
+    "mode": "RGBA"
+  },
+  {
+    "file": "art/decor/underline-double.svg",
+    "bytes": 248,
+    "sha256": "48531bb189737658c720428dcd8965b6c32e00ca05a8777e59253aa2608ca79d"
+  },
+  {
+    "file": "art/decor/underline-swoop.svg",
+    "bytes": 233,
+    "sha256": "f19186fa8ae7baf1f6a234cb539040608770cbbbfe4b94fdc37ab3cab492a13d"
+  }
+]

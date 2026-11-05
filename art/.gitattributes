@@ -1,0 +1,5 @@
+# Preserve byte-exact authoritative kit copies across Windows checkouts.
+brand/takudzidza/kit/* -text
+# Preserve the unmodified upstream OFL license, including its trailing spaces.
+brand/takudzidza/source/OFL.txt -text whitespace=-blank-at-eol,cr-at-eol
+decor/OFL.txt -text whitespace=-blank-at-eol,cr-at-eol

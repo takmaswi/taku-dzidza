@@ -1,0 +1,8 @@
+<svg viewBox="0 0 2000 400" xmlns="http://www.w3.org/2000/svg" width="2000" height="400">
+  <g transform="translate(440,50) scale(3.2)">
+    <rect x="12" y="16" width="40" height="24" rx="12" fill="#F4E8D3"></rect>
+    <rect x="48" y="16" width="40" height="24" rx="12" fill="#D6B879"></rect>
+    <rect x="38" y="28" width="24" height="60" rx="12" fill="#8A5A1F"></rect>
+  </g>
+  <text x="798.4" y="331.6" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="120" letter-spacing="18" fill="#B0822F">EDUCATION</text>
+</svg>

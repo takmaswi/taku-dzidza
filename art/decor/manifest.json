@@ -1,0 +1,261 @@
+[
+  {
+    "name": "torn-paper-cream",
+    "prompt": "Use case: product-mockup. Asset type: isolated transparent stationery decor for a serious modern study app. Create ONE standalone object, realistic editorial cut-paper and stationery photography, delicate tactile paper grain, restrained warm studio light from upper left, subtle dimensionality, no harsh cast shadow, no floor or background. Genuine transparent alpha background, no checkerboard. Entire object visible with small clear margin. No text, letters, digits, branding, logos, UI, watermark, people, faces or cartoon styling. Consistent warm subtle natural stationery aesthetic. Object colours restricted to this palette: cream #FFF8F0, paper #FAF3E6, tint #F4E8D3, butter #F8E2A8, mid #D6B879, deep #8A5A1F, ink #4A3010, suffix #B0822F, honey #F2B33D and charcoal #2B2D42. Do not introduce teal, blue, green, red, silver or white. Lighting may create natural tonal variations only from these palette colours. One horizontal scrap of cream paper #FAF3E6, irregular naturally torn fibrous edges, slightly curled lower edge, blank, elegant quiet realistic flat lay.",
+    "generator": "Built-in image_gen",
+    "background_removal": "Generated transparent alpha, preserved",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb2-2f7e-7ea3-b1b7-f22b31a5bbb3\\exec-2e24d579-d10f-41ce-a446-90897497946d.png",
+    "native_size": [
+      1774,
+      887
+    ],
+    "export_size": [
+      720,
+      360
+    ],
+    "upscaled": false,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "webp_quality": 95,
+    "webp_limit": 200000,
+    "source_sha256": "2581ad240b4930670208220aab7ba6a76bf6d6fb9cd5635733c6785b48e67e3e",
+    "png_bytes": 1807693,
+    "webp_bytes": 51342,
+    "webp_sha256": "0133f688a7464d0f5381ba4594def19ca9a7f9ae04d2f476d16bae02f19dea75"
+  },
+  {
+    "name": "torn-paper-amber",
+    "prompt": "Use case: product-mockup. Asset type: isolated transparent stationery decor for a serious modern study app. Create ONE standalone object, realistic editorial cut-paper and stationery photography, delicate tactile paper grain, restrained warm studio light from upper left, subtle dimensionality, no harsh cast shadow, no floor or background. Genuine transparent alpha background, no checkerboard. Entire object visible with small clear margin. No text, letters, digits, branding, logos, UI, watermark, people, faces or cartoon styling. Consistent warm subtle natural stationery aesthetic. Object colours restricted to this palette: cream #FFF8F0, paper #FAF3E6, tint #F4E8D3, butter #F8E2A8, mid #D6B879, deep #8A5A1F, ink #4A3010, suffix #B0822F, honey #F2B33D and charcoal #2B2D42. Do not introduce teal, blue, green, red, silver or white. Lighting may create natural tonal variations only from these palette colours. One narrow roughly rectangular softly torn ochre paper scrap, colour #D6B879, visible subtle fibre, blank, angled about eight degrees. No other objects.",
+    "generator": "Built-in image_gen",
+    "background_removal": "Generated transparent alpha, preserved",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb2-2f7e-7ea3-b1b7-f22b31a5bbb3\\exec-db22d0dd-9343-42b4-9c2a-3dee73106e1c.png",
+    "native_size": [
+      1928,
+      815
+    ],
+    "export_size": [
+      720,
+      304
+    ],
+    "upscaled": false,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "webp_quality": 95,
+    "webp_limit": 200000,
+    "source_sha256": "7cb1a3a239c881d6b013a339fe19c010a1a12a614d213bd2133d8580ad97ebf3",
+    "png_bytes": 1730837,
+    "webp_bytes": 50782,
+    "webp_sha256": "85631035b2d52d8e4501275a98ab1ae25ebf18a736f21dcbf3db5896536b0203"
+  },
+  {
+    "name": "sticky-note-butter",
+    "prompt": "Use case: product-mockup. Asset type: isolated transparent stationery decor for a serious modern study app. Create ONE standalone object, realistic editorial cut-paper and stationery photography, delicate tactile paper grain, restrained warm studio light from upper left, subtle dimensionality, no harsh cast shadow, no floor or background. Genuine transparent alpha background, no checkerboard. Entire object visible with small clear margin. No text, letters, digits, branding, logos, UI, watermark, people, faces or cartoon styling. Consistent warm subtle natural stationery aesthetic. Object colours restricted to this palette: cream #FFF8F0, paper #FAF3E6, tint #F4E8D3, butter #F8E2A8, mid #D6B879, deep #8A5A1F, ink #4A3010, suffix #B0822F, honey #F2B33D and charcoal #2B2D42. Do not introduce teal, blue, green, red, silver or white. Lighting may create natural tonal variations only from these palette colours. One blank butter yellow square sticky note #F8E2A8, upper edge flat, lower right corner gently lifting in a tiny natural curl. Blank paper only.",
+    "generator": "Built-in image_gen",
+    "background_removal": "Generated transparent alpha, preserved",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb2-2f7e-7ea3-b1b7-f22b31a5bbb3\\exec-85f2697f-a09e-419a-983a-ac2a4cf90fb0.png",
+    "native_size": [
+      1263,
+      1246
+    ],
+    "export_size": [
+      720,
+      710
+    ],
+    "upscaled": false,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "webp_quality": 95,
+    "webp_limit": 200000,
+    "source_sha256": "4b8f5770d39f2ac471ba498049e01d86da4895f6fb8c4f17401399029dc6f737",
+    "png_bytes": 1870502,
+    "webp_bytes": 67060,
+    "webp_sha256": "0c8b66c49e4f88f98fa66b288acfc0b790c72653424e22eb32af77588d4950cc"
+  },
+  {
+    "name": "pencil-honey",
+    "prompt": "Use case: product-mockup. Asset type: isolated transparent stationery decor for a serious modern study app. Create ONE standalone object, realistic editorial cut-paper and stationery photography, delicate tactile paper grain, restrained warm studio light from upper left, subtle dimensionality, no harsh cast shadow, no floor or background. Genuine transparent alpha background, no checkerboard. Entire object visible with small clear margin. No text, letters, digits, branding, logos, UI, watermark, people, faces or cartoon styling. Consistent warm subtle natural stationery aesthetic. Object colours restricted to this palette: cream #FFF8F0, paper #FAF3E6, tint #F4E8D3, butter #F8E2A8, mid #D6B879, deep #8A5A1F, ink #4A3010, suffix #B0822F, honey #F2B33D and charcoal #2B2D42. Do not introduce teal, blue, green, red, silver or white. Lighting may create natural tonal variations only from these palette colours. One sharpened simple hexagonal wooden pencil, honey #F2B33D lacquered body, exposed wooden tip in #D6B879 with charcoal graphite point #2B2D42, no eraser or metal. Pencil slopes from lower left to upper right, full length visible.",
+    "generator": "Built-in image_gen",
+    "background_removal": "Generated transparent alpha, preserved",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb2-2f7e-7ea3-b1b7-f22b31a5bbb3\\exec-489431fe-8e40-4361-90ff-ce9f0bf92392.png",
+    "native_size": [
+      1536,
+      1024
+    ],
+    "export_size": [
+      720,
+      480
+    ],
+    "upscaled": false,
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "webp_quality": 95,
+    "webp_limit": 200000,
+    "source_sha256": "db166522db237834e6bad791bc26227e2d54b3c56da55698a09c3f4be0539c89",
+    "png_bytes": 1172968,
+    "webp_bytes": 28060,
+    "webp_sha256": "57ff0413ec57843a8d4fcf8ed547d6c8dd2d93670419509cb7dce6574c178832"
+  },
+  {
+    "name": "highlighter-stroke",
+    "prompt": "Use case: product-mockup. Asset type: isolated transparent stationery decor for a serious modern study app. Create ONE standalone object, realistic editorial cut-paper and stationery photography, delicate tactile paper grain, restrained warm studio light from upper left, subtle dimensionality, no harsh cast shadow, no floor or background. Genuine transparent alpha background, no checkerboard. Entire object visible with small clear margin. No text, letters, digits, branding, logos, UI, watermark, people, faces or cartoon styling. Consistent warm subtle natural stationery aesthetic. Object colours restricted to this palette: cream #FFF8F0, paper #FAF3E6, tint #F4E8D3, butter #F8E2A8, mid #D6B879, deep #8A5A1F, ink #4A3010, suffix #B0822F, honey #F2B33D and charcoal #2B2D42. Do not introduce teal, blue, green, red, silver or white. Lighting may create natural tonal variations only from these palette colours. One broad translucent honey #F2B33D highlighter brush swash across transparent background, warm yellow pigment, horizontal, about five times wider than tall, natural softly uneven ends, subtle overlapping pigment, no pen, no lettering.",
+    "generator": "Built-in image_gen",
+    "background_removal": "Generated transparent alpha, preserved",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb2-2f7e-7ea3-b1b7-f22b31a5bbb3\\exec-70299970-a912-46cd-9aa2-e3736ccdf82a.png",
+    "native_size": [
+      2172,
+      724
+    ],
+    "export_size": [
+      720,
+      240
+    ],
+    "upscaled": false,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "webp_quality": 95,
+    "webp_limit": 200000,
+    "source_sha256": "612491766870deac08f18973deb1c0dfc6b8e5857aabf539854b0be270cedccd",
+    "png_bytes": 1284259,
+    "webp_bytes": 27992,
+    "webp_sha256": "0fa6c4d4624b654818fad173e259b95e2ef11d3b55dabf063fe5fb73a88ad0cf"
+  },
+  {
+    "name": "page-corner-curl",
+    "prompt": "Use case: product-mockup. Asset type: isolated transparent stationery decor for a serious modern study app. Create ONE standalone object, realistic editorial cut-paper and stationery photography, delicate tactile paper grain, restrained warm studio light from upper left, subtle dimensionality, no harsh cast shadow, no floor or background. Genuine transparent alpha background, no checkerboard. Entire object visible with small clear margin. No text, letters, digits, branding, logos, UI, watermark, people, faces or cartoon styling. Consistent warm subtle natural stationery aesthetic. Object colours restricted to this palette: cream #FFF8F0, paper #FAF3E6, tint #F4E8D3, butter #F8E2A8, mid #D6B879, deep #8A5A1F, ink #4A3010, suffix #B0822F, honey #F2B33D and charcoal #2B2D42. Do not introduce teal, blue, green, red, silver or white. Lighting may create natural tonal variations only from these palette colours. One small isolated cream #FAF3E6 paper page corner curled upward, triangular paper form with softly rolled corner, subtle paper thickness and warm ochre underside, realistic macro flat lay, no full sheet and no book.",
+    "generator": "Built-in image_gen",
+    "background_removal": "Generated transparent alpha, preserved",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb2-2f7e-7ea3-b1b7-f22b31a5bbb3\\exec-e1fd7198-82d5-463f-bcdb-d8da5bba898a.png",
+    "native_size": [
+      1536,
+      1024
+    ],
+    "export_size": [
+      720,
+      480
+    ],
+    "upscaled": false,
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "webp_quality": 95,
+    "webp_limit": 200000,
+    "source_sha256": "94aade0134c4def6e5b02cfd94bb5e7c4f7b62680e3d6c710f8d2f7eb7d29e7f",
+    "png_bytes": 1422914,
+    "webp_bytes": 39186,
+    "webp_sha256": "158b3d869b9794ce83ae5d589371ab52274e96c5e071cced50429b05231967ee"
+  },
+  {
+    "name": "book-stack",
+    "prompt": "Use case: product-mockup. Asset type: isolated transparent stationery decor for a serious modern study app. Create ONE standalone object, realistic editorial cut-paper and stationery photography, delicate tactile paper grain, restrained warm studio light from upper left, subtle dimensionality, no harsh cast shadow, no floor or background. Genuine transparent alpha background, no checkerboard. Entire object visible with small clear margin. No text, letters, digits, branding, logos, UI, watermark, people, faces or cartoon styling. Consistent warm subtle natural stationery aesthetic. Object colours restricted to this palette: cream #FFF8F0, paper #FAF3E6, tint #F4E8D3, butter #F8E2A8, mid #D6B879, deep #8A5A1F, ink #4A3010, suffix #B0822F, honey #F2B33D and charcoal #2B2D42. Do not introduce teal, blue, green, red, silver or white. Lighting may create natural tonal variations only from these palette colours. One short horizontal stack of three small blank study books, realistic cloth covers in butter #F8E2A8, honey #F2B33D and mid #D6B879, cream #FAF3E6 page edges, small varied cover offsets, slight three-quarter view from above. No text or decorations, no bookmarks, no other objects.",
+    "generator": "Built-in image_gen",
+    "background_removal": "Generated transparent alpha, preserved",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb2-2f7e-7ea3-b1b7-f22b31a5bbb3\\exec-b7b93888-d281-4d58-ab8d-66e8bee61f69.png",
+    "native_size": [
+      1536,
+      1024
+    ],
+    "export_size": [
+      720,
+      480
+    ],
+    "upscaled": false,
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "webp_quality": 95,
+    "webp_limit": 200000,
+    "source_sha256": "b667d7622c9047e9d9aad73c77614b768024de7b4d954a5122f52060b097831e",
+    "png_bytes": 2421152,
+    "webp_bytes": 81706,
+    "webp_sha256": "fb0791da18efbe4a66c00c804e862e924a191de98bf97b09c95f755a4f08aa3e"
+  },
+  {
+    "name": "underline-swoop",
+    "native_size": [
+      480,
+      100
+    ],
+    "generator": "Native SVG paths, build_decor.py",
+    "background_removal": "Not applicable: transparent SVG canvas",
+    "stroke": "currentColor",
+    "fill": "none"
+  },
+  {
+    "name": "underline-double",
+    "native_size": [
+      480,
+      120
+    ],
+    "generator": "Native SVG paths, build_decor.py",
+    "background_removal": "Not applicable: transparent SVG canvas",
+    "stroke": "currentColor",
+    "fill": "none"
+  },
+  {
+    "name": "circle-loop",
+    "native_size": [
+      360,
+      220
+    ],
+    "generator": "Native SVG paths, build_decor.py",
+    "background_removal": "Not applicable: transparent SVG canvas",
+    "stroke": "currentColor",
+    "fill": "none"
+  },
+  {
+    "name": "stars",
+    "native_size": [
+      360,
+      180
+    ],
+    "generator": "Native SVG paths, build_decor.py",
+    "background_removal": "Not applicable: transparent SVG canvas",
+    "stroke": "currentColor",
+    "fill": "none"
+  },
+  {
+    "name": "sparks",
+    "native_size": [
+      300,
+      180
+    ],
+    "generator": "Native SVG paths, build_decor.py",
+    "background_removal": "Not applicable: transparent SVG canvas",
+    "stroke": "currentColor",
+    "fill": "none"
+  },
+  {
+    "name": "arrow-curved",
+    "native_size": [
+      380,
+      220
+    ],
+    "generator": "Native SVG paths, build_decor.py",
+    "background_removal": "Not applicable: transparent SVG canvas",
+    "stroke": "currentColor",
+    "fill": "none"
+  },
+  {
+    "name": "margin-formula",
+    "native_size": [
+      540,
+      220
+    ],
+    "generator": "Native SVG paths, build_decor.py",
+    "background_removal": "Not applicable: transparent SVG canvas",
+    "stroke": "currentColor",
+    "fill": "none"
+  }
+]

@@ -1,0 +1,688 @@
+[
+  {
+    "name": "audio-overview",
+    "label": "hair",
+    "box": [
+      330,
+      20,
+      586,
+      276
+    ],
+    "native_size": [
+      1121,
+      1403
+    ]
+  },
+  {
+    "name": "audio-overview",
+    "label": "phone hand",
+    "box": [
+      440,
+      1030,
+      696,
+      1286
+    ],
+    "native_size": [
+      1121,
+      1403
+    ]
+  },
+  {
+    "name": "class-share-teacher",
+    "label": "hair",
+    "box": [
+      325,
+      20,
+      581,
+      276
+    ],
+    "native_size": [
+      1127,
+      1396
+    ]
+  },
+  {
+    "name": "class-share-teacher",
+    "label": "gesture hand",
+    "box": [
+      180,
+      610,
+      436,
+      866
+    ],
+    "native_size": [
+      1127,
+      1396
+    ]
+  },
+  {
+    "name": "class-share-teacher",
+    "label": "tablet hand",
+    "box": [
+      770,
+      900,
+      1026,
+      1156
+    ],
+    "native_size": [
+      1127,
+      1396
+    ]
+  },
+  {
+    "name": "empty-flashcards",
+    "label": "twist edges",
+    "box": [
+      340,
+      20,
+      596,
+      276
+    ],
+    "native_size": [
+      1143,
+      1376
+    ]
+  },
+  {
+    "name": "empty-flashcards",
+    "label": "card hand",
+    "box": [
+      460,
+      690,
+      716,
+      946
+    ],
+    "native_size": [
+      1143,
+      1376
+    ]
+  },
+  {
+    "name": "empty-notebook",
+    "label": "left phone grip",
+    "box": [
+      50,
+      250,
+      306,
+      506
+    ],
+    "native_size": [
+      1121,
+      1403
+    ]
+  },
+  {
+    "name": "empty-notebook",
+    "label": "right phone grip",
+    "box": [
+      700,
+      530,
+      956,
+      786
+    ],
+    "native_size": [
+      1121,
+      1403
+    ]
+  },
+  {
+    "name": "empty-quiz",
+    "label": "hair",
+    "box": [
+      340,
+      20,
+      596,
+      276
+    ],
+    "native_size": [
+      1128,
+      1394
+    ]
+  },
+  {
+    "name": "empty-quiz",
+    "label": "writing hand",
+    "box": [
+      300,
+      1060,
+      556,
+      1316
+    ],
+    "native_size": [
+      1128,
+      1394
+    ]
+  },
+  {
+    "name": "exam-coach",
+    "label": "head edge",
+    "box": [
+      440,
+      100,
+      696,
+      356
+    ],
+    "native_size": [
+      1374,
+      1145
+    ]
+  },
+  {
+    "name": "exam-coach",
+    "label": "writing hand",
+    "box": [
+      320,
+      760,
+      576,
+      1016
+    ],
+    "native_size": [
+      1374,
+      1145
+    ]
+  },
+  {
+    "name": "guardian-consent",
+    "label": "mother hair",
+    "box": [
+      280,
+      20,
+      536,
+      276
+    ],
+    "native_size": [
+      1431,
+      1099
+    ]
+  },
+  {
+    "name": "guardian-consent",
+    "label": "son hair",
+    "box": [
+      930,
+      80,
+      1186,
+      336
+    ],
+    "native_size": [
+      1431,
+      1099
+    ]
+  },
+  {
+    "name": "guardian-consent",
+    "label": "phone hand",
+    "box": [
+      430,
+      600,
+      686,
+      856
+    ],
+    "native_size": [
+      1431,
+      1099
+    ]
+  },
+  {
+    "name": "landing-form1",
+    "label": "hair",
+    "box": [
+      300,
+      20,
+      556,
+      276
+    ],
+    "native_size": [
+      1121,
+      1403
+    ]
+  },
+  {
+    "name": "landing-form1",
+    "label": "book hand",
+    "box": [
+      380,
+      900,
+      636,
+      1156
+    ],
+    "native_size": [
+      1121,
+      1403
+    ]
+  },
+  {
+    "name": "maths-hints",
+    "label": "left fingers",
+    "box": [
+      180,
+      620,
+      436,
+      876
+    ],
+    "native_size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "name": "maths-hints",
+    "label": "pen hand",
+    "box": [
+      980,
+      220,
+      1236,
+      476
+    ],
+    "native_size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "name": "offline-downloads",
+    "label": "hair",
+    "box": [
+      420,
+      20,
+      676,
+      276
+    ],
+    "native_size": [
+      1123,
+      1401
+    ]
+  },
+  {
+    "name": "offline-downloads",
+    "label": "phone hands",
+    "box": [
+      370,
+      590,
+      626,
+      846
+    ],
+    "native_size": [
+      1123,
+      1401
+    ]
+  },
+  {
+    "name": "onboarding-1-secondary-student",
+    "label": "cornrow edge",
+    "box": [
+      400,
+      40,
+      656,
+      296
+    ],
+    "native_size": [
+      1122,
+      1402
+    ]
+  },
+  {
+    "name": "onboarding-1-secondary-student",
+    "label": "writing hand",
+    "box": [
+      140,
+      1000,
+      396,
+      1256
+    ],
+    "native_size": [
+      1122,
+      1402
+    ]
+  },
+  {
+    "name": "onboarding-2-senior-student",
+    "label": "loc edges",
+    "box": [
+      370,
+      0,
+      626,
+      256
+    ],
+    "native_size": [
+      1378,
+      1141
+    ]
+  },
+  {
+    "name": "onboarding-2-senior-student",
+    "label": "phone hand",
+    "box": [
+      970,
+      650,
+      1226,
+      906
+    ],
+    "native_size": [
+      1378,
+      1141
+    ]
+  },
+  {
+    "name": "onboarding-2-senior-student",
+    "label": "page finger",
+    "box": [
+      320,
+      850,
+      576,
+      1106
+    ],
+    "native_size": [
+      1378,
+      1141
+    ]
+  },
+  {
+    "name": "onboarding-3-professional",
+    "label": "wrap edge",
+    "box": [
+      300,
+      20,
+      556,
+      276
+    ],
+    "native_size": [
+      1179,
+      1334
+    ]
+  },
+  {
+    "name": "onboarding-3-professional",
+    "label": "writing hand",
+    "box": [
+      280,
+      900,
+      536,
+      1156
+    ],
+    "native_size": [
+      1179,
+      1334
+    ]
+  },
+  {
+    "name": "study-group-later",
+    "label": "left braids",
+    "box": [
+      150,
+      60,
+      406,
+      316
+    ],
+    "native_size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "name": "study-group-later",
+    "label": "middle locs",
+    "box": [
+      700,
+      10,
+      956,
+      266
+    ],
+    "native_size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "name": "study-group-later",
+    "label": "right curls",
+    "box": [
+      1100,
+      60,
+      1356,
+      316
+    ],
+    "native_size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "name": "study-group-later",
+    "label": "book finger",
+    "box": [
+      850,
+      570,
+      1106,
+      826
+    ],
+    "native_size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "name": "study-planner",
+    "label": "loc edges",
+    "box": [
+      430,
+      20,
+      686,
+      276
+    ],
+    "native_size": [
+      1312,
+      1199
+    ]
+  },
+  {
+    "name": "study-planner",
+    "label": "writing hand",
+    "box": [
+      400,
+      870,
+      656,
+      1126
+    ],
+    "native_size": [
+      1312,
+      1199
+    ]
+  },
+  {
+    "name": "style-calm",
+    "label": "hair",
+    "box": [
+      400,
+      20,
+      656,
+      276
+    ],
+    "native_size": [
+      1121,
+      1403
+    ]
+  },
+  {
+    "name": "style-calm",
+    "label": "pointing hand",
+    "box": [
+      350,
+      740,
+      606,
+      996
+    ],
+    "native_size": [
+      1121,
+      1403
+    ]
+  },
+  {
+    "name": "style-calm",
+    "label": "tablet hand",
+    "box": [
+      770,
+      840,
+      1026,
+      1096
+    ],
+    "native_size": [
+      1121,
+      1403
+    ]
+  },
+  {
+    "name": "style-cook-mode",
+    "label": "loc edges",
+    "box": [
+      350,
+      0,
+      606,
+      256
+    ],
+    "native_size": [
+      1123,
+      1401
+    ]
+  },
+  {
+    "name": "style-cook-mode",
+    "label": "raised fist",
+    "box": [
+      850,
+      500,
+      1106,
+      756
+    ],
+    "native_size": [
+      1123,
+      1401
+    ]
+  },
+  {
+    "name": "style-cook-mode",
+    "label": "phone hand",
+    "box": [
+      360,
+      840,
+      616,
+      1096
+    ],
+    "native_size": [
+      1123,
+      1401
+    ]
+  },
+  {
+    "name": "style-locked-in",
+    "label": "curls",
+    "box": [
+      350,
+      0,
+      606,
+      256
+    ],
+    "native_size": [
+      1143,
+      1376
+    ]
+  },
+  {
+    "name": "style-locked-in",
+    "label": "left paper grip",
+    "box": [
+      100,
+      950,
+      356,
+      1206
+    ],
+    "native_size": [
+      1143,
+      1376
+    ]
+  },
+  {
+    "name": "style-locked-in",
+    "label": "right paper grip",
+    "box": [
+      510,
+      995,
+      766,
+      1251
+    ],
+    "native_size": [
+      1143,
+      1376
+    ]
+  },
+  {
+    "name": "tile-ask",
+    "label": "braid edges",
+    "box": [
+      380,
+      0,
+      636,
+      256
+    ],
+    "native_size": [
+      1121,
+      1403
+    ]
+  },
+  {
+    "name": "tile-ask",
+    "label": "phone hands",
+    "box": [
+      630,
+      740,
+      886,
+      996
+    ],
+    "native_size": [
+      1121,
+      1403
+    ]
+  },
+  {
+    "name": "tile-scroll",
+    "label": "loc edges",
+    "box": [
+      400,
+      50,
+      656,
+      306
+    ],
+    "native_size": [
+      1150,
+      1367
+    ]
+  },
+  {
+    "name": "tile-scroll",
+    "label": "raised arm edge",
+    "box": [
+      20,
+      120,
+      276,
+      376
+    ],
+    "native_size": [
+      1150,
+      1367
+    ]
+  },
+  {
+    "name": "tile-scroll",
+    "label": "phone grip",
+    "box": [
+      790,
+      530,
+      1046,
+      786
+    ],
+    "native_size": [
+      1150,
+      1367
+    ]
+  }
+]

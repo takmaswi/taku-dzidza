@@ -1,0 +1,7 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+  <g class="taku-mark">
+    <rect x="12" y="16" width="40" height="24" rx="12" fill="#F4E8D3"></rect>
+    <rect x="48" y="16" width="40" height="24" rx="12" fill="#4A3010"></rect>
+    <rect x="38" y="28" width="24" height="60" rx="12" fill="#8A5A1F"></rect>
+  </g>
+</svg>

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "landing-hero",
+    "person": "offline-downloads",
+    "size": [
+      2560,
+      1600
+    ],
+    "extra": "Place the same cross-legged young woman on the right half, entirely visible, with her phone and open book in her lap. Her crossed legs rest naturally on the textured surface. Leave generous empty wave texture on the left.",
+    "prompt": "Use case: compositing. Asset type: finished landing-hero background for education app. Target 2560x1600 pixels. Input1 is the exact existing person cutout, input2 is the honey-waves texture to use as the full scene surface. Composite the photographic subject directly into this page surface, with soft believable warm contact shadow beneath their body and matching soft even light. Place the same cross-legged young woman on the right half, entirely visible, with her phone and open book in her lap. Her crossed legs rest naturally on the textured surface. Leave generous empty wave texture on the left. Preserve identities, expressions, props and photorealism. Background only the supplied cream and honey organic wave texture, not room or scenery, no furniture, arches, panels, frames, walls, text, letters, numbers, UI or logos. No teal. No cartoon. Subtle realistic integration, warm editorial photograph sitting in the page.",
+    "references": [
+      "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-07cfd9fc-10c2-4b44-b2ae-69985f03073c.png",
+      "art/textures/honey-waves.webp"
+    ],
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-52fa3dd0-303e-47b8-a7f4-63eece66c9a8.png",
+    "output_hint": "Generated images are saved to C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c as C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-52fa3dd0-303e-47b8-a7f4-63eece66c9a8.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+  },
+  {
+    "name": "home-dashboard",
+    "person": "study-group-later",
+    "size": [
+      1600,
+      900
+    ],
+    "extra": "Place the same three students seated closely revising with the same book on their laps, on the right two thirds; retain faces, hair, skin, clothing, pointing hands, seated pose. Complete only lower silhouette necessary for natural seated contact. Leave left quarter empty.",
+    "prompt": "Use case: compositing. Asset type: finished home-dashboard background for education app. Target 1600x900 pixels. Input1 is the exact existing person cutout, input2 is the honey-waves texture to use as the full scene surface. Composite the photographic subject directly into this page surface, with soft believable warm contact shadow beneath their body and matching soft even light. Place the same three students seated closely revising with the same book on their laps, on the right two thirds; retain faces, hair, skin, clothing, pointing hands, seated pose. Complete only lower silhouette necessary for natural seated contact. Leave left quarter empty. Preserve identities, expressions, props and photorealism. Background only the supplied cream and honey organic wave texture, not room or scenery, no furniture, arches, panels, frames, walls, text, letters, numbers, UI or logos. No teal. No cartoon. Subtle realistic integration, warm editorial photograph sitting in the page.",
+    "references": [
+      "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-2c8fbc4d-f769-480a-b9d9-d723370971d4.png",
+      "art/textures/honey-waves.webp"
+    ],
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-8fb5abda-7d67-4c3c-9445-5020d48b7853.png",
+    "output_hint": "Generated images are saved to C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c as C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-8fb5abda-7d67-4c3c-9445-5020d48b7853.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+  },
+  {
+    "name": "empty-notebook",
+    "person": "style-calm",
+    "size": [
+      1200,
+      900
+    ],
+    "extra": "Place the same man with tablet, seated relaxed with same crossed knee pose, on the right; keep face hair clothing and hands exactly. Use natural lower-canvas crop for his seated legs, with soft contact shadow. Left half is empty warm texture.",
+    "prompt": "Use case: compositing. Asset type: finished empty-notebook background for education app. Target 1200x900 pixels. Input1 is the exact existing person cutout, input2 is the honey-waves texture to use as the full scene surface. Composite the photographic subject directly into this page surface, with soft believable warm contact shadow beneath their body and matching soft even light. Place the same man with tablet, seated relaxed with same crossed knee pose, on the right; keep face hair clothing and hands exactly. Use natural lower-canvas crop for his seated legs, with soft contact shadow. Left half is empty warm texture. Preserve identities, expressions, props and photorealism. Background only the supplied cream and honey organic wave texture, not room or scenery, no furniture, arches, panels, frames, walls, text, letters, numbers, UI or logos. No teal. No cartoon. Subtle realistic integration, warm editorial photograph sitting in the page.",
+    "references": [
+      "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-06b25350-6edf-4e1d-9709-995d7955ee41.png",
+      "art/textures/honey-waves.webp"
+    ],
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-0736675a-84de-4268-9e26-67e7d1099a45.png",
+    "output_hint": "Generated images are saved to C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c as C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-0736675a-84de-4268-9e26-67e7d1099a45.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+  }
+]

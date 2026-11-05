@@ -1,0 +1,3014 @@
+{
+  "generator": "art/review/export_cutouts.py",
+  "method": "Existing-alpha native-size crop and export; no generation",
+  "entries": [
+    {
+      "name": "audio-overview",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-54189a10-c5cb-4909-a986-3e6c1ee8519b.png",
+      "prompt": "Use case: background-extraction. Edit target: supplied audio-overview photograph. Remove the entire architectural background and isolate ONLY the same woman, her bag, earphones, hands and phone on true transparency. Preserve her exact identity, face, hairstyle, expression, clothing, skin, pose and photographic detail. Waist-up crop, tight subject bounds with transparent margin. Complete the right wrist at bottom only if needed for a natural crop. Do not add objects, shadows, text, logos, borders or frames. Hair and fingers must have clean natural alpha edges, no background colour fringe. Output a transparent PNG cutout.",
+      "status": "exported",
+      "source_sha256": "7888aa47e33952c4f130e505c735e0c639882ac25c4b871fbd6a803c37ff81ba",
+      "source_native_size": [
+        1121,
+        1403
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 1050516,
+        "transparent_pixels": 521886
+      },
+      "export_size": [
+        1134,
+        1427
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 1050516,
+        "transparent_pixels": 567341
+      },
+      "source_bbox_xyxy": [
+        0,
+        0,
+        1110,
+        1403
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 83,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 42,
+        "intermediate_pixels": 72736,
+        "transparent_pixels": 1545482
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/audio-overview.png",
+          "bytes": 2028389,
+          "native_size": [
+            1134,
+            1427
+          ],
+          "sha256": "379a7c121fac856c22b41bf668448ad3291e53f0e603fdf7fd46a4e9a595cfcd"
+        },
+        {
+          "file": "art/assets/cutouts/audio-overview.webp",
+          "bytes": 199188,
+          "native_size": [
+            1134,
+            1427
+          ],
+          "sha256": "224a6993bed8f8c42da4b77e2b1b0c641865ae5ba1dd64ed5a9847bdd2e1de0c"
+        },
+        {
+          "file": "art/assets/cutouts/audio-overview-shadow.webp",
+          "bytes": 3724,
+          "native_size": [
+            1134,
+            1427
+          ],
+          "sha256": "7ec54ff75a1a1eac1facd093bb4ee51c44a0ee5b88607a08b8b01ba0af4d1651"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/audio-overview-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "f331679dcc8a76f6b8df32904e21714d8448c405b2739d29af742942607bb84f"
+        },
+        {
+          "file": "art/review/edges/audio-overview-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "3bbe65c2d5e0048a2239beb8cec0b57718e9f41a266b71369636578862a90e51",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                375,
+                200,
+                567,
+                392
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                323,
+                950,
+                515,
+                1142
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                986,
+                915,
+                1178,
+                1107
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "class-share-teacher",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-aa3a02a8-e838-4317-b3b3-6eb3aa1463f9.png",
+      "prompt": "Use case: background-extraction. Edit target: class-share-teacher supplied photograph. Isolate the existing subject on a TRUE TRANSPARENT alpha background. Keep ONLY the lecturer, his gesturing hand and tablet. Remove foreground shoulders, furniture, books and architecture. Natural waist-up crop. Preserve EXACT SAME identities, facial features, hairstyles, expressions, clothing, pose, skin detail and props. Remove setting completely. Do not invent a new face or change colours. Tight subject crop with transparent margin. Clean hair and hand edges, no halo, no baked contact shadow, no frames, no text, no logos. Photographic, no cartoon. If body is cropped by table make natural seated or waist-up termination, do not retain a rectangle of table.",
+      "status": "exported",
+      "source_sha256": "aa4f51fe87b6c4baf51ff4932c6251141c28f8a81b3c81afbd29c260f9656afb",
+      "source_native_size": [
+        1127,
+        1396
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 961557,
+        "transparent_pixels": 611051
+      },
+      "export_size": [
+        1134,
+        1419
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 961557,
+        "transparent_pixels": 646905
+      },
+      "source_bbox_xyxy": [
+        0,
+        1,
+        1110,
+        1396
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 89,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 42,
+        "intermediate_pixels": 72580,
+        "transparent_pixels": 1536566
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/class-share-teacher.png",
+          "bytes": 1696464,
+          "native_size": [
+            1134,
+            1419
+          ],
+          "sha256": "e26aeb7b5c9eafe488649d828e055cb94b2f0dcd0f5fff870cd6d70d6a9d6890"
+        },
+        {
+          "file": "art/assets/cutouts/class-share-teacher.webp",
+          "bytes": 191036,
+          "native_size": [
+            1134,
+            1419
+          ],
+          "sha256": "62e71c9024d7f4432c821f575df619551408f5c2be6a21b13beb0e92c742f79a"
+        },
+        {
+          "file": "art/assets/cutouts/class-share-teacher-shadow.webp",
+          "bytes": 3734,
+          "native_size": [
+            1134,
+            1419
+          ],
+          "sha256": "c68eea8a70ac8968988774de4577a02b2c4c2a52bbfc536bc456b52eac893fde"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/class-share-teacher-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "20f149e8eac3ea304d9225ff5765e53bb920d84785954424417dc46f1cee68aa"
+        },
+        {
+          "file": "art/review/edges/class-share-teacher-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "4653b220475d883af70881f837ec678dd0c5898137b179b1633c6a10ed462b00",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                411,
+                179,
+                603,
+                371
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                -74,
+                871,
+                118,
+                1063
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                716,
+                871,
+                908,
+                1063
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "dashboard-hero-university",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-022273cf-2873-495f-b342-f143a165ff26.png",
+      "prompt": "Use case: background-extraction repair. Remove ALL the blurry brown/cream haze and glow surrounding these people. The entire backdrop must be perfectly clear zero alpha, including immediately beside arms, book, clothing and hair. Only opaque people, hands, clothing and books remain, with a very narrow antialias edge. No soft spotlight background, no vignette, no shadow, no halo. Preserve the same subjects, faces, pose and props exactly. This is a reusable transparent PNG cutout to place on white OR black backgrounds. Do not redraw or add legs. Tight crop.",
+      "status": "exported",
+      "source_sha256": "1e7d7edaca691e8812d912a68ac6e7571b4e1a69c90f59d0781cd80ac48ecae6",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 254,
+        "intermediate_pixels": 1074195,
+        "transparent_pixels": 498669
+      },
+      "export_size": [
+        1546,
+        1041
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 254,
+        "intermediate_pixels": 1074195,
+        "transparent_pixels": 535191
+      },
+      "source_bbox_xyxy": [
+        0,
+        7,
+        1522,
+        1024
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "alpha_coverage_note": "Source maximum alpha 254 accepted as near-opaque 99.6% coverage; original pixels and alpha preserved without normalization",
+      "webp_quality": 87,
+      "webp_limit_bytes": 250000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 42,
+        "intermediate_pixels": 73530,
+        "transparent_pixels": 1535856
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/dashboard-hero-university.png",
+          "bytes": 2432398,
+          "native_size": [
+            1546,
+            1041
+          ],
+          "sha256": "4527d30266b25091f4d32123e56b93fa584095071a37ec9d0d365e7352f6f38e"
+        },
+        {
+          "file": "art/assets/cutouts/dashboard-hero-university.webp",
+          "bytes": 244570,
+          "native_size": [
+            1546,
+            1041
+          ],
+          "sha256": "3b61102116315c572a518671a8c9b4ed99a8929c004f6e1d6a897b1d6fd59685"
+        },
+        {
+          "file": "art/assets/cutouts/dashboard-hero-university-shadow.webp",
+          "bytes": 2930,
+          "native_size": [
+            1546,
+            1041
+          ],
+          "sha256": "c53b8245d3c11dff28f3c3eeb7f9c45b566c8191f2d8faac8e55f8d9de6a77c2"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/dashboard-hero-university-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "f4cf6553d0ad44e9d8a5f32b912a1058cdb3c469bb0af2ffd55f01f46a8f7982"
+        },
+        {
+          "file": "art/review/edges/dashboard-hero-university-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "2954dc9ad9c344deb04eae5f0ab036fd5254e72819ac2db08e4828dd4a70c60d",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                317,
+                116,
+                509,
+                308
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                572,
+                616,
+                764,
+                808
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                678,
+                605,
+                870,
+                797
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands"
+    },
+    {
+      "name": "empty-flashcards",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-7010c804-c6cb-4e5a-86b9-5207b68bb75f.png",
+      "prompt": "Use case: background-extraction. Edit target: empty-flashcards supplied photograph. Isolate the existing subject on a TRUE TRANSPARENT alpha background. Keep the same woman, her hands and blank index cards. Remove table, laptop, all loose notebooks, furniture and room. Natural seated waist-up crop with complete forearms. Preserve EXACT SAME identities, facial features, hairstyles, expressions, clothing, pose, skin detail and props. Remove setting completely. Do not invent a new face or change colours. Tight subject crop with transparent margin. Clean hair and hand edges, no halo, no baked contact shadow, no frames, no text, no logos. Photographic, no cartoon. If body is cropped by table make natural seated or waist-up termination, do not retain a rectangle of table.",
+      "status": "exported",
+      "source_sha256": "8faec8756e5957cc5fb88366c4e868d1f550a35ebc92c7acea73ee330be2ff6b",
+      "source_native_size": [
+        1143,
+        1376
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 996460,
+        "transparent_pixels": 575842
+      },
+      "export_size": [
+        1167,
+        1385
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 996460,
+        "transparent_pixels": 619369
+      },
+      "source_bbox_xyxy": [
+        0,
+        15,
+        1143,
+        1376
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 81,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 41,
+        "intermediate_pixels": 72094,
+        "transparent_pixels": 1544201
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/empty-flashcards.png",
+          "bytes": 1989630,
+          "native_size": [
+            1167,
+            1385
+          ],
+          "sha256": "880d4a760a8d1149ed47c1bc9e32e461b960926da2ad147f04fce328cd9db2bc"
+        },
+        {
+          "file": "art/assets/cutouts/empty-flashcards.webp",
+          "bytes": 193766,
+          "native_size": [
+            1167,
+            1385
+          ],
+          "sha256": "883fd7b1023ac2589977e5a2ac1e69438fe8a694669152235fcbcb124932fec0"
+        },
+        {
+          "file": "art/assets/cutouts/empty-flashcards-shadow.webp",
+          "bytes": 3616,
+          "native_size": [
+            1167,
+            1385
+          ],
+          "sha256": "11944014cc5b68b86897c8252105fbc64210baf60a3c8a2655fa90ff0d947ea0"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/empty-flashcards-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "e97009ea7ad2deed3051988935f9d3fcd6231573bd1272f872eb4ec7ec7d4bc5"
+        },
+        {
+          "file": "art/review/edges/empty-flashcards-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "fee0e7f555708faf9c6f3eb715cab12474de9ba9cc4dfd142b0a0b843c10fa7a",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                748,
+                177,
+                940,
+                369
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                447,
+                907,
+                639,
+                1099
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                1003,
+                911,
+                1195,
+                1103
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "empty-notebook",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-1ae7d081-a673-44ea-8bf4-3321c7e34bd6.png",
+      "prompt": "Use case: background-extraction. Edit target: empty-notebook supplied photograph. Isolate the existing subject on a TRUE TRANSPARENT alpha background. This original has only hands and forearms, no face. Preserve that original framing, the same hands holding phone AND the open book beneath it as one cutout; remove table plant pencil holder and loose books. Preserve EXACT SAME identities, facial features, hairstyles, expressions, clothing, pose, skin detail and props. Remove setting completely. Do not invent a new face or change colours. Tight subject crop with transparent margin. Clean hair and hand edges, no halo, no baked contact shadow, no frames, no text, no logos. Photographic, no cartoon. If body is cropped by table make natural seated or waist-up termination, do not retain a rectangle of table.",
+      "status": "exported",
+      "source_sha256": "f305239723ea6ee2219441d145f73f60b56af609258fd2f7a74f055d0b893d82",
+      "source_native_size": [
+        1121,
+        1403
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 830675,
+        "transparent_pixels": 741328
+      },
+      "export_size": [
+        1145,
+        1394
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 830675,
+        "transparent_pixels": 764695
+      },
+      "source_bbox_xyxy": [
+        0,
+        33,
+        1121,
+        1403
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 90,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 41,
+        "intermediate_pixels": 70948,
+        "transparent_pixels": 1525182
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/empty-notebook.png",
+          "bytes": 1532128,
+          "native_size": [
+            1145,
+            1394
+          ],
+          "sha256": "f721152cb6a8d2a264340a1cdaacf89536f4059e3433d252fcc6bce95c9dd244"
+        },
+        {
+          "file": "art/assets/cutouts/empty-notebook.webp",
+          "bytes": 193426,
+          "native_size": [
+            1145,
+            1394
+          ],
+          "sha256": "98e7f7cf27b73f44288f2ec6df15ec9106a4245705f02b0fefffc3d6395ee745"
+        },
+        {
+          "file": "art/assets/cutouts/empty-notebook-shadow.webp",
+          "bytes": 3704,
+          "native_size": [
+            1145,
+            1394
+          ],
+          "sha256": "ffec3e2c402ffd28fd7783384ce704ba67d4c7ce78aa497a4e1d3be2ff0adf59"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/empty-notebook-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "7c73a8f72ab344c47f9d3102e13039a7fd441b476d42ff0dc898dcb888588532"
+        },
+        {
+          "file": "art/review/edges/empty-notebook-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "d3bdbf081cbd7b2d798ce94667804f215df43c1a373376db7ff4d1afd61baa29",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                -8,
+                310,
+                184,
+                502
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                220,
+                729,
+                412,
+                921
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                697,
+                855,
+                889,
+                1047
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "empty-quiz",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-9298b01d-1853-4994-9c0b-7373f75c0305.png",
+      "prompt": "Use case: background-extraction. Edit target: empty-quiz supplied photograph. Isolate the existing subject on a TRUE TRANSPARENT alpha background. Keep only same student, both hands, pencil and ruled exercise book being written in. Remove desk and watch and background. Complete the exercise book silhouette naturally. Preserve EXACT SAME identities, facial features, hairstyles, expressions, clothing, pose, skin detail and props. Remove setting completely. Do not invent a new face or change colours. Tight subject crop with transparent margin. Clean hair and hand edges, no halo, no baked contact shadow, no frames, no text, no logos. Photographic, no cartoon. If body is cropped by table make natural seated or waist-up termination, do not retain a rectangle of table.",
+      "status": "exported",
+      "source_sha256": "21b676bc03a605abad2dca645fbefe3c83df01353253b50f40dfa085029abd54",
+      "source_native_size": [
+        1128,
+        1394
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 924581,
+        "transparent_pixels": 647339
+      },
+      "export_size": [
+        1123,
+        1403
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 924581,
+        "transparent_pixels": 650476
+      },
+      "source_bbox_xyxy": [
+        0,
+        15,
+        1099,
+        1394
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 92,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 41,
+        "intermediate_pixels": 70711,
+        "transparent_pixels": 1504858
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/empty-quiz.png",
+          "bytes": 1432481,
+          "native_size": [
+            1123,
+            1403
+          ],
+          "sha256": "92acf8bb53f00a7fb4dbb5ce077c6eb2f9b6c5caf7be447db5965222497cc752"
+        },
+        {
+          "file": "art/assets/cutouts/empty-quiz.webp",
+          "bytes": 193402,
+          "native_size": [
+            1123,
+            1403
+          ],
+          "sha256": "236976c79a286125c4db19874775cafbb82440f113846647744e07e3043607be"
+        },
+        {
+          "file": "art/assets/cutouts/empty-quiz-shadow.webp",
+          "bytes": 3636,
+          "native_size": [
+            1123,
+            1403
+          ],
+          "sha256": "14d58f57341021afb633fe3c68f7b66a18892889aaac5782377eb77d6f5ead87"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/empty-quiz-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "8c0a31c735c7a1bb90d111c8503cb2ec6fbca5bd54536ef10fc4b49b3a6f6b25"
+        },
+        {
+          "file": "art/review/edges/empty-quiz-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "5541a7e0b3a86ff442d4ea32479ba64d5ef5d97d6fb686903e2da47d13f3e96c",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                657,
+                179,
+                849,
+                371
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                -10,
+                849,
+                182,
+                1041
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                955,
+                878,
+                1147,
+                1070
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "exam-coach",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-0cfda4af-81b8-4a86-87e7-f41721e6020b.png",
+      "prompt": "Use case: background-extraction. Edit target: exam-coach supplied photograph. Isolate existing subject with true transparent alpha background. Keep the same man, both arms and hands, pen, notebook and laptop touched by his left hand. Remove cup, loose books, table, furniture and room. Preserve EXACT same identities, facial features, hairstyles, expressions, clothes, pose and skin detail. Clean edges on hair and fingers. Tight bounds with transparent margin. No halo, no text, no logos, no frame, no baked shadow. If source furniture occludes waist finish with natural waist-up or seated silhouette, no rectangular table scraps. Realistic photography.",
+      "status": "exported",
+      "source_sha256": "d00725b794d7ff4e9af5405e5698cdc9286f40b27d51d15de535088e51ae2c19",
+      "source_native_size": [
+        1374,
+        1145
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 850588,
+        "transparent_pixels": 721615
+      },
+      "export_size": [
+        1377,
+        1147
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 850588,
+        "transparent_pixels": 727804
+      },
+      "source_bbox_xyxy": [
+        14,
+        22,
+        1367,
+        1145
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 91,
+      "webp_limit_bytes": 250000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 41,
+        "intermediate_pixels": 71763,
+        "transparent_pixels": 1507656
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/exam-coach.png",
+          "bytes": 1613113,
+          "native_size": [
+            1377,
+            1147
+          ],
+          "sha256": "6536712db3f51e1d16fab69aa5325907b864470e15e845522a538b6a130163d4"
+        },
+        {
+          "file": "art/assets/cutouts/exam-coach.webp",
+          "bytes": 242688,
+          "native_size": [
+            1377,
+            1147
+          ],
+          "sha256": "73f18b588b702d0b7100b9a8784b4226b4a5c10df4f48f6fe6b785e8bdae731f"
+        },
+        {
+          "file": "art/assets/cutouts/exam-coach-shadow.webp",
+          "bytes": 3130,
+          "native_size": [
+            1377,
+            1147
+          ],
+          "sha256": "ed273eb4df45ef4d995826d73fd014609f0e045c5bbb157b0f3ebbe7f7b4052d"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/exam-coach-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "bd57f2c7270b325b4bba7d116293253a8bb905f4dc13adf19b6b15424f3fde4e"
+        },
+        {
+          "file": "art/review/edges/exam-coach-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "883e23049e9333cac7be5a375805adcf4b4f527734746cddebf9d831d124a1a1",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                696,
+                141,
+                888,
+                333
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                503,
+                702,
+                695,
+                894
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                828,
+                728,
+                1020,
+                920
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "guardian-consent",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-26547fe7-f66b-49ed-ac04-56e61d5730f4.png",
+      "prompt": "Use case: background-extraction. Edit target: guardian-consent supplied photograph. Isolate existing subject with true transparent alpha background. Keep BOTH same mother and son, hands, phone, and open book they touch as a joined cutout. Remove table fruit bowl loose foreground paper and room. Preserve EXACT same identities, facial features, hairstyles, expressions, clothes, pose and skin detail. Clean edges on hair and fingers. Tight bounds with transparent margin. No halo, no text, no logos, no frame, no baked shadow. If source furniture occludes waist finish with natural waist-up or seated silhouette, no rectangular table scraps. Realistic photography.",
+      "status": "exported",
+      "source_sha256": "b89794d19892af0f922064cbaa94f4cb865baddb48956683d461fae2e470b7ec",
+      "source_native_size": [
+        1431,
+        1099
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 1107183,
+        "transparent_pixels": 465085
+      },
+      "export_size": [
+        1455,
+        1110
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 1107183,
+        "transparent_pixels": 507466
+      },
+      "source_bbox_xyxy": [
+        0,
+        13,
+        1431,
+        1099
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 84,
+      "webp_limit_bytes": 250000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 42,
+        "intermediate_pixels": 73305,
+        "transparent_pixels": 1541745
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/guardian-consent.png",
+          "bytes": 2193749,
+          "native_size": [
+            1455,
+            1110
+          ],
+          "sha256": "03f9b633b4314f80ad7c30672f4a08746f52bec96d5812ebfbe2caa1c0ac6149"
+        },
+        {
+          "file": "art/assets/cutouts/guardian-consent.webp",
+          "bytes": 249320,
+          "native_size": [
+            1455,
+            1110
+          ],
+          "sha256": "2e56ea92f87a93593db56aac5765bc04101de474c9cde84b70ef09153c114597"
+        },
+        {
+          "file": "art/assets/cutouts/guardian-consent-shadow.webp",
+          "bytes": 3104,
+          "native_size": [
+            1455,
+            1110
+          ],
+          "sha256": "9e8885c873e3a507ed00c3d1ae848a10b8c154df36c6981afa091d2da60039a1"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/guardian-consent-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "9f37f2903ce376d2bd4e3e01a10526f3819e144f6b8d96394db927787b97c814"
+        },
+        {
+          "file": "art/review/edges/guardian-consent-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "1f31e963b1a7af1cacba8e9a63d1a2191b7c43c1dbb5980611cde4e753e0b030",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                1044,
+                135,
+                1236,
+                327
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                548,
+                653,
+                740,
+                845
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                693,
+                668,
+                885,
+                860
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "landing-form1",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-cfbc3aec-5b3f-42f5-8a2a-6b5e83a422dd.png",
+      "prompt": "Use case: background-extraction. Edit target: landing-form1 supplied photograph. Isolate existing subject with true transparent alpha background. Keep only same boy, backpack and books he is holding. Remove entire corridor. Natural waist-up silhouette. Preserve EXACT same identities, facial features, hairstyles, expressions, clothes, pose and skin detail. Clean edges on hair and fingers. Tight bounds with transparent margin. No halo, no text, no logos, no frame, no baked shadow. If source furniture occludes waist finish with natural waist-up or seated silhouette, no rectangular table scraps. Realistic photography.",
+      "status": "exported",
+      "source_sha256": "8f23fd957ee7527e937b27f124ec77bb4baa589a4b9bd8dee4cf6f47e6786fb4",
+      "source_native_size": [
+        1121,
+        1403
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 899244,
+        "transparent_pixels": 673183
+      },
+      "export_size": [
+        1113,
+        1411
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 899244,
+        "transparent_pixels": 670863
+      },
+      "source_bbox_xyxy": [
+        0,
+        16,
+        1089,
+        1403
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 91,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 40,
+        "intermediate_pixels": 70349,
+        "transparent_pixels": 1500094
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/landing-form1.png",
+          "bytes": 1514342,
+          "native_size": [
+            1113,
+            1411
+          ],
+          "sha256": "70929e8850d0dc16d2a5e82ba35f005b6bb322872b688d7346fdb05b7e0e96a8"
+        },
+        {
+          "file": "art/assets/cutouts/landing-form1.webp",
+          "bytes": 197786,
+          "native_size": [
+            1113,
+            1411
+          ],
+          "sha256": "433429c57658d445cffd31e70c17734450b7a15d9d928c882c2ac7ab27df180c"
+        },
+        {
+          "file": "art/assets/cutouts/landing-form1-shadow.webp",
+          "bytes": 3594,
+          "native_size": [
+            1113,
+            1411
+          ],
+          "sha256": "d917a3eb73fb1db42c0a6102b2d63d25228e4bf98db53608e5479a41185b85d2"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/landing-form1-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "75c877fba8bd8a6d75aaf4f671835f1a3ae27ecd7f60f28178161a274f53eec7"
+        },
+        {
+          "file": "art/review/edges/landing-form1-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "9e004b8fd208fe25f953f0ec420de94b284128a605c7966f73b5fcac05efd45a",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                283,
+                167,
+                475,
+                359
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                364,
+                854,
+                556,
+                1046
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                741,
+                911,
+                933,
+                1103
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "landing-hero-wide",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-494ede6a-b230-48a8-a943-c6fdeafe18bf.png",
+      "prompt": "Use case: background-extraction repair. Remove ALL the blurry brown/cream haze and glow surrounding these people. The entire backdrop must be perfectly clear zero alpha, including immediately beside arms, book, clothing and hair. Only opaque people, hands, clothing and books remain, with a very narrow antialias edge. No soft spotlight background, no vignette, no shadow, no halo. Preserve the same subjects, faces, pose and props exactly. This is a reusable transparent PNG cutout to place on white OR black backgrounds. Do not redraw or add legs. Tight crop.",
+      "status": "exported",
+      "source_sha256": "4a9f33a0dd29c9ed153c928401bfdec0aa1102132ccc7693cf1e6410ff5894cd",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 254,
+        "intermediate_pixels": 667411,
+        "transparent_pixels": 905453
+      },
+      "export_size": [
+        1412,
+        1048
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 254,
+        "intermediate_pixels": 667411,
+        "transparent_pixels": 812365
+      },
+      "source_bbox_xyxy": [
+        0,
+        0,
+        1388,
+        1024
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "alpha_coverage_note": "Source maximum alpha 254 accepted as near-opaque 99.6% coverage; original pixels and alpha preserved without normalization",
+      "webp_quality": 94,
+      "webp_limit_bytes": 250000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 41,
+        "intermediate_pixels": 67850,
+        "transparent_pixels": 1411926
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/landing-hero-wide.png",
+          "bytes": 1690888,
+          "native_size": [
+            1412,
+            1048
+          ],
+          "sha256": "8927395f3a00f56a62ab2e0ff82dc5111984c3fb725fc9e263edb15632a85371"
+        },
+        {
+          "file": "art/assets/cutouts/landing-hero-wide.webp",
+          "bytes": 239906,
+          "native_size": [
+            1412,
+            1048
+          ],
+          "sha256": "03b05b1fe947cb465bb603a6e13c743c3882ba36ddcf85ed469fa7bc6b483c8b"
+        },
+        {
+          "file": "art/assets/cutouts/landing-hero-wide-shadow.webp",
+          "bytes": 2916,
+          "native_size": [
+            1412,
+            1048
+          ],
+          "sha256": "fae0bc1b4e0b094dd3b4a77a373fb9cf348a683bcf9657fa1a50f9f9233d5235"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/landing-hero-wide-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "9437eeb1d9ab26147837b19bb164f9afe9cf530c341a6c7d45ac9859a5d3fef2"
+        },
+        {
+          "file": "art/review/edges/landing-hero-wide-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "79f1d74daf80d8e4f9a44476f1cf3a0f4491629eb7535a68063ed02a8dcff90d",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                518,
+                107,
+                710,
+                299
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                386,
+                689,
+                578,
+                881
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                949,
+                661,
+                1141,
+                853
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands"
+    },
+    {
+      "name": "maths-hints",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-ac37779a-31d2-49ac-ab83-fd1fef298bdf.png",
+      "prompt": "Use case: background-extraction. Edit target: maths-hints supplied photograph. Isolate existing subject with true transparent alpha background. Original shows only hands and forearms. Keep those same hands, pencil and open geometry notebook; no face to add. Remove desk and compass protractor plant holder and loose books. Preserve EXACT same identities, facial features, hairstyles, expressions, clothes, pose and skin detail. Clean edges on hair and fingers. Tight bounds with transparent margin. No halo, no text, no logos, no frame, no baked shadow. If source furniture occludes waist finish with natural waist-up or seated silhouette, no rectangular table scraps. Realistic photography.",
+      "status": "exported",
+      "source_sha256": "c66931569db44c60e9d0ea318c44fc974e07038076ac9744bc36cc1e4bfbc438",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 254,
+        "intermediate_pixels": 917952,
+        "transparent_pixels": 654912
+      },
+      "export_size": [
+        1560,
+        1038
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 254,
+        "intermediate_pixels": 917952,
+        "transparent_pixels": 701328
+      },
+      "source_bbox_xyxy": [
+        0,
+        10,
+        1536,
+        1024
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "alpha_coverage_note": "Source maximum alpha 254 accepted as near-opaque 99.6% coverage; original pixels and alpha preserved without normalization",
+      "webp_quality": 92,
+      "webp_limit_bytes": 250000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 42,
+        "intermediate_pixels": 74140,
+        "transparent_pixels": 1545140
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/maths-hints.png",
+          "bytes": 2060626,
+          "native_size": [
+            1560,
+            1038
+          ],
+          "sha256": "ba22d582b9c7f331bee2f07864b13478b0428fd238b7056101389d4072f63019"
+        },
+        {
+          "file": "art/assets/cutouts/maths-hints.webp",
+          "bytes": 248700,
+          "native_size": [
+            1560,
+            1038
+          ],
+          "sha256": "f1983c6da403e12047db96f66dab3cfa731fa353f4ce0186ea85ab2c2251a6e4"
+        },
+        {
+          "file": "art/assets/cutouts/maths-hints-shadow.webp",
+          "bytes": 2886,
+          "native_size": [
+            1560,
+            1038
+          ],
+          "sha256": "ca4f7d35f9b2070d70e9bc7a01653d108407b26c11c36ad4a3bc373fa67f0b61"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/maths-hints-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "0d63c998438a0dda2f4474917383d1d3d8715e2e5d4749a3f11e75e97853bf0c"
+        },
+        {
+          "file": "art/review/edges/maths-hints-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "2113bc8d91cbe1532aa413dc460776b7b09126c6b1070ddaa4e598ccd126c9b5",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                660,
+                193,
+                852,
+                385
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                116,
+                594,
+                308,
+                786
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                718,
+                518,
+                910,
+                710
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands"
+    },
+    {
+      "name": "offline-downloads",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-07cfd9fc-10c2-4b44-b2ae-69985f03073c.png",
+      "prompt": "Use case: background-extraction. Edit target: offline-downloads supplied photograph. Isolate existing subject with true transparent alpha background. Keep same woman seated cross-legged, her hands holding phone, and book in her lap. Remove chair stool bedroom table and room, preserve complete seated silhouette. Preserve EXACT same identities, facial features, hairstyles, expressions, clothes, pose and skin detail. Clean edges on hair and fingers. Tight bounds with transparent margin. No halo, no text, no logos, no frame, no baked shadow. If source furniture occludes waist finish with natural waist-up or seated silhouette, no rectangular table scraps. Realistic photography.",
+      "status": "exported",
+      "source_sha256": "0614b71b34ea8a8a804a2affde23db5e89d838af933c6ef1bc16bf58bd039bd0",
+      "source_native_size": [
+        1123,
+        1401
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 875213,
+        "transparent_pixels": 697410
+      },
+      "export_size": [
+        1132,
+        1424
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 875213,
+        "transparent_pixels": 736055
+      },
+      "source_bbox_xyxy": [
+        0,
+        1,
+        1108,
+        1401
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 87,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 42,
+        "intermediate_pixels": 72486,
+        "transparent_pixels": 1539482
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/offline-downloads.png",
+          "bytes": 1655993,
+          "native_size": [
+            1132,
+            1424
+          ],
+          "sha256": "8e1d24d03944a561ecb4013af12fa66b96ba9f976a3b4cfb31019fa21aa3d1b6"
+        },
+        {
+          "file": "art/assets/cutouts/offline-downloads.webp",
+          "bytes": 197880,
+          "native_size": [
+            1132,
+            1424
+          ],
+          "sha256": "c63a8f97a6c96f1f912e5779c73426815811c55d29ffeccaef61d87c192dc40d"
+        },
+        {
+          "file": "art/assets/cutouts/offline-downloads-shadow.webp",
+          "bytes": 3882,
+          "native_size": [
+            1132,
+            1424
+          ],
+          "sha256": "96eabd5b1c9a26592facaf8e111ed2d80c7c6d2e2022a1df44f40634b47b06cc"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/offline-downloads-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "a223cc214ece0fe9d0a115ef765f74372a2bf7612cd31da08f1ab207bad419c1"
+        },
+        {
+          "file": "art/review/edges/offline-downloads-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "a6a0c1cec3becb84652d8b57309ff4e904280a540a1f4899549aca93d8ea04f0",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                374,
+                154,
+                566,
+                346
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                105,
+                974,
+                297,
+                1166
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                505,
+                925,
+                697,
+                1117
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "onboarding-1-secondary-student",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-ebbac257-c90d-4ab1-bd19-9fd616b21475.png",
+      "prompt": "Use case: background-extraction. Edit target: onboarding-1-secondary-student supplied photograph. Isolate existing subject on true transparent alpha background. Keep same girl both hands pen and exercise book. Remove desk loose books all furniture and entire room. Preserve EXACT same identities facial features hairstyles expressions clothing pose skin texture and props. Tight subject crop with clean hair/hand alpha edges and transparent margin. No coloured halo, no shadow, no lettering logos frames. Photographic realism. Complete hidden waist with natural waist-up/seated silhouette only if needed; do not include rectangular scraps of desk.",
+      "status": "exported",
+      "source_sha256": "b635b906958a5b748287b05baba1dfa31fa5f6a7fdeaf6c7936d8e3e62fe1eb9",
+      "source_native_size": [
+        1122,
+        1402
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 1013757,
+        "transparent_pixels": 558683
+      },
+      "export_size": [
+        1146,
+        1370
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 1013757,
+        "transparent_pixels": 555659
+      },
+      "source_bbox_xyxy": [
+        0,
+        56,
+        1122,
+        1402
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 86,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 42,
+        "intermediate_pixels": 70632,
+        "transparent_pixels": 1499388
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/onboarding-1-secondary-student.png",
+          "bytes": 1761991,
+          "native_size": [
+            1146,
+            1370
+          ],
+          "sha256": "0fe23e09d84833cdb44933cbf9dafc3d0249c23e4ba1d3cd757b0e36f733c2c9"
+        },
+        {
+          "file": "art/assets/cutouts/onboarding-1-secondary-student.webp",
+          "bytes": 192606,
+          "native_size": [
+            1146,
+            1370
+          ],
+          "sha256": "ab62c72be70a90875ae7ad2005ab8d95c2ecbc225d703880ddcdd47caeabe159"
+        },
+        {
+          "file": "art/assets/cutouts/onboarding-1-secondary-student-shadow.webp",
+          "bytes": 3614,
+          "native_size": [
+            1146,
+            1370
+          ],
+          "sha256": "2e5a603c15839dea98bba6a82724760840a720e5b039a9052864ab1f36bac631"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/onboarding-1-secondary-student-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "8284043f6f64d8bbf6b7256eb37ab35a024e4ffa28c3fcae746377305fe815eb"
+        },
+        {
+          "file": "art/review/edges/onboarding-1-secondary-student-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "20acea1730a2f0a2f315e7f5755e01d98e80bd39a1154b169759a1c44c3c7184",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                589,
+                171,
+                781,
+                363
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                252,
+                864,
+                444,
+                1056
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                507,
+                840,
+                699,
+                1032
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "onboarding-2-senior-student",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-35e82821-4d29-4462-8b4b-7fe0f5c8a2ff.png",
+      "prompt": "Use case: background-extraction. Edit target: onboarding-2-senior-student supplied photograph. Isolate existing subject on true transparent alpha background. Keep same boy, hands, phone and open study book. Remove desk loose notebooks plant and room. Preserve EXACT same identities facial features hairstyles expressions clothing pose skin texture and props. Tight subject crop with clean hair/hand alpha edges and transparent margin. No coloured halo, no shadow, no lettering logos frames. Photographic realism. Complete hidden waist with natural waist-up/seated silhouette only if needed; do not include rectangular scraps of desk.",
+      "status": "exported",
+      "source_sha256": "54cf45a7c48853c21ed8dd39d2dbedcd50cbf75be349b0ca3b69d0c7f97bb4bd",
+      "source_native_size": [
+        1378,
+        1141
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 782242,
+        "transparent_pixels": 789241
+      },
+      "export_size": [
+        1358,
+        1165
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 782242,
+        "transparent_pixels": 799013
+      },
+      "source_bbox_xyxy": [
+        0,
+        0,
+        1334,
+        1141
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 92,
+      "webp_limit_bytes": 250000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 40,
+        "intermediate_pixels": 71168,
+        "transparent_pixels": 1510902
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/onboarding-2-senior-student.png",
+          "bytes": 1486157,
+          "native_size": [
+            1358,
+            1165
+          ],
+          "sha256": "e60ad95e428a2eb0efc1d3a3bcaa370b8dc616d1e7bfa5e684d62ddc14ab4cfb"
+        },
+        {
+          "file": "art/assets/cutouts/onboarding-2-senior-student.webp",
+          "bytes": 249526,
+          "native_size": [
+            1358,
+            1165
+          ],
+          "sha256": "a5d3be59ab51c9171e185a757b13119e7caa952acaf338d5863dca145eb01d63"
+        },
+        {
+          "file": "art/assets/cutouts/onboarding-2-senior-student-shadow.webp",
+          "bytes": 3108,
+          "native_size": [
+            1358,
+            1165
+          ],
+          "sha256": "7f4d22e43d86317c88b3ea7ab3840059137021c2968b95a03c4b2386253cf1e5"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/onboarding-2-senior-student-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "c50a3d84069cfee3a62c62d9584cc6ebbe84ea85457e71458e12d81331096ae9"
+        },
+        {
+          "file": "art/review/edges/onboarding-2-senior-student-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "535b31ea66cf80ffb4ed2dfb6a90397b4404bc9c7bec931e1a3ca855e79b2aaa",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                412,
+                128,
+                604,
+                320
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                400,
+                705,
+                592,
+                897
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                693,
+                738,
+                885,
+                930
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "onboarding-3-professional",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-73590c33-138f-4330-96fd-0a8337580dc3.png",
+      "prompt": "Use case: background-extraction. Edit target: onboarding-3-professional supplied photograph. Isolate existing subject on true transparent alpha background. Keep same woman in headwrap, both hands, pen, notebook and open study book. Remove laptop desk cup plants and room. Preserve EXACT same identities facial features hairstyles expressions clothing pose skin texture and props. Tight subject crop with clean hair/hand alpha edges and transparent margin. No coloured halo, no shadow, no lettering logos frames. Photographic realism. Complete hidden waist with natural waist-up/seated silhouette only if needed; do not include rectangular scraps of desk.",
+      "status": "exported",
+      "source_sha256": "019027146a4f24b98a59ef5a9ce641e2e83628698e3243119d7c4ba2ccb036ba",
+      "source_native_size": [
+        1179,
+        1334
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 935216,
+        "transparent_pixels": 636896
+      },
+      "export_size": [
+        1202,
+        1341
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 935216,
+        "transparent_pixels": 675992
+      },
+      "source_bbox_xyxy": [
+        0,
+        17,
+        1178,
+        1334
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 85,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 42,
+        "intermediate_pixels": 72574,
+        "transparent_pixels": 1539308
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/onboarding-3-professional.png",
+          "bytes": 1771000,
+          "native_size": [
+            1202,
+            1341
+          ],
+          "sha256": "71d45383674ad4a53db3db576ed4ea97cadd732abecc87e3bebe1888b84b2d56"
+        },
+        {
+          "file": "art/assets/cutouts/onboarding-3-professional.webp",
+          "bytes": 197236,
+          "native_size": [
+            1202,
+            1341
+          ],
+          "sha256": "485c5a97f5fbe3c09f5abcab204c5ad521497bdac3ed71bac1471ea4ab424ca5"
+        },
+        {
+          "file": "art/assets/cutouts/onboarding-3-professional-shadow.webp",
+          "bytes": 3578,
+          "native_size": [
+            1202,
+            1341
+          ],
+          "sha256": "00a052062eb642183ef87e6c68c811fb2374e9fed8f78c3e4acc7b99884541c5"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/onboarding-3-professional-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "2a00ae1551f1043c468abab50706b1ce74d4e445ed07cf572e2fa4db33f2c88a"
+        },
+        {
+          "file": "art/review/edges/onboarding-3-professional-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "33ee832621b68ea9fd54c37b2b62fcc7a4f7069bbf3485615e1b2608842bf285",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                627,
+                146,
+                819,
+                338
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                471,
+                808,
+                663,
+                1000
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                544,
+                886,
+                736,
+                1078
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "study-group-later",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-2c8fbc4d-f769-480a-b9d9-d723370971d4.png",
+      "prompt": "Use case: background-extraction. Edit target: study-group-later supplied photograph. Isolate existing subject on true transparent alpha background. Keep ALL THREE same students, their hands and the open book at centre as one joined cutout, same faces and poses. Remove all round stone table loose books notebooks stools plants and room. Natural seated composition, do not retain table slab. Preserve EXACT same identities facial features hairstyles expressions clothing pose skin texture and props. Tight subject crop with clean hair/hand alpha edges and transparent margin. No coloured halo, no shadow, no lettering logos frames. Photographic realism. Complete hidden waist with natural waist-up/seated silhouette only if needed; do not include rectangular scraps of desk.",
+      "status": "exported",
+      "source_sha256": "de5d8de2950a49c5a555743003a5110664011af10fc2d59e05940d6e2f32b6be",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 254,
+        "intermediate_pixels": 1195991,
+        "transparent_pixels": 376873
+      },
+      "export_size": [
+        1560,
+        1035
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 254,
+        "intermediate_pixels": 1195991,
+        "transparent_pixels": 418609
+      },
+      "source_bbox_xyxy": [
+        0,
+        13,
+        1536,
+        1024
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "alpha_coverage_note": "Source maximum alpha 254 accepted as near-opaque 99.6% coverage; original pixels and alpha preserved without normalization",
+      "webp_quality": 79,
+      "webp_limit_bytes": 250000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 42,
+        "intermediate_pixels": 74098,
+        "transparent_pixels": 1540502
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/study-group-later.png",
+          "bytes": 2756400,
+          "native_size": [
+            1560,
+            1035
+          ],
+          "sha256": "9fd71ff0fc97c63d63d0764bf376f812ed99f47d705e62a4f11221ef8214da84"
+        },
+        {
+          "file": "art/assets/cutouts/study-group-later.webp",
+          "bytes": 240684,
+          "native_size": [
+            1560,
+            1035
+          ],
+          "sha256": "2cd03b5c97e288ea261c2d756a9c0ceae215d007374435765cbe16b2692c7d66"
+        },
+        {
+          "file": "art/assets/cutouts/study-group-later-shadow.webp",
+          "bytes": 2916,
+          "native_size": [
+            1560,
+            1035
+          ],
+          "sha256": "3a5b69531f1f8b2a27f0805302a8e7e934c28ee36726a8a52cdd4c018295372c"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/study-group-later-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "9d5771a87527b8ce9377cda4d38e6716030991db82b06a96430ed489a1b4558f"
+        },
+        {
+          "file": "art/review/edges/study-group-later-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "624fc5f37edf369670967b0f14a724efe38851edc620b7d6fcced7f61528bab4",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                344,
+                155,
+                536,
+                347
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                570,
+                634,
+                762,
+                826
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                1292,
+                633,
+                1484,
+                825
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands"
+    },
+    {
+      "name": "study-planner",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-7ca60d45-89ca-4891-8958-bb1a5f6b86b4.png",
+      "prompt": "Use case: background-extraction. Edit target: study-planner supplied photograph. Isolate existing subject on true transparent alpha background. Keep same man, glasses, both hands, pencil and open planner he writes in. Remove desk phone cup loose books all furniture and entire background. Preserve EXACT same identities facial features hairstyles expressions clothing pose skin texture and props. Tight subject crop with clean hair/hand alpha edges and transparent margin. No coloured halo, no shadow, no lettering logos frames. Photographic realism. Complete hidden waist with natural waist-up/seated silhouette only if needed; do not include rectangular scraps of desk.",
+      "status": "exported",
+      "source_sha256": "ebfe2ae3b600beee2ae3b218ef9ce75160897ec457e6bcfc64b366ad6957ef60",
+      "source_native_size": [
+        1312,
+        1199
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 857093,
+        "transparent_pixels": 715745
+      },
+      "export_size": [
+        1306,
+        1223
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 857093,
+        "transparent_pixels": 739895
+      },
+      "source_bbox_xyxy": [
+        0,
+        0,
+        1282,
+        1199
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 88,
+      "webp_limit_bytes": 250000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 41,
+        "intermediate_pixels": 72212,
+        "transparent_pixels": 1525026
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/study-planner.png",
+          "bytes": 1750231,
+          "native_size": [
+            1306,
+            1223
+          ],
+          "sha256": "2af68f6accc4f100885a1920efd6ee7984d32ae7584586421cf9683a2b61d043"
+        },
+        {
+          "file": "art/assets/cutouts/study-planner.webp",
+          "bytes": 242616,
+          "native_size": [
+            1306,
+            1223
+          ],
+          "sha256": "63b6e600d79dfd64871127b78b5765c0ed6a039ca58b72db79e855efda53b64c"
+        },
+        {
+          "file": "art/assets/cutouts/study-planner-shadow.webp",
+          "bytes": 3170,
+          "native_size": [
+            1306,
+            1223
+          ],
+          "sha256": "2e8fd1f873cac401273971aaa2eff4836e409b6ef8c341e5303c3eb8a975aa8e"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/study-planner-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "9be9ea990a5a3148a8c8e8d44d845ecfb9d4bc29eee582baf9520f28a057beaf"
+        },
+        {
+          "file": "art/review/edges/study-planner-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "5e5fb3220f4618e28fddd35912433e8d386ff988d37a0214d7c3bcab2320e377",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                777,
+                154,
+                969,
+                346
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                427,
+                764,
+                619,
+                956
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                605,
+                789,
+                797,
+                981
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "style-calm",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-06b25350-6edf-4e1d-9709-995d7955ee41.png",
+      "prompt": "Use case: background-extraction. Edit target: style-calm supplied photograph. Isolate existing subject on true transparent alpha background. Keep same man his hands and tablet and seated lap. Remove sofa cushions cups book desk background. Natural seated silhouette. Preserve EXACT same identity facial features hairstyle expression clothing pose and skin texture. Tight subject bounds transparent margin. Clean hair and hands alpha edges, no halo, no baked shadow, no frames, no text or logos. Realistic photography. Do not include rectangular desk or furniture scraps.",
+      "status": "exported",
+      "source_sha256": "3533b2b02d4a46b1d52467ea2fbc742699d615021712cece6c2303b251165ba5",
+      "source_native_size": [
+        1121,
+        1403
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 960648,
+        "transparent_pixels": 611812
+      },
+      "export_size": [
+        1145,
+        1394
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 960648,
+        "transparent_pixels": 635179
+      },
+      "source_bbox_xyxy": [
+        0,
+        33,
+        1121,
+        1403
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 87,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 41,
+        "intermediate_pixels": 70948,
+        "transparent_pixels": 1525182
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/style-calm.png",
+          "bytes": 1741387,
+          "native_size": [
+            1145,
+            1394
+          ],
+          "sha256": "84d9345322f8fa1b3ad1b2d9f33d7420c90ca5c787a4209f9c9a8807c47843a1"
+        },
+        {
+          "file": "art/assets/cutouts/style-calm.webp",
+          "bytes": 189952,
+          "native_size": [
+            1145,
+            1394
+          ],
+          "sha256": "935002a88229b2e90bafde5c6d2d82d74267ae772ab414bb19ddceffea03fcbe"
+        },
+        {
+          "file": "art/assets/cutouts/style-calm-shadow.webp",
+          "bytes": 3704,
+          "native_size": [
+            1145,
+            1394
+          ],
+          "sha256": "ffec3e2c402ffd28fd7783384ce704ba67d4c7ce78aa497a4e1d3be2ff0adf59"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/style-calm-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "6dc200cb60424ee19aed124bd41e3d241c02cae01176b68924032a75f4f6e014"
+        },
+        {
+          "file": "art/review/edges/style-calm-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "189b7f584d79b64d4b3ee11564f6ac551b9acc882c06c1917a17866e628d274b",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                492,
+                181,
+                684,
+                373
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                86,
+                850,
+                278,
+                1042
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                919,
+                928,
+                1111,
+                1120
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "style-cook-mode",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-4a759ea5-15d2-4d62-9f77-007d83ea9295.png",
+      "prompt": "Use case: background-extraction. Edit target: style-cook-mode supplied photograph. Isolate existing subject on true transparent alpha background. Keep same young man headphones phone and both hands including fist. Remove table notebooks sofa room. Natural waist-up crop. Preserve EXACT same identity facial features hairstyle expression clothing pose and skin texture. Tight subject bounds transparent margin. Clean hair and hands alpha edges, no halo, no baked shadow, no frames, no text or logos. Realistic photography. Do not include rectangular desk or furniture scraps.",
+      "status": "exported",
+      "source_sha256": "fac71dc3e0bf5c6e92a7d61d42b8119cf71af3dbaef6c329d0ec3e6e9f4cb26e",
+      "source_native_size": [
+        1123,
+        1401
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 999138,
+        "transparent_pixels": 573683
+      },
+      "export_size": [
+        1133,
+        1425
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 999138,
+        "transparent_pixels": 614885
+      },
+      "source_bbox_xyxy": [
+        0,
+        0,
+        1109,
+        1401
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 81,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 42,
+        "intermediate_pixels": 72595,
+        "transparent_pixels": 1541930
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/style-cook-mode.png",
+          "bytes": 2047649,
+          "native_size": [
+            1133,
+            1425
+          ],
+          "sha256": "26129896b3fe3237e3141dc46cb6a1edd736e77973cbd1f72ae68862ac07e736"
+        },
+        {
+          "file": "art/assets/cutouts/style-cook-mode.webp",
+          "bytes": 198840,
+          "native_size": [
+            1133,
+            1425
+          ],
+          "sha256": "0b6de444fa0fadcf6ea8148485b6788ca90d793cae9c6d7b4e27e971b65338a4"
+        },
+        {
+          "file": "art/assets/cutouts/style-cook-mode-shadow.webp",
+          "bytes": 3782,
+          "native_size": [
+            1133,
+            1425
+          ],
+          "sha256": "4b31575a8aa2ccddfdca13ef654a79c641e8a5e07768a7f0bf26a016847e5f02"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/style-cook-mode-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "921abfdc5efa1b81368d93a955533b4162f6d42e82787afb9e0aa7cacdc7cad6"
+        },
+        {
+          "file": "art/review/edges/style-cook-mode-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "35dad4074ae8c1cb70ac925c404803add4861137d05884c7c0fd1e44eb0a730d",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                613,
+                158,
+                805,
+                350
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                255,
+                904,
+                447,
+                1096
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                815,
+                899,
+                1007,
+                1091
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "style-locked-in",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-d69a65a5-8bff-48c7-9fb0-935d7ed62c3c.png",
+      "prompt": "Use case: background-extraction. Edit target: style-locked-in supplied photograph. Isolate existing subject on true transparent alpha background. Keep same woman both hands and exercise paper she holds. Remove table glass loose book chair and room. Preserve EXACT same identity facial features hairstyle expression clothing pose and skin texture. Tight subject bounds transparent margin. Clean hair and hands alpha edges, no halo, no baked shadow, no frames, no text or logos. Realistic photography. Do not include rectangular desk or furniture scraps.",
+      "status": "exported",
+      "source_sha256": "ed0231980c0f2d2e1fc91cc4bf50f4f450b34b81db8a09d1f184a7b3565591be",
+      "source_native_size": [
+        1143,
+        1376
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 981797,
+        "transparent_pixels": 590574
+      },
+      "export_size": [
+        1167,
+        1400
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 981797,
+        "transparent_pixels": 651606
+      },
+      "source_bbox_xyxy": [
+        0,
+        0,
+        1143,
+        1376
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 81,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 41,
+        "intermediate_pixels": 73237,
+        "transparent_pixels": 1560563
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/style-locked-in.png",
+          "bytes": 1956784,
+          "native_size": [
+            1167,
+            1400
+          ],
+          "sha256": "38d73322924ee2b4f84d3e6eb615e55e85265c3205204cca269d017bc195b60f"
+        },
+        {
+          "file": "art/assets/cutouts/style-locked-in.webp",
+          "bytes": 196854,
+          "native_size": [
+            1167,
+            1400
+          ],
+          "sha256": "5a0f2ad44b7c3cd48d25f485e162333e5f2b73e547901e6248ec3a15422653c6"
+        },
+        {
+          "file": "art/assets/cutouts/style-locked-in-shadow.webp",
+          "bytes": 3522,
+          "native_size": [
+            1167,
+            1400
+          ],
+          "sha256": "a840d6fa0552e7c0ddfaac64531fa1bd75b2d3449c54d20b92cfd304738c8902"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/style-locked-in-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "85e4d0d68832004002d8842cc4aab315c4f68158e6ad2ffe461aa37fa6d25919"
+        },
+        {
+          "file": "art/review/edges/style-locked-in-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "24772f5f4c24e5cf5b23fba958b1f38860f8282819026228cfc13199b4e640a1",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                387,
+                164,
+                579,
+                356
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                1,
+                951,
+                193,
+                1143
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                781,
+                905,
+                973,
+                1097
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "tile-ask",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-0b561c6b-6ea5-4a60-9fa0-a95e2f71e68a.png",
+      "prompt": "Use case: background-extraction. Edit target: tile-ask supplied photograph. Isolate existing subject on true transparent alpha background. Keep same girl both hands and phone. Remove desk chair loose books mug all room. Natural waist-up silhouette. Preserve EXACT same identity facial features hairstyle expression clothing pose and skin texture. Tight subject bounds transparent margin. Clean hair and hands alpha edges, no halo, no baked shadow, no frames, no text or logos. Realistic photography. Do not include rectangular desk or furniture scraps.",
+      "status": "exported",
+      "source_sha256": "50158145646391fd5379bfdf212d8d414b1f0fc5287e6b2867dfcee95b79417b",
+      "source_native_size": [
+        1121,
+        1403
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 911240,
+        "transparent_pixels": 661147
+      },
+      "export_size": [
+        1127,
+        1427
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 911240,
+        "transparent_pixels": 696613
+      },
+      "source_bbox_xyxy": [
+        0,
+        0,
+        1103,
+        1403
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 87,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 42,
+        "intermediate_pixels": 72303,
+        "transparent_pixels": 1535926
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/tile-ask.png",
+          "bytes": 1728351,
+          "native_size": [
+            1127,
+            1427
+          ],
+          "sha256": "4a31c0bee3ca993d8f3c3592332820b8d0fc4d897220fde4c0d406a91ffe9efa"
+        },
+        {
+          "file": "art/assets/cutouts/tile-ask.webp",
+          "bytes": 196270,
+          "native_size": [
+            1127,
+            1427
+          ],
+          "sha256": "2e5974584c5d506102cc8ac80b4e60065f92ee239a77b1cf3d054d3e2359cfae"
+        },
+        {
+          "file": "art/assets/cutouts/tile-ask-shadow.webp",
+          "bytes": 3730,
+          "native_size": [
+            1127,
+            1427
+          ],
+          "sha256": "f025a853f135bd47ad152f983a8dd94df25dcbd97aad8cbf61f212079743442c"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/tile-ask-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "f101e14548070c219bd0356318c2b092b38c52de1900aa77d3753571ff68307c"
+        },
+        {
+          "file": "art/review/edges/tile-ask-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "abb74ee01c58e625a4286e6ab888f0a42942ebb6b36e700373749c2f60d60641",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                418,
+                204,
+                610,
+                396
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                341,
+                925,
+                533,
+                1117
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                592,
+                956,
+                784,
+                1148
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "tile-scroll",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-12397818-ddbb-40be-9661-fed3f2bafa20.png",
+      "prompt": "Use case: background-extraction. Edit target: tile-scroll supplied photograph. Isolate existing subject on true transparent alpha background. Keep same reclining young man, raised arm behind head, hand and phone. Remove couch cushions table loose notebooks plants room. Finish natural seated waist-up silhouette. Preserve EXACT same identity facial features hairstyle expression clothing pose and skin texture. Tight subject bounds transparent margin. Clean hair and hands alpha edges, no halo, no baked shadow, no frames, no text or logos. Realistic photography. Do not include rectangular desk or furniture scraps.",
+      "status": "exported",
+      "source_sha256": "2df9d137b70690d09e7ef2586b2e6268c427fc1cecfe7d0cf0c65631178a11cd",
+      "source_native_size": [
+        1150,
+        1367
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 967643,
+        "transparent_pixels": 603394
+      },
+      "export_size": [
+        1174,
+        1372
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 967643,
+        "transparent_pixels": 642072
+      },
+      "source_bbox_xyxy": [
+        0,
+        19,
+        1150,
+        1367
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "webp_quality": 86,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 42,
+        "intermediate_pixels": 72354,
+        "transparent_pixels": 1538374
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/tile-scroll.png",
+          "bytes": 1797000,
+          "native_size": [
+            1174,
+            1372
+          ],
+          "sha256": "4873eaec36cad4f6cb0d0f1544988d39c5666b900211ea4a234e54c2815f4faa"
+        },
+        {
+          "file": "art/assets/cutouts/tile-scroll.webp",
+          "bytes": 199806,
+          "native_size": [
+            1174,
+            1372
+          ],
+          "sha256": "ae019e7616f7db5769dd8cecfd74f80b6a809f40933c4a850164bdfee1f463ec"
+        },
+        {
+          "file": "art/assets/cutouts/tile-scroll-shadow.webp",
+          "bytes": 3628,
+          "native_size": [
+            1174,
+            1372
+          ],
+          "sha256": "efaefa1194bdda91778cadf33fad09aa5f5e02d002403a0d71c7b6a55ede65e7"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/tile-scroll-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "c97f179e656688f302822c11e68f082404622e76fdfd9021080df187c03644c0"
+        },
+        {
+          "file": "art/review/edges/tile-scroll-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "9cee9a794efdb2f7cb5eeb612f0f31d1e9b9f32a07bf9c801822df33f66020b7",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                364,
+                205,
+                556,
+                397
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                298,
+                752,
+                490,
+                944
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                679,
+                861,
+                871,
+                1053
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "og-default",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-494ede6a-b230-48a8-a943-c6fdeafe18bf.png",
+      "prompt": "Use case: background-extraction repair. Remove ALL the blurry brown/cream haze and glow surrounding these people. The entire backdrop must be perfectly clear zero alpha, including immediately beside arms, book, clothing and hair. Only opaque people, hands, clothing and books remain, with a very narrow antialias edge. No soft spotlight background, no vignette, no shadow, no halo. Preserve the same subjects, faces, pose and props exactly. This is a reusable transparent PNG cutout to place on white OR black backgrounds. Do not redraw or add legs. Tight crop.\nDerived alias for existing og-default social crop, same subject/source.",
+      "status": "exported",
+      "source_sha256": "4a9f33a0dd29c9ed153c928401bfdec0aa1102132ccc7693cf1e6410ff5894cd",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 254,
+        "intermediate_pixels": 667411,
+        "transparent_pixels": 905453
+      },
+      "export_size": [
+        1412,
+        1048
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 254,
+        "intermediate_pixels": 667411,
+        "transparent_pixels": 812365
+      },
+      "source_bbox_xyxy": [
+        0,
+        0,
+        1388,
+        1024
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "alpha_coverage_note": "Source maximum alpha 254 accepted as near-opaque 99.6% coverage; original pixels and alpha preserved without normalization",
+      "webp_quality": 94,
+      "webp_limit_bytes": 250000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 41,
+        "intermediate_pixels": 67850,
+        "transparent_pixels": 1411926
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/og-default.png",
+          "bytes": 1690888,
+          "native_size": [
+            1412,
+            1048
+          ],
+          "sha256": "8927395f3a00f56a62ab2e0ff82dc5111984c3fb725fc9e263edb15632a85371"
+        },
+        {
+          "file": "art/assets/cutouts/og-default.webp",
+          "bytes": 239906,
+          "native_size": [
+            1412,
+            1048
+          ],
+          "sha256": "03b05b1fe947cb465bb603a6e13c743c3882ba36ddcf85ed469fa7bc6b483c8b"
+        },
+        {
+          "file": "art/assets/cutouts/og-default-shadow.webp",
+          "bytes": 2916,
+          "native_size": [
+            1412,
+            1048
+          ],
+          "sha256": "fae0bc1b4e0b094dd3b4a77a373fb9cf348a683bcf9657fa1a50f9f9233d5235"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/og-default-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "86a3d1e80dd82c56d8cc417b851bc41d2dc290645615e976b6a44cd1ad4ff739"
+        },
+        {
+          "file": "art/review/edges/og-default-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "780e83c451311790ea11db8ee14eea91fee7e1ff1a41d2c433a9020c742a123c",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                518,
+                107,
+                710,
+                299
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                386,
+                689,
+                578,
+                881
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                949,
+                661,
+                1141,
+                853
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands"
+    }
+  ]
+}

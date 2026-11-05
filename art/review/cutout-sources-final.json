@@ -1,0 +1,121 @@
+[
+  {
+    "name": "audio-overview",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-54189a10-c5cb-4909-a986-3e6c1ee8519b.png",
+    "prompt": "Use case: background-extraction. Edit target: supplied audio-overview photograph. Remove the entire architectural background and isolate ONLY the same woman, her bag, earphones, hands and phone on true transparency. Preserve her exact identity, face, hairstyle, expression, clothing, skin, pose and photographic detail. Waist-up crop, tight subject bounds with transparent margin. Complete the right wrist at bottom only if needed for a natural crop. Do not add objects, shadows, text, logos, borders or frames. Hair and fingers must have clean natural alpha edges, no background colour fringe. Output a transparent PNG cutout."
+  },
+  {
+    "name": "class-share-teacher",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-aa3a02a8-e838-4317-b3b3-6eb3aa1463f9.png",
+    "prompt": "Use case: background-extraction. Edit target: class-share-teacher supplied photograph. Isolate the existing subject on a TRUE TRANSPARENT alpha background. Keep ONLY the lecturer, his gesturing hand and tablet. Remove foreground shoulders, furniture, books and architecture. Natural waist-up crop. Preserve EXACT SAME identities, facial features, hairstyles, expressions, clothing, pose, skin detail and props. Remove setting completely. Do not invent a new face or change colours. Tight subject crop with transparent margin. Clean hair and hand edges, no halo, no baked contact shadow, no frames, no text, no logos. Photographic, no cartoon. If body is cropped by table make natural seated or waist-up termination, do not retain a rectangle of table."
+  },
+  {
+    "name": "dashboard-hero-university",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-022273cf-2873-495f-b342-f143a165ff26.png",
+    "prompt": "Use case: background-extraction repair. Remove ALL the blurry brown/cream haze and glow surrounding these people. The entire backdrop must be perfectly clear zero alpha, including immediately beside arms, book, clothing and hair. Only opaque people, hands, clothing and books remain, with a very narrow antialias edge. No soft spotlight background, no vignette, no shadow, no halo. Preserve the same subjects, faces, pose and props exactly. This is a reusable transparent PNG cutout to place on white OR black backgrounds. Do not redraw or add legs. Tight crop.",
+    "previous_source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-67295a19-f041-424b-81c4-357a17eb67ec.png"
+  },
+  {
+    "name": "empty-flashcards",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-7010c804-c6cb-4e5a-86b9-5207b68bb75f.png",
+    "prompt": "Use case: background-extraction. Edit target: empty-flashcards supplied photograph. Isolate the existing subject on a TRUE TRANSPARENT alpha background. Keep the same woman, her hands and blank index cards. Remove table, laptop, all loose notebooks, furniture and room. Natural seated waist-up crop with complete forearms. Preserve EXACT SAME identities, facial features, hairstyles, expressions, clothing, pose, skin detail and props. Remove setting completely. Do not invent a new face or change colours. Tight subject crop with transparent margin. Clean hair and hand edges, no halo, no baked contact shadow, no frames, no text, no logos. Photographic, no cartoon. If body is cropped by table make natural seated or waist-up termination, do not retain a rectangle of table."
+  },
+  {
+    "name": "empty-notebook",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-1ae7d081-a673-44ea-8bf4-3321c7e34bd6.png",
+    "prompt": "Use case: background-extraction. Edit target: empty-notebook supplied photograph. Isolate the existing subject on a TRUE TRANSPARENT alpha background. This original has only hands and forearms, no face. Preserve that original framing, the same hands holding phone AND the open book beneath it as one cutout; remove table plant pencil holder and loose books. Preserve EXACT SAME identities, facial features, hairstyles, expressions, clothing, pose, skin detail and props. Remove setting completely. Do not invent a new face or change colours. Tight subject crop with transparent margin. Clean hair and hand edges, no halo, no baked contact shadow, no frames, no text, no logos. Photographic, no cartoon. If body is cropped by table make natural seated or waist-up termination, do not retain a rectangle of table."
+  },
+  {
+    "name": "empty-quiz",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-9298b01d-1853-4994-9c0b-7373f75c0305.png",
+    "prompt": "Use case: background-extraction. Edit target: empty-quiz supplied photograph. Isolate the existing subject on a TRUE TRANSPARENT alpha background. Keep only same student, both hands, pencil and ruled exercise book being written in. Remove desk and watch and background. Complete the exercise book silhouette naturally. Preserve EXACT SAME identities, facial features, hairstyles, expressions, clothing, pose, skin detail and props. Remove setting completely. Do not invent a new face or change colours. Tight subject crop with transparent margin. Clean hair and hand edges, no halo, no baked contact shadow, no frames, no text, no logos. Photographic, no cartoon. If body is cropped by table make natural seated or waist-up termination, do not retain a rectangle of table."
+  },
+  {
+    "name": "exam-coach",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-0cfda4af-81b8-4a86-87e7-f41721e6020b.png",
+    "prompt": "Use case: background-extraction. Edit target: exam-coach supplied photograph. Isolate existing subject with true transparent alpha background. Keep the same man, both arms and hands, pen, notebook and laptop touched by his left hand. Remove cup, loose books, table, furniture and room. Preserve EXACT same identities, facial features, hairstyles, expressions, clothes, pose and skin detail. Clean edges on hair and fingers. Tight bounds with transparent margin. No halo, no text, no logos, no frame, no baked shadow. If source furniture occludes waist finish with natural waist-up or seated silhouette, no rectangular table scraps. Realistic photography."
+  },
+  {
+    "name": "guardian-consent",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-26547fe7-f66b-49ed-ac04-56e61d5730f4.png",
+    "prompt": "Use case: background-extraction. Edit target: guardian-consent supplied photograph. Isolate existing subject with true transparent alpha background. Keep BOTH same mother and son, hands, phone, and open book they touch as a joined cutout. Remove table fruit bowl loose foreground paper and room. Preserve EXACT same identities, facial features, hairstyles, expressions, clothes, pose and skin detail. Clean edges on hair and fingers. Tight bounds with transparent margin. No halo, no text, no logos, no frame, no baked shadow. If source furniture occludes waist finish with natural waist-up or seated silhouette, no rectangular table scraps. Realistic photography."
+  },
+  {
+    "name": "landing-form1",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-cfbc3aec-5b3f-42f5-8a2a-6b5e83a422dd.png",
+    "prompt": "Use case: background-extraction. Edit target: landing-form1 supplied photograph. Isolate existing subject with true transparent alpha background. Keep only same boy, backpack and books he is holding. Remove entire corridor. Natural waist-up silhouette. Preserve EXACT same identities, facial features, hairstyles, expressions, clothes, pose and skin detail. Clean edges on hair and fingers. Tight bounds with transparent margin. No halo, no text, no logos, no frame, no baked shadow. If source furniture occludes waist finish with natural waist-up or seated silhouette, no rectangular table scraps. Realistic photography."
+  },
+  {
+    "name": "landing-hero-wide",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-494ede6a-b230-48a8-a943-c6fdeafe18bf.png",
+    "prompt": "Use case: background-extraction repair. Remove ALL the blurry brown/cream haze and glow surrounding these people. The entire backdrop must be perfectly clear zero alpha, including immediately beside arms, book, clothing and hair. Only opaque people, hands, clothing and books remain, with a very narrow antialias edge. No soft spotlight background, no vignette, no shadow, no halo. Preserve the same subjects, faces, pose and props exactly. This is a reusable transparent PNG cutout to place on white OR black backgrounds. Do not redraw or add legs. Tight crop.",
+    "previous_source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-0fb7e912-1b83-4309-9e57-859d8de4e065.png"
+  },
+  {
+    "name": "maths-hints",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-ac37779a-31d2-49ac-ab83-fd1fef298bdf.png",
+    "prompt": "Use case: background-extraction. Edit target: maths-hints supplied photograph. Isolate existing subject with true transparent alpha background. Original shows only hands and forearms. Keep those same hands, pencil and open geometry notebook; no face to add. Remove desk and compass protractor plant holder and loose books. Preserve EXACT same identities, facial features, hairstyles, expressions, clothes, pose and skin detail. Clean edges on hair and fingers. Tight bounds with transparent margin. No halo, no text, no logos, no frame, no baked shadow. If source furniture occludes waist finish with natural waist-up or seated silhouette, no rectangular table scraps. Realistic photography."
+  },
+  {
+    "name": "offline-downloads",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-07cfd9fc-10c2-4b44-b2ae-69985f03073c.png",
+    "prompt": "Use case: background-extraction. Edit target: offline-downloads supplied photograph. Isolate existing subject with true transparent alpha background. Keep same woman seated cross-legged, her hands holding phone, and book in her lap. Remove chair stool bedroom table and room, preserve complete seated silhouette. Preserve EXACT same identities, facial features, hairstyles, expressions, clothes, pose and skin detail. Clean edges on hair and fingers. Tight bounds with transparent margin. No halo, no text, no logos, no frame, no baked shadow. If source furniture occludes waist finish with natural waist-up or seated silhouette, no rectangular table scraps. Realistic photography."
+  },
+  {
+    "name": "onboarding-1-secondary-student",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-ebbac257-c90d-4ab1-bd19-9fd616b21475.png",
+    "prompt": "Use case: background-extraction. Edit target: onboarding-1-secondary-student supplied photograph. Isolate existing subject on true transparent alpha background. Keep same girl both hands pen and exercise book. Remove desk loose books all furniture and entire room. Preserve EXACT same identities facial features hairstyles expressions clothing pose skin texture and props. Tight subject crop with clean hair/hand alpha edges and transparent margin. No coloured halo, no shadow, no lettering logos frames. Photographic realism. Complete hidden waist with natural waist-up/seated silhouette only if needed; do not include rectangular scraps of desk."
+  },
+  {
+    "name": "onboarding-2-senior-student",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-35e82821-4d29-4462-8b4b-7fe0f5c8a2ff.png",
+    "prompt": "Use case: background-extraction. Edit target: onboarding-2-senior-student supplied photograph. Isolate existing subject on true transparent alpha background. Keep same boy, hands, phone and open study book. Remove desk loose notebooks plant and room. Preserve EXACT same identities facial features hairstyles expressions clothing pose skin texture and props. Tight subject crop with clean hair/hand alpha edges and transparent margin. No coloured halo, no shadow, no lettering logos frames. Photographic realism. Complete hidden waist with natural waist-up/seated silhouette only if needed; do not include rectangular scraps of desk."
+  },
+  {
+    "name": "onboarding-3-professional",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-73590c33-138f-4330-96fd-0a8337580dc3.png",
+    "prompt": "Use case: background-extraction. Edit target: onboarding-3-professional supplied photograph. Isolate existing subject on true transparent alpha background. Keep same woman in headwrap, both hands, pen, notebook and open study book. Remove laptop desk cup plants and room. Preserve EXACT same identities facial features hairstyles expressions clothing pose skin texture and props. Tight subject crop with clean hair/hand alpha edges and transparent margin. No coloured halo, no shadow, no lettering logos frames. Photographic realism. Complete hidden waist with natural waist-up/seated silhouette only if needed; do not include rectangular scraps of desk."
+  },
+  {
+    "name": "study-group-later",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-2c8fbc4d-f769-480a-b9d9-d723370971d4.png",
+    "prompt": "Use case: background-extraction. Edit target: study-group-later supplied photograph. Isolate existing subject on true transparent alpha background. Keep ALL THREE same students, their hands and the open book at centre as one joined cutout, same faces and poses. Remove all round stone table loose books notebooks stools plants and room. Natural seated composition, do not retain table slab. Preserve EXACT same identities facial features hairstyles expressions clothing pose skin texture and props. Tight subject crop with clean hair/hand alpha edges and transparent margin. No coloured halo, no shadow, no lettering logos frames. Photographic realism. Complete hidden waist with natural waist-up/seated silhouette only if needed; do not include rectangular scraps of desk."
+  },
+  {
+    "name": "study-planner",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-7ca60d45-89ca-4891-8958-bb1a5f6b86b4.png",
+    "prompt": "Use case: background-extraction. Edit target: study-planner supplied photograph. Isolate existing subject on true transparent alpha background. Keep same man, glasses, both hands, pencil and open planner he writes in. Remove desk phone cup loose books all furniture and entire background. Preserve EXACT same identities facial features hairstyles expressions clothing pose skin texture and props. Tight subject crop with clean hair/hand alpha edges and transparent margin. No coloured halo, no shadow, no lettering logos frames. Photographic realism. Complete hidden waist with natural waist-up/seated silhouette only if needed; do not include rectangular scraps of desk."
+  },
+  {
+    "name": "style-calm",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-06b25350-6edf-4e1d-9709-995d7955ee41.png",
+    "prompt": "Use case: background-extraction. Edit target: style-calm supplied photograph. Isolate existing subject on true transparent alpha background. Keep same man his hands and tablet and seated lap. Remove sofa cushions cups book desk background. Natural seated silhouette. Preserve EXACT same identity facial features hairstyle expression clothing pose and skin texture. Tight subject bounds transparent margin. Clean hair and hands alpha edges, no halo, no baked shadow, no frames, no text or logos. Realistic photography. Do not include rectangular desk or furniture scraps."
+  },
+  {
+    "name": "style-cook-mode",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-4a759ea5-15d2-4d62-9f77-007d83ea9295.png",
+    "prompt": "Use case: background-extraction. Edit target: style-cook-mode supplied photograph. Isolate existing subject on true transparent alpha background. Keep same young man headphones phone and both hands including fist. Remove table notebooks sofa room. Natural waist-up crop. Preserve EXACT same identity facial features hairstyle expression clothing pose and skin texture. Tight subject bounds transparent margin. Clean hair and hands alpha edges, no halo, no baked shadow, no frames, no text or logos. Realistic photography. Do not include rectangular desk or furniture scraps."
+  },
+  {
+    "name": "style-locked-in",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-d69a65a5-8bff-48c7-9fb0-935d7ed62c3c.png",
+    "prompt": "Use case: background-extraction. Edit target: style-locked-in supplied photograph. Isolate existing subject on true transparent alpha background. Keep same woman both hands and exercise paper she holds. Remove table glass loose book chair and room. Preserve EXACT same identity facial features hairstyle expression clothing pose and skin texture. Tight subject bounds transparent margin. Clean hair and hands alpha edges, no halo, no baked shadow, no frames, no text or logos. Realistic photography. Do not include rectangular desk or furniture scraps."
+  },
+  {
+    "name": "tile-ask",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-0b561c6b-6ea5-4a60-9fa0-a95e2f71e68a.png",
+    "prompt": "Use case: background-extraction. Edit target: tile-ask supplied photograph. Isolate existing subject on true transparent alpha background. Keep same girl both hands and phone. Remove desk chair loose books mug all room. Natural waist-up silhouette. Preserve EXACT same identity facial features hairstyle expression clothing pose and skin texture. Tight subject bounds transparent margin. Clean hair and hands alpha edges, no halo, no baked shadow, no frames, no text or logos. Realistic photography. Do not include rectangular desk or furniture scraps."
+  },
+  {
+    "name": "tile-scroll",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-12397818-ddbb-40be-9661-fed3f2bafa20.png",
+    "prompt": "Use case: background-extraction. Edit target: tile-scroll supplied photograph. Isolate existing subject on true transparent alpha background. Keep same reclining young man, raised arm behind head, hand and phone. Remove couch cushions table loose notebooks plants room. Finish natural seated waist-up silhouette. Preserve EXACT same identity facial features hairstyle expression clothing pose and skin texture. Tight subject bounds transparent margin. Clean hair and hands alpha edges, no halo, no baked shadow, no frames, no text or logos. Realistic photography. Do not include rectangular desk or furniture scraps."
+  },
+  {
+    "name": "og-default",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-494ede6a-b230-48a8-a943-c6fdeafe18bf.png",
+    "prompt": "Use case: background-extraction repair. Remove ALL the blurry brown/cream haze and glow surrounding these people. The entire backdrop must be perfectly clear zero alpha, including immediately beside arms, book, clothing and hair. Only opaque people, hands, clothing and books remain, with a very narrow antialias edge. No soft spotlight background, no vignette, no shadow, no halo. Preserve the same subjects, faces, pose and props exactly. This is a reusable transparent PNG cutout to place on white OR black backgrounds. Do not redraw or add legs. Tight crop.\nDerived alias for existing og-default social crop, same subject/source.",
+    "previous_source": "C:\\Users\\Dell\\.codex\\generated_images\\01a1acb0-c579-7180-9fe8-63c74619df1c\\exec-0fb7e912-1b83-4309-9e57-859d8de4e065.png",
+    "derived_from": "landing-hero-wide"
+  }
+]

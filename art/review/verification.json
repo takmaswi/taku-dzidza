@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "cutout_filenames": 23,
+  "unique_sources": 22,
+  "scenes": {
+    "landing-hero": [
+      2560,
+      1600
+    ],
+    "home-dashboard": [
+      1600,
+      900
+    ],
+    "empty-notebook": [
+      1200,
+      900
+    ]
+  },
+  "kit_byte_identical": 7,
+  "proposed_outlined_lockups": 4,
+  "decor_rasters": 7,
+  "decor_vectors": 7,
+  "protected_paths_diff": "empty",
+  "light_textures": "byte unchanged",
+  "checks": "decode, dimensions, alpha identity, padding, byte budgets, SVG geometry/outlines, kit equality, scope"
+}

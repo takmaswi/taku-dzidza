@@ -1,0 +1,1798 @@
+[
+  {
+    "file": "art/.gitattributes",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 309,
+    "sha256": "4b3d7d8ec72b260972b13c782721b9e125564deb2f4f5d602e9c49f6290a9678"
+  },
+  {
+    "file": "art/CODEX_NOTES.md",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal"
+  },
+  {
+    "file": "art/assets/cutouts/audio-overview-shadow.webp",
+    "dimensions": "1134x1427",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3724,
+    "sha256": "7ec54ff75a1a1eac1facd093bb4ee51c44a0ee5b88607a08b8b01ba0af4d1651"
+  },
+  {
+    "file": "art/assets/cutouts/audio-overview.png",
+    "dimensions": "1134x1427",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 2028389,
+    "sha256": "379a7c121fac856c22b41bf668448ad3291e53f0e603fdf7fd46a4e9a595cfcd"
+  },
+  {
+    "file": "art/assets/cutouts/audio-overview.webp",
+    "dimensions": "1134x1427",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 199188,
+    "sha256": "224a6993bed8f8c42da4b77e2b1b0c641865ae5ba1dd64ed5a9847bdd2e1de0c"
+  },
+  {
+    "file": "art/assets/cutouts/board.png",
+    "dimensions": "2400x1600",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 1668947,
+    "sha256": "1ea9cb7544f951148b84e0bc40a6cfdd3989e30113408b1be0dda7a2c28e20d7"
+  },
+  {
+    "file": "art/assets/cutouts/class-share-teacher-shadow.webp",
+    "dimensions": "1134x1419",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3734,
+    "sha256": "c68eea8a70ac8968988774de4577a02b2c4c2a52bbfc536bc456b52eac893fde"
+  },
+  {
+    "file": "art/assets/cutouts/class-share-teacher.png",
+    "dimensions": "1134x1419",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1696464,
+    "sha256": "e26aeb7b5c9eafe488649d828e055cb94b2f0dcd0f5fff870cd6d70d6a9d6890"
+  },
+  {
+    "file": "art/assets/cutouts/class-share-teacher.webp",
+    "dimensions": "1134x1419",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 191036,
+    "sha256": "62e71c9024d7f4432c821f575df619551408f5c2be6a21b13beb0e92c742f79a"
+  },
+  {
+    "file": "art/assets/cutouts/dashboard-hero-university-shadow.webp",
+    "dimensions": "1546x1041",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 2930,
+    "sha256": "c53b8245d3c11dff28f3c3eeb7f9c45b566c8191f2d8faac8e55f8d9de6a77c2"
+  },
+  {
+    "file": "art/assets/cutouts/dashboard-hero-university.png",
+    "dimensions": "1546x1041",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 2432398,
+    "sha256": "4527d30266b25091f4d32123e56b93fa584095071a37ec9d0d365e7352f6f38e"
+  },
+  {
+    "file": "art/assets/cutouts/dashboard-hero-university.webp",
+    "dimensions": "1546x1041",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 244570,
+    "sha256": "3b61102116315c572a518671a8c9b4ed99a8929c004f6e1d6a897b1d6fd59685"
+  },
+  {
+    "file": "art/assets/cutouts/empty-flashcards-shadow.webp",
+    "dimensions": "1167x1385",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3616,
+    "sha256": "11944014cc5b68b86897c8252105fbc64210baf60a3c8a2655fa90ff0d947ea0"
+  },
+  {
+    "file": "art/assets/cutouts/empty-flashcards.png",
+    "dimensions": "1167x1385",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1989630,
+    "sha256": "880d4a760a8d1149ed47c1bc9e32e461b960926da2ad147f04fce328cd9db2bc"
+  },
+  {
+    "file": "art/assets/cutouts/empty-flashcards.webp",
+    "dimensions": "1167x1385",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 193766,
+    "sha256": "883fd7b1023ac2589977e5a2ac1e69438fe8a694669152235fcbcb124932fec0"
+  },
+  {
+    "file": "art/assets/cutouts/empty-notebook-shadow.webp",
+    "dimensions": "1145x1394",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3704,
+    "sha256": "ffec3e2c402ffd28fd7783384ce704ba67d4c7ce78aa497a4e1d3be2ff0adf59"
+  },
+  {
+    "file": "art/assets/cutouts/empty-notebook.png",
+    "dimensions": "1145x1394",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1532128,
+    "sha256": "f721152cb6a8d2a264340a1cdaacf89536f4059e3433d252fcc6bce95c9dd244"
+  },
+  {
+    "file": "art/assets/cutouts/empty-notebook.webp",
+    "dimensions": "1145x1394",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 193426,
+    "sha256": "98e7f7cf27b73f44288f2ec6df15ec9106a4245705f02b0fefffc3d6395ee745"
+  },
+  {
+    "file": "art/assets/cutouts/empty-quiz-shadow.webp",
+    "dimensions": "1123x1403",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3636,
+    "sha256": "14d58f57341021afb633fe3c68f7b66a18892889aaac5782377eb77d6f5ead87"
+  },
+  {
+    "file": "art/assets/cutouts/empty-quiz.png",
+    "dimensions": "1123x1403",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1432481,
+    "sha256": "92acf8bb53f00a7fb4dbb5ce077c6eb2f9b6c5caf7be447db5965222497cc752"
+  },
+  {
+    "file": "art/assets/cutouts/empty-quiz.webp",
+    "dimensions": "1123x1403",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 193402,
+    "sha256": "236976c79a286125c4db19874775cafbb82440f113846647744e07e3043607be"
+  },
+  {
+    "file": "art/assets/cutouts/exam-coach-shadow.webp",
+    "dimensions": "1377x1147",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3130,
+    "sha256": "ed273eb4df45ef4d995826d73fd014609f0e045c5bbb157b0f3ebbe7f7b4052d"
+  },
+  {
+    "file": "art/assets/cutouts/exam-coach.png",
+    "dimensions": "1377x1147",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1613113,
+    "sha256": "6536712db3f51e1d16fab69aa5325907b864470e15e845522a538b6a130163d4"
+  },
+  {
+    "file": "art/assets/cutouts/exam-coach.webp",
+    "dimensions": "1377x1147",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 242688,
+    "sha256": "73f18b588b702d0b7100b9a8784b4226b4a5c10df4f48f6fe6b785e8bdae731f"
+  },
+  {
+    "file": "art/assets/cutouts/guardian-consent-shadow.webp",
+    "dimensions": "1455x1110",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3104,
+    "sha256": "9e8885c873e3a507ed00c3d1ae848a10b8c154df36c6981afa091d2da60039a1"
+  },
+  {
+    "file": "art/assets/cutouts/guardian-consent.png",
+    "dimensions": "1455x1110",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 2193749,
+    "sha256": "03f9b633b4314f80ad7c30672f4a08746f52bec96d5812ebfbe2caa1c0ac6149"
+  },
+  {
+    "file": "art/assets/cutouts/guardian-consent.webp",
+    "dimensions": "1455x1110",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 249320,
+    "sha256": "2e56ea92f87a93593db56aac5765bc04101de474c9cde84b70ef09153c114597"
+  },
+  {
+    "file": "art/assets/cutouts/landing-form1-shadow.webp",
+    "dimensions": "1113x1411",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3594,
+    "sha256": "d917a3eb73fb1db42c0a6102b2d63d25228e4bf98db53608e5479a41185b85d2"
+  },
+  {
+    "file": "art/assets/cutouts/landing-form1.png",
+    "dimensions": "1113x1411",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1514342,
+    "sha256": "70929e8850d0dc16d2a5e82ba35f005b6bb322872b688d7346fdb05b7e0e96a8"
+  },
+  {
+    "file": "art/assets/cutouts/landing-form1.webp",
+    "dimensions": "1113x1411",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 197786,
+    "sha256": "433429c57658d445cffd31e70c17734450b7a15d9d928c882c2ac7ab27df180c"
+  },
+  {
+    "file": "art/assets/cutouts/landing-hero-wide-shadow.webp",
+    "dimensions": "1412x1048",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 2916,
+    "sha256": "fae0bc1b4e0b094dd3b4a77a373fb9cf348a683bcf9657fa1a50f9f9233d5235"
+  },
+  {
+    "file": "art/assets/cutouts/landing-hero-wide.png",
+    "dimensions": "1412x1048",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1690888,
+    "sha256": "8927395f3a00f56a62ab2e0ff82dc5111984c3fb725fc9e263edb15632a85371"
+  },
+  {
+    "file": "art/assets/cutouts/landing-hero-wide.webp",
+    "dimensions": "1412x1048",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 239906,
+    "sha256": "03b05b1fe947cb465bb603a6e13c743c3882ba36ddcf85ed469fa7bc6b483c8b"
+  },
+  {
+    "file": "art/assets/cutouts/manifest.json",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 107424,
+    "sha256": "5c66f2062ef89398ead814880b2117e0b46dc2fb2aa627c0f8c0942533dda673"
+  },
+  {
+    "file": "art/assets/cutouts/maths-hints-shadow.webp",
+    "dimensions": "1560x1038",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 2886,
+    "sha256": "ca4f7d35f9b2070d70e9bc7a01653d108407b26c11c36ad4a3bc373fa67f0b61"
+  },
+  {
+    "file": "art/assets/cutouts/maths-hints.png",
+    "dimensions": "1560x1038",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 2060626,
+    "sha256": "ba22d582b9c7f331bee2f07864b13478b0428fd238b7056101389d4072f63019"
+  },
+  {
+    "file": "art/assets/cutouts/maths-hints.webp",
+    "dimensions": "1560x1038",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 248700,
+    "sha256": "f1983c6da403e12047db96f66dab3cfa731fa353f4ce0186ea85ab2c2251a6e4"
+  },
+  {
+    "file": "art/assets/cutouts/offline-downloads-shadow.webp",
+    "dimensions": "1132x1424",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3882,
+    "sha256": "96eabd5b1c9a26592facaf8e111ed2d80c7c6d2e2022a1df44f40634b47b06cc"
+  },
+  {
+    "file": "art/assets/cutouts/offline-downloads.png",
+    "dimensions": "1132x1424",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1655993,
+    "sha256": "8e1d24d03944a561ecb4013af12fa66b96ba9f976a3b4cfb31019fa21aa3d1b6"
+  },
+  {
+    "file": "art/assets/cutouts/offline-downloads.webp",
+    "dimensions": "1132x1424",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 197880,
+    "sha256": "c63a8f97a6c96f1f912e5779c73426815811c55d29ffeccaef61d87c192dc40d"
+  },
+  {
+    "file": "art/assets/cutouts/og-default-shadow.webp",
+    "dimensions": "1412x1048",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 2916,
+    "sha256": "fae0bc1b4e0b094dd3b4a77a373fb9cf348a683bcf9657fa1a50f9f9233d5235"
+  },
+  {
+    "file": "art/assets/cutouts/og-default.png",
+    "dimensions": "1412x1048",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1690888,
+    "sha256": "8927395f3a00f56a62ab2e0ff82dc5111984c3fb725fc9e263edb15632a85371"
+  },
+  {
+    "file": "art/assets/cutouts/og-default.webp",
+    "dimensions": "1412x1048",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 239906,
+    "sha256": "03b05b1fe947cb465bb603a6e13c743c3882ba36ddcf85ed469fa7bc6b483c8b"
+  },
+  {
+    "file": "art/assets/cutouts/onboarding-1-secondary-student-shadow.webp",
+    "dimensions": "1146x1370",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3614,
+    "sha256": "2e5a603c15839dea98bba6a82724760840a720e5b039a9052864ab1f36bac631"
+  },
+  {
+    "file": "art/assets/cutouts/onboarding-1-secondary-student.png",
+    "dimensions": "1146x1370",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1761991,
+    "sha256": "0fe23e09d84833cdb44933cbf9dafc3d0249c23e4ba1d3cd757b0e36f733c2c9"
+  },
+  {
+    "file": "art/assets/cutouts/onboarding-1-secondary-student.webp",
+    "dimensions": "1146x1370",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 192606,
+    "sha256": "ab62c72be70a90875ae7ad2005ab8d95c2ecbc225d703880ddcdd47caeabe159"
+  },
+  {
+    "file": "art/assets/cutouts/onboarding-2-senior-student-shadow.webp",
+    "dimensions": "1358x1165",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3108,
+    "sha256": "7f4d22e43d86317c88b3ea7ab3840059137021c2968b95a03c4b2386253cf1e5"
+  },
+  {
+    "file": "art/assets/cutouts/onboarding-2-senior-student.png",
+    "dimensions": "1358x1165",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1486157,
+    "sha256": "e60ad95e428a2eb0efc1d3a3bcaa370b8dc616d1e7bfa5e684d62ddc14ab4cfb"
+  },
+  {
+    "file": "art/assets/cutouts/onboarding-2-senior-student.webp",
+    "dimensions": "1358x1165",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 249526,
+    "sha256": "a5d3be59ab51c9171e185a757b13119e7caa952acaf338d5863dca145eb01d63"
+  },
+  {
+    "file": "art/assets/cutouts/onboarding-3-professional-shadow.webp",
+    "dimensions": "1202x1341",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3578,
+    "sha256": "00a052062eb642183ef87e6c68c811fb2374e9fed8f78c3e4acc7b99884541c5"
+  },
+  {
+    "file": "art/assets/cutouts/onboarding-3-professional.png",
+    "dimensions": "1202x1341",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1771000,
+    "sha256": "71d45383674ad4a53db3db576ed4ea97cadd732abecc87e3bebe1888b84b2d56"
+  },
+  {
+    "file": "art/assets/cutouts/onboarding-3-professional.webp",
+    "dimensions": "1202x1341",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 197236,
+    "sha256": "485c5a97f5fbe3c09f5abcab204c5ad521497bdac3ed71bac1471ea4ab424ca5"
+  },
+  {
+    "file": "art/assets/cutouts/study-group-later-shadow.webp",
+    "dimensions": "1560x1035",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 2916,
+    "sha256": "3a5b69531f1f8b2a27f0805302a8e7e934c28ee36726a8a52cdd4c018295372c"
+  },
+  {
+    "file": "art/assets/cutouts/study-group-later.png",
+    "dimensions": "1560x1035",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 2756400,
+    "sha256": "9fd71ff0fc97c63d63d0764bf376f812ed99f47d705e62a4f11221ef8214da84"
+  },
+  {
+    "file": "art/assets/cutouts/study-group-later.webp",
+    "dimensions": "1560x1035",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 240684,
+    "sha256": "2cd03b5c97e288ea261c2d756a9c0ceae215d007374435765cbe16b2692c7d66"
+  },
+  {
+    "file": "art/assets/cutouts/study-planner-shadow.webp",
+    "dimensions": "1306x1223",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3170,
+    "sha256": "2e8fd1f873cac401273971aaa2eff4836e409b6ef8c341e5303c3eb8a975aa8e"
+  },
+  {
+    "file": "art/assets/cutouts/study-planner.png",
+    "dimensions": "1306x1223",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1750231,
+    "sha256": "2af68f6accc4f100885a1920efd6ee7984d32ae7584586421cf9683a2b61d043"
+  },
+  {
+    "file": "art/assets/cutouts/study-planner.webp",
+    "dimensions": "1306x1223",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 242616,
+    "sha256": "63b6e600d79dfd64871127b78b5765c0ed6a039ca58b72db79e855efda53b64c"
+  },
+  {
+    "file": "art/assets/cutouts/style-calm-shadow.webp",
+    "dimensions": "1145x1394",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3704,
+    "sha256": "ffec3e2c402ffd28fd7783384ce704ba67d4c7ce78aa497a4e1d3be2ff0adf59"
+  },
+  {
+    "file": "art/assets/cutouts/style-calm.png",
+    "dimensions": "1145x1394",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1741387,
+    "sha256": "84d9345322f8fa1b3ad1b2d9f33d7420c90ca5c787a4209f9c9a8807c47843a1"
+  },
+  {
+    "file": "art/assets/cutouts/style-calm.webp",
+    "dimensions": "1145x1394",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 189952,
+    "sha256": "935002a88229b2e90bafde5c6d2d82d74267ae772ab414bb19ddceffea03fcbe"
+  },
+  {
+    "file": "art/assets/cutouts/style-cook-mode-shadow.webp",
+    "dimensions": "1133x1425",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3782,
+    "sha256": "4b31575a8aa2ccddfdca13ef654a79c641e8a5e07768a7f0bf26a016847e5f02"
+  },
+  {
+    "file": "art/assets/cutouts/style-cook-mode.png",
+    "dimensions": "1133x1425",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 2047649,
+    "sha256": "26129896b3fe3237e3141dc46cb6a1edd736e77973cbd1f72ae68862ac07e736"
+  },
+  {
+    "file": "art/assets/cutouts/style-cook-mode.webp",
+    "dimensions": "1133x1425",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 198840,
+    "sha256": "0b6de444fa0fadcf6ea8148485b6788ca90d793cae9c6d7b4e27e971b65338a4"
+  },
+  {
+    "file": "art/assets/cutouts/style-locked-in-shadow.webp",
+    "dimensions": "1167x1400",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3522,
+    "sha256": "a840d6fa0552e7c0ddfaac64531fa1bd75b2d3449c54d20b92cfd304738c8902"
+  },
+  {
+    "file": "art/assets/cutouts/style-locked-in.png",
+    "dimensions": "1167x1400",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1956784,
+    "sha256": "38d73322924ee2b4f84d3e6eb615e55e85265c3205204cca269d017bc195b60f"
+  },
+  {
+    "file": "art/assets/cutouts/style-locked-in.webp",
+    "dimensions": "1167x1400",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 196854,
+    "sha256": "5a0f2ad44b7c3cd48d25f485e162333e5f2b73e547901e6248ec3a15422653c6"
+  },
+  {
+    "file": "art/assets/cutouts/tile-ask-shadow.webp",
+    "dimensions": "1127x1427",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3730,
+    "sha256": "f025a853f135bd47ad152f983a8dd94df25dcbd97aad8cbf61f212079743442c"
+  },
+  {
+    "file": "art/assets/cutouts/tile-ask.png",
+    "dimensions": "1127x1427",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1728351,
+    "sha256": "4a31c0bee3ca993d8f3c3592332820b8d0fc4d897220fde4c0d406a91ffe9efa"
+  },
+  {
+    "file": "art/assets/cutouts/tile-ask.webp",
+    "dimensions": "1127x1427",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 196270,
+    "sha256": "2e5974584c5d506102cc8ac80b4e60065f92ee239a77b1cf3d054d3e2359cfae"
+  },
+  {
+    "file": "art/assets/cutouts/tile-scroll-shadow.webp",
+    "dimensions": "1174x1372",
+    "generator": "Pillow contact-shadow generator",
+    "background_removal_method": "Transparent procedural alpha",
+    "bytes": 3628,
+    "sha256": "efaefa1194bdda91778cadf33fad09aa5f5e02d002403a0d71c7b6a55ede65e7"
+  },
+  {
+    "file": "art/assets/cutouts/tile-scroll.png",
+    "dimensions": "1174x1372",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 1797000,
+    "sha256": "4873eaec36cad4f6cb0d0f1544988d39c5666b900211ea4a234e54c2815f4faa"
+  },
+  {
+    "file": "art/assets/cutouts/tile-scroll.webp",
+    "dimensions": "1174x1372",
+    "generator": "Built-in imagegen + export_cutouts.py",
+    "background_removal_method": "Generated alpha preserved; tight native crop; see cutout native table",
+    "bytes": 199806,
+    "sha256": "ae019e7616f7db5769dd8cecfd74f80b6a809f40933c4a850164bdfee1f463ec"
+  },
+  {
+    "file": "art/assets/scenes/board.png",
+    "dimensions": "1600x1660",
+    "generator": "Built-in imagegen + export_scenes.py",
+    "background_removal_method": "Opaque composition; native size in scene table",
+    "bytes": 1223527,
+    "sha256": "0a7ec9c10133861a003cedcb05ac9ff9a25c8349050527f13bdf8d58d1747c3b"
+  },
+  {
+    "file": "art/assets/scenes/empty-notebook.png",
+    "dimensions": "1200x900",
+    "generator": "Built-in imagegen + export_scenes.py",
+    "background_removal_method": "Opaque composition; native size in scene table",
+    "bytes": 1331981,
+    "sha256": "a6b6c441402012b56ca3170120df13e693f608ffe2a241dc982f446bef451b1b"
+  },
+  {
+    "file": "art/assets/scenes/empty-notebook.webp",
+    "dimensions": "1200x900",
+    "generator": "Built-in imagegen + export_scenes.py",
+    "background_removal_method": "Opaque composition; native size in scene table",
+    "bytes": 155184,
+    "sha256": "97e2c997ddf49593793c38e8eb75460ae95fc1571659b2f3c9336707b42ba4cb"
+  },
+  {
+    "file": "art/assets/scenes/home-dashboard.png",
+    "dimensions": "1600x900",
+    "generator": "Built-in imagegen + export_scenes.py",
+    "background_removal_method": "Opaque composition; native size in scene table",
+    "bytes": 2017027,
+    "sha256": "28e4aaeed457f26b138128eb96222616ec608df7228b56bf89919174a1d724cd"
+  },
+  {
+    "file": "art/assets/scenes/home-dashboard.webp",
+    "dimensions": "1600x900",
+    "generator": "Built-in imagegen + export_scenes.py",
+    "background_removal_method": "Opaque composition; native size in scene table",
+    "bytes": 231826,
+    "sha256": "6aced7d21307f7a4523e3859714e5f0182d25affcf3045c26529bcd7f050921b"
+  },
+  {
+    "file": "art/assets/scenes/landing-hero.png",
+    "dimensions": "2560x1600",
+    "generator": "Built-in imagegen + export_scenes.py",
+    "background_removal_method": "Opaque composition; native size in scene table",
+    "bytes": 3586147,
+    "sha256": "7342bb260f3e228787c441c5ce170202dc38ab990b7b8deee1f797c6f60e5267"
+  },
+  {
+    "file": "art/assets/scenes/landing-hero.webp",
+    "dimensions": "2560x1600",
+    "generator": "Built-in imagegen + export_scenes.py",
+    "background_removal_method": "Opaque composition; native size in scene table",
+    "bytes": 201784,
+    "sha256": "8cafe8b64531a3ff0a84b6796be1e54344399a1c6c90c56c925f10eabad2c50d"
+  },
+  {
+    "file": "art/assets/scenes/manifest.json",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 8586,
+    "sha256": "f66f28b91e78f4f0c3bf3983ff08512723620b3c2824e3d59254e3dca3c7baad"
+  },
+  {
+    "file": "art/brand/takudzidza/board.png",
+    "dimensions": "2720x3980",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 809806,
+    "sha256": "47c90bd57ad868b42013d376c191ad2d122033b409b3713e31e4ee494491ca6e"
+  },
+  {
+    "file": "art/brand/takudzidza/build_brand.py",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 10327,
+    "sha256": "ad729e810efce7fc46f9405bfec75e05250edead4793dee32a9110b58aa30eee"
+  },
+  {
+    "file": "art/brand/takudzidza/kit/palette.css",
+    "dimensions": "-",
+    "generator": "Exact Education kit copy",
+    "background_removal_method": "Unmodified vector alpha / CSS; no removal",
+    "bytes": 269,
+    "sha256": "5c09f603113fa280596665e961680e846bd483e842bafcf95b6537ce1f540302"
+  },
+  {
+    "file": "art/brand/takudzidza/kit/taku-education-horizontal.svg",
+    "dimensions": "2000x400 / 0 0 2000 400",
+    "generator": "Exact Education kit copy",
+    "background_removal_method": "Unmodified vector alpha / CSS; no removal",
+    "bytes": 541,
+    "sha256": "978e00dccdb9df07996fc73bdf45e690076ba658551622c66a3ac0d8ff380e0a"
+  },
+  {
+    "file": "art/brand/takudzidza/kit/taku-education-mark-inverse.svg",
+    "dimensions": "1024x1024 / 0 0 100 100",
+    "generator": "Exact Education kit copy",
+    "background_removal_method": "Unmodified vector alpha / CSS; no removal",
+    "bytes": 361,
+    "sha256": "3f8c01ba34ab9c98045da5dce0777cb5bf09e0a3367f2b5321a448a47ca0750c"
+  },
+  {
+    "file": "art/brand/takudzidza/kit/taku-education-mark-on-cream.svg",
+    "dimensions": "1024x1024 / 0 0 100 100",
+    "generator": "Exact Education kit copy",
+    "background_removal_method": "Unmodified vector alpha / CSS; no removal",
+    "bytes": 361,
+    "sha256": "4adf328f4c59d6e2105371bf825b9766acaaee8040c0509c0879c41fee833325"
+  },
+  {
+    "file": "art/brand/takudzidza/kit/taku-education-mark-on-mid.svg",
+    "dimensions": "1024x1024 / 0 0 100 100",
+    "generator": "Exact Education kit copy",
+    "background_removal_method": "Unmodified vector alpha / CSS; no removal",
+    "bytes": 361,
+    "sha256": "75bd08c4bdbe6ef2237bacdbd9218a1027f93e3ad7a6d3f7dc93145c3a6587ce"
+  },
+  {
+    "file": "art/brand/takudzidza/kit/taku-education-mark.svg",
+    "dimensions": "1024x1024 / 0 0 100 100",
+    "generator": "Exact Education kit copy",
+    "background_removal_method": "Unmodified vector alpha / CSS; no removal",
+    "bytes": 361,
+    "sha256": "1a46d904d55ff8fe300c349c6cbd403211bcfc26408a5221814ebd8987568d8a"
+  },
+  {
+    "file": "art/brand/takudzidza/kit/taku-education-stacked.svg",
+    "dimensions": "1000x1200 / 0 0 1000 1200",
+    "generator": "Exact Education kit copy",
+    "background_removal_method": "Unmodified vector alpha / CSS; no removal",
+    "bytes": 562,
+    "sha256": "1dcc15f238d858a454ced9eacc26077523741fa5c5b45577496a2277c112030b"
+  },
+  {
+    "file": "art/brand/takudzidza/manifest.json",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 4312,
+    "sha256": "4c152b2eb5722aa5ee9723c1fe14922e8ff7a278fc59fc7e3b4a5f307ef6b3f8"
+  },
+  {
+    "file": "art/brand/takudzidza/proposed/takudzidza-horizontal-by-taku.svg",
+    "dimensions": "1400x480 / 0 0 1400 480",
+    "generator": "build_brand.py + outlined Inter",
+    "background_removal_method": "Native vector alpha; no removal",
+    "bytes": 10392,
+    "sha256": "133df8121a385b7bd45d4f4347128f908305fc802046b8556bece877057b0a43"
+  },
+  {
+    "file": "art/brand/takudzidza/proposed/takudzidza-horizontal.svg",
+    "dimensions": "1400x480 / 0 0 1400 480",
+    "generator": "build_brand.py + outlined Inter",
+    "background_removal_method": "Native vector alpha; no removal",
+    "bytes": 7903,
+    "sha256": "8ef6b2284684f2bc11c5bdc45755486428d721004c9fa3eac0b8b6add1a44fd2"
+  },
+  {
+    "file": "art/brand/takudzidza/proposed/takudzidza-stacked-by-taku.svg",
+    "dimensions": "1200x1100 / 0 0 1200 1100",
+    "generator": "build_brand.py + outlined Inter",
+    "background_removal_method": "Native vector alpha; no removal",
+    "bytes": 10393,
+    "sha256": "f6c116b59a348c68a6872d1460eb2b58ff1913697fbe1fc46bf0c6868b8b2a7e"
+  },
+  {
+    "file": "art/brand/takudzidza/proposed/takudzidza-stacked.svg",
+    "dimensions": "1200x1000 / 0 0 1200 1000",
+    "generator": "build_brand.py + outlined Inter",
+    "background_removal_method": "Native vector alpha; no removal",
+    "bytes": 7904,
+    "sha256": "529066258b50f8d18bce9bee1ee2bda0b04cf963a2b6a7682f97b01a6bd3bcf6"
+  },
+  {
+    "file": "art/brand/takudzidza/source/Inter-Variable.ttf",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 876576,
+    "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+  },
+  {
+    "file": "art/brand/takudzidza/source/OFL.txt",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 4377,
+    "sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57"
+  },
+  {
+    "file": "art/decor/OFL.txt",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 4377,
+    "sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57"
+  },
+  {
+    "file": "art/decor/arrow-curved.svg",
+    "dimensions": "380x220 / 0 0 380 220",
+    "generator": "build_decor.py",
+    "background_removal_method": "Native single-stroke currentColor vector",
+    "bytes": 258,
+    "sha256": "278d5902810c87d59febd8918f1adb1a7689470fb44d7b8c4c265cf8be7dcd19"
+  },
+  {
+    "file": "art/decor/board.png",
+    "dimensions": "2400x2200",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 1953614,
+    "sha256": "820a42423ea67941970059985b3a41fefc93b682a7d6a3ae0edaaf580ce471fd"
+  },
+  {
+    "file": "art/decor/book-stack.png",
+    "dimensions": "1536x1024",
+    "generator": "Built-in imagegen + build_decor.py",
+    "background_removal_method": "Generated alpha preserved; source native sizes in decor table",
+    "bytes": 2421152,
+    "sha256": "b667d7622c9047e9d9aad73c77614b768024de7b4d954a5122f52060b097831e"
+  },
+  {
+    "file": "art/decor/book-stack.webp",
+    "dimensions": "720x480",
+    "generator": "Built-in imagegen + build_decor.py",
+    "background_removal_method": "Generated alpha preserved; source native sizes in decor table",
+    "bytes": 81706,
+    "sha256": "fb0791da18efbe4a66c00c804e862e924a191de98bf97b09c95f755a4f08aa3e"
+  },
+  {
+    "file": "art/decor/build_decor.py",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 8630,
+    "sha256": "01d421da5348853d361583505a1e749872b57c57fb038fd271fc0282a33aae07"
+  },
+  {
+    "file": "art/decor/circle-loop.svg",
+    "dimensions": "360x220 / 0 0 360 220",
+    "generator": "build_decor.py",
+    "background_removal_method": "Native single-stroke currentColor vector",
+    "bytes": 301,
+    "sha256": "ba8abfd38c0e28c965854785838a0085caa6de3d3eb7ebf115c2b57eef54b384"
+  },
+  {
+    "file": "art/decor/edges-200pct-dark.png",
+    "dimensions": "1300x2400",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 433743,
+    "sha256": "337678c715464692dbcba4e355c0ff0800859dd51f2c0b74749c233480a701bd"
+  },
+  {
+    "file": "art/decor/edges-200pct-light.png",
+    "dimensions": "1300x2400",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 425573,
+    "sha256": "2a5bd828cf251d899f053f6100097c11019aca92cc545fc3c865597501193156"
+  },
+  {
+    "file": "art/decor/file-inventory.json",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 5841,
+    "sha256": "80be69ecafb3431d51f7c1b715c6e2d4491d92f9adcfca938e59664096996290"
+  },
+  {
+    "file": "art/decor/generation-prompts.json",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 10004,
+    "sha256": "1554157b8fc88372645d659616ea2f083e109d71c61382291bbd2ace891169d5"
+  },
+  {
+    "file": "art/decor/generation-review.png",
+    "dimensions": "1600x1460",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 592022,
+    "sha256": "22707dacd43e19a990f1648077ca0a3bf71b51667dee761960d29ca229296063"
+  },
+  {
+    "file": "art/decor/highlighter-stroke.png",
+    "dimensions": "2172x724",
+    "generator": "Built-in imagegen + build_decor.py",
+    "background_removal_method": "Generated alpha preserved; source native sizes in decor table",
+    "bytes": 1284259,
+    "sha256": "612491766870deac08f18973deb1c0dfc6b8e5857aabf539854b0be270cedccd"
+  },
+  {
+    "file": "art/decor/highlighter-stroke.webp",
+    "dimensions": "720x240",
+    "generator": "Built-in imagegen + build_decor.py",
+    "background_removal_method": "Generated alpha preserved; source native sizes in decor table",
+    "bytes": 27992,
+    "sha256": "0fa6c4d4624b654818fad173e259b95e2ef11d3b55dabf063fe5fb73a88ad0cf"
+  },
+  {
+    "file": "art/decor/manifest.json",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 15192,
+    "sha256": "119e01306a7afe393fa75e340bea1a7e78ed68fc5ddf6db915792d0630f5fcc3"
+  },
+  {
+    "file": "art/decor/margin-formula.svg",
+    "dimensions": "540x220 / 0 0 540 220",
+    "generator": "build_decor.py",
+    "background_removal_method": "Native single-stroke currentColor vector",
+    "bytes": 382,
+    "sha256": "3151ce8ba12bb26e4f12266fb33f699eacb0941211681a7f826e0c5f1ebd15ed"
+  },
+  {
+    "file": "art/decor/page-corner-curl.png",
+    "dimensions": "1536x1024",
+    "generator": "Built-in imagegen + build_decor.py",
+    "background_removal_method": "Generated alpha preserved; source native sizes in decor table",
+    "bytes": 1422914,
+    "sha256": "94aade0134c4def6e5b02cfd94bb5e7c4f7b62680e3d6c710f8d2f7eb7d29e7f"
+  },
+  {
+    "file": "art/decor/page-corner-curl.webp",
+    "dimensions": "720x480",
+    "generator": "Built-in imagegen + build_decor.py",
+    "background_removal_method": "Generated alpha preserved; source native sizes in decor table",
+    "bytes": 39186,
+    "sha256": "158b3d869b9794ce83ae5d589371ab52274e96c5e071cced50429b05231967ee"
+  },
+  {
+    "file": "art/decor/pencil-honey.png",
+    "dimensions": "1536x1024",
+    "generator": "Built-in imagegen + build_decor.py",
+    "background_removal_method": "Generated alpha preserved; source native sizes in decor table",
+    "bytes": 1172968,
+    "sha256": "db166522db237834e6bad791bc26227e2d54b3c56da55698a09c3f4be0539c89"
+  },
+  {
+    "file": "art/decor/pencil-honey.webp",
+    "dimensions": "720x480",
+    "generator": "Built-in imagegen + build_decor.py",
+    "background_removal_method": "Generated alpha preserved; source native sizes in decor table",
+    "bytes": 28060,
+    "sha256": "57ff0413ec57843a8d4fcf8ed547d6c8dd2d93670419509cb7dce6574c178832"
+  },
+  {
+    "file": "art/decor/source-inter.ttf",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 122592,
+    "sha256": "8cef08a43f01bc476c061f101041d1dea13e0dbe99883fa66ab708102247d604"
+  },
+  {
+    "file": "art/decor/sparks.svg",
+    "dimensions": "300x180 / 0 0 300 180",
+    "generator": "build_decor.py",
+    "background_removal_method": "Native single-stroke currentColor vector",
+    "bytes": 396,
+    "sha256": "e15f2a430a80545e9d71df890182928c1788ccda5ac6d7f67e8e923e6398694c"
+  },
+  {
+    "file": "art/decor/stars.svg",
+    "dimensions": "360x180 / 0 0 360 180",
+    "generator": "build_decor.py",
+    "background_removal_method": "Native single-stroke currentColor vector",
+    "bytes": 370,
+    "sha256": "b3c6be65b01cdc4e80e9e8acc60cf4be0929dbbb21a128424e0889bd26823fdc"
+  },
+  {
+    "file": "art/decor/sticky-note-butter.png",
+    "dimensions": "1263x1246",
+    "generator": "Built-in imagegen + build_decor.py",
+    "background_removal_method": "Generated alpha preserved; source native sizes in decor table",
+    "bytes": 1870502,
+    "sha256": "4b8f5770d39f2ac471ba498049e01d86da4895f6fb8c4f17401399029dc6f737"
+  },
+  {
+    "file": "art/decor/sticky-note-butter.webp",
+    "dimensions": "720x710",
+    "generator": "Built-in imagegen + build_decor.py",
+    "background_removal_method": "Generated alpha preserved; source native sizes in decor table",
+    "bytes": 67060,
+    "sha256": "0c8b66c49e4f88f98fa66b288acfc0b790c72653424e22eb32af77588d4950cc"
+  },
+  {
+    "file": "art/decor/torn-paper-amber.png",
+    "dimensions": "1928x815",
+    "generator": "Built-in imagegen + build_decor.py",
+    "background_removal_method": "Generated alpha preserved; source native sizes in decor table",
+    "bytes": 1730837,
+    "sha256": "7cb1a3a239c881d6b013a339fe19c010a1a12a614d213bd2133d8580ad97ebf3"
+  },
+  {
+    "file": "art/decor/torn-paper-amber.webp",
+    "dimensions": "720x304",
+    "generator": "Built-in imagegen + build_decor.py",
+    "background_removal_method": "Generated alpha preserved; source native sizes in decor table",
+    "bytes": 50782,
+    "sha256": "85631035b2d52d8e4501275a98ab1ae25ebf18a736f21dcbf3db5896536b0203"
+  },
+  {
+    "file": "art/decor/torn-paper-cream.png",
+    "dimensions": "1774x887",
+    "generator": "Built-in imagegen + build_decor.py",
+    "background_removal_method": "Generated alpha preserved; source native sizes in decor table",
+    "bytes": 1807693,
+    "sha256": "2581ad240b4930670208220aab7ba6a76bf6d6fb9cd5635733c6785b48e67e3e"
+  },
+  {
+    "file": "art/decor/torn-paper-cream.webp",
+    "dimensions": "720x360",
+    "generator": "Built-in imagegen + build_decor.py",
+    "background_removal_method": "Generated alpha preserved; source native sizes in decor table",
+    "bytes": 51342,
+    "sha256": "0133f688a7464d0f5381ba4594def19ca9a7f9ae04d2f476d16bae02f19dea75"
+  },
+  {
+    "file": "art/decor/underline-double.svg",
+    "dimensions": "480x120 / 0 0 480 120",
+    "generator": "build_decor.py",
+    "background_removal_method": "Native single-stroke currentColor vector",
+    "bytes": 248,
+    "sha256": "48531bb189737658c720428dcd8965b6c32e00ca05a8777e59253aa2608ca79d"
+  },
+  {
+    "file": "art/decor/underline-swoop.svg",
+    "dimensions": "480x100 / 0 0 480 100",
+    "generator": "build_decor.py",
+    "background_removal_method": "Native single-stroke currentColor vector",
+    "bytes": 233,
+    "sha256": "f19186fa8ae7baf1f6a234cb539040608770cbbbfe4b94fdc37ab3cab492a13d"
+  },
+  {
+    "file": "art/review/brand-report.md",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 7044,
+    "sha256": "4aa8d8cb03f0b3c1ccb8561b3190294321c49b66185def041e38f2064e9fa71c"
+  },
+  {
+    "file": "art/review/build_overviews.py",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 1367,
+    "sha256": "d7952f6a5ba23c3fa7d9cccc5eb328b4af4845bd7a4f6cec6f1bfc2484baecf4"
+  },
+  {
+    "file": "art/review/cutout-sources-final.json",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 20190,
+    "sha256": "6d770a0c003a1bd40024ea6e59a301c76589fb7c595a0520a3a7f4444b524383"
+  },
+  {
+    "file": "art/review/cutout-sources.json",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 31586,
+    "sha256": "1a8a5323a710948a875c20d4b5c46c94c9bdcde6ed38be088677bc5ae59104d4"
+  },
+  {
+    "file": "art/review/cutouts-overview.png",
+    "dimensions": "2400x1600",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 1668947,
+    "sha256": "1ea9cb7544f951148b84e0bc40a6cfdd3989e30113408b1be0dda7a2c28e20d7"
+  },
+  {
+    "file": "art/review/document_visuals.py",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 11523,
+    "sha256": "2cd6d4b57d6e329c0ca5a577313f0059d2c0fccfb6cb6728d931ba5ef691ea8e"
+  },
+  {
+    "file": "art/review/edges/audio-overview-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 301482,
+    "sha256": "3bbe65c2d5e0048a2239beb8cec0b57718e9f41a266b71369636578862a90e51"
+  },
+  {
+    "file": "art/review/edges/audio-overview-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 389842,
+    "sha256": "f331679dcc8a76f6b8df32904e21714d8448c405b2739d29af742942607bb84f"
+  },
+  {
+    "file": "art/review/edges/class-share-teacher-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 306059,
+    "sha256": "4653b220475d883af70881f837ec678dd0c5898137b179b1633c6a10ed462b00"
+  },
+  {
+    "file": "art/review/edges/class-share-teacher-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 321478,
+    "sha256": "20f149e8eac3ea304d9225ff5765e53bb920d84785954424417dc46f1cee68aa"
+  },
+  {
+    "file": "art/review/edges/dashboard-hero-university-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 390154,
+    "sha256": "2954dc9ad9c344deb04eae5f0ab036fd5254e72819ac2db08e4828dd4a70c60d"
+  },
+  {
+    "file": "art/review/edges/dashboard-hero-university-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 260908,
+    "sha256": "f4cf6553d0ad44e9d8a5f32b912a1058cdb3c469bb0af2ffd55f01f46a8f7982"
+  },
+  {
+    "file": "art/review/edges/empty-flashcards-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 308993,
+    "sha256": "fee0e7f555708faf9c6f3eb715cab12474de9ba9cc4dfd142b0a0b843c10fa7a"
+  },
+  {
+    "file": "art/review/edges/empty-flashcards-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 369590,
+    "sha256": "e97009ea7ad2deed3051988935f9d3fcd6231573bd1272f872eb4ec7ec7d4bc5"
+  },
+  {
+    "file": "art/review/edges/empty-notebook-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 335668,
+    "sha256": "d3bdbf081cbd7b2d798ce94667804f215df43c1a373376db7ff4d1afd61baa29"
+  },
+  {
+    "file": "art/review/edges/empty-notebook-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 311118,
+    "sha256": "7c73a8f72ab344c47f9d3102e13039a7fd441b476d42ff0dc898dcb888588532"
+  },
+  {
+    "file": "art/review/edges/empty-quiz-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 266182,
+    "sha256": "5541a7e0b3a86ff442d4ea32479ba64d5ef5d97d6fb686903e2da47d13f3e96c"
+  },
+  {
+    "file": "art/review/edges/empty-quiz-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 277169,
+    "sha256": "8c0a31c735c7a1bb90d111c8503cb2ec6fbca5bd54536ef10fc4b49b3a6f6b25"
+  },
+  {
+    "file": "art/review/edges/exam-coach-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 315636,
+    "sha256": "883e23049e9333cac7be5a375805adcf4b4f527734746cddebf9d831d124a1a1"
+  },
+  {
+    "file": "art/review/edges/exam-coach-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 231214,
+    "sha256": "bd57f2c7270b325b4bba7d116293253a8bb905f4dc13adf19b6b15424f3fde4e"
+  },
+  {
+    "file": "art/review/edges/guardian-consent-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 311079,
+    "sha256": "1f31e963b1a7af1cacba8e9a63d1a2191b7c43c1dbb5980611cde4e753e0b030"
+  },
+  {
+    "file": "art/review/edges/guardian-consent-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 284367,
+    "sha256": "9f37f2903ce376d2bd4e3e01a10526f3819e144f6b8d96394db927787b97c814"
+  },
+  {
+    "file": "art/review/edges/landing-form1-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 275379,
+    "sha256": "9e004b8fd208fe25f953f0ec420de94b284128a605c7966f73b5fcac05efd45a"
+  },
+  {
+    "file": "art/review/edges/landing-form1-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 284648,
+    "sha256": "75c877fba8bd8a6d75aaf4f671835f1a3ae27ecd7f60f28178161a274f53eec7"
+  },
+  {
+    "file": "art/review/edges/landing-hero-wide-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 310471,
+    "sha256": "79f1d74daf80d8e4f9a44476f1cf3a0f4491629eb7535a68063ed02a8dcff90d"
+  },
+  {
+    "file": "art/review/edges/landing-hero-wide-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 190604,
+    "sha256": "9437eeb1d9ab26147837b19bb164f9afe9cf530c341a6c7d45ac9859a5d3fef2"
+  },
+  {
+    "file": "art/review/edges/maths-hints-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 316501,
+    "sha256": "2113bc8d91cbe1532aa413dc460776b7b09126c6b1070ddaa4e598ccd126c9b5"
+  },
+  {
+    "file": "art/review/edges/maths-hints-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 173491,
+    "sha256": "0d63c998438a0dda2f4474917383d1d3d8715e2e5d4749a3f11e75e97853bf0c"
+  },
+  {
+    "file": "art/review/edges/offline-downloads-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 307943,
+    "sha256": "a6a0c1cec3becb84652d8b57309ff4e904280a540a1f4899549aca93d8ea04f0"
+  },
+  {
+    "file": "art/review/edges/offline-downloads-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 296241,
+    "sha256": "a223cc214ece0fe9d0a115ef765f74372a2bf7612cd31da08f1ab207bad419c1"
+  },
+  {
+    "file": "art/review/edges/og-default-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 309856,
+    "sha256": "780e83c451311790ea11db8ee14eea91fee7e1ff1a41d2c433a9020c742a123c"
+  },
+  {
+    "file": "art/review/edges/og-default-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 189672,
+    "sha256": "86a3d1e80dd82c56d8cc417b851bc41d2dc290645615e976b6a44cd1ad4ff739"
+  },
+  {
+    "file": "art/review/edges/onboarding-1-secondary-student-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 337477,
+    "sha256": "20acea1730a2f0a2f315e7f5755e01d98e80bd39a1154b169759a1c44c3c7184"
+  },
+  {
+    "file": "art/review/edges/onboarding-1-secondary-student-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 361691,
+    "sha256": "8284043f6f64d8bbf6b7256eb37ab35a024e4ffa28c3fcae746377305fe815eb"
+  },
+  {
+    "file": "art/review/edges/onboarding-2-senior-student-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 296944,
+    "sha256": "535b31ea66cf80ffb4ed2dfb6a90397b4404bc9c7bec931e1a3ca855e79b2aaa"
+  },
+  {
+    "file": "art/review/edges/onboarding-2-senior-student-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 223676,
+    "sha256": "c50a3d84069cfee3a62c62d9584cc6ebbe84ea85457e71458e12d81331096ae9"
+  },
+  {
+    "file": "art/review/edges/onboarding-3-professional-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 385804,
+    "sha256": "33ee832621b68ea9fd54c37b2b62fcc7a4f7069bbf3485615e1b2608842bf285"
+  },
+  {
+    "file": "art/review/edges/onboarding-3-professional-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 330196,
+    "sha256": "2a00ae1551f1043c468abab50706b1ce74d4e445ed07cf572e2fa4db33f2c88a"
+  },
+  {
+    "file": "art/review/edges/study-group-later-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 408720,
+    "sha256": "624fc5f37edf369670967b0f14a724efe38851edc620b7d6fcced7f61528bab4"
+  },
+  {
+    "file": "art/review/edges/study-group-later-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 285459,
+    "sha256": "9d5771a87527b8ce9377cda4d38e6716030991db82b06a96430ed489a1b4558f"
+  },
+  {
+    "file": "art/review/edges/study-planner-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 402614,
+    "sha256": "5e5fb3220f4618e28fddd35912433e8d386ff988d37a0214d7c3bcab2320e377"
+  },
+  {
+    "file": "art/review/edges/study-planner-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 282976,
+    "sha256": "9be9ea990a5a3148a8c8e8d44d845ecfb9d4bc29eee582baf9520f28a057beaf"
+  },
+  {
+    "file": "art/review/edges/style-calm-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 321884,
+    "sha256": "189b7f584d79b64d4b3ee11564f6ac551b9acc882c06c1917a17866e628d274b"
+  },
+  {
+    "file": "art/review/edges/style-calm-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 323874,
+    "sha256": "6dc200cb60424ee19aed124bd41e3d241c02cae01176b68924032a75f4f6e014"
+  },
+  {
+    "file": "art/review/edges/style-cook-mode-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 358089,
+    "sha256": "35dad4074ae8c1cb70ac925c404803add4861137d05884c7c0fd1e44eb0a730d"
+  },
+  {
+    "file": "art/review/edges/style-cook-mode-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 370297,
+    "sha256": "921abfdc5efa1b81368d93a955533b4162f6d42e82787afb9e0aa7cacdc7cad6"
+  },
+  {
+    "file": "art/review/edges/style-locked-in-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 340172,
+    "sha256": "24772f5f4c24e5cf5b23fba958b1f38860f8282819026228cfc13199b4e640a1"
+  },
+  {
+    "file": "art/review/edges/style-locked-in-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 358423,
+    "sha256": "85e4d0d68832004002d8842cc4aab315c4f68158e6ad2ffe461aa37fa6d25919"
+  },
+  {
+    "file": "art/review/edges/tile-ask-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 378594,
+    "sha256": "abb74ee01c58e625a4286e6ab888f0a42942ebb6b36e700373749c2f60d60641"
+  },
+  {
+    "file": "art/review/edges/tile-ask-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 341832,
+    "sha256": "f101e14548070c219bd0356318c2b092b38c52de1900aa77d3753571ff68307c"
+  },
+  {
+    "file": "art/review/edges/tile-scroll-200pct.png",
+    "dimensions": "880x1592",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 366579,
+    "sha256": "9cee9a794efdb2f7cb5eeb612f0f31d1e9b9f32a07bf9c801822df33f66020b7"
+  },
+  {
+    "file": "art/review/edges/tile-scroll-contact.png",
+    "dimensions": "960x640",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 331267,
+    "sha256": "c97f179e656688f302822c11e68f082404622e76fdfd9021080df187c03644c0"
+  },
+  {
+    "file": "art/review/export_cutouts.py",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 13123,
+    "sha256": "4714cbffaf9d02829a1bda704af4b84de78d2eb0d7790d9b135a8dbcae29cbe4"
+  },
+  {
+    "file": "art/review/export_scenes.py",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 2416,
+    "sha256": "9cbf69348478dc0136449c7e4cd55d9be2b75ab69693ca2e4f8b9652669e7971"
+  },
+  {
+    "file": "art/review/file-inventory.json",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal"
+  },
+  {
+    "file": "art/review/final-review.md",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 6373,
+    "sha256": "128ac620212d6244a465b2cfb4557f13b57ef4ed154de171fe0c606cca8a975f"
+  },
+  {
+    "file": "art/review/people-qa.md",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 13030,
+    "sha256": "6a8818af13b5d22cdd34fd6de2d29c9928ce98bf8b41a24f05eab72f023c4c5c"
+  },
+  {
+    "file": "art/review/people-qa/audio-overview-200pct.png",
+    "dimensions": "1080x1140",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 334585,
+    "sha256": "597976241ce71bb872c43eca7020a589044cff820438819acab96e409231f21f"
+  },
+  {
+    "file": "art/review/people-qa/class-share-teacher-200pct.png",
+    "dimensions": "1080x1710",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 640428,
+    "sha256": "d87406e153ed8b7ba508c1e81beb03b11a861aa2d43b27055a5d86ea14ae7ad3"
+  },
+  {
+    "file": "art/review/people-qa/dashboard-hero-university-final-200pct.png",
+    "dimensions": "1080x2280",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 864188,
+    "sha256": "df1f1de962fb23e982cfe23e4a7a3cac20e837d828872414bbdb11ef946d14f2"
+  },
+  {
+    "file": "art/review/people-qa/empty-flashcards-200pct.png",
+    "dimensions": "1080x1140",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 370735,
+    "sha256": "c95cf1edacfef815213b3d9e51a1daa4d2e1c23afe8a9f65374d8e3b37262a15"
+  },
+  {
+    "file": "art/review/people-qa/empty-notebook-200pct.png",
+    "dimensions": "1080x1140",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 386278,
+    "sha256": "8e9ba4a579b14b014a50590097871ff5ec94dc362d2d75f0bd4af756d4d46e66"
+  },
+  {
+    "file": "art/review/people-qa/empty-quiz-200pct.png",
+    "dimensions": "1080x1140",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 251655,
+    "sha256": "718186d3bd4de9850f0201b51d3c6e737c70f7eb6ed5b552008ef986359a4f7d"
+  },
+  {
+    "file": "art/review/people-qa/exam-coach-200pct.png",
+    "dimensions": "1080x1140",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 391294,
+    "sha256": "6b88e8e033648eea10baea97c207aa6f4220917e570b368cec8c0f490cbd70e6"
+  },
+  {
+    "file": "art/review/people-qa/full-1.png",
+    "dimensions": "1500x2400",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 2869716,
+    "sha256": "48dba07da46fba1da39db65ad06650d4b4182a96356d8f9d2cb3870a57febdd2"
+  },
+  {
+    "file": "art/review/people-qa/full-2.png",
+    "dimensions": "1500x2400",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 2557373,
+    "sha256": "14ac7ff35c01f75326570faccf1742961c2a476933239cac37e6e4caeb9b194a"
+  },
+  {
+    "file": "art/review/people-qa/full-3.png",
+    "dimensions": "1500x2400",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 2581557,
+    "sha256": "c548c897bf1b44aaaac870cc9cb8ebb212c45ecfed94e2567cdbc66754e6b1be"
+  },
+  {
+    "file": "art/review/people-qa/full-4.png",
+    "dimensions": "1500x2400",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 2948336,
+    "sha256": "3b1408b428bff6294ed35db50bfb9004e7ada1587de35b38d1d2f4936858f0db"
+  },
+  {
+    "file": "art/review/people-qa/full-5.png",
+    "dimensions": "1500x2400",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 2898000,
+    "sha256": "54a6ca1b1b4155e819a4b04ac9f5d6f0c459845cdcc8459a32f3eefa9fdc36e0"
+  },
+  {
+    "file": "art/review/people-qa/full-6-final-heroes.png",
+    "dimensions": "1500x1300",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 1134236,
+    "sha256": "9db318596e2a249444229cb8277fd0d60708399d7a7fa212e9caec6587d44ea5"
+  },
+  {
+    "file": "art/review/people-qa/guardian-consent-200pct.png",
+    "dimensions": "1080x1710",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 611219,
+    "sha256": "d9c4623ea3c967348f8d377ac9b51dd716e2f2783c19958ab236d265d031b886"
+  },
+  {
+    "file": "art/review/people-qa/hero-final-coordinates.json",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 1420,
+    "sha256": "ab156875b9451bd9867ccfaafe27f2812140bbaeff3919a284983d4bf81be82a"
+  },
+  {
+    "file": "art/review/people-qa/landing-form1-200pct.png",
+    "dimensions": "1080x1140",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 334279,
+    "sha256": "79e02744cf7c614ad7b49e0d3c048d8bf88e4fe3f1286ccc815e2cca9b5e52f0"
+  },
+  {
+    "file": "art/review/people-qa/landing-hero-wide-final-200pct.png",
+    "dimensions": "1080x1710",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 633211,
+    "sha256": "ee52b5903bfb24696ac7a5bd24f2b9881648edf9d5245cfe2718758f73645fa1"
+  },
+  {
+    "file": "art/review/people-qa/maths-hints-200pct.png",
+    "dimensions": "1080x1140",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 423192,
+    "sha256": "a12aac788328e344e5b4abc32d4b2c791f9b58fde70fdc24280272790d6b0ad6"
+  },
+  {
+    "file": "art/review/people-qa/offline-downloads-200pct.png",
+    "dimensions": "1080x1140",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 401248,
+    "sha256": "3a35bb1eb22878a502d275ec5ad9bf475d6fe6fc31868eef9b316fd24eb38428"
+  },
+  {
+    "file": "art/review/people-qa/onboarding-1-secondary-student-200pct.png",
+    "dimensions": "1080x1140",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 360996,
+    "sha256": "9bb8085f27e7f5e3558039471a192fd1054a1e45c2f8c65f902983e6e97a51a6"
+  },
+  {
+    "file": "art/review/people-qa/onboarding-2-senior-student-200pct.png",
+    "dimensions": "1080x1710",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 461938,
+    "sha256": "191ad102b6be6bcefb18909b5de52c702396b0a8ee169aaf31b0692ef3800e0e"
+  },
+  {
+    "file": "art/review/people-qa/onboarding-3-professional-200pct.png",
+    "dimensions": "1080x1140",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 400894,
+    "sha256": "e8103b3e111073e991f0e71efcac50b62671b24ead54a74a88d1ea8354e98fbd"
+  },
+  {
+    "file": "art/review/people-qa/sample-coordinates.json",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 9551,
+    "sha256": "0f31de5eb8851989263fd43fe3c45cfa26c3de48100062ca1eadc28aabcee413"
+  },
+  {
+    "file": "art/review/people-qa/study-group-later-200pct.png",
+    "dimensions": "1080x2280",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 636489,
+    "sha256": "fcc22e1c26922f54b0304ed30aedd994f946930fddd3ac2233f03105e70375f5"
+  },
+  {
+    "file": "art/review/people-qa/study-planner-200pct.png",
+    "dimensions": "1080x1140",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 368513,
+    "sha256": "dba4fe7d45dfe0f0a2351770f8bb9816c0415213728a421758b620605087bc0d"
+  },
+  {
+    "file": "art/review/people-qa/style-calm-200pct.png",
+    "dimensions": "1080x1710",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 557917,
+    "sha256": "4bfda0dda8bb919a211cc1c5373c989911075d3a5d31eb3b58ec4fed12f29262"
+  },
+  {
+    "file": "art/review/people-qa/style-cook-mode-200pct.png",
+    "dimensions": "1080x1710",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 534748,
+    "sha256": "de30906eceedb91b23c43da04778d6cb269241820ab61a82029c92c444d42881"
+  },
+  {
+    "file": "art/review/people-qa/style-locked-in-200pct.png",
+    "dimensions": "1080x1710",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 535126,
+    "sha256": "faa02047018d138fe1a9081f15440bdb28684cbe012fbf5d1c64bf0e21dd798f"
+  },
+  {
+    "file": "art/review/people-qa/tile-ask-200pct.png",
+    "dimensions": "1080x1140",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 408232,
+    "sha256": "d7a0fb2d6291bd9624a909917549a830b3c36a5880cb19724a925f4a043f3e1a"
+  },
+  {
+    "file": "art/review/people-qa/tile-scroll-200pct.png",
+    "dimensions": "1080x1710",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 546356,
+    "sha256": "e741cb063d6b5687c032a2c00c5ba3b284bab3052f40641f9129c27f4fc313d3"
+  },
+  {
+    "file": "art/review/scene-sources.json",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 6759,
+    "sha256": "9354b78a422855e70ed3032268359ed4dc8bc3eeb867d4f7ed90aec0f869d1b5"
+  },
+  {
+    "file": "art/review/source-people.png",
+    "dimensions": "2400x1600",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 1768688,
+    "sha256": "f983b3fa8e7595385dab59123cd9150cc7123e7994569af4c4283880d3ccbf89"
+  },
+  {
+    "file": "art/review/texture-decor-report.md",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 10342,
+    "sha256": "8d1f8651cd96431f98ad428ace4e3d6313189434b67049d45bc191cb9ced1835"
+  },
+  {
+    "file": "art/review/verification.json",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 570,
+    "sha256": "8374c418dc6a34ab7625b537d917607aa04f38e6cd0bed123c9bde2b14304767"
+  },
+  {
+    "file": "art/review/verify_visuals.py",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 4346,
+    "sha256": "b4888aa34f3e3dc1dff6bd6ebfb7fccfb58e125f38d8d49f11d8db6aa6b7e802"
+  },
+  {
+    "file": "art/textures/board.png",
+    "dimensions": "2560x3284",
+    "generator": "Pillow/PyMuPDF review composition; Inter labels",
+    "background_removal_method": "Review evidence; no background removal",
+    "bytes": 2552556,
+    "sha256": "33b7ba6790f089414f200c7aa4457381d3b1d314978228041b06914c12cca0c6"
+  },
+  {
+    "file": "art/textures/honey-waves-dark-phone.webp",
+    "dimensions": "1080x2340",
+    "generator": "make_warm_dark.py",
+    "background_removal_method": "Native deterministic opaque raster; no removal",
+    "bytes": 76754,
+    "sha256": "67c7d1aa058b246cb298fc1e6f046304cadd4559ed24b888f79a0f84059a8fa6"
+  },
+  {
+    "file": "art/textures/honey-waves-dark.webp",
+    "dimensions": "2560x1600",
+    "generator": "make_warm_dark.py",
+    "background_removal_method": "Native deterministic opaque raster; no removal",
+    "bytes": 120844,
+    "sha256": "9938191f6972dd0b244ffdba1ea1f0118da3bcc334cd1e707052ad0a13a3ee0e"
+  },
+  {
+    "file": "art/textures/make_warm_dark.py",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 5400,
+    "sha256": "a8c1fb894d0635eb543da40d799cc89a0f391110f4c479f06c26d6ef42ee026a"
+  },
+  {
+    "file": "art/textures/warm-dark-manifest.json",
+    "dimensions": "-",
+    "generator": "Production helper, provenance, license or documentation",
+    "background_removal_method": "Not applicable; no background removal",
+    "bytes": 688,
+    "sha256": "6195857d32957c337f66264c01c5dd4c829c22620afd1fd56bf0de4a3985fc0d"
+  }
+]

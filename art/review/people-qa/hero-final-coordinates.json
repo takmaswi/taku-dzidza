@@ -1,0 +1,100 @@
+[
+  {
+    "name": "dashboard-hero-university",
+    "label": "woman curls",
+    "box": [
+      200,
+      40,
+      456,
+      296
+    ],
+    "native_size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "name": "dashboard-hero-university",
+    "label": "man hair",
+    "box": [
+      900,
+      40,
+      1156,
+      296
+    ],
+    "native_size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "name": "dashboard-hero-university",
+    "label": "pointing hand",
+    "box": [
+      420,
+      650,
+      676,
+      906
+    ],
+    "native_size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "name": "dashboard-hero-university",
+    "label": "man hands",
+    "box": [
+      1040,
+      650,
+      1296,
+      906
+    ],
+    "native_size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "name": "landing-hero-wide",
+    "label": "loc edges",
+    "box": [
+      600,
+      70,
+      856,
+      326
+    ],
+    "native_size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "name": "landing-hero-wide",
+    "label": "left book hand",
+    "box": [
+      250,
+      690,
+      506,
+      946
+    ],
+    "native_size": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "name": "landing-hero-wide",
+    "label": "right book hand",
+    "box": [
+      1040,
+      690,
+      1296,
+      946
+    ],
+    "native_size": [
+      1536,
+      1024
+    ]
+  }
+]

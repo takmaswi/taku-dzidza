@@ -1,0 +1,147 @@
+{
+  "generator": "fontTools 4.61.1 + Pillow 12.2.0 + PyMuPDF 1.27.1; build_brand.py",
+  "font_source": "https://github.com/google/fonts/blob/main/ofl/inter/Inter%5Bopsz%2Cwght%5D.ttf",
+  "font_version": "Version 4.001;git-66647c0bb",
+  "font_instance": {
+    "suffix": {
+      "wght": 600,
+      "opsz": 14,
+      "tracking_em": 0.15
+    },
+    "byline": {
+      "wght": 400,
+      "opsz": 14
+    }
+  },
+  "background_removal": "Not applicable: original vectors and procedural board composition.",
+  "checks": {
+    "kit_byte_identical_count": 7,
+    "outlined_proposals_count": 4,
+    "mark_geometry_and_colours_unchanged": true
+  },
+  "files": [
+    {
+      "file": "art/brand/takudzidza/board.png",
+      "bytes": 809806,
+      "native_size": [
+        2720,
+        3980
+      ],
+      "sha256": "47c90bd57ad868b42013d376c191ad2d122033b409b3713e31e4ee494491ca6e"
+    },
+    {
+      "file": "art/brand/takudzidza/build_brand.py",
+      "bytes": 10327,
+      "native_size": null,
+      "sha256": "ad729e810efce7fc46f9405bfec75e05250edead4793dee32a9110b58aa30eee"
+    },
+    {
+      "file": "art/brand/takudzidza/kit/palette.css",
+      "bytes": 269,
+      "native_size": null,
+      "sha256": "5c09f603113fa280596665e961680e846bd483e842bafcf95b6537ce1f540302"
+    },
+    {
+      "file": "art/brand/takudzidza/kit/taku-education-horizontal.svg",
+      "bytes": 541,
+      "native_size": [
+        2000,
+        400
+      ],
+      "sha256": "978e00dccdb9df07996fc73bdf45e690076ba658551622c66a3ac0d8ff380e0a"
+    },
+    {
+      "file": "art/brand/takudzidza/kit/taku-education-mark-inverse.svg",
+      "bytes": 361,
+      "native_size": [
+        1024,
+        1024
+      ],
+      "sha256": "3f8c01ba34ab9c98045da5dce0777cb5bf09e0a3367f2b5321a448a47ca0750c"
+    },
+    {
+      "file": "art/brand/takudzidza/kit/taku-education-mark-on-cream.svg",
+      "bytes": 361,
+      "native_size": [
+        1024,
+        1024
+      ],
+      "sha256": "4adf328f4c59d6e2105371bf825b9766acaaee8040c0509c0879c41fee833325"
+    },
+    {
+      "file": "art/brand/takudzidza/kit/taku-education-mark-on-mid.svg",
+      "bytes": 361,
+      "native_size": [
+        1024,
+        1024
+      ],
+      "sha256": "75bd08c4bdbe6ef2237bacdbd9218a1027f93e3ad7a6d3f7dc93145c3a6587ce"
+    },
+    {
+      "file": "art/brand/takudzidza/kit/taku-education-mark.svg",
+      "bytes": 361,
+      "native_size": [
+        1024,
+        1024
+      ],
+      "sha256": "1a46d904d55ff8fe300c349c6cbd403211bcfc26408a5221814ebd8987568d8a"
+    },
+    {
+      "file": "art/brand/takudzidza/kit/taku-education-stacked.svg",
+      "bytes": 562,
+      "native_size": [
+        1000,
+        1200
+      ],
+      "sha256": "1dcc15f238d858a454ced9eacc26077523741fa5c5b45577496a2277c112030b"
+    },
+    {
+      "file": "art/brand/takudzidza/proposed/takudzidza-horizontal-by-taku.svg",
+      "bytes": 10392,
+      "native_size": [
+        1400,
+        480
+      ],
+      "sha256": "133df8121a385b7bd45d4f4347128f908305fc802046b8556bece877057b0a43"
+    },
+    {
+      "file": "art/brand/takudzidza/proposed/takudzidza-horizontal.svg",
+      "bytes": 7903,
+      "native_size": [
+        1400,
+        480
+      ],
+      "sha256": "8ef6b2284684f2bc11c5bdc45755486428d721004c9fa3eac0b8b6add1a44fd2"
+    },
+    {
+      "file": "art/brand/takudzidza/proposed/takudzidza-stacked-by-taku.svg",
+      "bytes": 10393,
+      "native_size": [
+        1200,
+        1100
+      ],
+      "sha256": "f6c116b59a348c68a6872d1460eb2b58ff1913697fbe1fc46bf0c6868b8b2a7e"
+    },
+    {
+      "file": "art/brand/takudzidza/proposed/takudzidza-stacked.svg",
+      "bytes": 7904,
+      "native_size": [
+        1200,
+        1000
+      ],
+      "sha256": "529066258b50f8d18bce9bee1ee2bda0b04cf963a2b6a7682f97b01a6bd3bcf6"
+    },
+    {
+      "file": "art/brand/takudzidza/source/Inter-Variable.ttf",
+      "bytes": 876576,
+      "native_size": null,
+      "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+    },
+    {
+      "file": "art/brand/takudzidza/source/OFL.txt",
+      "bytes": 4377,
+      "native_size": null,
+      "sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57"
+    }
+  ]
+}

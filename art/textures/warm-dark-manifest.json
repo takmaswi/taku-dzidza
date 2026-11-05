@@ -1,0 +1,26 @@
+[
+  {
+    "file": "honey-waves-dark.webp",
+    "native_size": [
+      2560,
+      1600
+    ],
+    "bytes": 120844,
+    "limit": 200000,
+    "quality": 95,
+    "sha256": "9938191f6972dd0b244ffdba1ea1f0118da3bcc334cd1e707052ad0a13a3ee0e",
+    "field_sha256": "6ac60aec32c6c9ed79a5a941fe3ff9f0241f6af0026cb7f63831986c50db4382"
+  },
+  {
+    "file": "honey-waves-dark-phone.webp",
+    "native_size": [
+      1080,
+      2340
+    ],
+    "bytes": 76754,
+    "limit": 150000,
+    "quality": 95,
+    "sha256": "67c7d1aa058b246cb298fc1e6f046304cadd4559ed24b888f79a0f84059a8fa6",
+    "field_sha256": "22c50f0843efc119b6a6bb3843290779e6156844ec56b0cda888d6f9656636e7"
+  }
+]
