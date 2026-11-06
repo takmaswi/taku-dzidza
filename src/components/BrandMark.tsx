@@ -1,4 +1,4 @@
-import lockupUrl from "../../art/brand/takudzidza/proposed/takudzidza-horizontal-by-taku.svg";
+import lockupUrl from "../../art/brand/takudzidza/proposed/takudzidza-horizontal.svg";
 import { copy } from "../copy/en";
 import { MARK_FILLS, MARK_RECTS, type MarkVariant } from "./brand";
 
@@ -26,7 +26,9 @@ export function BrandMark({ variant = "auto", className = "mark" }: { variant?: 
 }
 
 /**
- * The approved product lockup: horizontal, with "by Taku". Only on cream and honey surfaces.
+ * The header lockup: the mark and TAKUDZIDZA, horizontal, without "by Taku" (drawn about 5 px
+ * tall at header size, too small to read). "by Taku" is set as text on sign in, the landing page
+ * and the footer instead. Only on cream and honey surfaces.
  * The file's canvas is 1400 by 480 with wide margins; the artwork paints 98 to 1110 across and
  * 111 to 342 down. The view keeps the artwork whole plus its clear space (a quarter of the
  * mark width, 61) and drops the rest, so the file itself is used unchanged.
@@ -36,7 +38,7 @@ const LOCKUP_VIEW = { x: 37, y: 50, width: 1134, height: 353 };
 export function Lockup({ className = "lockup" }: { className?: string }) {
   const v = LOCKUP_VIEW;
   return (
-    <svg className={className} viewBox={`${v.x} ${v.y} ${v.width} ${v.height}`} role="img" aria-label={`${copy.appName} ${copy.byline}`}>
+    <svg className={className} viewBox={`${v.x} ${v.y} ${v.width} ${v.height}`} role="img" aria-label={copy.appName}>
       <image href={lockupUrl} width={1400} height={480} />
     </svg>
   );

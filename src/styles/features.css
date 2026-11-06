@@ -33,7 +33,7 @@
 
 /* ---------- Mind map ---------- */
 .mindmap { display: grid; gap: 1.2rem; justify-items: center; }
-.mm-central { background: var(--ink); color: var(--cream); padding: 0.8rem 1.4rem; border-radius: 999px; font-weight: 600; font-size: 1.1rem; text-align: center; }
+.mm-central { background: var(--dark-fill); color: var(--on-dark); padding: 0.8rem 1.4rem; border-radius: 999px; font-weight: 600; font-size: 1.1rem; text-align: center; }
 .mm-branches { display: grid; gap: 0.8rem; width: 100%; }
 @media (min-width: 700px) { .page-narrow .mm-branches { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); } }
 .mm-branch { background: var(--butter); color: var(--ink); border-radius: 16px; padding: 0.9rem 1.1rem; }
@@ -72,5 +72,5 @@
 @media print {
   .paper { border: 0; padding: 0; box-shadow: none; }
   .print-only { display: block; break-before: page; }
-  .answer-box { border: 0; border-bottom: 1px solid #999; border-radius: 0; }
+  .answer-box { border: 0; border-bottom: 1px solid var(--grey); border-radius: 0; }
 }

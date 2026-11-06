@@ -84,7 +84,7 @@
 .steps-shell { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr; }
 .steps-top { display: flex; align-items: center; gap: 1rem; padding: 1rem clamp(1rem, 4vw, 2.5rem); max-width: 1100px; width: 100%; margin: 0 auto; }
 .steps-top .mark-auto, .steps-top .mark { width: 36px; height: 36px; }
-.progress { flex: 1; height: 8px; border-radius: 999px; background: rgb(43 45 66 / 0.1); overflow: hidden; }
+.progress { flex: 1; height: 8px; border-radius: 999px; background: rgb(74 48 16 / 0.1); overflow: hidden; }
 .progress > span { display: block; height: 100%; background: var(--deep); border-radius: 999px; transition: width calc(0.5s * var(--speed)) var(--ease); }
 .step-body { width: 100%; max-width: 1100px; margin: 0 auto; padding: 1rem clamp(1rem, 4vw, 2.5rem) 3rem; display: grid; gap: 1.5rem; align-content: start; }
 .step-body h1 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 1.75rem); }
@@ -106,7 +106,7 @@ button.style-card:hover { transform: translateY(calc(-4px * var(--speed))); box-
 .style-card .sc-body .tag { justify-self: start; }
 .style-card .sc-body b { font-size: 1.15rem; }
 .style-card .sc-body > span:last-child { color: var(--text-soft); font-size: 0.9rem; }
-.style-card .ct-tick { position: absolute; top: 0.9rem; right: 0.9rem; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--cream); transform: scale(0); transition: transform calc(0.3s * var(--speed)) cubic-bezier(0.3, 1.6, 0.5, 1); }
+.style-card .ct-tick { position: absolute; top: 0.9rem; right: 0.9rem; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--dark-fill); color: var(--on-dark); transform: scale(0); transition: transform calc(0.3s * var(--speed)) cubic-bezier(0.3, 1.6, 0.5, 1); }
 .style-card[aria-checked="true"] { background: var(--pick); border-color: var(--pick-line); }
 .style-card[aria-checked="true"] .ct-tick { transform: scale(1); }
 
@@ -120,7 +120,7 @@ button.style-card:hover { transform: translateY(calc(-4px * var(--speed))); box-
 .flip.flipped .flip-inner { transform: rotateY(180deg); }
 .flip-face { grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: grid; place-items: center; text-align: center; padding: 2.5rem 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow-raised); }
 .flip-front { background: var(--raised); border: 1px solid var(--line); }
-.flip-back { background: var(--ink); color: var(--cream); transform: rotateY(180deg); }
+.flip-back { background: var(--dark-fill); color: var(--on-dark); transform: rotateY(180deg); }
 .flip-face p { font-size: clamp(1.2rem, 3vw, 1.5rem); font-weight: 600; letter-spacing: -0.01em; max-width: 26ch; margin: 0; }
 .flip-face .eyebrow { position: absolute; top: 1.1rem; left: 1.3rem; }
 .flip-back .eyebrow { color: var(--mid); }
@@ -201,6 +201,8 @@ button.style-card:hover { transform: translateY(calc(-4px * var(--speed))); box-
 .l-final .l-h2 { max-width: 16ch; }
 .l-final-mark { width: 64px; height: 64px; }
 .l-sparks { position: absolute; top: 2.5rem; left: calc(50% + 2.5rem); width: 70px; height: 42px; }
+.l-eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.6rem; font-size: 0.8rem; }
+.l-eyebrow span + span::before { content: ""; display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--honey); margin-right: 0.6rem; vertical-align: middle; }
 .l-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding: 2rem 0; border-top: 1px solid var(--line); font-size: 0.9rem; color: var(--text-soft); }
 .l-foot a { margin-left: 0.2rem; }
 #prerender ~ #root .app-loading { display: none; }

@@ -110,10 +110,18 @@ test.describe("Ask Taku on a small phone", () => {
     await expect(chips).toBeVisible();
 
     const overlap = (a: { x: number; y: number; width: number; height: number }, b: { x: number; y: number; width: number; height: number }) => a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height;
+    // Only the part the chat pane shows can be covered; what is scrolled out of the pane is clipped by it.
+    const pane = page.getByTestId("chat-thread");
+    const shown = async (l: typeof intro) => {
+      const [b, p] = [(await l.boundingBox())!, (await pane.boundingBox())!];
+      const top = Math.max(b.y, p.y);
+      const bottom = Math.min(b.y + b.height, p.y + p.height);
+      return { x: b.x, y: top, width: b.width, height: Math.max(0, bottom - top) };
+    };
     const check = async () => {
       const c = (await composer.boundingBox())!;
-      expect(overlap(c, (await intro.boundingBox())!)).toBe(false);
-      expect(overlap(c, (await chips.boundingBox())!)).toBe(false);
+      expect(overlap(c, await shown(intro))).toBe(false);
+      expect(overlap(c, await shown(chips))).toBe(false);
     };
     await check();
     await chips.getByRole("button").last().scrollIntoViewIfNeeded();

@@ -8,7 +8,7 @@ import { errorText } from "../../access";
 import { useTrack } from "../../analytics";
 import { Composer } from "../../components/Composer";
 import { MathText } from "../../components/MathText";
-import { CopyAndRead, LearnerBubble, Stages, TakuMessage, Thread } from "../../components/Thread";
+import { CopyAndRead, InfoNote, LearnerBubble, Stages, TakuMessage, Thread } from "../../components/Thread";
 import { copy } from "../../copy/en";
 import { WidgetHost } from "../../widgets/WidgetHost";
 
@@ -60,6 +60,7 @@ export function NotebookChat({
   };
 
   const lastLength = messages.length + (messages[messages.length - 1]?.parts?.length ?? 0);
+  const latestTaku = messages.findLastIndex((m) => m.role !== "learner");
   return (
     <div className="chat-pane">
       <Thread follow={`${lastLength}:${messages[messages.length - 1]?.stage ?? ""}`} testId="notebook-thread">
@@ -71,7 +72,7 @@ export function NotebookChat({
         {messages.map((m, i) => {
           if (m.role === "learner") return <LearnerBubble key={m._id} text={m.text} testId="message-learner" />;
           const asked = messages[i - 1]?.role === "learner" ? messages[i - 1].text : "";
-          return <Answer key={m._id} message={m} asked={asked} notebookId={notebook._id} titles={titles} titleRecord={titleRecord} onCite={onCite} onAsk={send} stuck={m.stage !== undefined && now - m.createdAt > STUCK_MS} />;
+          return <Answer key={m._id} message={m} asked={asked} notebookId={notebook._id} titles={titles} titleRecord={titleRecord} onCite={onCite} onAsk={send} latest={i === latestTaku} stuck={m.stage !== undefined && now - m.createdAt > STUCK_MS} />;
         })}
         {busy && !working && (
           <TakuMessage testId="message-pending">
@@ -113,6 +114,7 @@ function Answer({
   onCite,
   onAsk,
   stuck,
+  latest,
 }: {
   message: Doc<"messages">;
   asked: string;
@@ -122,6 +124,7 @@ function Answer({
   onCite: (c: Citation) => void;
   onAsk: (text: string) => Promise<void>;
   stuck: boolean;
+  latest: boolean;
 }) {
   const t = copy.notebook;
   // One number per distinct quote, in the order they first appear.
@@ -136,7 +139,7 @@ function Answer({
   const plain = [m.text, ...(m.parts ?? []).map((p) => p.text)].filter((x) => x !== "").join(" ");
   const done = m.stage === undefined;
   return (
-    <TakuMessage testId="message-taku">
+    <TakuMessage testId="message-taku" latest={latest}>
       {m.stage !== undefined && <Stages stage={m.stage} stuck={stuck} />}
       {m.text !== "" && <p>{m.text}</p>}
       {(m.parts?.length ?? 0) > 0 && (
@@ -164,19 +167,18 @@ function Answer({
         </div>
       )}
       {m.widget !== undefined && <WidgetHost widget={m.widget} titles={titleRecord} />}
-      {m.note !== undefined && <p className="soft small-text">{m.note}</p>}
       {m.kind === "help" && (
         <Link to="/help" className="pill small">
           {t.getHelp}
         </Link>
       )}
-      {done && m.kind === "answer" && <AnswerActions notebookId={notebookId} asked={asked} text={plain} onAsk={onAsk} />}
+      {done && m.kind === "answer" ? <AnswerActions notebookId={notebookId} asked={asked} text={plain} note={m.note} onAsk={onAsk} /> : m.note !== undefined && <InfoNote text={m.note} />}
     </TakuMessage>
   );
 }
 
-/** Under each answer: the next step. Quiz, flashcards, a simpler explanation, copy and read aloud. */
-function AnswerActions({ notebookId, asked, text, onAsk }: { notebookId: Id<"notebooks">; asked: string; text: string; onAsk: (text: string) => Promise<void> }) {
+/** Under each answer: the next step. Quiz, flashcards, a simpler explanation, how it was checked, copy and read aloud. */
+function AnswerActions({ notebookId, asked, text, note, onAsk }: { notebookId: Id<"notebooks">; asked: string; text: string; note?: string; onAsk: (text: string) => Promise<void> }) {
   const t = copy.thread;
   const generate = useAction(api.study.tools.generate);
   const navigate = useNavigate();
@@ -216,6 +218,7 @@ function AnswerActions({ notebookId, asked, text, onAsk }: { notebookId: Id<"not
       )}
       </span>
       <span className="answer-tools">
+        {note !== undefined && <InfoNote text={note} />}
         <CopyAndRead text={text} />
       </span>
       {error !== null && (

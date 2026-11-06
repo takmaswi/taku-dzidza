@@ -46,20 +46,27 @@ const LIGHT: [string, string][] = [
   ["deep", "paper"],
   ["deep", "white"],
   ["deep", "tint"],
-  // Brown ink: icons and numbers on tint and butter tiles, citation markers.
+  // Brown: headings, icons and numbers on tint and butter tiles, citation markers.
+  ["brown", "cream"],
+  ["brown", "paper"],
+  ["brown", "white"],
   ["brown", "tint"],
   ["brown", "butter"],
+  ["brown", "butter-pick"],
   ["msasa", "cream"],
   ["msasa", "paper"],
   ["msasa", "white"],
   ["sage", "cream"],
   ["sage", "paper"],
   ["sage", "white"],
-  // On charcoal: learner bubbles, the avatar, flashcard backs, Scroll.
-  ["cream", "ink"],
-  ["on-ink-soft", "ink"],
-  ["mid", "ink"],
-  ["honey", "ink"],
+  // On brown: primary buttons, learner bubbles, the avatar, flashcard backs, the mind map centre, ticks.
+  ["cream", "brown"],
+  ["honey", "brown"],
+  ["mid", "brown"],
+  // Scroll, on the dark page.
+  ["cream", "d-page"],
+  ["on-ink-soft", "d-page"],
+  ["honey", "d-page"],
   ["white", "msasa"],
 ];
 
@@ -78,8 +85,9 @@ const DARK: [string, string][] = [
   ["d-danger", "d-raised"],
   ["d-ok", "d-panel"],
   ["d-ok", "d-raised"],
-  // Primary buttons in the dark app: ink on honey.
+  // Primary buttons in the dark app: ink on honey. Learner bubbles stay cream on brown.
   ["ink", "honey"],
+  ["cream", "brown"],
 ];
 
 describe("contrast", () => {

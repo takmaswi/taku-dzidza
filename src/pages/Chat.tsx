@@ -46,6 +46,7 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
   const starters = copy.home.starters[profile.studyingFor ?? "olevel"];
   const last = messages[messages.length - 1];
   const empty = id === undefined && messages.length === 0 && pending === null;
+  const latestTaku = messages.findLastIndex((m) => m.role !== "learner");
   // The question shows at once; its saved copy replaces this as soon as it arrives.
   const showPending = pending !== null && !messages.some((m) => m.role === "learner" && m.text === pending);
 
@@ -73,7 +74,7 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
   const bar = (
     <>
       {!wide && (
-        <Link to="/" className="topbar-mark" aria-label={copy.appName}>
+        <Link to="/" className="topbar-mark" aria-label={`${copy.appName}, ${copy.nav.home}`}>
           <BrandMark />
         </Link>
       )}
@@ -105,7 +106,7 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
   );
 
   return (
-    <AppShell scroll="panes" bar={bar} title={title}>
+    <AppShell scroll="panes" tabs={false} bar={bar} title={title}>
       <div className="workspace chat-workspace">
         {wide && (
           <aside className="chat-list" aria-label={t.list}>
@@ -132,10 +133,10 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
         )}
         <section className="ws-center">
           <div className="chat-pane">
-            <Thread follow={`${messages.length}:${last?.text.length ?? 0}:${pending ?? ""}`} testId="chat-thread">
+            <Thread follow={`${messages.length}:${last?.text.length ?? 0}:${pending ?? ""}`} testId="chat-thread" pin={!empty}>
               {empty && (
                 <div className="chat-empty rise">
-                  <Cutout slug="tile-ask" alt={t.emptyAlt} sizes="180px" className="chat-empty-art" />
+                  <Cutout slug="tile-ask" alt={t.emptyAlt} sizes="150px" className="chat-empty-art" />
                   <h2>{t.emptyTitle}</h2>
                   <p className="lead soft">{t.emptyBody}</p>
                   <div className="chips">
@@ -147,12 +148,12 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
                   </div>
                 </div>
               )}
-              {messages.map((m) => {
+              {messages.map((m, i) => {
                 if (m.role === "learner") return <LearnerBubble key={m._id} text={m.text} testId="chat-learner" />;
                 const stuck = m.streaming === true && now - m.createdAt > STUCK_MS;
                 const live = m.streaming === true && !stuck;
                 return (
-                  <TakuMessage key={m._id} testId="chat-taku" streaming={live}>
+                  <TakuMessage key={m._id} testId="chat-taku" streaming={live} latest={i === latestTaku}>
                     {live && m.text === "" && <Typing />}
                     <Markdown text={stuck && m.text === "" ? copy.notebook.stuck : m.text} />
                     {m.widget !== undefined && <WidgetHost widget={m.widget} />}

@@ -1,5 +1,5 @@
-import { ArrowDown, Check, Copy, Square, Volume2 } from "lucide-react";
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { ArrowDown, Check, Copy, Info, Square, Volume2 } from "lucide-react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { copy } from "../copy/en";
 import { BrandMark } from "./BrandMark";
 import { speakable } from "./math";
@@ -9,9 +9,10 @@ const NEAR = 120;
 /**
  * A conversation that scrolls on its own. It follows new messages while the
  * learner is at the bottom, stays put when they have scrolled up to read,
- * and offers a Jump to latest button then.
+ * and offers a Jump to latest button then. pin={false} (an empty state) stays
+ * at the top, so nothing at the top is cut off.
  */
-export function Thread({ children, follow, testId }: { children: ReactNode; follow: unknown; testId?: string }) {
+export function Thread({ children, follow, testId, pin = true }: { children: ReactNode; follow: unknown; testId?: string; pin?: boolean }) {
   const scroller = useRef<HTMLDivElement>(null);
   const [away, setAway] = useState(false);
   const pinned = useRef(true);
@@ -22,17 +23,17 @@ export function Thread({ children, follow, testId }: { children: ReactNode; foll
   };
 
   useLayoutEffect(() => {
-    if (pinned.current) toBottom(false);
-  }, [follow]);
+    if (pin && pinned.current) toBottom(false);
+  }, [follow, pin]);
 
   useEffect(() => {
     // Late layout (maths, images) can grow the thread after the first paint.
     const el = scroller.current?.firstElementChild;
     if (el == null || !("ResizeObserver" in window)) return;
-    const ro = new ResizeObserver(() => pinned.current && toBottom(false));
+    const ro = new ResizeObserver(() => pin && pinned.current && toBottom(false));
     ro.observe(el);
     return () => ro.disconnect();
-  }, []);
+  }, [pin]);
 
   return (
     <div className="thread-wrap">
@@ -77,10 +78,14 @@ export function LearnerBubble({ text, testId }: { text: string; testId: string }
   );
 }
 
-/** One answer from Taku: flowing text beside the small mark, no box and no label. */
-export function TakuMessage({ children, testId, streaming = false }: { children: ReactNode; testId: string; streaming?: boolean }) {
+/**
+ * One answer from Taku: flowing text beside the small mark, no box and no label.
+ * Its footer (copy, read aloud, next steps) shows on the latest answer, and on
+ * older ones when the pointer is over them or focus is inside.
+ */
+export function TakuMessage({ children, testId, streaming = false, latest = false }: { children: ReactNode; testId: string; streaming?: boolean; latest?: boolean }) {
   return (
-    <article className="msg taku rise" data-testid={testId} data-streaming={streaming ? "true" : undefined}>
+    <article className={`msg taku rise${latest ? " latest" : ""}`} data-testid={testId} data-streaming={streaming ? "true" : undefined}>
       <BrandMark className="msg-mark" />
       <span className="sr-only">{copy.chat.taku}: </span>
       <div className="msg-body">{children}</div>
@@ -159,5 +164,21 @@ export function CopyAndRead({ text }: { text: string }) {
         </button>
       )}
     </>
+  );
+}
+
+/** A note about how an answer was checked, behind a small info icon. Hover, focus or a tap shows the sentence. */
+export function InfoNote({ text }: { text: string }) {
+  const [open, setOpen] = useState(false);
+  const id = useId();
+  return (
+    <span className={`info-note${open ? " open" : ""}`} onMouseLeave={() => setOpen(false)}>
+      <button type="button" className="icon-button small-action info-button" aria-label={copy.thread.aboutAnswer} aria-expanded={open} aria-describedby={id} onClick={() => setOpen(!open)} onBlur={() => setOpen(false)}>
+        <Info size={16} aria-hidden="true" />
+      </button>
+      <span id={id} role="tooltip" className="info-pop" data-testid="answer-note">
+        {text}
+      </span>
+    </span>
   );
 }

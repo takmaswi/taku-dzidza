@@ -30,7 +30,12 @@ export default function Landing() {
       <section className="l-hero">
         <Scene slug="landing-hero" alt={t.heroAlt} sizes="(min-width: 960px) 72vw, 100vw" eager className="l-hero-scene" />
         <div className="l-hero-text rise">
-          <span className="eyebrow">{t.eyebrow}</span>
+          <p className="eyebrow l-eyebrow">
+            <span>
+              {copy.appName} {copy.byline}
+            </span>
+            <span>{t.eyebrow}</span>
+          </p>
           <h1>
             {t.titleStart}{" "}
             <span className="roller" aria-label={t.roller.join(", ")}>

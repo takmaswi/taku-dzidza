@@ -99,12 +99,16 @@ def to_uint8(rgb: np.ndarray, seed: int) -> np.ndarray:
 
 
 def warm_rgb(t: np.ndarray, grain: np.ndarray) -> np.ndarray:
-    charcoal = hex_rgb("#2B2D42")
+    # Polish pass (2026-11-06): warm deep browns only, no charcoal. Crests are the dark
+    # panel brown with a little Education ink and a faint touch of deep amber; troughs
+    # sink to the dark page colour. The original field is unchanged.
+    page = hex_rgb("#1E1710")
+    panel = hex_rgb("#2A2118")
     ink = hex_rgb("#4A3010")
     deep = hex_rgb("#8A5A1F")
-    # The original field is unchanged. Small warm mixes give low-contrast dunes.
-    colours = np.stack((charcoal * 0.78 + deep * 0.22, charcoal,
-                        charcoal * 0.45 + ink * 0.55))
+    colours = np.stack((panel * 0.78 + ink * 0.14 + deep * 0.08,
+                        panel * 0.6 + page * 0.4,
+                        page))
     rgb = np.stack([PchipInterpolator([0, 0.50, 1], colours[:, i])(t)
                     for i in range(3)], axis=-1)
     return rgb + grain[..., None] * np.array([1.0, 0.95, 0.85])

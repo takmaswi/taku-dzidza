@@ -35,6 +35,8 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
   const [railPref, setRail] = useStored(`tz.rail.${id}`);
   const [toolsPref, setToolsPref] = useStored("tz.tools");
   const [toolsOverlay, setToolsOverlay] = useState(false);
+  // With no source yet the tools have nothing to work on, so the panel stays folded unless opened here.
+  const [toolsWhileEmpty, setToolsWhileEmpty] = useState(false);
   const [dragging, setDragging] = useState(false);
   // Read once: the address is cleared after the tools open.
   const [initialTool] = useState(() => toolFromParam(params.get("tool")));
@@ -45,7 +47,10 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
     if (!askedForTools) return;
     if (!wide) setSheet("tools");
     else if (!xwide) setToolsOverlay(true);
-    else setToolsPref("open");
+    else {
+      setToolsPref("open");
+      setToolsWhileEmpty(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [askedForTools]);
 
@@ -62,7 +67,8 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
   const empty = data.sources.length === 0 && messages.length === 0;
   // Open while there are no answers yet, folded once the learner is chatting, unless they chose.
   const railOpen = railPref === null ? messages.length === 0 : railPref === "open";
-  const toolsOpen = xwide ? toolsPref !== "closed" : toolsOverlay;
+  const hasSources = data.sources.length > 0;
+  const toolsOpen = xwide ? (hasSources ? toolsPref !== "closed" : toolsWhileEmpty) : toolsOverlay;
 
   const cite = (c: Citation) => {
     setCitation(c);
@@ -71,6 +77,7 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
   };
   const toggleTools = () => {
     if (!wide) setSheet("tools");
+    else if (xwide && !hasSources) setToolsWhileEmpty(!toolsOpen);
     else if (xwide) setToolsPref(toolsOpen ? "closed" : "open");
     else setToolsOverlay(!toolsOverlay);
   };
@@ -88,7 +95,7 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
   const studyPanel = <StudyPanel notebookId={notebookId} readAloud={profile.accessibility.readAloud} initialTool={initialTool} />;
 
   return (
-    <AppShell scroll="panes" bar={<NotebookBar notebook={notebook} count={data.sources.length} wide={wide} railOpen={railOpen} toolsOpen={toolsOpen} onSources={() => (wide ? setRail(railOpen ? "folded" : "open") : setSheet("sources"))} onTools={toggleTools} />}>
+    <AppShell scroll="panes" tabs={false} bar={<NotebookBar notebook={notebook} count={data.sources.length} wide={wide} railOpen={railOpen} toolsOpen={toolsOpen} onSources={() => (wide ? setRail(railOpen ? "folded" : "open") : setSheet("sources"))} onTools={toggleTools} />}>
       {sources.inputs}
       <div
         className={`workspace${railOpen ? " rail-open" : " rail-folded"}${toolsOpen ? " tools-open" : ""}${dragging ? " dragging" : ""}`}
@@ -198,7 +205,7 @@ function NotebookBar({ notebook, count, wide, railOpen, toolsOpen, onSources, on
   return (
     <>
       {!wide && (
-        <Link to="/" className="topbar-mark" aria-label={copy.appName}>
+        <Link to="/" className="topbar-mark" aria-label={`${copy.appName}, ${copy.nav.home}`}>
           <BrandMark />
         </Link>
       )}

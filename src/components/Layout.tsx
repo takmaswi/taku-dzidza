@@ -49,7 +49,8 @@ function activeIndex(path: string): number {
   return -1;
 }
 
-export function AppShell({ children, bar, title, scroll = "page" }: { children: ReactNode; bar?: ReactNode; title?: string; scroll?: "page" | "panes" }) {
+/** tabs={false}: no phone tab bar, for the notebook and Ask Taku, where the conversation takes the screen. The mark still leads home. */
+export function AppShell({ children, bar, title, scroll = "page", tabs = true }: { children: ReactNode; bar?: ReactNode; title?: string; scroll?: "page" | "panes"; tabs?: boolean }) {
   useAppShellMarker();
   const me = useQuery(api.accounts.profiles.me);
   const ready = me?.profile != null && (me.profile.consentState === "not_needed" || me.profile.consentState === "given") && me.profile.styleChosen;
@@ -96,7 +97,7 @@ export function AppShell({ children, bar, title, scroll = "page" }: { children: 
         <header className="topbar">
           {bar ?? (
             <>
-              <Link to="/" className="topbar-mark" aria-label={copy.appName}>
+              <Link to="/" className="topbar-mark" aria-label={`${copy.appName}, ${copy.nav.home}`}>
                 <BrandMark />
               </Link>
               <span className="topbar-title">{title ?? copy.appName}</span>
@@ -110,7 +111,7 @@ export function AppShell({ children, bar, title, scroll = "page" }: { children: 
           )}
         </header>
         <main className={`app-main${scroll === "panes" ? " panes" : ""}`}>{children}</main>
-        {ready && (
+        {ready && tabs && (
           <nav className="tabbar" aria-label="Main">
             <span className="tab-indicator" style={indicator} aria-hidden="true" />
             {items.map(({ to, label, Icon, end, badge }, i) => (

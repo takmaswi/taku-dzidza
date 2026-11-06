@@ -22,7 +22,7 @@ BASE = Path(__file__).resolve().parent
 ART = BASE.parents[1]
 FONT = BASE / "source/Inter-Variable.ttf"
 CREAM = "#FFF8F0"
-CHARCOAL = "#2B2D42"
+DARK_PAGE = "#1E1710"
 INK = "#4A3010"
 SUFFIX = "#B0822F"
 NS = {"s": "http://www.w3.org/2000/svg"}
@@ -139,7 +139,7 @@ def build_board(proposals: list[Path]) -> None:
     surfaces = (
         ("CREAM #FFF8F0", CREAM, "BEST: ON CREAM", INK),
         ("HONEY WAVES / EXISTING TEXTURE", None, "BEST: ON CREAM", INK),
-        ("CHARCOAL #2B2D42", CHARCOAL, "BEST: INVERSE", CREAM),
+        ("DARK PAGE #1E1710", DARK_PAGE, "BEST: INVERSE", CREAM),
     )
     for row, (label, colour, best, text_colour) in enumerate(surfaces):
         top = 235 + row * 850

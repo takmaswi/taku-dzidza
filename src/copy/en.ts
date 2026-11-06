@@ -349,12 +349,12 @@ export const copy = {
     sourceLabel: "Taku uses",
     answerLabel: "How Taku answers",
     source: {
-      only_mine: { name: "Only my notes", line: "Only your notes are used. Points Taku cannot find in them are left out." },
-      mine_plus: { name: "My notes plus Taku's ideas", line: "Taku can add ideas. They are marked so you can tell them apart from your notes." },
+      only_mine: { name: "Only my notes", short: "My notes", line: "Only your notes are used. Points Taku cannot find in them are left out." },
+      mine_plus: { name: "My notes plus Taku's ideas", short: "Notes plus ideas", line: "Taku can add ideas. They are marked so you can tell them apart from your notes." },
     },
     answer: {
-      answer: { name: "Show me the answer", line: "The answer with full working, step by step." },
-      guide: { name: "Guide me", line: "Hints and questions first, so you work it out yourself." },
+      answer: { name: "Show me the answer", short: "Answer", line: "The answer with full working, step by step." },
+      guide: { name: "Guide me", short: "Guide me", line: "Hints and questions first, so you work it out yourself." },
     },
   },
 
@@ -362,6 +362,7 @@ export const copy = {
     jump: "Jump to latest",
     copy: "Copy",
     copied: "Copied",
+    aboutAnswer: "How this answer was checked",
     quizMe: "Quiz me on this",
     fiveCards: "Make 5 flashcards",
     simpler: "Explain it simpler",

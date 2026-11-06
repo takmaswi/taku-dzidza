@@ -17,7 +17,6 @@ ROOT = Path(__file__).resolve().parent
 FONT_SOURCE = Path(r"C:\Users\Dell\.codex\worktrees\payroll-ui-20260930\Taku-Payroll\public\fonts\inter.woff2")
 INK = "#4A3010"
 CREAM = "#FFF8F0"
-CHARCOAL = "#2B2D42"
 SVG_MARKS = {
     "underline-swoop": (480, 100, '<path d="M18 53 C118 72 282 22 457 45"/>'),
     "underline-double": (480, 120, '<path d="M20 42 Q210 20 459 39 M46 80 Q260 51 431 73"/>'),
@@ -134,7 +133,7 @@ def build_texture_board() -> None:
         lines = ["Photosynthesis turns light, water and", "carbon dioxide into glucose. Write", "the equation from memory, then", "check it against your notes."]
         for j, line in enumerate(lines):
             label(panel, (40, 88+j*30), line, 24 if width>1000 else 19)
-        ImageDraw.Draw(panel).rounded_rectangle((40, box_h-69, 220, box_h-25), radius=22, fill=CHARCOAL)
+        ImageDraw.Draw(panel).rounded_rectangle((40, box_h-69, 220, box_h-25), radius=22, fill=INK)
         label(panel, (65, box_h-62), "Start quiz", 23, 600, CREAM)
         board.paste(panel, (px, py))
     label(board, (72, 2535), "paper-grain.webp / 1024 x 1024 native tile, repeated", 26, 500)
@@ -143,7 +142,7 @@ def build_texture_board() -> None:
         for y in range(2590, 3150, 1024):
             patch = tile.crop((0,0,min(1024,2488-x),min(1024,3150-y)))
             board.paste(patch, (x,y))
-    label(board, (72, 3205), "Dark: charcoal with low-strength Education ink and deep amber. Original wave field and sizes retained.", 26)
+    label(board, (72, 3205), "Dark: warm browns #1E1710 and #2A2118, a little ink #4A3010, faint deep amber #8A5A1F. Original wave field and sizes.", 26)
     board.save(out / "board.png")
 
 

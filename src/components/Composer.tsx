@@ -6,11 +6,23 @@ import { Menu, MenuChoice } from "./ui";
 export type AnswerMode = "answer" | "guide";
 export type SourceMode = "only_mine" | "mine_plus";
 
+/** A chip's label: the full name on wide screens, a short one on phones so both chips fit one row. */
+function ChipText({ full, short }: { full: string; short: string }) {
+  return (
+    <>
+      <span className="chip-full">{full}</span>
+      <span className="chip-short" aria-hidden="true">
+        {short}
+      </span>
+    </>
+  );
+}
+
 /**
  * The question box: a textarea and two chips. "Only my notes" or "My notes
  * plus Taku's ideas" (notebooks only), and "Show me the answer" or "Guide
- * me". Each chip opens a small menu with a one line explanation. Enter sends,
- * Shift and Enter makes a new line.
+ * me". Each chip opens a small menu with a one line explanation and the full
+ * name. Enter sends, Shift and Enter makes a new line.
  */
 export function Composer({
   id,
@@ -84,7 +96,7 @@ export function Composer({
             label={`${t.sourceLabel}: ${t.source[sourceMode].name}`}
             button={
               <span className="chip">
-                <BookOpen size={15} aria-hidden="true" /> {t.source[sourceMode].name} <ChevronDown size={14} aria-hidden="true" />
+                <BookOpen size={15} aria-hidden="true" /> <ChipText full={t.source[sourceMode].name} short={t.source[sourceMode].short} /> <ChevronDown size={14} aria-hidden="true" />
               </span>
             }
           >
@@ -101,7 +113,7 @@ export function Composer({
           label={`${t.answerLabel}: ${t.answer[answerMode].name}`}
           button={
             <span className="chip">
-              <Lightbulb size={15} aria-hidden="true" /> {t.answer[answerMode].name} <ChevronDown size={14} aria-hidden="true" />
+              <Lightbulb size={15} aria-hidden="true" /> <ChipText full={t.answer[answerMode].name} short={t.answer[answerMode].short} /> <ChevronDown size={14} aria-hidden="true" />
             </span>
           }
         >

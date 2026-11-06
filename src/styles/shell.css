@@ -84,7 +84,7 @@ body:has(.composer textarea:focus) .tabbar { display: none; }
   }
   .avatar {
     margin-top: auto; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; text-decoration: none;
-    background: var(--ink); color: var(--cream); font-weight: 600;
+    background: var(--dark-fill); color: var(--on-dark); font-weight: 600;
   }
 }
 
@@ -125,9 +125,9 @@ body:has(.composer textarea:focus) .tabbar { display: none; }
 .focus-bar { flex: none; height: var(--bar); display: flex; align-items: center; gap: 1rem; padding: 0 clamp(0.75rem, 3vw, 2rem); background: var(--topbar); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); z-index: 10; }
 .focus-title { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .focus-main { flex: 1; min-height: 0; overflow-y: auto; padding: clamp(1rem, 3vw, 2.5rem) clamp(1rem, 4vw, 2.5rem) 3rem; }
-.focus-dark { background: var(--ink); color: var(--cream); }
-.focus-dark .focus-bar { background: rgb(43 45 66 / 0.85); border-color: #3d4058; }
-.focus-dark .focus-exit { color: var(--cream); border-color: #5b5e78; }
+.focus-dark { background: var(--d-page); color: var(--cream); }
+.focus-dark .focus-bar { background: rgb(30 23 16 / 0.85); border-color: var(--d-line); }
+.focus-dark .focus-exit { color: var(--cream); border-color: var(--d-accent); }
 .focus-dark .focus-main { padding: 0; }
 
 @media print {

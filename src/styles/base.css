@@ -32,7 +32,9 @@ img { max-width: 100%; display: block; }
 ::selection { background: var(--honey); color: var(--ink); }
 
 /* Type: 18 to 28 px headings inside the app; display sizes only on the landing page. */
-h1, h2, h3 { line-height: 1.2; letter-spacing: -0.015em; margin: 0 0 0.5rem; font-weight: 600; }
+h1, h2, h3 { line-height: 1.2; letter-spacing: -0.015em; margin: 0 0 0.5rem; font-weight: 600; color: var(--heading); }
+/* On dark fills headings take the cream text around them. */
+:is(.focus-dark, .flip-back, .scroll-card, .msg.learner) :is(h1, h2, h3) { color: inherit; }
 h1 { font-size: clamp(1.5rem, 1.2rem + 1vw, 1.75rem); }
 h2 { font-size: 1.25rem; }
 h3 { font-size: 1.125rem; }
@@ -55,7 +57,7 @@ b, strong { font-weight: 600; }
   font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; white-space: nowrap;
   transition: transform calc(0.18s * var(--speed)) var(--ease), box-shadow 0.2s, background 0.2s;
 }
-.pill:hover { transform: translateY(calc(-1px * var(--speed))); box-shadow: 0 8px 18px rgb(43 45 66 / 0.18); }
+.pill:hover { transform: translateY(calc(-1px * var(--speed))); box-shadow: 0 8px 18px var(--brown-shadow); }
 .pill:active { transform: scale(0.97); }
 .pill:disabled { opacity: 0.55; cursor: progress; transform: none; box-shadow: none; }
 .pill.ghost { background: transparent; color: var(--text); border-color: var(--line-strong); }
@@ -98,7 +100,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="tel
 textarea { resize: vertical; }
 input:focus, select:focus, textarea:focus { border-color: var(--deep); outline: none; box-shadow: 0 0 0 4px rgb(242 179 61 / 0.3); }
 .check { display: flex; gap: 0.7rem; align-items: flex-start; font-weight: 400; margin-bottom: 0.8rem; }
-.check input { width: 1.3rem; height: 1.3rem; margin-top: 0.15rem; accent-color: var(--ink); flex: none; }
+.check input { width: 1.3rem; height: 1.3rem; margin-top: 0.15rem; accent-color: var(--brown); flex: none; }
 
 /* Chips */
 .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
@@ -123,7 +125,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--deep); outline: 
 .choice > span:not(.ct-icon):not(.ct-tick) { color: var(--text-soft); font-size: 0.9rem; grid-column: 2; }
 .choice:not(:has(.ct-icon)) { grid-template-columns: 1fr; }
 .choice:not(:has(.ct-icon)) > span:not(.ct-tick) { grid-column: 1; }
-.choice .ct-tick { position: absolute; top: 0.85rem; right: 0.85rem; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--cream); transform: scale(0); transition: transform calc(0.3s * var(--speed)) cubic-bezier(0.3, 1.6, 0.5, 1); }
+.choice .ct-tick { position: absolute; top: 0.85rem; right: 0.85rem; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--dark-fill); color: var(--on-dark); transform: scale(0); transition: transform calc(0.3s * var(--speed)) cubic-bezier(0.3, 1.6, 0.5, 1); }
 .choice[aria-pressed="true"], .choice[aria-checked="true"] { background: var(--pick); border-color: var(--pick-line); }
 .choice[aria-pressed="true"] .ct-tick, .choice[aria-checked="true"] .ct-tick { transform: scale(1); }
 .choice:disabled { opacity: 0.6; cursor: progress; }

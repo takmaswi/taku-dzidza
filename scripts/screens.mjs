@@ -1,7 +1,7 @@
 // node scripts/screens.mjs <outDir> [before|after] [phone]: screenshots of
 // the main screens on a phone and a desktop, from a local mock run (the local
 // Convex backend from pnpm dev:convex must be running). Used for the redesign
-// report. "before" handles the layout before Redesign 2.
+// report. "before" handles the layout before Redesign 2. The phone is 390 by 844.
 import { spawn, spawnSync } from "node:child_process";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
@@ -98,6 +98,8 @@ async function steps(page, dir, device, browser) {
   await shoot(page, dir, "5-notebook");
 
   await page.goto(`${base}/chat`);
+  await page.getByRole("button", { name: "Explain osmosis simply" }).first().waitFor();
+  await shoot(page, dir, "6-chat-empty");
   await page.getByRole("button", { name: "Explain osmosis simply" }).first().click();
   await page.getByText("partially permeable membrane").last().waitFor();
   await shoot(page, dir, "6-chat");
@@ -116,7 +118,7 @@ try {
     await new Promise((r) => setTimeout(r, 500));
   }
   if (process.argv[4] !== "phone") await run({ name: "desktop", viewport: { width: 1280, height: 800 }, scale: 1, mobile: false });
-  await run({ name: "phone", viewport: { width: 360, height: 780 }, scale: 2, mobile: true });
+  await run({ name: "phone", viewport: { width: 390, height: 844 }, scale: 2, mobile: true });
 } finally {
   if (win) spawnSync("taskkill", ["/pid", String(web.pid), "/T", "/F"], { stdio: "ignore" });
   else process.kill(-web.pid);

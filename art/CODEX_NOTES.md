@@ -1336,3 +1336,15 @@ Script: `art/web/build_web.py` (Pillow, deterministic, no generation). It reads 
 - The app icons in `public/` (`icon.svg`, `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `apple-touch-icon.png`, `favicon.ico`): drawn from the three rectangles of `art/brand/takudzidza/kit/taku-education-mark-on-cream.svg` at 8x on Cream `#FFF8F0` and downsampled. `icon.svg` is a byte copy of the kit file. The maskable icon keeps the mark inside the 80% safe circle (asserted by the script).
 
 No pixel of any person was edited. The old tile T logo files were removed from `art/brand/` and archived outside the repo.
+
+## Polish pass: warm dark textures (2026-11-06)
+
+The old brand book's charcoal `#2B2D42` is gone from everything the app uses. `art/textures/make_warm_dark.py` was rerun with only its colour ramp changed: crests are `#2A2118` mixed 14 percent toward ink `#4A3010` and 8 percent toward deep `#8A5A1F`, the middle is `#2A2118` mixed 40 percent toward `#1E1710`, and troughs are `#1E1710`. Wave field, seeds, grain, sizes and encoder settings are unchanged (the field SHA-256 values in `warm-dark-manifest.json` are the same as before).
+
+| File | Native size | Bytes | Limit | Quality | SHA-256 |
+| --- | --- | ---: | ---: | ---: | --- |
+| `honey-waves-dark.webp` | 2560x1600 | 104,268 | <200,000 | 95 | `b2f6e534cacab150950a84d1303637b42ca8a163dff7a32a607aa47b8b5eaad5` |
+| `honey-waves-dark-phone.webp` | 1080x2340 | 64,714 | <150,000 | 95 | `f541073ab492b70afb8f1d466de8e5c88276f435128687ef64fe0a04bab6948f` |
+| `board.png` (texture board) | 2560x3284 | 2,464,278 | none | - | `8f4f16decb0cc65753317e259b8755ad3704f8766f94089c2141e5e7c285c6e3` |
+
+Measured on the decoded WebPs: no pixel has more blue than red; the brightest 0.1 percent of pixels still give cream `#FFF8F0` text 13.2:1. The texture board was rebuilt by `build_texture_board()` in `art/decor/build_decor.py` (its sample button is now ink `#4A3010`). The brand board (`art/brand/takudzidza/build_brand.py`) shows the dark surface as the dark page `#1E1710`; the approved inverse mark still reads best there, with the paper stem and pale pills clear at 512, 64 and 32 px. The other variants keep a weak stem or top right pill on it, as on charcoal before.

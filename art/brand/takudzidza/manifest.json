@@ -22,18 +22,18 @@
   "files": [
     {
       "file": "art/brand/takudzidza/board.png",
-      "bytes": 809806,
+      "bytes": 809659,
       "native_size": [
         2720,
         3980
       ],
-      "sha256": "47c90bd57ad868b42013d376c191ad2d122033b409b3713e31e4ee494491ca6e"
+      "sha256": "8632a0942865282f4935a9d7d65d0356652854b1712195852fca529154f3c72d"
     },
     {
       "file": "art/brand/takudzidza/build_brand.py",
-      "bytes": 10327,
+      "bytes": 10549,
       "native_size": null,
-      "sha256": "ad729e810efce7fc46f9405bfec75e05250edead4793dee32a9110b58aa30eee"
+      "sha256": "f26b42b3bfee4cfcda790132da81defbc33d0ef487527c1709b4e862dfeb53a9"
     },
     {
       "file": "art/brand/takudzidza/kit/palette.css",
