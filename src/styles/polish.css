@@ -1,0 +1,119 @@
+/* ---------- Polish 2: objects, motion and the light and dark switch ----------
+ * Every movement here scales with --speed and stops when the learner turns
+ * motion off (data-motion="off") or the phone asks for less (prefers-reduced-motion).
+ */
+
+/* Objects (src/components/ObjectArt.tsx). The art is decorative and sits on the page like cut paper. */
+.object-art { display: block; flex: none; overflow: visible; }
+/* A photo object from Codex: its shadow under it, both filling the same square. */
+.oa-raster { display: grid; }
+.oa-raster > img { grid-area: 1 / 1; width: 100%; height: 100%; object-fit: contain; }
+.oa-sun .oa-rays { transform-origin: 60px 54px; animation: oa-spin 60s linear infinite; }
+@keyframes oa-spin { to { transform: rotate(360deg); } }
+.oa-moon .oa-float { animation: oa-float 8s ease-in-out infinite alternate; }
+@keyframes oa-float { from { transform: translateY(1.5px); } to { transform: translateY(-1.5px); } }
+.oa-twinkle { transform-origin: 58px 58px; }
+:is(.object-art, .style-card, button):hover .oa-twinkle { animation: oa-twinkle calc(0.7s * var(--speed) + 0.001s) var(--ease) 1; }
+@keyframes oa-twinkle { 40% { transform: scale(1.12) rotate(12deg); } }
+.oa-glow { opacity: 0.45; }
+:root[data-theme="dark"][data-shell="app"]:not([data-contrast="true"]) .oa-glow { opacity: 0.12; }
+
+/* Where the objects sit. */
+/* Home: the sun, low sun or moon is the hero, in a soft glow beside the greeting. Phones: small, top right of the greeting. */
+.home-hero { position: relative; }
+.home-head { display: grid; gap: 0.25rem; padding-right: 84px; min-height: 72px; align-content: center; }
+.home-head .eyebrow { margin: 0; }
+.home-sky { position: absolute; top: 0; right: 0; width: 72px; height: 72px; display: grid; place-items: center; isolation: isolate; pointer-events: none; }
+.home-sky::before { content: ""; position: absolute; inset: -45%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, var(--sky-glow), var(--sky-glow-mid) 45%, transparent); }
+.home-object { width: 100%; height: 100%; }
+@media (min-width: 900px) {
+  .home-hero { grid-template-columns: minmax(0, 1fr) 220px; column-gap: 1.5rem; }
+  .home-head { padding-right: 0; min-height: 0; }
+  .home-sky { position: relative; width: 220px; height: 200px; align-self: center; }
+  .home-sky::before { inset: -18% -12%; }
+  .home-object { width: 184px; height: 184px; }
+}
+/* The glow behind the sky, and a light butter wash over the top of Home so the page reads white and yellow. The paper shows through both. */
+:root { --sky-glow: rgb(242 179 61 / 0.42); --sky-glow-mid: rgb(248 214 140 / 0.22); --home-wash: rgb(242 190 70 / 0.1); }
+:root[data-theme="dark"] { --sky-glow: rgb(242 179 61 / 0.2); --sky-glow-mid: rgb(242 179 61 / 0.07); --home-wash: rgb(242 179 61 / 0.035); }
+:root[data-contrast="true"] { --sky-glow: transparent; --sky-glow-mid: transparent; --home-wash: transparent; }
+.app-main:has(> .home) { background: linear-gradient(var(--home-wash), transparent 420px) local; }
+.chat-empty .object-art { margin: 0 0 -0.25rem -0.4rem; }
+/* Empty states: the object fills the space it has. Phones keep it smaller so the words and buttons stay in view. */
+.empty-state .object-art { width: 148px; height: 148px; }
+.review-done { --oa: 148px; }
+.review-done > .object-art { width: var(--oa); height: var(--oa); }
+@media (min-width: 700px) {
+  .chat-empty .object-art { width: 168px; height: 168px; margin: -0.5rem 0 -0.5rem -0.6rem; }
+  .empty-state { padding: 2.5rem 1.5rem 2.25rem; }
+  .empty-state .object-art { width: 196px; height: 196px; margin-bottom: -0.25rem; }
+  .review-done { --oa: 188px; }
+}
+.empty-state { display: grid; justify-items: center; text-align: center; gap: 0.5rem; padding: 2rem 1.25rem 1.75rem; }
+.empty-state p { margin: 0; max-width: 36ch; }
+.empty-nb-head .object-art { justify-self: center; }
+@media (max-width: 699px) { .empty-nb-head .object-art { width: 104px; height: 104px; justify-self: start; margin: -0.25rem 0 -0.5rem -0.4rem; } }
+.due-today .object-art, .due-card .object-art { transform: rotate(-4deg); }
+@media (max-width: 520px) { .due-today { grid-template-columns: 56px 1fr; gap: 0.75rem; } .due-today .object-art { width: 56px; height: 56px; } }
+.making { display: flex; align-items: center; gap: 0.6rem; }
+/* Cards with an object line up top down, so the objects and the names sit level across the row. */
+.style-card:has(> .object-art) { align-content: start; }
+.style-card .object-art { justify-self: center; margin: 0.25rem 0 0.75rem; }
+/* Phones: the object beside the words, so three cards fit without a long scroll. */
+@media (max-width: 759px) {
+  .style-card:has(> .object-art) { grid-template-columns: 84px minmax(0, 1fr); align-items: center; column-gap: 1rem; padding: 1rem 2.75rem 1rem 0.9rem; }
+  .style-card .object-art { width: 84px; height: 84px; margin: 0; }
+}
+.guardian-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.guardian-head h1 { margin: 0; }
+.guardian > .link { display: block; justify-self: start; }
+
+/* Review done: the medal settles in, then honey confetti falls from it once. */
+.review-done { position: relative; overflow: visible; }
+.review-done .oa-star-medal { animation: medal-in calc(0.5s * var(--speed) + 0.001s) cubic-bezier(0.3, 1.5, 0.5, 1) both; }
+@keyframes medal-in { from { transform: scale(0.6) rotate(-8deg); opacity: 0; } }
+.confetti { position: absolute; left: 50%; top: calc(1.25rem + var(--oa, 140px) * 0.45); width: 0; height: 0; pointer-events: none; z-index: 2; }
+.confetti i {
+  position: absolute; left: -4px; top: -3px; width: var(--w); height: 5px; border-radius: 1.5px; background: var(--c); opacity: 0;
+  box-shadow: 0 1px 1px rgb(40 30 0 / 0.15);
+  animation: confetti 1.5s cubic-bezier(0.2, 0.7, 0.3, 1) var(--d) forwards;
+}
+@keyframes confetti {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0); }
+  35% { opacity: 1; transform: translate(calc(var(--x) * 0.6), var(--up)) rotate(calc(var(--r) * 0.4)); }
+  100% { opacity: 0; transform: translate(var(--x), var(--down)) rotate(var(--r)); }
+}
+
+/* Page content rises in, about 40 ms apart. */
+.rise { animation: rise calc(0.3s * var(--speed)) cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: calc(var(--i, 0) * 40ms * var(--speed)); }
+:is(.app-main:not(.panes), .focus-main) > * > * { animation: rise calc(0.3s * var(--speed)) cubic-bezier(0.16, 1, 0.3, 1) both; }
+:is(.app-main:not(.panes), .focus-main) > * > :nth-child(2) { animation-delay: calc(40ms * var(--speed)); }
+:is(.app-main:not(.panes), .focus-main) > * > :nth-child(3) { animation-delay: calc(80ms * var(--speed)); }
+:is(.app-main:not(.panes), .focus-main) > * > :nth-child(4) { animation-delay: calc(120ms * var(--speed)); }
+:is(.app-main:not(.panes), .focus-main) > * > :nth-child(5) { animation-delay: calc(160ms * var(--speed)); }
+:is(.app-main:not(.panes), .focus-main) > * > :nth-child(n + 6) { animation-delay: calc(200ms * var(--speed)); }
+
+/* Lift on hover, press on click. */
+.panel { transition: box-shadow calc(0.25s * var(--speed)) var(--ease); }
+.panel:hover { box-shadow: var(--card-edge), var(--shadow-raised); }
+:is(.add-tile, .tool-tile, .nb-card) { transition: transform calc(0.2s * var(--speed)) var(--ease), box-shadow 0.2s, background 0.2s, border-color 0.2s; }
+:is(.add-tile, .tool-tile):hover { transform: translateY(calc(-2px * var(--speed))); box-shadow: var(--card-edge), var(--shadow-raised); }
+:is(.add-tile, .tool-tile, .nb-card, .choice, .chip, .send, .icon-button):active { transform: translateY(calc(1px * var(--speed))) scale(0.98); }
+.pill:active { transform: translateY(calc(1px * var(--speed))) scale(0.97); box-shadow: none; }
+
+/* Light and dark: the page crossfades (src/theme.ts uses a view transition), and the toggle's sun turns into a moon. */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 300ms; animation-timing-function: ease; }
+.theme-icon { display: block; overflow: visible; }
+.theme-icon :is(.ti-body, .ti-cut, .ti-rays) { transform-origin: 12px 12px; transition: transform calc(0.3s * var(--speed)) var(--ease), opacity calc(0.3s * var(--speed)); }
+.theme-icon[data-show="moon"] .ti-rays { transform: rotate(-90deg) scale(0.4); opacity: 0; }
+.theme-icon[data-show="sun"] .ti-body { transform: scale(0.56); }
+.theme-icon[data-show="sun"] .ti-cut { transform: translate(8px, -8px); }
+
+/* Less motion: everything above holds still. */
+:root[data-motion="off"] :is(.object-art, .object-art *, .confetti i, .rise), :root[data-motion="off"] :is(.app-main:not(.panes), .focus-main) > * > * { animation: none !important; }
+:root[data-motion="off"] .confetti { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  :is(.object-art, .object-art *, .confetti i, .rise), :is(.app-main:not(.panes), .focus-main) > * > * { animation: none !important; }
+  .confetti { display: none; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}

@@ -1,7 +1,7 @@
 import { ArrowRight, BookOpen, Check, Layers, ListChecks, Network, ScrollText, Sparkles } from "lucide-react";
 import { useLayoutEffect } from "react";
 import { Link } from "react-router";
-import { Cutout, Decor, DecorLine, Scene } from "../components/Art";
+import { Cutout, DecorLine, Scene } from "../components/Art";
 import { BrandMark } from "../components/BrandMark";
 import { Layout } from "../components/Layout";
 import { STYLE_ART } from "../components/styleArt";
@@ -113,7 +113,6 @@ export default function Landing() {
             <p>
               Green plants make their own food by photosynthesis. <mark>Chlorophyll, the green pigment in the chloroplasts, absorbs light energy.</mark> The plant uses this energy to turn carbon dioxide and water into glucose.
             </p>
-            <Decor name="page-corner-curl" className="cite-curl" />
           </div>
         </div>
       </section>

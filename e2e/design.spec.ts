@@ -54,3 +54,56 @@ test("no image sits inside an arch, a circle or a box frame", async ({ page }, i
   await expect(page.getByRole("heading", { name: "Give Taku something to study from" })).toBeVisible();
   expect(await framedImages(page)).toEqual([]);
 });
+
+/** People belong to Landing, SignIn and Setup. Inside the signed in app the art is objects (src/components/ObjectArt.tsx). */
+async function peopleInApp(page: Page): Promise<string[]> {
+  await page.waitForLoadState("load");
+  return page.evaluate(() =>
+    Array.from(document.querySelectorAll(".app .cutout, .app img.scene, .focus .cutout, .focus img.scene, .app img[src*='/art/cutouts/'], .app img[src*='/art/scenes/']")).map((el) =>
+      el instanceof HTMLImageElement ? el.src : (el.querySelector("img")?.src ?? el.className),
+    ),
+  );
+}
+
+test("no person is drawn anywhere in the signed in app", async ({ page }, info) => {
+  await adultOnHome(page, info, "people");
+  await expect(page.locator(".home .object-art").first()).toBeVisible();
+  expect(await peopleInApp(page)).toEqual([]);
+
+  for (const [path, heading] of [
+    ["/chat", "Ask anything you are studying."],
+    ["/notebooks", "Notebooks"],
+    ["/settings", "Settings"],
+  ] as const) {
+    await page.goto(path);
+    await expect(page.getByRole("heading", { name: heading, exact: true }).first()).toBeVisible();
+    expect(await peopleInApp(page), path).toEqual([]);
+  }
+
+  await page.goto("/");
+  await newNotebook(page, "Biology");
+  await expect(page.getByRole("heading", { name: "Give Taku something to study from" })).toBeVisible();
+  expect(await peopleInApp(page)).toEqual([]);
+});
+
+test("the sky on Home is hero size beside the greeting on a computer, and small beside it on a phone", async ({ page }, info) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await adultOnHome(page, info, "sky");
+  const sky = page.locator(".home-sky .object-art");
+  const greeting = page.locator(".home-head h1");
+  const composer = page.locator(".home-hero .composer");
+  await expect(sky).toBeVisible();
+  let [s, g] = [await sky.boundingBox(), await greeting.boundingBox()];
+  expect(s!.width).toBeGreaterThanOrEqual(160);
+  expect(s!.width).toBeLessThanOrEqual(200);
+  expect(s!.x, "to the right of the greeting").toBeGreaterThan(g!.x + g!.width);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  [s, g] = [await sky.boundingBox(), await greeting.boundingBox()];
+  const c = await composer.boundingBox();
+  expect(s!.width).toBeGreaterThanOrEqual(64);
+  expect(s!.width).toBeLessThanOrEqual(80);
+  expect(s!.x, "beside the greeting").toBeGreaterThanOrEqual(g!.x + g!.width - 2);
+  expect(s!.y + s!.height, "above the question box").toBeLessThanOrEqual(c!.y);
+  expect(s!.x + s!.width).toBeLessThanOrEqual(390);
+});

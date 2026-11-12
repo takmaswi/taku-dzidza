@@ -73,11 +73,11 @@ for p in (ART/'decor').glob('*.webp'):
     assert p.stat().st_size < 200_000
 
 for name,size,limit in [('honey-waves-dark.webp',(2560,1600),200_000),('honey-waves-dark-phone.webp',(1080,2340),150_000)]:
-    p = ART/'textures'/name
+    p = ART/'archive'/'textures'/name
     assert Image.open(p).size == size and p.stat().st_size < limit
 for name in ['honey-waves.webp','honey-waves-phone.webp','paper-grain.webp']:
     before = subprocess.check_output(['git','show','origin/codex/textures:art/textures/'+name],cwd=ROOT)
-    assert before == (ART/'textures'/name).read_bytes()
+    assert before == (ART/'archive'/'textures'/name).read_bytes()
 
 changed = subprocess.check_output(['git','diff','--name-only','origin/codex/textures'],cwd=ROOT,text=True).splitlines()
 assert all(p.startswith('art/') for p in changed), changed

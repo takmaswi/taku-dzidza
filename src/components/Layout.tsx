@@ -5,6 +5,8 @@ import { Link, NavLink, useLocation } from "react-router";
 import { api } from "../../convex/_generated/api";
 import { copy } from "../copy/en";
 import { BrandMark, Lockup } from "./BrandMark";
+import { SignedInContext } from "./signedIn";
+import { ThemeToggle } from "./ThemeToggle";
 
 /**
  * The frame of every page. Public pages: a light top bar with the lockup.
@@ -88,6 +90,7 @@ export function AppShell({ children, bar, title, scroll = "page", tabs = true }:
               </NavLink>
             ))}
           </div>
+          <ThemeToggle className="icon-button rail-theme" />
           <Link to="/settings" className="avatar" aria-label={`${name}, ${n.settings}`} title={name}>
             {name.slice(0, 1).toUpperCase()}
           </Link>
@@ -102,6 +105,7 @@ export function AppShell({ children, bar, title, scroll = "page", tabs = true }:
               </Link>
               <span className="topbar-title">{title ?? copy.appName}</span>
               <span className="spacer" />
+              <ThemeToggle />
               <Link to="/help" className="pill ghost small">
                 <LifeBuoy size={16} aria-hidden="true" />
                 <span className="hide-narrow">{copy.menu.help}</span>
@@ -110,7 +114,9 @@ export function AppShell({ children, bar, title, scroll = "page", tabs = true }:
             </>
           )}
         </header>
-        <main className={`app-main${scroll === "panes" ? " panes" : ""}`}>{children}</main>
+        <main className={`app-main${scroll === "panes" ? " panes" : ""}`}>
+          <SignedInContext.Provider value={ready}>{children}</SignedInContext.Provider>
+        </main>
         {ready && tabs && (
           <nav className="tabbar" aria-label="Main">
             <span className="tab-indicator" style={indicator} aria-hidden="true" />
@@ -139,7 +145,9 @@ export function FocusShell({ children, exitTo, title, dark = false }: { children
         </Link>
         <span className="focus-title">{title}</span>
       </header>
-      <main className="focus-main">{children}</main>
+      <main className="focus-main">
+        <SignedInContext.Provider value={true}>{children}</SignedInContext.Provider>
+      </main>
     </div>
   );
 }

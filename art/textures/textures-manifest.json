@@ -1,0 +1,53 @@
+{
+  "seed": 20261112,
+  "size": 1024,
+  "shown_at": 512,
+  "high_pass_sigma": 48.0,
+  "textures": [
+    {
+      "file": "paper-cotton.webp",
+      "grain_L_std": 1.65,
+      "limits": [
+        1.5,
+        3.0
+      ],
+      "mean_hex": "#FCF8EC",
+      "target_hex": "#FFF8EC",
+      "pixels_blue_over_red": 0,
+      "low_frequency_L_std": 0.019,
+      "seam_rank": 0.936,
+      "seam_rank_after_webp": 1.0,
+      "bytes": 88894
+    },
+    {
+      "file": "bookcloth-honey.webp",
+      "grain_L_std": 2.4,
+      "limits": [
+        1.5,
+        3.0
+      ],
+      "mean_hex": "#F2C766",
+      "target_hex": "#F2C766",
+      "pixels_blue_over_red": 0,
+      "low_frequency_L_std": 0.041,
+      "seam_rank": 0.714,
+      "seam_rank_after_webp": 0.831,
+      "bytes": 115610
+    },
+    {
+      "file": "linen-charcoal.webp",
+      "grain_L_std": 2.16,
+      "limits": [
+        2.0,
+        3.5
+      ],
+      "mean_hex": "#161513",
+      "target_hex": "#161514",
+      "pixels_blue_over_red": 0,
+      "low_frequency_L_std": 0.04,
+      "seam_rank": 0.945,
+      "seam_rank_after_webp": 0.949,
+      "bytes": 91638
+    }
+  ]
+}

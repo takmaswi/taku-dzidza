@@ -1,12 +1,12 @@
 # Takudzidza art style
 
-For Codex and build agents. Matches batch 1 (`art/CODEX_NOTES.md`). The asset list and full prompts are in `art/ASSETS.md`.
+For Codex and build agents. **From batch 4, `art/BRIEF-batch-4.md` overrides this file wherever they differ.** Objects, materials and tasteful stylised art are allowed; people photography is now for the landing page, sign in and setup only.
 
 ## Never
 - Never generate images inside this repo or from the app. Takunda runs Codex on his PC and commits the files; agents only wire them in.
 - No text, letters, digits, readable handwriting, logos, crests, watermarks or signage anywhere in an image, including books, devices, clothing and keyboards (blank keycaps). UI words are added in code.
 - No rural scenes, poverty imagery, flags, safari or tourism motifs, staged luxury.
-- No cartoon, 3D, illustration or mascot. No visible tutor character (SPEC.md decision D7: none).
+- No mascot and no visible tutor character (SPEC.md decision D7: none). Objects, materials and stylised art are allowed when they look premium and fit the screen (batch 4).
 - No camera facing advertising pose, no stock grin, no glamour retouching or plastic skin.
 - No reuse of Amai Learn or Takubasa portraits as identity references. Every identity is synthetic and new.
 

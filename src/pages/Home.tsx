@@ -6,9 +6,10 @@ import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { errorText } from "../access";
 import { useTrack } from "../analytics";
-import { Decor, Scene } from "../components/Art";
 import { Composer } from "../components/Composer";
 import { AppShell } from "../components/Layout";
+import { ObjectArt } from "../components/ObjectArt";
+import { skyFor } from "../components/sky";
 import { copy } from "../copy/en";
 
 function today(): string {
@@ -16,10 +17,9 @@ function today(): string {
 }
 
 /**
- * Home is a dashboard, not a poster: a short greeting, the ask box, where to
- * carry on, cards due today, then starter questions and notebooks. The
- * dashboard scene is an accent. Two decor pieces at most: the highlighter
- * under the greeting and the sticky note on cards due.
+ * Home is a dashboard, not a poster: a short greeting with the sky for the
+ * time of day, the ask box, where to carry on, cards due today, then starter
+ * questions and notebooks. No people inside the app; objects carry the warmth.
  */
 export default function Home({ profile }: { profile: Doc<"profiles"> }) {
   const t = copy.home;
@@ -34,6 +34,7 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
   const notebooks = useQuery(api.notebooks.notebooks.list);
   const chats = useQuery(api.chat.chats.list);
   const [now] = useState(() => Date.now());
+  const sky = skyFor(new Date(now).getHours());
   const due = useQuery(api.study.cards.dueCount, { now });
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
@@ -84,10 +85,12 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
       <div className="home">
         <section className="home-hero">
           <div className="home-ask rise">
-            <span className="eyebrow">{today()}</span>
-            <h1>
-              {first} <span className="highlight">{t.greetingWord}</span> {rest.join(" ")}
-            </h1>
+            <div className="home-head">
+              <span className="eyebrow">{today()}</span>
+              <h1>
+                {first} <span className="highlight">{t.greetingWord}</span> {rest.join(" ")}
+              </h1>
+            </div>
             <Composer
               id="home-ask"
               label={t.askPlaceholder}
@@ -111,7 +114,9 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
               </p>
             )}
           </div>
-          <Scene slug="home-dashboard" alt={t.sceneAlt} sizes="(min-width: 1100px) 420px, 0px" eager className="home-scene" />
+          <div className="home-sky">
+            <ObjectArt name={sky} alt="" className="home-object" />
+          </div>
         </section>
 
         {newOpen && (
@@ -164,8 +169,8 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
             </section>
           )}
 
-          <section className={`panel due-today rise${due !== undefined && due.count > 0 ? " has-due" : ""}`} aria-labelledby="due">
-            {due !== undefined && due.count > 0 && <Decor name="sticky-note-butter" className="due-note" />}
+          <section className="panel due-today rise" aria-labelledby="due">
+            <ObjectArt name="index-cards" alt="" size={76} />
             <div className="due-text">
               <h2 id="due">{t.dueToday}</h2>
               {due !== undefined && due.count > 0 ? (

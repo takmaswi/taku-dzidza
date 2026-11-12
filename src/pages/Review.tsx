@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
-import { Cutout } from "../components/Art";
+import { Confetti } from "../components/Confetti";
 import { FocusShell } from "../components/Layout";
 import { speakable } from "../components/math";
 import { MathText } from "../components/MathText";
+import { ObjectArt } from "../components/ObjectArt";
 import { copy } from "../copy/en";
 
 /**
@@ -58,7 +59,14 @@ export default function Review() {
         {session === null && <p>{copy.loading}</p>}
         {session !== null && card === undefined && (
           <div className="panel review-done rise">
-            <Cutout slug="empty-flashcards" alt="" sizes="200px" className="review-done-art" />
+            {cards.length === 0 ? (
+              <ObjectArt name="index-cards" alt="" size={140} />
+            ) : (
+              <>
+                <ObjectArt name="star-medal" alt="" size={140} />
+                <Confetti />
+              </>
+            )}
             <h2>{cards.length === 0 ? t.reviewNone : t.reviewDone}</h2>
             {cards.length > 0 && (
               <p className="eyebrow" style={{ margin: 0 }}>

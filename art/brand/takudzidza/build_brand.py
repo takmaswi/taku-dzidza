@@ -135,7 +135,7 @@ def build_board(proposals: list[Path]) -> None:
     draw.text((80, 48), "TAKUDZIDZA / EDUCATION MARK REVIEW", font=board_font(44, 600), fill=INK)
     draw.text((80, 112), "Approved kit assets copied unchanged. Actual mark viewports: 512, 64 and 32 px.", font=board_font(27), fill=INK)
     draw.text((80, 155), "Each mark keeps the original 100 x 100 geometry. Proposed product lockups require approval.", font=board_font(27), fill=INK)
-    honey = Image.open(ART / "textures/honey-waves.webp").convert("RGB")
+    honey = Image.open(ART / "archive/textures/honey-waves.webp").convert("RGB")
     surfaces = (
         ("CREAM #FFF8F0", CREAM, "BEST: ON CREAM", INK),
         ("HONEY WAVES / EXISTING TEXTURE", None, "BEST: ON CREAM", INK),

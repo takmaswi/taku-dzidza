@@ -2,7 +2,7 @@ import { useMutation } from "convex/react";
 import { Sparkles } from "lucide-react";
 import { useNavigate } from "react-router";
 import { api } from "../../../convex/_generated/api";
-import { Scene } from "../../components/Art";
+import { ObjectArt } from "../../components/ObjectArt";
 import { copy } from "../../copy/en";
 import { AddForms } from "./sources";
 import { ADD_ICONS, type Sources } from "./useSources";
@@ -20,7 +20,7 @@ export function EmptyNotebook({ sources }: { sources: Sources }) {
             <h2>{t.emptyTitle}</h2>
             <p className="soft">{t.emptyLead}</p>
           </div>
-          <Scene slug="empty-notebook" alt={t.emptyAlt} sizes="(min-width: 900px) 320px, 60vw" className="empty-nb-scene" />
+          <ObjectArt name="open-book" alt="" size={168} />
         </div>
         <div className="add-tiles">
           {(["upload", "snap", "paste", "link"] as const).map((kind, i) => {

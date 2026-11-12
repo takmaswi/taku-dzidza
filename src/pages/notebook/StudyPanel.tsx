@@ -6,7 +6,7 @@ import { api } from "../../../convex/_generated/api";
 import type { Id } from "../../../convex/_generated/dataModel";
 import { errorText } from "../../access";
 import { useTrack } from "../../analytics";
-import { Decor } from "../../components/Art";
+import { ObjectArt } from "../../components/ObjectArt";
 import { copy } from "../../copy/en";
 import { PanelOutput } from "../Output";
 import { PANEL_KINDS } from "./tools";
@@ -112,7 +112,12 @@ export function StudyPanel({ notebookId, readAloud, initialTool }: { notebookId:
               </button>
             ))}
           </div>
-          {busy && <p className="stage">{t.making}</p>}
+          {busy && (
+            <p className="stage making">
+              <ObjectArt name="hourglass" alt="" size={32} />
+              {t.making}
+            </p>
+          )}
         </div>
       )}
       {error !== null && (
@@ -123,7 +128,7 @@ export function StudyPanel({ notebookId, readAloud, initialTool }: { notebookId:
 
       {due !== undefined && due.total > 0 && (
         <section className="due-card">
-          <Decor name="sticky-note-butter" className="due-note" />
+          <ObjectArt name="index-cards" alt="" size={64} />
           <div className="due-text">
             <b>{t.reviewTitle}</b>
             <p>{dueNow > 0 ? t.reviewDue(dueNow) : t.reviewNone}</p>
@@ -204,9 +209,12 @@ function ToolForm({ slug, name, tagline, options, busy, onMake }: { slug: string
           </div>
         )}
       </div>
-      <button className="pill small" type="submit" disabled={busy}>
-        {busy ? t.making : `${t.make} ${name.toLowerCase()}`}
-      </button>
+      <div className="making">
+        <button className="pill small" type="submit" disabled={busy}>
+          {busy ? t.making : `${t.make} ${name.toLowerCase()}`}
+        </button>
+        {busy && <ObjectArt name="hourglass" alt="" size={36} />}
+      </div>
     </form>
   );
 }

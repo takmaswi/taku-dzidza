@@ -37,10 +37,8 @@
 .mark-auto { display: inline-grid; }
 .mark-auto > svg { grid-area: 1 / 1; width: 100%; height: 100%; }
 .mark-auto .mark-dark { visibility: hidden; }
-@media (prefers-color-scheme: dark) {
-  :root[data-shell="app"]:not([data-contrast="true"]) .mark-auto .mark-light { visibility: hidden; }
-  :root[data-shell="app"]:not([data-contrast="true"]) .mark-auto .mark-dark { visibility: visible; }
-}
+:root[data-theme="dark"][data-shell="app"]:not([data-contrast="true"]) .mark-auto .mark-light { visibility: hidden; }
+:root[data-theme="dark"][data-shell="app"]:not([data-contrast="true"]) .mark-auto .mark-dark { visibility: visible; }
 
 /* Phone tab bar: part of the column, not floating, so content never hides under it. Hidden while typing. */
 .tabbar {
@@ -52,7 +50,7 @@
 .tabbar a.active { color: var(--text); font-weight: 600; }
 .tab-indicator {
   position: absolute; top: 0.35rem; left: 0.4rem; width: calc((100% - 0.8rem) / 5); height: calc(100% - 0.7rem - env(safe-area-inset-bottom, 0px));
-  border-radius: 14px; background: var(--pick); transform: translateX(calc(var(--active) * 100%));
+  border-radius: 14px; background: var(--pick-fill); box-shadow: inset 0 0 0 1px var(--pick-line); transform: translateX(calc(var(--active) * 100%));
   transition: transform calc(0.35s * var(--speed)) var(--ease), opacity 0.2s;
 }
 .badge { position: absolute; top: 0.1rem; right: 22%; min-width: 1.1rem; height: 1.1rem; border-radius: 999px; background: var(--msasa); color: var(--white); font-size: 0.65rem; font-weight: 600; display: grid; place-items: center; padding: 0 0.25rem; }
@@ -79,7 +77,7 @@ body:has(.composer textarea:focus) .tabbar { display: none; }
   .rail-items a.active { color: var(--text); font-weight: 600; }
   .rail-items .badge { top: 0.3rem; right: 0.6rem; }
   .rail-indicator {
-    position: absolute; left: 0; top: 0; width: 64px; height: 60px; border-radius: 14px; background: var(--pick); box-shadow: inset 0 0 0 1px var(--pick-line);
+    position: absolute; left: 0; top: 0; width: 64px; height: 60px; border-radius: 14px; background: var(--pick-fill); box-shadow: inset 0 0 0 1px var(--pick-line), 0 1px 2px rgb(40 30 0 / 0.12);
     transform: translateY(calc(var(--active) * 60px)); transition: transform calc(0.35s * var(--speed)) var(--ease), opacity 0.2s;
   }
   .avatar {
@@ -126,7 +124,7 @@ body:has(.composer textarea:focus) .tabbar { display: none; }
 .focus-title { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .focus-main { flex: 1; min-height: 0; overflow-y: auto; padding: clamp(1rem, 3vw, 2.5rem) clamp(1rem, 4vw, 2.5rem) 3rem; }
 .focus-dark { background: var(--d-page); color: var(--cream); }
-.focus-dark .focus-bar { background: rgb(30 23 16 / 0.85); border-color: var(--d-line); }
+.focus-dark .focus-bar { background: rgb(18 18 18 / 0.85); border-color: var(--d-line); }
 .focus-dark .focus-exit { color: var(--cream); border-color: var(--d-accent); }
 .focus-dark .focus-main { padding: 0; }
 
@@ -136,3 +134,7 @@ body:has(.composer textarea:focus) .tabbar { display: none; }
   body::before { display: none; }
   body { background: #fff; }
 }
+
+/* Light and dark switch in the rail, just above the avatar. */
+.rail .rail-theme { margin-top: auto; color: var(--text-soft); }
+.rail .rail-theme + .avatar { margin-top: 0.4rem; }

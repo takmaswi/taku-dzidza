@@ -8,7 +8,8 @@
 // TAKU_GEN_FIXTURES=0 (production builds).
 //
 // Art: the web sizes in art/web (made by art/web/build_web.py from the
-// cutouts and scenes Codex committed), the decor and the textures are copied
+// cutouts and scenes Codex committed), the decor, the surface textures (made
+// by tools/make-textures.py) and any raster objects in art/objects are copied
 // to public/art, and src/art.generated.ts lists each image with its sizes.
 
 import { createHash } from "node:crypto";
@@ -99,6 +100,9 @@ function copyDir(from, to, predicate) {
   }
 }
 
+/** The surfaces in use (tools/make-textures.py). The older wave and grain files are in art/archive/textures and do not ship. */
+const TEXTURES = ["paper-cotton.webp", "bookcloth-honey.webp", "linen-charcoal.webp"];
+
 export function buildArt() {
   const to = join(ROOT, "public", "art");
   // Web sizes made by art/web/build_web.py from the cutouts and scenes, plus decor and textures as committed.
@@ -106,7 +110,16 @@ export function buildArt() {
   copyDir(join(ROOT, "art", "web", "scenes"), join(to, "scenes"), (n) => n.endsWith(".webp"));
   copyDir(join(ROOT, "art", "web"), to, (n) => n === "og-landing.jpg");
   copyDir(join(ROOT, "art", "decor"), join(to, "decor"), (n) => n.endsWith(".webp") || n.endsWith(".svg"));
-  copyDir(join(ROOT, "art", "textures"), join(to, "textures"), (n) => n.endsWith(".webp"));
+  copyDir(join(ROOT, "art", "textures"), join(to, "textures"), (n) => TEXTURES.includes(n));
+  // Raster objects (Codex, art/BRIEF-batch-4.md) replace the inline SVG in src/components/ObjectArt.tsx one by one.
+  // Files follow art/BRIEF-batch-4.md: <slug>-<width>.webp for each width, and <slug>-shadow.webp.
+  const objects = JSON.parse(read(join(ROOT, "art", "objects", "manifest.json"))).objects ?? {};
+  for (const [name, o] of Object.entries(objects)) {
+    const files = [...(o.widths ?? []).map((w) => `${name}-${w}.webp`), `${name}-shadow.webp`];
+    const missing = files.filter((f) => !existsSync(join(ROOT, "art", "objects", f)));
+    if (!/^[a-z-]+$/.test(name) || (o.widths ?? []).length === 0 || missing.length > 0) throw new Error(`art/objects/manifest.json: ${name} needs widths and the files ${missing.join(", ") || files.join(", ")} in art/objects.`);
+  }
+  copyDir(join(ROOT, "art", "objects"), join(to, "objects"), (n) => n.endsWith(".webp"));
   const manifest = JSON.parse(read(join(ROOT, "art", "web", "manifest.json")));
   const pick = (group) => Object.fromEntries(Object.entries(group).map(([slug, a]) => [slug, { width: a.width, height: a.height, widths: a.widths }]));
   const body = [
@@ -116,6 +129,7 @@ export function buildArt() {
     `export const SCENES = ${JSON.stringify(pick(manifest.scenes))} as const satisfies Record<string, ArtSize>;`,
     "export type CutoutSlug = keyof typeof CUTOUTS;",
     "export type SceneSlug = keyof typeof SCENES;",
+    `export const OBJECT_RASTERS: Record<string, { widths: readonly number[] }> = ${JSON.stringify(Object.fromEntries(Object.entries(objects).map(([n, o]) => [n, { widths: [...o.widths].sort((a, b) => a - b) }])))};`,
     "",
   ].join("\n");
   return writeIfChanged(join(ROOT, "src", "art.generated.ts"), body);
