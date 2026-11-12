@@ -87,7 +87,6 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
           <div className="home-ask rise">
             <div className="home-head">
               <span className="eyebrow">{today()}</span>
-              <ObjectArt name={sky} alt="" className="home-object" />
               <h1>
                 {first} <span className="highlight">{t.greetingWord}</span> {rest.join(" ")}
               </h1>
@@ -114,6 +113,9 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
                 {error}
               </p>
             )}
+          </div>
+          <div className="home-sky">
+            <ObjectArt name={sky} alt="" className="home-object" />
           </div>
         </section>
 

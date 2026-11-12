@@ -19,11 +19,36 @@
 :root[data-theme="dark"][data-shell="app"]:not([data-contrast="true"]) .oa-glow { opacity: 0.12; }
 
 /* Where the objects sit. */
-.home-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.25rem 1rem; align-items: center; }
+/* Home: the sun, low sun or moon is the hero, in a soft glow beside the greeting. Phones: small, top right of the greeting. */
+.home-hero { position: relative; }
+.home-head { display: grid; gap: 0.25rem; padding-right: 84px; min-height: 72px; align-content: center; }
 .home-head .eyebrow { margin: 0; }
-.home-object { width: 64px; height: 64px; grid-row: span 2; align-self: end; margin-bottom: -0.35rem; }
-@media (min-width: 760px) { .home-object { width: 96px; height: 96px; margin: -1rem 0 -0.6rem; } }
+.home-sky { position: absolute; top: 0; right: 0; width: 72px; height: 72px; display: grid; place-items: center; isolation: isolate; pointer-events: none; }
+.home-sky::before { content: ""; position: absolute; inset: -45%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, var(--sky-glow), var(--sky-glow-mid) 45%, transparent); }
+.home-object { width: 100%; height: 100%; }
+@media (min-width: 900px) {
+  .home-hero { grid-template-columns: minmax(0, 1fr) 220px; column-gap: 1.5rem; }
+  .home-head { padding-right: 0; min-height: 0; }
+  .home-sky { position: relative; width: 220px; height: 200px; align-self: center; }
+  .home-sky::before { inset: -18% -12%; }
+  .home-object { width: 184px; height: 184px; }
+}
+/* The glow behind the sky, and a light butter wash over the top of Home so the page reads white and yellow. The paper shows through both. */
+:root { --sky-glow: rgb(242 179 61 / 0.42); --sky-glow-mid: rgb(248 214 140 / 0.22); --home-wash: rgb(242 190 70 / 0.1); }
+:root[data-theme="dark"] { --sky-glow: rgb(242 179 61 / 0.2); --sky-glow-mid: rgb(242 179 61 / 0.07); --home-wash: rgb(242 179 61 / 0.035); }
+:root[data-contrast="true"] { --sky-glow: transparent; --sky-glow-mid: transparent; --home-wash: transparent; }
+.app-main:has(> .home) { background: linear-gradient(var(--home-wash), transparent 420px) local; }
 .chat-empty .object-art { margin: 0 0 -0.25rem -0.4rem; }
+/* Empty states: the object fills the space it has. Phones keep it smaller so the words and buttons stay in view. */
+.empty-state .object-art { width: 148px; height: 148px; }
+.review-done { --oa: 148px; }
+.review-done > .object-art { width: var(--oa); height: var(--oa); }
+@media (min-width: 700px) {
+  .chat-empty .object-art { width: 168px; height: 168px; margin: -0.5rem 0 -0.5rem -0.6rem; }
+  .empty-state { padding: 2.5rem 1.5rem 2.25rem; }
+  .empty-state .object-art { width: 196px; height: 196px; margin-bottom: -0.25rem; }
+  .review-done { --oa: 188px; }
+}
 .empty-state { display: grid; justify-items: center; text-align: center; gap: 0.5rem; padding: 2rem 1.25rem 1.75rem; }
 .empty-state p { margin: 0; max-width: 36ch; }
 .empty-nb-head .object-art { justify-self: center; }
@@ -47,7 +72,7 @@
 .review-done { position: relative; overflow: visible; }
 .review-done .oa-star-medal { animation: medal-in calc(0.5s * var(--speed) + 0.001s) cubic-bezier(0.3, 1.5, 0.5, 1) both; }
 @keyframes medal-in { from { transform: scale(0.6) rotate(-8deg); opacity: 0; } }
-.confetti { position: absolute; left: 50%; top: 5.6rem; width: 0; height: 0; pointer-events: none; z-index: 2; }
+.confetti { position: absolute; left: 50%; top: calc(1.25rem + var(--oa, 140px) * 0.45); width: 0; height: 0; pointer-events: none; z-index: 2; }
 .confetti i {
   position: absolute; left: -4px; top: -3px; width: var(--w); height: 5px; border-radius: 1.5px; background: var(--c); opacity: 0;
   box-shadow: 0 1px 1px rgb(40 30 0 / 0.15);

@@ -117,6 +117,17 @@ describe("surfaces", () => {
     expect(block).toMatch(/--page-bg: var\(--white\);/);
     expect(block).toMatch(/--panel-fill: var\(--white\);/);
     expect(block).toMatch(/--pick-fill: var\(--butter\);/);
+    const polish = read("src", "styles", "polish.css");
+    expect(polish).toMatch(/:root\[data-contrast="true"\] \{ --sky-glow: transparent; --sky-glow-mid: transparent; --home-wash: transparent; \}/);
+  });
+
+  test("the butter wash is on Home only, and the paper shows through it", () => {
+    const polish = read("src", "styles", "polish.css");
+    const uses = [...styles.matchAll(/var\(--home-wash\)/g)];
+    expect(uses).toHaveLength(1);
+    expect(polish).toMatch(/\.app-main:has\(> \.home\) \{ background: linear-gradient\(var\(--home-wash\), transparent \d+px\) local; \}/);
+    // Translucent, so the cotton paper under it stays visible.
+    for (const [, alpha] of polish.matchAll(/--home-wash: rgb\([\d ]+\/ ([\d.]+)\)/g)) expect(Number(alpha)).toBeLessThanOrEqual(0.12);
   });
 
   test("the textures the styles name are the ones made and shipped", () => {

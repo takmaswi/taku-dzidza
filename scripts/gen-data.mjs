@@ -100,7 +100,7 @@ function copyDir(from, to, predicate) {
   }
 }
 
-/** The surfaces in use (tools/make-textures.py). The older wave and grain files stay in art/textures but no longer ship. */
+/** The surfaces in use (tools/make-textures.py). The older wave and grain files are in art/archive/textures and do not ship. */
 const TEXTURES = ["paper-cotton.webp", "bookcloth-honey.webp", "linen-charcoal.webp"];
 
 export function buildArt() {

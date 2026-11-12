@@ -85,3 +85,25 @@ test("no person is drawn anywhere in the signed in app", async ({ page }, info) 
   await expect(page.getByRole("heading", { name: "Give Taku something to study from" })).toBeVisible();
   expect(await peopleInApp(page)).toEqual([]);
 });
+
+test("the sky on Home is hero size beside the greeting on a computer, and small beside it on a phone", async ({ page }, info) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await adultOnHome(page, info, "sky");
+  const sky = page.locator(".home-sky .object-art");
+  const greeting = page.locator(".home-head h1");
+  const composer = page.locator(".home-hero .composer");
+  await expect(sky).toBeVisible();
+  let [s, g] = [await sky.boundingBox(), await greeting.boundingBox()];
+  expect(s!.width).toBeGreaterThanOrEqual(160);
+  expect(s!.width).toBeLessThanOrEqual(200);
+  expect(s!.x, "to the right of the greeting").toBeGreaterThan(g!.x + g!.width);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  [s, g] = [await sky.boundingBox(), await greeting.boundingBox()];
+  const c = await composer.boundingBox();
+  expect(s!.width).toBeGreaterThanOrEqual(64);
+  expect(s!.width).toBeLessThanOrEqual(80);
+  expect(s!.x, "beside the greeting").toBeGreaterThanOrEqual(g!.x + g!.width - 2);
+  expect(s!.y + s!.height, "above the question box").toBeLessThanOrEqual(c!.y);
+  expect(s!.x + s!.width).toBeLessThanOrEqual(390);
+});

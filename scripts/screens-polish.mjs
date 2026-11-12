@@ -2,6 +2,8 @@
 // Polish 2 report, in light and dark, at 1280 wide and 390 wide. Needs the
 // local Convex backend (pnpm dev:convex) running. Each run signs up a fresh
 // learner in mock mode, so no AI is spent. Files: <outDir>/<theme>-<device>/<n>-<screen>.png
+// Optional: a second arg such as light-desktop (or all) for one run, and a third arg "short"
+// for only Home, Notebooks, Chat and an empty notebook.
 import { spawn, spawnSync } from "node:child_process";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
@@ -10,7 +12,8 @@ import { requireLocalDeployment } from "./lib/convex-target.mjs";
 import { convexDevEnv } from "./lib/local-backend.mjs";
 
 const out = process.argv[2] ?? "screens-polish";
-const only = process.argv[3];
+const only = process.argv[3] === "all" ? undefined : process.argv[3];
+const short = process.argv[4] === "short";
 const port = 5197;
 const base = `http://localhost:${port}`;
 const win = process.platform === "win32";
@@ -22,7 +25,8 @@ const web = spawn("npx", ["vite", "--port", String(port), "--strictPort"], { std
 
 function outbox(to) {
   const r = spawnSync(process.execPath, ["node_modules/convex/bin/main.js", "run", "accounts/outbox:latest", JSON.stringify({ to })], { encoding: "utf8", env: convexDevEnv() });
-  return JSON.parse(r.stdout.trim().split("\n").pop() ?? "null");
+  // The CLI can print nothing while the code is not written yet: treat that as no code.
+  return JSON.parse(r.stdout.trim().split("\n").pop() || "null");
 }
 async function code(to) {
   for (let i = 0; i < 40; i++) {
@@ -87,6 +91,12 @@ async function steps(page, dir, device, theme) {
   await page.goto(`${base}/notebooks`);
   await page.getByRole("heading", { name: "Notebooks", exact: true }).waitFor();
   await shoot(page, dir, "2-notebooks-empty");
+  if (short) {
+    await page.goto(`${base}/chat`);
+    await page.getByRole("button", { name: "Explain osmosis simply" }).first().waitFor();
+    await shoot(page, dir, "7-chat-empty");
+    await page.goto(`${base}/notebooks`);
+  }
 
   await page.getByRole("button", { name: "New notebook" }).first().click();
   await page.getByLabel("What is this notebook for?").fill("Form 4 Biology");
@@ -94,6 +104,7 @@ async function steps(page, dir, device, theme) {
   await page.waitForURL(/\/n\//);
   await page.getByRole("heading", { name: "Form 4 Biology" }).waitFor();
   await shoot(page, dir, "3-notebook-empty");
+  if (short) return;
 
   await page.getByRole("button", { name: /^Paste text/ }).first().click();
   await page.getByLabel("Your text").fill(NOTES);

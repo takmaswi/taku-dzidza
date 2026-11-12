@@ -1,11 +1,12 @@
 """Builds docs/Polish-2-Report.pdf: before and after screenshots of Polish 2.
 
 Run from the repo root:
-  python tools/polish2_report_pdf.py <before dir> <after dir> <extras dir> <unit tests line> <e2e line>
+  python tools/polish2_report_pdf.py <before dir> <after dir> <extras dir> <unit tests line> <e2e line> [<2b dir> <2b unit line> <2b e2e line>]
 
 The before and after dirs come from scripts/screens-polish.mjs (light-desktop,
 light-phone, dark-desktop, dark-phone). The extras dir holds objects.png,
-motion-crossfade-mid.png (Home just after the switch to dark) and motion-confetti.png. Copy rule: no hyphens, en
+motion-crossfade-mid.png (Home just after the switch to dark) and motion-confetti.png. The optional
+2b dir (scripts/screens-polish.mjs <dir> all short) adds the Polish 2b addendum at the end. Copy rule: no hyphens, en
 dashes or em dashes in the text; the script refuses to build if any slip in.
 """
 
@@ -35,6 +36,8 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "Polish-2-Report.pdf"
 BEFORE, AFTER, EXTRAS = (Path(a) for a in sys.argv[1:4])
 UNIT, E2E = sys.argv[4], sys.argv[5]
+ADDENDUM = Path(sys.argv[6]) if len(sys.argv) > 6 else None
+UNIT_2B, E2E_2B = (sys.argv[7], sys.argv[8]) if ADDENDUM else ("", "")
 TMP = EXTRAS / "pdf-images"
 TMP.mkdir(parents=True, exist_ok=True)
 
@@ -114,19 +117,29 @@ def framed(cells: list[list], col_w: float) -> Table:
     return table
 
 
-def desktop_page(title: str, shot: str, note: str, before: bool = True) -> list:
+def desktop_page(
+    title: str,
+    shot: str,
+    note: str,
+    before: bool = True,
+    left: Path = BEFORE,
+    right: Path = AFTER,
+    names: tuple[str, str] = ("Before", "After"),
+) -> list:
     """Light and dark at 1280 wide, before on the left, after on the right."""
     col = USABLE_W / 2
     img_w, img_h = col - 8, 62 * mm
     rows = []
     for theme in ("light", "dark"):
         b = (
-            picture(BEFORE / f"{theme}-desktop" / f"{shot}.png", img_w, img_h)
+            picture(left / f"{theme}-desktop" / f"{shot}.png", img_w, img_h)
             if before
             else para("New in this set.", LABEL)
         )
-        a = picture(AFTER / f"{theme}-desktop" / f"{shot}.png", img_w, img_h)
-        rows.append([para(f"Before, {theme}", LABEL), para(f"After, {theme}", LABEL)])
+        a = picture(right / f"{theme}-desktop" / f"{shot}.png", img_w, img_h)
+        rows.append(
+            [para(f"{names[0]}, {theme}", LABEL), para(f"{names[1]}, {theme}", LABEL)]
+        )
         rows.append([b, a])
     return [
         para(f"{title}: computer, 1280 wide", H2),
@@ -137,17 +150,25 @@ def desktop_page(title: str, shot: str, note: str, before: bool = True) -> list:
     ]
 
 
-def phone_page(title: str, shot: str, note: str, before: bool = True) -> list:
+def phone_page(
+    title: str,
+    shot: str,
+    note: str,
+    before: bool = True,
+    left: Path = BEFORE,
+    right: Path = AFTER,
+    names: tuple[str, str] = ("Before", "After"),
+) -> list:
     """Light and dark at 390 wide: before light, after light, before dark, after dark."""
     col = USABLE_W / 4
     img_w, img_h = col - 8, 150 * mm
     labels, pics = [], []
     for theme in ("light", "dark"):
-        for when, base in (("Before", BEFORE), ("After", AFTER)):
+        for when, base in ((names[0], left), (names[1], right)):
             labels.append(para(f"{when}, {theme}", LABEL))
             pics.append(
                 picture(base / f"{theme}-phone" / f"{shot}.png", img_w, img_h)
-                if (before or base is AFTER)
+                if (before or base is right)
                 else para("New in this set.", LABEL)
             )
     return [
@@ -329,6 +350,59 @@ def cover() -> list:
     return flow
 
 
+ADDENDUM_SCREENS = [
+    (
+        "Home",
+        "1-home",
+        "The sun, low sun or moon is now the hero: about 185 px on a computer, to the right of the greeting where the old scene stood, with a soft honey glow behind it "
+        "(a faint warm glow in dark mode). On a phone it is 72 px beside the greeting. A light butter wash over the top of Home brings back the warmth, "
+        "so light mode reads white and yellow, and the cotton paper still shows through it. The Polish 2 shots were taken in the evening (moon), these in the morning (sun).",
+    ),
+    (
+        "Ask Taku, empty",
+        "7-chat-empty",
+        "The speech bubble is 168 px on a computer so it holds the empty space; on a phone it stays at 112 px so the starters stay in view.",
+    ),
+    (
+        "Notebooks, empty",
+        "2-notebooks-empty",
+        "The open book is 196 px on a computer and 148 px on a phone, with a little more room in the card. The finished review medal grew the same way (188 px on a computer), and its confetti still starts from the medal.",
+    ),
+]
+
+
+def addendum() -> list:
+    assert ADDENDUM is not None
+    flow = [
+        PageBreak(),
+        para("Addendum: Polish 2b, hero object, warmth, cleanup", H1),
+        para("13 November 2026. Left is Polish 2 as first reported, right is now.", P),
+        Spacer(1, 3 * mm),
+        para("What changed", H2),
+        *bullets(
+            [
+                "Home: the time of day object is hero size with a soft glow behind it, and a light butter wash over the top of the page.",
+                "Empty states with an object (Ask Taku, Notebooks, a finished review) now show it large enough to fill the space.",
+                "Cleanup: the empty folder art/brand/options is removed, so the brand test passes. The old wave and grain textures, their script and manifest and the board image are in art/archive/textures, moved with git so their history stays. Leftover caches are deleted.",
+            ]
+        ),
+        para("Checks", H2),
+        *bullets(
+            [
+                UNIT_2B,
+                E2E_2B,
+                "Typecheck and lint pass. A new browser test checks the sky is hero size beside the greeting on a computer and small beside it on a phone. A new unit test checks the wash is on Home only, stays see through, and is off in high contrast mode.",
+            ]
+        ),
+        PageBreak(),
+    ]
+    for title, shot, note in ADDENDUM_SCREENS:
+        pages = dict(left=AFTER, right=ADDENDUM, names=("Polish 2", "Polish 2b"))
+        flow += desktop_page(title, shot, note, True, **pages)
+        flow += phone_page(title, shot, note, True, **pages)
+    return flow
+
+
 def background(canvas, doc) -> None:  # noqa: ANN001
     canvas.saveState()
     canvas.setFillColor(CREAM)
@@ -344,6 +418,9 @@ def main() -> None:
     for title, shot, note, before in SCREENS:
         story += desktop_page(title, shot, note, before)
         story += phone_page(title, shot, note, before)
+    if ADDENDUM is not None:
+        story.pop()
+        story += addendum()
     story.pop()  # no blank last page
     bad = [s for s in ALL_TEXT if any(ch in s for ch in ("-", "\u2013", "\u2014"))]
     if bad:
