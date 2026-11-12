@@ -1,0 +1,4 @@
+{
+  "about": "Photo objects that replace the drawn SVG in src/components/ObjectArt.tsx, one at a time. Add an entry per slug, for example \"sun\": { \"widths\": [160, 320, 640] }, with sun-160.webp, sun-320.webp, sun-640.webp and sun-shadow.webp beside this file (art/BRIEF-batch-4.md). Other fields, such as bytes or sha256, may sit alongside. Empty means every object is drawn.",
+  "objects": {}
+}

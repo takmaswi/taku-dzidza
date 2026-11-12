@@ -6,11 +6,11 @@ import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import { errorText } from "../access";
 import { useTrack } from "../analytics";
-import { Cutout } from "../components/Art";
 import { BrandMark } from "../components/BrandMark";
 import { Composer } from "../components/Composer";
 import { AppShell } from "../components/Layout";
 import { Markdown } from "../components/Markdown";
+import { ObjectArt } from "../components/ObjectArt";
 import { CopyAndRead, LearnerBubble, TakuMessage, Thread, Typing } from "../components/Thread";
 import { useMedia, WIDE } from "../components/hooks";
 import { Menu } from "../components/ui";
@@ -136,7 +136,7 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
             <Thread follow={`${messages.length}:${last?.text.length ?? 0}:${pending ?? ""}`} testId="chat-thread" pin={!empty}>
               {empty && (
                 <div className="chat-empty rise">
-                  <Cutout slug="tile-ask" alt={t.emptyAlt} sizes="150px" className="chat-empty-art" />
+                  <ObjectArt name="speech-bubble" alt="" size={112} />
                   <h2>{t.emptyTitle}</h2>
                   <p className="lead soft">{t.emptyBody}</p>
                   <div className="chips">

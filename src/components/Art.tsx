@@ -1,16 +1,28 @@
-import type { CSSProperties } from "react";
+import { useContext, type CSSProperties } from "react";
 import { CUTOUTS, SCENES, type CutoutSlug, type SceneSlug } from "../art.generated";
+import { SignedInContext } from "./signedIn";
 
 /**
  * Photos, never framed. A cutout is a person with their own soft contact
  * shadow, so they sit on the page. A scene is a composed photo whose edges
  * fade into the page texture. Both load lazily with srcset unless eager.
  * Sizes come from art/web/manifest.json via src/art.generated.ts.
+ *
+ * People appear on Landing, SignIn and Setup only. Inside the signed in app
+ * (SignedInContext) both draw nothing, and say so in development.
  */
+
+function usePeopleAllowed(kind: string, slug: string): boolean {
+  const signedIn = useContext(SignedInContext);
+  if (signedIn && import.meta.env.DEV) console.error(`${kind} "${slug}" is a person, and people stay out of the signed in app. Use ObjectArt.`);
+  return !signedIn;
+}
 
 type Common = { alt: string; sizes: string; eager?: boolean; className?: string; style?: CSSProperties };
 
 export function Cutout({ slug, alt, sizes, eager = false, className = "", style }: Common & { slug: CutoutSlug }) {
+  const allowed = usePeopleAllowed("Cutout", slug);
+  if (!allowed) return null;
   const art = CUTOUTS[slug];
   const widths: readonly number[] = art.widths;
   const srcSet = widths.map((w) => `/art/cutouts/${slug}-${w}.webp ${w}w`).join(", ");
@@ -24,6 +36,8 @@ export function Cutout({ slug, alt, sizes, eager = false, className = "", style 
 }
 
 export function Scene({ slug, alt, sizes, eager = false, className = "", style }: Common & { slug: SceneSlug }) {
+  const allowed = usePeopleAllowed("Scene", slug);
+  if (!allowed) return null;
   const art = SCENES[slug];
   const widths: readonly number[] = art.widths;
   const srcSet = widths.map((w) => `/art/scenes/${slug}-${w}.webp ${w}w`).join(", ");
@@ -44,13 +58,7 @@ export function Scene({ slug, alt, sizes, eager = false, className = "", style }
   );
 }
 
-type RasterDecor = "highlighter-stroke" | "sticky-note-butter" | "pencil-honey" | "book-stack" | "page-corner-curl" | "torn-paper-cream" | "torn-paper-amber";
 type LineDecor = "underline-swoop" | "underline-double" | "circle-loop" | "stars" | "sparks" | "arrow-curved" | "margin-formula";
-
-/** A stationery object from art/decor. Decorative only: never behind body text, at most two on a screen. */
-export function Decor({ name, className = "", style }: { name: RasterDecor; className?: string; style?: CSSProperties }) {
-  return <img className={`decor ${className}`} style={style} src={`/art/decor/${name}.webp`} alt="" aria-hidden="true" loading="lazy" decoding="async" />;
-}
 
 /** A single stroke mark from art/decor, recoloured to amber (or ink) through a CSS mask. */
 export function DecorLine({ name, className = "", style }: { name: LineDecor; className?: string; style?: CSSProperties }) {

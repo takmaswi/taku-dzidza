@@ -20,8 +20,14 @@ export function setThemeMode(mode: ThemeMode): void {
   } catch {
     // Storage can be blocked; the choice still holds for this visit.
   }
-  document.documentElement.dataset.theme = mode;
-  window.dispatchEvent(new Event(THEME_EVENT));
+  const apply = () => {
+    document.documentElement.dataset.theme = mode;
+    window.dispatchEvent(new Event(THEME_EVENT));
+  };
+  // A 300 ms crossfade of the whole page (src/styles/polish.css), where the browser can and the learner wants motion.
+  const still = document.documentElement.dataset.motion === "off" || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches === true;
+  if (!still && typeof document.startViewTransition === "function") document.startViewTransition(apply);
+  else apply();
 }
 
 export function onThemeChange(listener: () => void): () => void {

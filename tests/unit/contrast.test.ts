@@ -35,6 +35,13 @@ const LIGHT: [string, string][] = [
   ["ink", "butter"],
   ["ink", "butter-pick"],
   ["ink", "honey"],
+  // Card stock panels, and the honey bookcloth on selected cards, the active tab and the rail indicator.
+  ["ink", "card"],
+  ["grey", "card"],
+  ["msasa", "card"],
+  ["sage", "card"],
+  ["ink", "cloth-honey"],
+  ["cloth-soft", "cloth-honey"],
   // Grey: secondary text on panels, raised cards, tiles and selected cards.
   ["grey", "cream"],
   ["grey", "paper"],

@@ -2,7 +2,6 @@
 .page { max-width: 1100px; margin: 0 auto; }
 .page-narrow { max-width: 760px; margin: 0 auto; }
 .page-head { display: flex; justify-content: space-between; gap: 1.5rem; align-items: end; }
-.page-head-art { width: 150px; flex: none; }
 .back-link { display: inline-flex; gap: 0.4rem; align-items: center; text-decoration: none; font-weight: 500; }
 .ct-icon { display: grid; place-items: center; }
 
@@ -12,11 +11,6 @@
 .home-ask { display: grid; gap: 0.6rem; }
 .home-ask h1 { font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.75rem); margin: 0 0 0.3rem; }
 .home-ask .eyebrow { margin: 0; }
-.home-scene { display: none; }
-@media (min-width: 1100px) {
-  .home-hero { grid-template-columns: minmax(0, 1fr) 360px; }
-  .home-scene { display: block; width: 360px; margin: -1rem -1rem -1.5rem 0; }
-}
 .new-notebook { max-width: 560px; }
 .home-grid { display: grid; gap: 1rem; align-items: start; }
 @media (min-width: 900px) { .home-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .home-grid .checklist, .home-grid > .due-today:first-child { grid-column: span 2; } }
@@ -27,9 +21,7 @@
 .continue-item b { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .continue-item small { color: var(--text-soft); }
 .continue-item .ct-icon, .nb-card .ct-icon { flex: none; width: 38px; height: 38px; border-radius: 11px; background: var(--tint); color: var(--on-tint); }
-.due-today { position: relative; display: grid; grid-template-columns: 1fr; align-items: center; gap: 0.75rem; overflow: visible; }
-.due-today.has-due { grid-template-columns: 96px 1fr; }
-.due-today .due-note { width: 96px; transform: rotate(-6deg); filter: drop-shadow(0 6px 10px rgb(40 30 0 / 0.15)); }
+.due-today { position: relative; display: grid; grid-template-columns: 76px 1fr; align-items: center; gap: 1rem; overflow: visible; }
 .due-today p { margin: 0 0 0.6rem; }
 .checklist ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
 .checklist li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.35rem 0.8rem; }
@@ -48,7 +40,7 @@
 .nb-row, .nb-grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
 .nb-card {
   display: grid; gap: 0.35rem; align-content: start; min-height: 130px; padding: 1rem; border-radius: var(--radius); text-decoration: none; color: var(--text);
-  background: var(--panel-fill); border: 1px solid var(--line); box-shadow: var(--shadow-panel); font: inherit; text-align: left; cursor: pointer;
+  background: var(--panel-fill); border: 1px solid var(--line); box-shadow: var(--card-edge), var(--shadow-panel); font: inherit; text-align: left; cursor: pointer;
 }
 .nb-card b { font-weight: 600; margin-top: 0.4rem; }
 .nb-card small { color: var(--text-soft); }
@@ -60,16 +52,19 @@
 .settings-col { display: grid; gap: 1rem; }
 @media (min-width: 1000px) { .settings-grid { grid-template-columns: 1fr 1fr; } }
 .settings-grid h2 { font-size: 1.1rem; }
+/* Style choices sit in half a page here, so they stack instead of squeezing three across. */
+.settings-grid .choices.three { grid-template-columns: 1fr; gap: 0.5rem; }
+.settings-grid .choice { padding-block: 0.8rem; }
 .toggle-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 0.65rem 0; border-top: 1px solid var(--line); }
 .toggle-row:first-of-type { border-top: 0; }
 .danger-zone { border-color: rgb(180 69 47 / 0.35); }
 .switch { position: relative; display: inline-flex; flex: none; }
 .switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; z-index: 1; }
-/* Off track in the soft text colour so the control clears 3:1 against its panel, on track in the primary colour. */
-.switch > span { width: 46px; height: 28px; border-radius: 999px; background: var(--text-soft); transition: background 0.2s; position: relative; }
-.switch > span::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: var(--white); box-shadow: 0 1px 3px rgb(0 0 0 / 0.25); transition: transform calc(0.2s * var(--speed)) var(--ease); }
-.switch input:checked + span { background: var(--primary); }
-.switch input:checked + span::after { transform: translateX(18px); }
+/* Off: an outlined track with a small knob, both in the soft text colour (3:1 or better on the panel). On: a filled track and a full knob. Off and on differ in fill, size and side, not colour alone. */
+.switch > span { width: 46px; height: 28px; border-radius: 999px; background: var(--raised); box-shadow: inset 0 0 0 2px var(--text-soft); position: relative; transition: background calc(0.2s * var(--speed)), box-shadow calc(0.2s * var(--speed)); }
+.switch > span::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: var(--text-soft); transform: scale(0.6); transition: transform calc(0.22s * var(--speed)) var(--ease), background calc(0.2s * var(--speed)); }
+.switch input:checked + span { background: var(--primary); box-shadow: inset 0 0 0 2px var(--primary); }
+.switch input:checked + span::after { transform: translateX(18px); background: var(--on-primary); box-shadow: 0 1px 3px rgb(0 0 0 / 0.25); }
 .switch input:focus-visible + span { outline: 3px solid var(--text); outline-offset: 2px; }
 
 /* ---------- Sign in, setup ---------- */
@@ -96,7 +91,7 @@
 @media (min-width: 760px) { .style-cards { grid-template-columns: repeat(3, 1fr); } }
 .style-card {
   position: relative; display: grid; align-content: end; text-align: left; padding: 1.25rem 1.1rem 1.1rem; border-radius: var(--radius); border: 1.5px solid var(--line);
-  background: var(--panel-fill); color: var(--text); font: inherit; box-shadow: var(--shadow-panel); cursor: pointer;
+  background: var(--panel-fill); color: var(--text); font: inherit; box-shadow: var(--card-edge), var(--shadow-panel); cursor: pointer;
   transition: transform calc(0.3s * var(--speed)) var(--ease), box-shadow 0.3s, border-color 0.2s, background 0.2s;
 }
 div.style-card { cursor: default; }
@@ -107,14 +102,14 @@ button.style-card:hover { transform: translateY(calc(-4px * var(--speed))); box-
 .style-card .sc-body b { font-size: 1.15rem; }
 .style-card .sc-body > span:last-child { color: var(--text-soft); font-size: 0.9rem; }
 .style-card .ct-tick { position: absolute; top: 0.9rem; right: 0.9rem; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--dark-fill); color: var(--on-dark); transform: scale(0); transition: transform calc(0.3s * var(--speed)) cubic-bezier(0.3, 1.6, 0.5, 1); }
-.style-card[aria-checked="true"] { background: var(--pick); border-color: var(--pick-line); }
+.style-card[aria-checked="true"] { background: var(--pick-fill); border-color: var(--pick-line); }
+.style-card[aria-checked="true"] .sc-body > span:last-child { color: var(--pick-soft); }
 .style-card[aria-checked="true"] .ct-tick { transform: scale(1); }
 
 /* ---------- Review (focus mode) ---------- */
 .review { padding-top: 1rem; }
 .review h1 { font-size: 1.5rem; }
 .review-done { display: grid; justify-items: center; text-align: center; gap: 0.5rem; }
-.review-done-art { width: 160px; }
 .flip { perspective: 1400px; cursor: pointer; }
 .flip-inner { position: relative; display: grid; transform-style: preserve-3d; transition: transform calc(0.6s * var(--speed)) var(--ease); min-height: 280px; }
 .flip.flipped .flip-inner { transform: rotateY(180deg); }
@@ -179,7 +174,6 @@ button.style-card:hover { transform: translateY(calc(-4px * var(--speed))); box-
 .cite-demo { position: relative; padding: 1.4rem; }
 .cite-demo p { margin: 0; }
 .cite-demo mark { background: var(--butter); color: var(--ink); border-radius: 4px; padding: 0 3px; box-shadow: 0 0 0 2px var(--honey); }
-.cite-curl { position: absolute; right: -10px; bottom: -12px; width: 90px; }
 .l-tools { padding: 3rem 0 0; }
 .l-center { text-align: center; }
 .tool-ring { position: relative; height: 400px; perspective: 1100px; }

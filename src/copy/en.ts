@@ -211,7 +211,6 @@ export const copy = {
     greeting: (name: string) => `What are we studying today, ${name}?`,
     greetingParts: (name: string) => ["What are we", "today,", `${name}?`],
     greetingWord: "studying",
-    sceneAlt: "Three students revising together from one book",
     continueTitle: "Continue where you left off",
     dueToday: "Cards due today",
     noneDue: "Nothing due. Make flashcards in a notebook and they come back right before you forget.",
@@ -266,7 +265,6 @@ export const copy = {
     general: "General knowledge. Check it against your notes or textbook.",
     remove: "Delete chat",
     more: "More chat actions",
-    emptyAlt: "A student asking a question on her phone",
     list: "Your chats",
     getHelp: "Open Get help",
   },
@@ -334,7 +332,6 @@ export const copy = {
     citeLabel: (n: number, title: string, page: number) => `Source ${n}: ${title}, page ${page}`,
     emptyTitle: "Give Taku something to study from",
     emptyLead: "Add your notes, a textbook PDF or a web page. Taku reads it, then answers from it and shows you the page.",
-    emptyAlt: "A learner reading his notes on a tablet",
     add: {
       upload: { title: "Upload a file", line: "PDF, Word file or photo, up to 15 MB" },
       snap: { title: "Snap your notes", line: "A photo of your exercise book or textbook" },

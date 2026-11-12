@@ -54,3 +54,34 @@ test("no image sits inside an arch, a circle or a box frame", async ({ page }, i
   await expect(page.getByRole("heading", { name: "Give Taku something to study from" })).toBeVisible();
   expect(await framedImages(page)).toEqual([]);
 });
+
+/** People belong to Landing, SignIn and Setup. Inside the signed in app the art is objects (src/components/ObjectArt.tsx). */
+async function peopleInApp(page: Page): Promise<string[]> {
+  await page.waitForLoadState("load");
+  return page.evaluate(() =>
+    Array.from(document.querySelectorAll(".app .cutout, .app img.scene, .focus .cutout, .focus img.scene, .app img[src*='/art/cutouts/'], .app img[src*='/art/scenes/']")).map((el) =>
+      el instanceof HTMLImageElement ? el.src : (el.querySelector("img")?.src ?? el.className),
+    ),
+  );
+}
+
+test("no person is drawn anywhere in the signed in app", async ({ page }, info) => {
+  await adultOnHome(page, info, "people");
+  await expect(page.locator(".home .object-art").first()).toBeVisible();
+  expect(await peopleInApp(page)).toEqual([]);
+
+  for (const [path, heading] of [
+    ["/chat", "Ask anything you are studying."],
+    ["/notebooks", "Notebooks"],
+    ["/settings", "Settings"],
+  ] as const) {
+    await page.goto(path);
+    await expect(page.getByRole("heading", { name: heading, exact: true }).first()).toBeVisible();
+    expect(await peopleInApp(page), path).toEqual([]);
+  }
+
+  await page.goto("/");
+  await newNotebook(page, "Biology");
+  await expect(page.getByRole("heading", { name: "Give Taku something to study from" })).toBeVisible();
+  expect(await peopleInApp(page)).toEqual([]);
+});

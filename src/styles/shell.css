@@ -50,7 +50,7 @@
 .tabbar a.active { color: var(--text); font-weight: 600; }
 .tab-indicator {
   position: absolute; top: 0.35rem; left: 0.4rem; width: calc((100% - 0.8rem) / 5); height: calc(100% - 0.7rem - env(safe-area-inset-bottom, 0px));
-  border-radius: 14px; background: var(--pick); transform: translateX(calc(var(--active) * 100%));
+  border-radius: 14px; background: var(--pick-fill); box-shadow: inset 0 0 0 1px var(--pick-line); transform: translateX(calc(var(--active) * 100%));
   transition: transform calc(0.35s * var(--speed)) var(--ease), opacity 0.2s;
 }
 .badge { position: absolute; top: 0.1rem; right: 22%; min-width: 1.1rem; height: 1.1rem; border-radius: 999px; background: var(--msasa); color: var(--white); font-size: 0.65rem; font-weight: 600; display: grid; place-items: center; padding: 0 0.25rem; }
@@ -77,7 +77,7 @@ body:has(.composer textarea:focus) .tabbar { display: none; }
   .rail-items a.active { color: var(--text); font-weight: 600; }
   .rail-items .badge { top: 0.3rem; right: 0.6rem; }
   .rail-indicator {
-    position: absolute; left: 0; top: 0; width: 64px; height: 60px; border-radius: 14px; background: var(--pick); box-shadow: inset 0 0 0 1px var(--pick-line);
+    position: absolute; left: 0; top: 0; width: 64px; height: 60px; border-radius: 14px; background: var(--pick-fill); box-shadow: inset 0 0 0 1px var(--pick-line), 0 1px 2px rgb(40 30 0 / 0.12);
     transform: translateY(calc(var(--active) * 60px)); transition: transform calc(0.35s * var(--speed)) var(--ease), opacity 0.2s;
   }
   .avatar {

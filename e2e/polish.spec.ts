@@ -64,13 +64,12 @@ test("phone notebook: both chips on one row, no tab bar, and the chat takes most
   const chat = await box(page.locator(".thread-scroll"));
   expect(chat.height, "chat area at least 70 percent of a 390 by 844 screen").toBeGreaterThanOrEqual(0.7 * PHONE.height);
 
-  // Ask Taku has no tab bar either, and its empty state shows the whole cutout inside the screen.
+  // Ask Taku has no tab bar either, and its empty state shows the whole speech bubble object inside the screen.
   await page.goto("/chat");
   await expect(page.getByRole("heading", { name: "Ask anything you are studying." })).toBeVisible();
   await expect(page.locator("nav.tabbar")).toHaveCount(0);
-  const art = page.locator(".chat-empty-art img").first();
+  const art = page.locator(".chat-empty .oa-speech-bubble").first();
   await expect(art).toBeVisible();
-  await page.waitForFunction(() => Array.from(document.querySelectorAll<HTMLImageElement>(".chat-empty-art img")).every((i) => i.complete));
   const [a, bar] = [await box(art), await box(page.locator(".topbar"))];
   expect(a.y).toBeGreaterThanOrEqual(bar.y + bar.height);
   expect(a.x).toBeGreaterThanOrEqual(0);

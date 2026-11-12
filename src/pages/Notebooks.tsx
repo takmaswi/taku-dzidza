@@ -4,8 +4,8 @@ import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { api } from "../../convex/_generated/api";
 import { errorText } from "../access";
-import { Cutout } from "../components/Art";
 import { AppShell } from "../components/Layout";
+import { ObjectArt } from "../components/ObjectArt";
 import { copy } from "../copy/en";
 
 export default function Notebooks() {
@@ -44,7 +44,6 @@ export default function Notebooks() {
               </button>
             </div>
           </div>
-          {notebooks !== undefined && notebooks.length === 0 && <Cutout slug="empty-notebook" alt="" sizes="200px" className="page-head-art" />}
         </div>
         {open && (
           <form onSubmit={submit} className="panel stack rise new-notebook">
@@ -63,7 +62,12 @@ export default function Notebooks() {
             </div>
           </form>
         )}
-        {notebooks !== undefined && notebooks.length === 0 && <p className="soft">{t.empty}</p>}
+        {notebooks !== undefined && notebooks.length === 0 && (
+          <div className="panel empty-state rise">
+            <ObjectArt name="open-book" alt="" size={132} />
+            <p className="lead">{t.empty}</p>
+          </div>
+        )}
         <div className="nb-grid">
           {(notebooks ?? []).map((nb, i) => (
             <Link key={nb._id} to={`/n/${nb._id}`} className="nb-card lift rise" style={{ ["--i" as string]: i }}>

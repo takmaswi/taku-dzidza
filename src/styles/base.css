@@ -18,13 +18,10 @@ body {
   word-spacing: var(--word);
   -webkit-font-smoothing: antialiased;
 }
-/* The warm wave texture, fixed behind everything. A pseudo element, because phones ignore background-attachment: fixed. */
+/* The page: cotton paper (linen in dark mode), tiled, fixed behind everything. A pseudo element, because phones ignore background-attachment: fixed. */
 body::before {
   content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: var(--page-image) center / cover no-repeat, var(--sunken);
-}
-@media (max-width: 700px), (orientation: portrait) and (max-width: 1000px) {
-  body::before { background-image: var(--page-image-phone); }
+  background: var(--page-bg);
 }
 a { color: inherit; }
 img { max-width: 100%; display: block; }
@@ -59,7 +56,7 @@ b, strong { font-weight: 600; }
 }
 .pill:hover { transform: translateY(calc(-1px * var(--speed))); box-shadow: 0 8px 18px var(--brown-shadow); }
 .pill:active { transform: scale(0.97); }
-.pill:disabled { opacity: 0.55; cursor: progress; transform: none; box-shadow: none; }
+.pill:disabled { background: var(--muted-fill); border-color: var(--muted-line); color: var(--muted-text); cursor: progress; transform: none; box-shadow: none; }
 .pill.ghost { background: transparent; color: var(--text); border-color: var(--line-strong); }
 .pill.ghost:hover { background: var(--raised); }
 .pill.honey { background: var(--honey); border-color: var(--honey); color: var(--ink); }
@@ -74,8 +71,8 @@ b, strong { font-weight: 600; }
 .icon-button:hover { background: rgb(17 17 17 / 0.1); }
 .icon-button:active { transform: scale(0.94); }
 
-/* Surfaces: the page is the texture; panels are cream with grain; raised is white. */
-.panel { background: var(--panel-fill); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-panel); padding: 1.25rem; }
+/* Surfaces: the page is paper; panels are card stock (near white, a 1 px inner highlight, a soft shadow); raised is white. */
+.panel { background: var(--panel-fill); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--card-edge), var(--shadow-panel); padding: 1.25rem; }
 .raised { background: var(--raised); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-raised); padding: 1.25rem; }
 .lift { transition: transform calc(0.25s * var(--speed)) var(--ease), box-shadow 0.25s; }
 .lift:hover { transform: translateY(calc(-3px * var(--speed))); box-shadow: var(--shadow-lift); }
@@ -126,7 +123,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--ink); outline: n
 .choice:not(:has(.ct-icon)) { grid-template-columns: 1fr; }
 .choice:not(:has(.ct-icon)) > span:not(.ct-tick) { grid-column: 1; }
 .choice .ct-tick { position: absolute; top: 0.85rem; right: 0.85rem; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--dark-fill); color: var(--on-dark); transform: scale(0); transition: transform calc(0.3s * var(--speed)) cubic-bezier(0.3, 1.6, 0.5, 1); }
-.choice[aria-pressed="true"], .choice[aria-checked="true"] { background: var(--pick); border-color: var(--pick-line); }
+.choice[aria-pressed="true"], .choice[aria-checked="true"] { background: var(--pick-fill); border-color: var(--pick-line); }
+.choice[aria-pressed="true"] > span:not(.ct-icon):not(.ct-tick), .choice[aria-checked="true"] > span:not(.ct-icon):not(.ct-tick) { color: var(--pick-soft); }
 .choice[aria-pressed="true"] .ct-tick, .choice[aria-checked="true"] .ct-tick { transform: scale(1); }
 .choice:disabled { opacity: 0.6; cursor: progress; }
 
@@ -150,14 +148,14 @@ input:focus, select:focus, textarea:focus { border-color: var(--ink); outline: n
   mask-image: var(--fade-x), var(--fade-y);
   mask-composite: intersect;
 }
-.decor { pointer-events: none; user-select: none; }
 .decor-line { display: inline-block; background: var(--mark-line); -webkit-mask: var(--decor) center / contain no-repeat; mask: var(--decor) center / contain no-repeat; pointer-events: none; }
 .highlight { position: relative; white-space: nowrap; z-index: 0; }
-.highlight::after { content: ""; position: absolute; left: -0.15em; right: -0.2em; bottom: 0.02em; height: 0.55em; z-index: -1; background: url("/art/decor/highlighter-stroke.webp") center / 100% 100% no-repeat; opacity: 0.75; }
+/* A strip of honey bookcloth laid under the word, cut a little unevenly. In dark mode it drops to an underline so cream text keeps its contrast. */
+.highlight::after { content: ""; position: absolute; left: -0.12em; right: -0.16em; bottom: 0.06em; height: 0.5em; z-index: -1; background: var(--pick-fill); border-radius: 3px 7px 4px 8px; transform: rotate(-1deg); }
+:root[data-theme="dark"][data-shell="app"]:not([data-contrast="true"]) .highlight::after { background: var(--cloth-tex) 0 0 / 512px 512px, var(--cloth-honey); height: 0.16em; bottom: -0.08em; }
 
 /* Motion. Off when the learner or the phone asks. */
 @keyframes rise { from { opacity: 0; transform: translateY(calc(12px * var(--speed))); } to { opacity: 1; transform: none; } }
-.rise { animation: rise calc(0.5s * var(--speed)) var(--ease) both; animation-delay: calc(var(--i, 0) * 60ms * var(--speed)); }
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
 .reveal.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {

@@ -26,6 +26,11 @@
   --sage: #556b47;
   --on-ink-soft: #d8d2c6;
   --panel-line: #f1e3bf;
+  /* Card stock: panels sit near white on the cotton paper page. */
+  --card: #fffdf8;
+  /* Bookcloth: the honey cloth on selected and active things. Text on it is ink; soft text is cloth-soft. */
+  --cloth-honey: #f2c766;
+  --cloth-soft: #463e33;
 
   /* Dark set: near black, honey accents, no brown. Only when the learner turns dark mode on. */
   --d-page: #121212;
@@ -66,10 +71,20 @@
   --scrim: rgb(17 17 17 / 0.45);
   --brown-shadow: rgb(17 17 17 / 0.14);
 
-  --page-image: url("/art/textures/honey-waves.webp");
-  --page-image-phone: url("/art/textures/honey-waves-phone.webp");
-  --grain: url("/art/textures/paper-grain.webp");
-  --panel-fill: linear-gradient(rgb(255 252 245 / 0.92), rgb(255 252 245 / 0.92)), var(--grain) 0 0 / 512px 512px, var(--cream);
+  /* Real surfaces, made by tools/make-textures.py: seamless, high passed, drawn at 512 px. No gradients behind anything. */
+  --paper-tex: url("/art/textures/paper-cotton.webp");
+  --cloth-tex: url("/art/textures/bookcloth-honey.webp");
+  --linen-tex: url("/art/textures/linen-charcoal.webp");
+  --page-bg: var(--paper-tex) 0 0 / 512px 512px, var(--cream);
+  /* Panels: card stock, a whisper of the paper's tooth under a near white wash. */
+  --panel-fill: linear-gradient(rgb(255 253 248 / 0.86), rgb(255 253 248 / 0.86)), var(--paper-tex) 0 0 / 512px 512px, var(--card);
+  --card-edge: inset 0 0 0 1px rgb(255 255 255 / 0.9);
+  --pick-fill: var(--cloth-tex) 0 0 / 512px 512px, var(--cloth-honey);
+  --pick-soft: var(--cloth-soft);
+  /* Buttons that cannot be pressed yet: a quiet warm fill, never a faded black or a faded honey. */
+  --muted-fill: var(--panel-line);
+  --muted-line: var(--panel-line);
+  --muted-text: var(--grey);
 
   --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, monospace;
@@ -119,9 +134,14 @@
   --mark-line: var(--d-accent);
   --topbar: rgb(18 18 18 / 0.82);
   --scrim: rgb(0 0 0 / 0.55);
-  --page-image: none;
-  --page-image-phone: none;
+  --page-bg: var(--linen-tex) 0 0 / 512px 512px, var(--d-page);
   --panel-fill: var(--d-panel);
+  --card-edge: inset 0 1px 0 rgb(255 255 255 / 0.05);
+  --pick-fill: var(--d-pick);
+  --pick-soft: var(--d-soft);
+  --muted-fill: var(--d-raised);
+  --muted-line: var(--d-line);
+  --muted-text: var(--d-soft);
   --shadow-panel: 0 1px 2px rgb(0 0 0 / 0.25), 0 10px 30px rgb(0 0 0 / 0.25);
   --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.3), 0 14px 36px rgb(0 0 0 / 0.3);
   --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.3), 0 22px 46px rgb(0 0 0 / 0.38);
@@ -161,8 +181,14 @@
   --panel: var(--white);
   --panel-fill: var(--white);
   --sunken: var(--white);
-  --page-image: none;
-  --page-image-phone: none;
+  /* High contrast is flat: no paper, no cloth, no bevel. */
+  --page-bg: var(--white);
+  --card-edge: 0 0 0 0 transparent;
+  --pick-fill: var(--butter);
+  --pick-soft: var(--ink);
+  --muted-fill: var(--white);
+  --muted-line: var(--ink);
+  --muted-text: var(--ink);
   --pick: var(--butter);
   --pick-line: var(--ink);
 }
