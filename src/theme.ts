@@ -1,9 +1,38 @@
 import type { Doc } from "../convex/_generated/dataModel";
 
 /** Applies a profile's study style and accessibility settings to <html> (src/styles/tokens.css). */
+/** Light is the default. Dark is only ever the learner's own choice, kept on this device. */
+export type ThemeMode = "light" | "dark";
+const THEME_KEY = "takudzidza-theme";
+const THEME_EVENT = "takudzidza-theme";
+
+export function getThemeMode(): ThemeMode {
+  try {
+    return localStorage.getItem(THEME_KEY) === "dark" ? "dark" : "light";
+  } catch {
+    return "light";
+  }
+}
+
+export function setThemeMode(mode: ThemeMode): void {
+  try {
+    localStorage.setItem(THEME_KEY, mode);
+  } catch {
+    // Storage can be blocked; the choice still holds for this visit.
+  }
+  document.documentElement.dataset.theme = mode;
+  window.dispatchEvent(new Event(THEME_EVENT));
+}
+
+export function onThemeChange(listener: () => void): () => void {
+  window.addEventListener(THEME_EVENT, listener);
+  return () => window.removeEventListener(THEME_EVENT, listener);
+}
+
 export function applyTheme(profile: Pick<Doc<"profiles">, "studyStyle" | "accessibility"> | null): void {
   const root = document.documentElement;
   const a = profile?.accessibility;
+  root.dataset.theme = root.dataset.theme ?? getThemeMode();
   root.dataset.style = profile?.studyStyle ?? "calm";
   root.dataset.dyslexia = String(a?.dyslexia ?? false);
   root.dataset.large = String(a?.largeText ?? false);

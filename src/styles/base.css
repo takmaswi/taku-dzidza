@@ -71,7 +71,7 @@ b, strong { font-weight: 600; }
   min-width: 40px; min-height: 40px; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; font: inherit; font-size: 0.875rem;
   transition: background 0.15s, transform calc(0.15s * var(--speed)) var(--ease);
 }
-.icon-button:hover { background: rgb(138 90 31 / 0.1); }
+.icon-button:hover { background: rgb(17 17 17 / 0.1); }
 .icon-button:active { transform: scale(0.94); }
 
 /* Surfaces: the page is the texture; panels are cream with grain; raised is white. */
@@ -98,9 +98,9 @@ input[type="text"], input[type="email"], input[type="password"], input[type="tel
   background: var(--raised); color: var(--text); font: inherit; transition: border-color 0.15s, box-shadow 0.15s;
 }
 textarea { resize: vertical; }
-input:focus, select:focus, textarea:focus { border-color: var(--deep); outline: none; box-shadow: 0 0 0 4px rgb(242 179 61 / 0.3); }
+input:focus, select:focus, textarea:focus { border-color: var(--ink); outline: none; box-shadow: 0 0 0 4px rgb(242 179 61 / 0.3); }
 .check { display: flex; gap: 0.7rem; align-items: flex-start; font-weight: 400; margin-bottom: 0.8rem; }
-.check input { width: 1.3rem; height: 1.3rem; margin-top: 0.15rem; accent-color: var(--brown); flex: none; }
+.check input { width: 1.3rem; height: 1.3rem; margin-top: 0.15rem; accent-color: var(--text); flex: none; }
 
 /* Chips */
 .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
@@ -120,7 +120,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--deep); outline: 
   transition: transform calc(0.2s * var(--speed)) var(--ease), border-color 0.2s, background 0.2s, box-shadow 0.2s;
 }
 .choice:hover { transform: translateY(calc(-2px * var(--speed))); box-shadow: var(--shadow-raised); }
-.choice .ct-icon { grid-row: span 2; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--tint); color: var(--brown); }
+.choice .ct-icon { grid-row: span 2; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--tint); color: var(--on-tint); }
 .choice b { font-size: 1rem; }
 .choice > span:not(.ct-icon):not(.ct-tick) { color: var(--text-soft); font-size: 0.9rem; grid-column: 2; }
 .choice:not(:has(.ct-icon)) { grid-template-columns: 1fr; }
@@ -131,9 +131,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--deep); outline: 
 .choice:disabled { opacity: 0.6; cursor: progress; }
 
 /* Tags and citations */
-.tag { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 999px; background: var(--tint); color: var(--brown); }
+.tag { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 999px; background: var(--tint); color: var(--on-tint); }
 .added-tag { display: inline-block; font-size: 0.78rem; font-weight: 500; background: var(--butter); color: var(--ink); border-radius: 999px; padding: 0.05rem 0.55rem; }
-.cite { display: inline; font: inherit; font-size: 0.8rem; background: var(--tint); color: var(--brown); border: 0; border-radius: 999px; padding: 0.05rem 0.55rem; white-space: normal; }
+.cite { display: inline; font: inherit; font-size: 0.8rem; background: var(--tint); color: var(--on-tint); border: 0; border-radius: 999px; padding: 0.05rem 0.55rem; white-space: normal; }
 
 /* Photos: people stand on the page with their own soft shadow; scenes fade into it. No frames. */
 .cutout { display: grid; margin: 0; }

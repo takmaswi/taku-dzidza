@@ -37,10 +37,8 @@
 .mark-auto { display: inline-grid; }
 .mark-auto > svg { grid-area: 1 / 1; width: 100%; height: 100%; }
 .mark-auto .mark-dark { visibility: hidden; }
-@media (prefers-color-scheme: dark) {
-  :root[data-shell="app"]:not([data-contrast="true"]) .mark-auto .mark-light { visibility: hidden; }
-  :root[data-shell="app"]:not([data-contrast="true"]) .mark-auto .mark-dark { visibility: visible; }
-}
+:root[data-theme="dark"][data-shell="app"]:not([data-contrast="true"]) .mark-auto .mark-light { visibility: hidden; }
+:root[data-theme="dark"][data-shell="app"]:not([data-contrast="true"]) .mark-auto .mark-dark { visibility: visible; }
 
 /* Phone tab bar: part of the column, not floating, so content never hides under it. Hidden while typing. */
 .tabbar {
@@ -126,7 +124,7 @@ body:has(.composer textarea:focus) .tabbar { display: none; }
 .focus-title { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .focus-main { flex: 1; min-height: 0; overflow-y: auto; padding: clamp(1rem, 3vw, 2.5rem) clamp(1rem, 4vw, 2.5rem) 3rem; }
 .focus-dark { background: var(--d-page); color: var(--cream); }
-.focus-dark .focus-bar { background: rgb(30 23 16 / 0.85); border-color: var(--d-line); }
+.focus-dark .focus-bar { background: rgb(18 18 18 / 0.85); border-color: var(--d-line); }
 .focus-dark .focus-exit { color: var(--cream); border-color: var(--d-accent); }
 .focus-dark .focus-main { padding: 0; }
 
@@ -136,3 +134,7 @@ body:has(.composer textarea:focus) .tabbar { display: none; }
   body::before { display: none; }
   body { background: #fff; }
 }
+
+/* Light and dark switch in the rail, just above the avatar. */
+.rail .rail-theme { margin-top: auto; color: var(--text-soft); }
+.rail .rail-theme + .avatar { margin-top: 0.4rem; }

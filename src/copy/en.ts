@@ -429,8 +429,11 @@ export const copy = {
     fromNotes: "From your notes",
   },
 
+  theme: { toDark: "Switch to dark mode", toLight: "Switch to light mode" },
   settings: {
     title: "Settings",
+    darkTitle: "Dark mode",
+    darkLine: "Light is the default. Turn this on for a dark screen at night. Saved on this device.",
     name: "Your name",
     save: "Save",
     saved: "Saved",

@@ -5,6 +5,7 @@ import { Link, NavLink, useLocation } from "react-router";
 import { api } from "../../convex/_generated/api";
 import { copy } from "../copy/en";
 import { BrandMark, Lockup } from "./BrandMark";
+import { ThemeToggle } from "./ThemeToggle";
 
 /**
  * The frame of every page. Public pages: a light top bar with the lockup.
@@ -88,6 +89,7 @@ export function AppShell({ children, bar, title, scroll = "page", tabs = true }:
               </NavLink>
             ))}
           </div>
+          <ThemeToggle className="icon-button rail-theme" />
           <Link to="/settings" className="avatar" aria-label={`${name}, ${n.settings}`} title={name}>
             {name.slice(0, 1).toUpperCase()}
           </Link>
@@ -102,6 +104,7 @@ export function AppShell({ children, bar, title, scroll = "page", tabs = true }:
               </Link>
               <span className="topbar-title">{title ?? copy.appName}</span>
               <span className="spacer" />
+              <ThemeToggle />
               <Link to="/help" className="pill ghost small">
                 <LifeBuoy size={16} aria-hidden="true" />
                 <span className="hide-narrow">{copy.menu.help}</span>

@@ -26,10 +26,10 @@
 .continue-item > span:nth-child(2) { flex: 1; min-width: 0; display: grid; }
 .continue-item b { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .continue-item small { color: var(--text-soft); }
-.continue-item .ct-icon, .nb-card .ct-icon { flex: none; width: 38px; height: 38px; border-radius: 11px; background: var(--tint); color: var(--brown); }
+.continue-item .ct-icon, .nb-card .ct-icon { flex: none; width: 38px; height: 38px; border-radius: 11px; background: var(--tint); color: var(--on-tint); }
 .due-today { position: relative; display: grid; grid-template-columns: 1fr; align-items: center; gap: 0.75rem; overflow: visible; }
 .due-today.has-due { grid-template-columns: 96px 1fr; }
-.due-today .due-note { width: 96px; transform: rotate(-6deg); filter: drop-shadow(0 6px 10px rgb(90 60 0 / 0.15)); }
+.due-today .due-note { width: 96px; transform: rotate(-6deg); filter: drop-shadow(0 6px 10px rgb(40 30 0 / 0.15)); }
 .due-today p { margin: 0 0 0.6rem; }
 .checklist ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
 .checklist li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.35rem 0.8rem; }
@@ -84,8 +84,8 @@
 .steps-shell { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr; }
 .steps-top { display: flex; align-items: center; gap: 1rem; padding: 1rem clamp(1rem, 4vw, 2.5rem); max-width: 1100px; width: 100%; margin: 0 auto; }
 .steps-top .mark-auto, .steps-top .mark { width: 36px; height: 36px; }
-.progress { flex: 1; height: 8px; border-radius: 999px; background: rgb(74 48 16 / 0.1); overflow: hidden; }
-.progress > span { display: block; height: 100%; background: var(--deep); border-radius: 999px; transition: width calc(0.5s * var(--speed)) var(--ease); }
+.progress { flex: 1; height: 8px; border-radius: 999px; background: rgb(17 17 17 / 0.1); overflow: hidden; }
+.progress > span { display: block; height: 100%; background: var(--honey); border-radius: 999px; transition: width calc(0.5s * var(--speed)) var(--ease); }
 .step-body { width: 100%; max-width: 1100px; margin: 0 auto; padding: 1rem clamp(1rem, 4vw, 2.5rem) 3rem; display: grid; gap: 1.5rem; align-content: start; }
 .step-body h1 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 1.75rem); }
 .step-in { animation: stepin calc(0.45s * var(--speed)) var(--ease) both; }
@@ -159,7 +159,7 @@ button.style-card:hover { transform: translateY(calc(-4px * var(--speed))); box-
 }
 .roller { display: block; height: 1.1em; overflow: hidden; position: relative; }
 .roller > span { display: block; animation: roll calc(10s * var(--speed) + 0.001s) var(--ease) infinite; }
-.roller > span > span { display: block; height: 1.1em; line-height: 1.1; color: var(--deep); }
+.roller > span > span { display: block; height: 1.1em; line-height: 1.1; color: var(--text); }
 @keyframes roll { 0%, 18% { transform: translateY(0); } 25%, 43% { transform: translateY(-1.1em); } 50%, 68% { transform: translateY(-2.2em); } 75%, 93% { transform: translateY(-3.3em); } 100% { transform: translateY(-4.4em); } }
 :root[data-motion="off"] .roller > span { animation: none; }
 @media (prefers-reduced-motion: reduce) { .roller > span { animation: none; } }
@@ -168,7 +168,7 @@ button.style-card:hover { transform: translateY(calc(-4px * var(--speed))); box-
 @media (min-width: 900px) { .l-split { grid-template-columns: 1fr 1fr; } }
 .l-steps { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 1.1rem; counter-reset: s; }
 .l-steps li { counter-increment: s; display: grid; grid-template-columns: 2.4rem 1fr; gap: 0.8rem; }
-.l-steps li::before { content: counter(s); display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--butter); color: var(--brown); font-weight: 600; font-size: 0.9rem; }
+.l-steps li::before { content: counter(s); display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--butter); color: var(--on-tint); font-weight: 600; font-size: 0.9rem; }
 .l-demo { position: relative; display: grid; justify-items: center; }
 .l-demo-art { width: min(300px, 70%); justify-self: end; margin-right: 2%; }
 .mock-chat { position: relative; margin-top: -42%; width: min(380px, 92%); justify-self: start; display: grid; gap: 0.75rem; padding: 1rem; font-size: 0.9rem; transform: rotate(1deg); }
@@ -195,7 +195,7 @@ button.style-card:hover { transform: translateY(calc(-4px * var(--speed))); box-
 .l-styles .style-cards { margin-top: 1.5rem; }
 .l-checks { list-style: none; padding: 0; margin: 1.25rem 0 0; display: grid; gap: 0.9rem; }
 .l-checks li { display: flex; gap: 0.7rem; align-items: flex-start; }
-.l-check { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--butter); color: var(--brown); }
+.l-check { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--butter); color: var(--on-tint); }
 .l-safe-art { width: min(420px, 90%); justify-self: center; }
 .l-final { position: relative; text-align: center; display: grid; justify-items: center; gap: 1rem; padding: 4rem 0 2.5rem; }
 .l-final .l-h2 { max-width: 16ch; }
