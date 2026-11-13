@@ -1,7 +1,7 @@
 """Builds docs/Polish-2-Report.pdf: before and after screenshots of Polish 2.
 
 Run from the repo root:
-  python tools/polish2_report_pdf.py <before dir> <after dir> <extras dir> <unit tests line> <e2e line> [<2b dir> <2b unit line> <2b e2e line>]
+  python tools/polish2_report_pdf.py <before dir> <after dir> <extras dir> <unit tests line> <e2e line> [<2b dir> <2b unit line> <2b e2e line> [<live dir>]]
 
 The before and after dirs come from scripts/screens-polish.mjs (light-desktop,
 light-phone, dark-desktop, dark-phone). The extras dir holds objects.png,
@@ -38,6 +38,7 @@ BEFORE, AFTER, EXTRAS = (Path(a) for a in sys.argv[1:4])
 UNIT, E2E = sys.argv[4], sys.argv[5]
 ADDENDUM = Path(sys.argv[6]) if len(sys.argv) > 6 else None
 UNIT_2B, E2E_2B = (sys.argv[7], sys.argv[8]) if ADDENDUM else ("", "")
+LIVE = Path(sys.argv[9]) if len(sys.argv) > 9 else None
 TMP = EXTRAS / "pdf-images"
 TMP.mkdir(parents=True, exist_ok=True)
 
@@ -403,6 +404,48 @@ def addendum() -> list:
     return flow
 
 
+def live_page() -> list:
+    """The live site after the deploy: light and dark, computer and phone."""
+    assert LIVE is not None
+    wide, phone = USABLE_W * 0.31, USABLE_W * 0.13
+    shots = [
+        ("Light, computer", "light-desktop", wide),
+        ("Dark, computer", "dark-desktop", wide),
+        ("Light, phone", "light-phone", phone),
+        ("Dark, phone", "dark-phone", phone),
+    ]
+    widths = [w + 6 for _, _, w in shots]
+    table = Table(
+        [
+            [para(label, LABEL) for label, _, _ in shots],
+            [picture(LIVE / f"{f}.png", w, 120 * mm) for _, f, w in shots],
+        ],
+        colWidths=widths,
+    )
+    table.setStyle(
+        TableStyle(
+            [
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ]
+        )
+    )
+    return [
+        PageBreak(),
+        para("Live check, 13 November 2026", H2),
+        para(
+            "Deployed from main (merge 710e728) to https://takudzidza.vercel.app, site only, against the same production Convex deployment as before. "
+            "The site now serves the new bundle, index BSaZHnIA (was index DeKUOqwX). At 1280 by 800 and 390 by 844, in light and dark, the front page and sign in "
+            "loaded with no console errors and no failed requests. Signed out, the address shows the front page, so that is what is pictured; "
+            "the signed in Home needs an account, and no account was made on the live site. The front page stays light in both settings because dark mode "
+            "only applies inside the app. The signed in Home is pictured on the addendum pages above.",
+            NOTE,
+        ),
+        Spacer(1, 2 * mm),
+        table,
+    ]
+
+
 def background(canvas, doc) -> None:  # noqa: ANN001
     canvas.saveState()
     canvas.setFillColor(CREAM)
@@ -422,6 +465,8 @@ def main() -> None:
         story.pop()
         story += addendum()
     story.pop()  # no blank last page
+    if LIVE is not None:
+        story += live_page()
     bad = [s for s in ALL_TEXT if any(ch in s for ch in ("-", "\u2013", "\u2014"))]
     if bad:
         raise SystemExit("Dashes in the report text:\n" + "\n".join(bad))
