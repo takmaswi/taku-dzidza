@@ -15,4 +15,6 @@ function run(command, args, env = {}) {
 }
 
 run("pnpm", ["gen"], { TAKU_GEN_FIXTURES: "0" });
-run("pnpm", ["exec", "convex", "deploy", "-y", "--cmd-url-env-var-name", "VITE_CONVEX_URL", "--cmd", "node scripts/build-site.mjs"], { TAKU_GEN_FIXTURES: "0" });
+// On Windows the arguments pass through a shell, so the command needs its own quotes.
+const siteBuild = process.platform === "win32" ? '"node scripts/build-site.mjs"' : "node scripts/build-site.mjs";
+run("pnpm", ["exec", "convex", "deploy", "-y", "--cmd-url-env-var-name", "VITE_CONVEX_URL", "--cmd", siteBuild], { TAKU_GEN_FIXTURES: "0" });

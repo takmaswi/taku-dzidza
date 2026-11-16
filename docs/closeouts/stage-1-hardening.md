@@ -30,7 +30,14 @@ The site published on 13 November was built against `https://happy-otter-123.con
 
 ## Deployed
 
-DEPLOYED
+16 November 2026, from 2025aa2 (plus a fix so the Windows shell keeps the build command whole, in the closeout commit), with the stored Convex and Vercel CLI logins and no tokens, as on 6 November. Both logins were valid. Dry run first: Convex `prod:disciplined-condor-946` would add seven indexes (`chunks.by_embedding`, `profiles.by_deleting`, `sources.by_storage`, `sweepCursors.by_name`, three on `uploads`) and the schema validated against live data; Vercel project `takudzidza` (`prj_VXSP2nXy5izpDyRZydbsIIe41bV5`).
+
+- Convex functions and indexes deployed. The build ran against `https://disciplined-condor-946.eu-west-1.convex.cloud` and the bundle check passed.
+- Vercel: https://takudzidza.vercel.app serves `index-BP3oejRo.js` (was `index-BSaZHnIA.js`). The client address in the bundle is the production one; the old bundle had the placeholder.
+- Headers live: CSP naming the production Convex origin, HSTS, nosniff, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`, permissions policy.
+- Live check: landing, sign in and privacy at 1280 by 800 and 360 by 780, no console errors, no failed requests, and the Convex WebSocket connects. No account was made on production.
+- After the deploy: `notebooks/uploads:backfill` (1 source bound to an upload row).
+- Embedding live check, cap USD 0.10: passed. 512 numbers per text, related texts 0.814 apart from unrelated ones at -0.024, cost USD 0.0000008. `EMBEDDINGS_MODE=on` was then set on production and `ai/embeddings:backfill` embedded the one existing source (USD 0.0000066). Hybrid search is live.
 
 ## Not done or not verified
 
