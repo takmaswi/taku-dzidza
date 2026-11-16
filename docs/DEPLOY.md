@@ -4,7 +4,7 @@ Production: site https://takudzidza.vercel.app (Vercel project `takudzidza`), ba
 
 ## Every deploy
 
-`pnpm deploy:prod` (scripts/deploy-vercel.mjs): deploys the Convex functions with `CONVEX_DEPLOY_KEY`, builds the site against that deployment without test fixtures, and publishes `dist` to Vercel as a prebuilt output. The Vercel project is not linked to GitHub; deploys come from this command.
+`pnpm deploy:prod --dry-run` first: it shows the Convex target and the schema and index changes, and the Vercel project, and changes nothing. Then `pnpm deploy:prod` (scripts/deploy-vercel.mjs). With no tokens set it uses the stored Convex and Vercel CLI logins on this machine. It: deploys the Convex functions with `CONVEX_DEPLOY_KEY`, builds the site against that deployment without test fixtures, and publishes `dist` to Vercel as a prebuilt output. The Vercel project is not linked to GitHub; deploys come from this command.
 
 ## Production Convex settings
 
@@ -25,6 +25,18 @@ Set on 29 October 2026: `AI_MODE=live`, `OPENROUTER_APP_NAME`, `ADMIN_EMAILS`, `
 | `MODEL_MAIN`, `MODEL_FAST` | Convex | The default chain. Each takes a comma separated list. |
 | `VITE_SENTRY_DSN` | Vercel build | No error tracking. |
 | An SMS provider | Code, then Convex | **New under 18s cannot finish guardian consent.** Implement `SmsSender` in `convex/accounts/sms.ts` and make `smsSender` and `smsReady` use it when its key is set. |
+
+### Added by Stage 1 hardening (16 November 2026)
+
+| Setting | Where | Effect when unset |
+|---|---|---|
+| `STORAGE_QUOTA_MB` | Convex | 500 MB of uploaded files per account. |
+| `EMBEDDINGS_MODE` | Convex | Off: keyword search only and no embedding calls. Set to `on` only after `ai/embeddings:liveCheck` passes. |
+| `EMBED_MODEL`, `EMBED_PROVIDER` | Convex | `openai/text-embedding-3-small` on `azure` (DECISIONS.md, Stage 1). |
+
+Run once after the first Stage 1 deploy: `npx convex run notebooks/uploads:backfill`, then `npx convex run ai/embeddings:backfill` (the second spends against the AI caps).
+
+Security headers are written by `pnpm deploy:prod` from `scripts/lib/security-headers.mjs`, with the deployment's own Convex origin. Before a deploy, `pnpm build` then `pnpm csp-check` (local backend running) proves the app works under the policy.
 
 Read spending with `npx convex run ai/usage:costPerTool` and `npx convex run ai/usage:alerts`, and feature counts with `npx convex run analytics:summary '{"day":"YYYY-MM-DD"}'`.
 

@@ -1,11 +1,14 @@
 import { ConvexError, v } from "convex/values";
 import { internal } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
-import { action, internalMutation, internalQuery } from "../_generated/server";
+import { action, internalAction, internalMutation, internalQuery, type ActionCtx } from "../_generated/server";
 import { ADULT_AGE, ageOn } from "../accounts/age";
+import { fuse } from "../ai/embeddings";
 import { secondOpinion } from "../ai/secondOpinion";
 import { PROMPTS } from "../data/generated";
 import { requireLearner, requireLearnerInAction } from "../lib/access";
+import { embeddingsOn } from "../lib/env";
+import { BLOCKED_REPLY, inputCheck, outputAllowed } from "../safety/checks";
 import { prefilter, type Audience } from "../safety/prefilter";
 import { settleParts, type RawPart, type SourceMode } from "../sources/modes";
 import { originValidator, widgetValidator } from "../schema";
@@ -15,12 +18,15 @@ import { widgetFromText, type StoredWidget } from "../widgets/inline";
  * Ask Taku about a notebook (SPEC.md 2.2 and 3.2). In order:
  *   1. the learner owns the notebook and may study (consent);
  *   2. the deterministic prefilter (distress opens Get help);
- *   3. for under 18s, the model input check, failing closed;
- *   4. search the notebook's chunks for the question;
+ *   3. the model input check, for every learner, failing closed;
+ *   4. search the notebook's chunks for the question, by words and by
+ *      meaning (embeddings), and merge the two;
  *   5. Taku answers with a ref, page and quote per part;
  *   6. every quote is checked on its page (sources/modes.ts) and the
  *      source mode decides what happens to parts that fail;
- *   7. Taku's own ideas get a second opinion (ai/secondOpinion.ts).
+ *   7. Taku's own ideas get a second opinion (ai/secondOpinion.ts);
+ *   8. for under 18s, the finished answer passes the output check or is
+ *      not shown.
  * The question and an unfinished answer are saved first, and the answer's
  * stage moves along so the app can show real progress. The question and answer
  * are kept in the notebook, which the learner owns.
@@ -28,6 +34,8 @@ import { widgetFromText, type StoredWidget } from "../widgets/inline";
 
 export const MAX_QUESTION = 2000;
 const TOP_CHUNKS = 8;
+/** Matches asked of each search before the two lists are merged. */
+const SEARCH_EACH = 16;
 const SMALL_NOTEBOOK = 12;
 
 export const REPLIES = {
@@ -63,7 +71,7 @@ export const context = internalQuery({
     const { profile } = await requireLearner(ctx);
     const notebook = await ctx.db.get(args.notebookId);
     if (notebook === null || notebook.profileId !== profile._id) throw new ConvexError("Notebook not found.");
-    const sources = await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect();
+    const sources = (await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect()).filter((s) => s.deletingAt === undefined);
     return {
       profileId: profile._id,
       audience: ageOn(profile.birthYear, profile.birthMonth, new Date()) < ADULT_AGE ? "minor" : "adult",
@@ -78,25 +86,67 @@ export const context = internalQuery({
 
 export type Retrieved = { ref: string; sourceId: Id<"sources">; title: string; page: number; text: string };
 
-/** The pages to show Taku: the whole notebook when it is small, otherwise the pages of the best matching chunks. */
-export const retrieve = internalQuery({
+/** Chunks that match the question's words, best first. `small` means the notebook is small enough to send whole. */
+export const keywordHits = internalQuery({
   args: { notebookId: v.id("notebooks"), question: v.string() },
-  handler: async (ctx, args): Promise<Retrieved[]> => {
+  handler: async (ctx, args): Promise<{ small: boolean; chunkIds: Id<"chunks">[] }> => {
     const all = await ctx.db.query("chunks").withIndex("by_notebook", (q) => q.eq("notebookId", args.notebookId)).take(SMALL_NOTEBOOK + 1);
-    const hits = all.length <= SMALL_NOTEBOOK ? all : await ctx.db.query("chunks").withSearchIndex("search_text", (q) => q.search("text", args.question).eq("notebookId", args.notebookId)).take(TOP_CHUNKS);
+    if (all.length <= SMALL_NOTEBOOK) return { small: true, chunkIds: all.map((c) => c._id) };
+    const hits = await ctx.db.query("chunks").withSearchIndex("search_text", (q) => q.search("text", args.question).eq("notebookId", args.notebookId)).take(SEARCH_EACH);
+    return { small: false, chunkIds: hits.map((c) => c._id) };
+  },
+});
+
+/** The pages of the chosen chunks, in the order given, each page once. Chunks of a source being deleted are left out. */
+export const pagesFor = internalQuery({
+  args: { notebookId: v.id("notebooks"), chunkIds: v.array(v.id("chunks")) },
+  handler: async (ctx, args): Promise<Retrieved[]> => {
     const wanted = new Map<string, { sourceId: Id<"sources">; page: number }>();
-    for (const h of hits) wanted.set(`${h.sourceId}:${h.page}`, { sourceId: h.sourceId, page: h.page });
+    for (const id of args.chunkIds) {
+      const chunk = await ctx.db.get(id);
+      // The notebook is checked again here: a vector match must never bring in another notebook's page.
+      if (chunk === null || chunk.notebookId !== args.notebookId) continue;
+      wanted.set(`${chunk.sourceId}:${chunk.page}`, { sourceId: chunk.sourceId, page: chunk.page });
+    }
     const sourceRefs = new Map<string, string>();
     const out: Retrieved[] = [];
     for (const { sourceId, page } of wanted.values()) {
       const source = await ctx.db.get(sourceId);
       const row = await ctx.db.query("pages").withIndex("by_source_page", (q) => q.eq("sourceId", sourceId).eq("page", page)).unique();
-      if (source === null || row === null) continue;
+      if (source === null || source.deletingAt !== undefined || row === null) continue;
       if (!sourceRefs.has(sourceId)) sourceRefs.set(sourceId, `S${sourceRefs.size + 1}`);
       out.push({ ref: sourceRefs.get(sourceId)!, sourceId, title: source.title, page, text: row.text });
     }
     return out;
   },
+});
+
+/**
+ * The pages to show Taku (audit U2). A small notebook goes whole. Otherwise
+ * two searches run, by words (the search index) and by meaning (the vector
+ * index, on the question's embedding), and their rankings are merged, so a
+ * question worded differently from the notes still finds the page. If the
+ * embedding cannot be made, the word search alone is used.
+ */
+export async function retrievePages(ctx: ActionCtx, args: { notebookId: Id<"notebooks">; profileId: Id<"profiles">; question: string }): Promise<Retrieved[]> {
+  const words: { small: boolean; chunkIds: Id<"chunks">[] } = await ctx.runQuery(internal.notebooks.ask.keywordHits, { notebookId: args.notebookId, question: args.question });
+  let ranked: string[] = words.chunkIds;
+  if (!words.small && embeddingsOn()) {
+    const embedded: { ok: boolean; vectors: number[][]; costUsd: number } = await ctx.runAction(internal.ai.router.embed, { inputs: [args.question] });
+    await ctx.runMutation(internal.ai.usage.record, { profileId: args.profileId, tool: "embed", costUsd: embedded.costUsd });
+    if (embedded.ok && embedded.vectors.length === 1) {
+      const near = await ctx.vectorSearch("chunks", "by_embedding", { vector: embedded.vectors[0], limit: SEARCH_EACH, filter: (q) => q.eq("notebookId", args.notebookId) });
+      ranked = fuse([words.chunkIds, near.map((n) => n._id as string)]);
+    }
+  }
+  if (!words.small) ranked = ranked.slice(0, TOP_CHUNKS);
+  return await ctx.runQuery(internal.notebooks.ask.pagesFor, { notebookId: args.notebookId, chunkIds: ranked as Id<"chunks">[] });
+}
+
+/** For the owner and for tests: what a question would bring back from a notebook. `npx convex run notebooks/ask:retrieve`. */
+export const retrieve = internalAction({
+  args: { notebookId: v.id("notebooks"), profileId: v.id("profiles"), question: v.string() },
+  handler: async (ctx, args): Promise<Retrieved[]> => await retrievePages(ctx, args),
 });
 
 const partValidator = v.object({ text: v.string(), origin: originValidator });
@@ -219,17 +269,6 @@ export function parseAnswer(content: string): { parts: RawPart[]; missing: strin
   }
 }
 
-const INPUT_SCHEMA = {
-  name: "input_verdict",
-  strict: true,
-  schema: {
-    type: "object",
-    properties: { verdict: { type: "string", enum: ["allow", "redirect", "self_harm", "harmed"] }, reason: { type: "string" } },
-    required: ["verdict", "reason"],
-    additionalProperties: false,
-  },
-};
-
 type AskReply = { kind: "answer" | "help" | "redirect" | "error"; text: string; parts?: { text: string; origin: { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added"; unchecked?: boolean } }[]; note?: string; widget?: StoredWidget };
 
 export const ask = action({
@@ -247,6 +286,12 @@ export const ask = action({
     const count = async (tool: string, r: { costUsd: number }) => {
       await ctx.runMutation(internal.ai.usage.record, { profileId: c.profileId, tool, costUsd: r.costUsd });
     };
+    // Under 18s: the finished answer is checked before it is saved, so it is never on screen unchecked.
+    const checkedReply = async (r: AskReply) => {
+      const shown = [r.text, ...(r.parts ?? []).map((p) => p.text), r.note ?? "", r.widget === undefined ? "" : JSON.stringify(r.widget.data)].join("\n");
+      if (c.audience === "minor" && !(await outputAllowed(ctx, { profileId: c.profileId, text: shown, key: { question } }))) return await reply({ kind: "error", text: BLOCKED_REPLY });
+      return await reply(r);
+    };
 
     try {
       const pre = prefilter(question, c.audience);
@@ -259,35 +304,14 @@ export const ask = action({
       const room = await ctx.runMutation(internal.ai.usage.admit, { profileId: c.profileId, kind: "ask" });
       if (!room.allowed) return await reply({ kind: "error", text: capReply(room.reason) });
 
-      if (c.audience === "minor") {
-        const check = await ctx.runAction(internal.ai.router.call, {
-          tier: "fast",
-          purpose: "safety_check",
-          messages: [
-            { role: "system", content: PROMPTS["safety-input"] },
-            { role: "user", content: `<text>${asData(question)}</text>` },
-          ],
-          jsonSchema: INPUT_SCHEMA,
-          maxTokens: 120,
-          reasoningEffort: "none",
-          stablePrefixCount: 1,
-          fixtureKey: { kind: "input_check", question },
-        });
-        await count("safety_check", check);
-        let verdict: string | null = null;
-        try {
-          verdict = check.ok ? (JSON.parse(check.content) as { verdict?: string }).verdict ?? null : null;
-        } catch {
-          verdict = null;
-        }
-        if (verdict === "self_harm" || verdict === "harmed") return await reply({ kind: "help", text: REPLIES.help });
-        if (verdict === "redirect") return await reply({ kind: "redirect", text: REPLIES.redirect });
-        // Fail closed: no clear allow, no answer.
-        if (verdict !== "allow") return await reply({ kind: "error", text: REPLIES.failed });
-      }
+      // Every learner, whatever age they gave (audit S5). Fail closed: no clear allow, no answer.
+      const verdict = await inputCheck(ctx, { profileId: c.profileId, question });
+      if (verdict === "help") return await reply({ kind: "help", text: REPLIES.help });
+      if (verdict === "redirect") return await reply({ kind: "redirect", text: REPLIES.redirect });
+      if (verdict !== "allow") return await reply({ kind: "error", text: REPLIES.failed });
 
       if (c.readySources === 0) return await reply({ kind: "redirect", text: REPLIES.noSources });
-      const pages: Retrieved[] = await ctx.runQuery(internal.notebooks.ask.retrieve, { notebookId: args.notebookId, question });
+      const pages: Retrieved[] = await retrievePages(ctx, { notebookId: args.notebookId, profileId: c.profileId, question });
       if (pages.length === 0) return await reply({ kind: "answer", text: REPLIES.nothingFound, parts: [], note: "Try other words, or add material that covers this." });
 
       await ctx.runMutation(internal.notebooks.ask.setStage, { messageId, stage: "writing" });
@@ -329,7 +353,7 @@ export const ask = action({
       if (dropped > 0) notes.push(`${dropped} ${dropped === 1 ? "point was" : "points were"} left out because ${dropped === 1 ? "it" : "they"} could not be found in your material.`);
       if (opinion.rejected.size > 0) notes.push(`${opinion.rejected.size} of Taku's ideas ${opinion.rejected.size === 1 ? "was" : "were"} left out because a second check did not agree.`);
       const widget = c.answerMode === "guide" && parsed.widget !== null ? widgetFromText(JSON.stringify(parsed.widget), ["equation-steps", "fill-blanks", "long-division"], lookup) : null;
-      return await reply({ kind: "answer", text: final.length === 0 ? REPLIES.nothingFound : "", parts: final, note: notes.length > 0 ? notes.join(" ") : undefined, ...(widget === null ? {} : { widget }) });
+      return await checkedReply({ kind: "answer", text: final.length === 0 ? REPLIES.nothingFound : "", parts: final, note: notes.length > 0 ? notes.join(" ") : undefined, ...(widget === null ? {} : { widget }) });
     } catch (error) {
       // Never leave an answer stuck on its progress line.
       await ctx.runMutation(internal.notebooks.ask.finish, { messageId, reply: { kind: "error", text: REPLIES.failed } });

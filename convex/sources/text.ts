@@ -25,6 +25,47 @@ export function splitPages(text: string, size: number = SOURCE_LIMITS.pageChars)
   return pages.slice(0, SOURCE_LIMITS.maxPages);
 }
 
+export type Section = { title: string; fromPage: number; toPage: number };
+
+/** Pages in a block when a long source has no chapter headings. */
+export const SECTION_BLOCK_PAGES = 20;
+const HEADING = /^(chapter|unit|topic|module|section|part)\s+(\d{1,3}|[ivxlc]{1,7})\b[\s:.\u2013\u2014-]*(.{0,60})/i;
+
+/**
+ * The parts of a source a learner can choose from when making a study tool
+ * (audit U1). Chapters when the text has headings like "Chapter 3" or "Unit 2"
+ * near the top of a page; otherwise blocks of SECTION_BLOCK_PAGES pages. A
+ * short source with no headings has no sections: it is used whole.
+ */
+export function findSections(pages: readonly string[]): Section[] {
+  const starts: { page: number; title: string }[] = [];
+  pages.forEach((text, i) => {
+    const top = text.split("\n").map((l) => l.trim()).filter((l) => l.length > 0).slice(0, 3);
+    for (const line of top) {
+      const m = line.match(HEADING);
+      if (m === null) continue;
+      const rest = m[3].trim().replace(/[\s.:]+$/, "");
+      const word = m[1][0].toUpperCase() + m[1].slice(1).toLowerCase();
+      const title = `${word} ${m[2].toUpperCase()}${rest.length > 0 ? `: ${rest}` : ""}`;
+      if (starts.length === 0 || starts[starts.length - 1].title !== title) starts.push({ page: i + 1, title });
+      break;
+    }
+  });
+  if (starts.length >= 2) {
+    const out: Section[] = [];
+    if (starts[0].page > 1) out.push({ title: "Opening pages", fromPage: 1, toPage: starts[0].page - 1 });
+    starts.forEach((s, i) => out.push({ title: s.title, fromPage: s.page, toPage: i + 1 < starts.length ? starts[i + 1].page - 1 : pages.length }));
+    return out.filter((s) => s.toPage >= s.fromPage).slice(0, 100);
+  }
+  if (pages.length <= SECTION_BLOCK_PAGES) return [];
+  const out: Section[] = [];
+  for (let from = 1; from <= pages.length; from += SECTION_BLOCK_PAGES) {
+    const to = Math.min(from + SECTION_BLOCK_PAGES - 1, pages.length);
+    out.push({ title: `Pages ${from} to ${to}`, fromPage: from, toPage: to });
+  }
+  return out;
+}
+
 export const CHUNK_CHARS = 900;
 const CHUNK_OVERLAP = 150;
 

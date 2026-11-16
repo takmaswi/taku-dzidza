@@ -21,6 +21,14 @@ export const accessibilityValidator = v.object({
   reducedMotion: v.boolean(),
 });
 
+export const deletionReasonValidator = v.union(v.literal("self"), v.literal("owner"), v.literal("no_consent"), v.literal("withdrawn"), v.literal("guardian"), v.literal("unverified"));
+/** Dimensions of a chunk's embedding (convex/ai/embeddings.ts). */
+export const EMBEDDING_DIMENSIONS = 512;
+/** A part of a source a study tool can be made from: a chapter found in the text, or a block of pages. */
+export const sectionValidator = v.object({ title: v.string(), fromPage: v.number(), toPage: v.number() });
+/** The pages a study tool was made from, shown on the tool. */
+export const coverageValidator = v.array(v.object({ sourceId: v.string(), title: v.string(), fromPage: v.number(), toPage: v.number() }));
+
 export const sourceModeValidator = v.union(v.literal("only_mine"), v.literal("mine_plus"));
 export const sourceKindValidator = v.union(v.literal("pdf"), v.literal("docx"), v.literal("image"), v.literal("text"), v.literal("link"));
 export const originValidator = v.union(
@@ -50,8 +58,15 @@ export default defineSchema({
     consentState: consentStateValidator,
     /** Adults only: said yes to counting which features are used, with no content (convex/analytics.ts). */
     analyticsConsent: v.optional(v.boolean()),
+    /** When the guardian withdrew consent; the data goes WITHDRAWN_DAYS later (convex/privacy/retention.ts). */
+    consentWithdrawnAt: v.optional(v.number()),
+    /** Bytes of uploaded files this account holds (convex/notebooks/uploads.ts). */
+    storageBytes: v.optional(v.number()),
+    /** Set when deletion starts: the account is hidden and signed out, then emptied in batches (convex/privacy/purge.ts). */
+    deletingAt: v.optional(v.number()),
+    deletionReason: v.optional(deletionReasonValidator),
     createdAt: v.number(),
-  }).index("by_user", ["userId"]).index("by_consent_state", ["consentState", "createdAt"]),
+  }).index("by_user", ["userId"]).index("by_consent_state", ["consentState", "createdAt"]).index("by_deleting", ["deletingAt"]),
 
   /** A link a learner under 18 sends to a guardian. Only the token's SHA 256 hash is stored. */
   consentRequests: defineTable({
@@ -97,6 +112,8 @@ export default defineSchema({
     sourceMode: sourceModeValidator,
     createdAt: v.number(),
     updatedAt: v.number(),
+    /** Set when deletion starts: hidden at once, emptied in batches. */
+    deletingAt: v.optional(v.number()),
   }).index("by_profile", ["profileId", "updatedAt"]),
 
   sources: defineTable({
@@ -111,7 +128,25 @@ export default defineSchema({
     error: v.optional(v.string()),
     pageCount: v.number(),
     createdAt: v.number(),
-  }).index("by_notebook", ["notebookId", "createdAt"]),
+    deletingAt: v.optional(v.number()),
+    /** Chapters found in the text, or blocks of pages, for choosing what a tool covers. */
+    sections: v.optional(v.array(sectionValidator)),
+    /** When every chunk got its embedding. Unset means keyword search only for this source. */
+    embeddedAt: v.optional(v.number()),
+  }).index("by_notebook", ["notebookId", "createdAt"]).index("by_storage", ["storageId"]),
+
+  /**
+   * One upload a learner asked for. The file's storage id is bound to the
+   * learner when the source is added; an upload nobody claims within the hour
+   * is swept with its file (convex/notebooks/uploads.ts).
+   */
+  uploads: defineTable({
+    profileId: v.id("profiles"),
+    storageId: v.optional(v.id("_storage")),
+    bytes: v.optional(v.number()),
+    createdAt: v.number(),
+    claimedAt: v.optional(v.number()),
+  }).index("by_profile", ["profileId", "createdAt"]).index("by_storage", ["storageId"]).index("by_created", ["createdAt"]),
 
   /** The text of one page of a source. Citations point here. */
   pages: defineTable({
@@ -127,10 +162,12 @@ export default defineSchema({
     notebookId: v.id("notebooks"),
     page: v.number(),
     text: v.string(),
+    embedding: v.optional(v.array(v.float64())),
   })
     .index("by_source", ["sourceId"])
     .index("by_notebook", ["notebookId"])
-    .searchIndex("search_text", { searchField: "text", filterFields: ["notebookId"] }),
+    .searchIndex("search_text", { searchField: "text", filterFields: ["notebookId"] })
+    .vectorIndex("by_embedding", { vectorField: "embedding", dimensions: EMBEDDING_DIMENSIONS, filterFields: ["notebookId"] }),
 
   /** The notebook's chat. It belongs to the learner and is deleted with the notebook. */
   messages: defineTable({
@@ -171,6 +208,7 @@ export default defineSchema({
     content: v.any(),
     sourceMode: sourceModeValidator,
     note: v.optional(v.string()),
+    coverage: v.optional(coverageValidator),
     createdAt: v.number(),
   }).index("by_notebook", ["notebookId", "createdAt"]),
 
@@ -208,11 +246,16 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_output", ["outputId"]).index("by_profile", ["profileId", "createdAt"]),
 
-  /** AI calls and cost per day: one row for the whole deployment (scope "all"), one per learner (their profile id) and one per tool ("tool:quiz"). Numbers only. */
+  /**
+   * AI calls and cost per day. Numbers only. One row per learner (their profile
+   * id). The deployment total and each tool's total are spread over shards
+   * ("all~3", "tool:quiz~7") so busy days do not queue on one row; readers add
+   * the shards up (convex/ai/usage.ts). Rows without a shard are from before.
+   */
   aiUsageDaily: defineTable({ day: v.string(), scope: v.string(), calls: v.number(), costUsd: v.number() }).index("by_day_scope", ["day", "scope"]).index("by_scope", ["scope"]),
 
   /** How many things a learner started in the current minute (convex/ai/usage.ts). One row per learner and kind. */
-  aiStarts: defineTable({ profileId: v.string(), kind: v.union(v.literal("ask"), v.literal("read")), windowStart: v.number(), count: v.number() }).index("by_profile_kind", ["profileId", "kind"]),
+  aiStarts: defineTable({ profileId: v.string(), kind: v.union(v.literal("ask"), v.literal("read"), v.literal("upload")), windowStart: v.number(), count: v.number() }).index("by_profile_kind", ["profileId", "kind"]),
 
   /** The deployment passed a share of its daily cap. Read by the owner with npx convex run ai/usage:alerts. */
   spendAlerts: defineTable({ day: v.string(), percent: v.number(), costUsd: v.number(), capUsd: v.number(), createdAt: v.number() }).index("by_day_percent", ["day", "percent"]),
@@ -224,7 +267,10 @@ export default defineSchema({
   mockOutbox: defineTable({ channel: v.union(v.literal("email"), v.literal("sms")), to: v.string(), code: v.string(), createdAt: v.number() }).index("by_to", ["to", "createdAt"]),
 
   /** Count only, no personal data: proof that deletions happen. */
-  accountDeletions: defineTable({ deletedAt: v.number(), reason: v.union(v.literal("self"), v.literal("owner"), v.literal("no_consent")) }),
+  accountDeletions: defineTable({ deletedAt: v.number(), reason: deletionReasonValidator }),
+
+  /** Where a sweep that walks a whole table got to, so each run carries on (convex/privacy/retention.ts). */
+  sweepCursors: defineTable({ name: v.string(), value: v.number() }).index("by_name", ["name"]),
 
   modelPrices: defineTable({
     model: v.string(),

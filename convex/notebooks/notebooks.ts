@@ -1,7 +1,8 @@
 import { ConvexError, v } from "convex/values";
 import type { Doc, Id } from "../_generated/dataModel";
-import { mutation, query, type MutationCtx, type QueryCtx } from "../_generated/server";
+import { mutation, query, type QueryCtx } from "../_generated/server";
 import { requireLearner } from "../lib/access";
+import { startPurge } from "../privacy/purge";
 import { sourceModeValidator } from "../schema";
 
 /** A learner's notebooks (SPEC.md 3.2). Every function checks the notebook belongs to the signed in learner. */
@@ -11,7 +12,7 @@ export const MAX_NOTEBOOKS = 200;
 export async function ownNotebook(ctx: QueryCtx, notebookId: Id<"notebooks">): Promise<{ profile: Doc<"profiles">; notebook: Doc<"notebooks"> }> {
   const { profile } = await requireLearner(ctx);
   const notebook = await ctx.db.get(notebookId);
-  if (notebook === null || notebook.profileId !== profile._id) throw new ConvexError("Notebook not found.");
+  if (notebook === null || notebook.profileId !== profile._id || notebook.deletingAt !== undefined) throw new ConvexError("Notebook not found.");
   return { profile, notebook };
 }
 
@@ -25,9 +26,9 @@ export const list = query({
   args: {},
   handler: async (ctx) => {
     const { profile } = await requireLearner(ctx);
-    const notebooks = await ctx.db.query("notebooks").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).order("desc").take(MAX_NOTEBOOKS);
+    const notebooks = (await ctx.db.query("notebooks").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).order("desc").take(MAX_NOTEBOOKS)).filter((n) => n.deletingAt === undefined);
     return await Promise.all(
-      notebooks.map(async (n) => ({ ...n, sourceCount: (await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", n._id)).take(60)).length })),
+      notebooks.map(async (n) => ({ ...n, sourceCount: (await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", n._id)).take(60)).filter((s) => s.deletingAt === undefined).length })),
     );
   },
 });
@@ -46,7 +47,7 @@ export const get = query({
   args: { notebookId: v.id("notebooks") },
   handler: async (ctx, args) => {
     const { notebook } = await ownNotebook(ctx, args.notebookId);
-    const sources = await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect();
+    const sources = (await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect()).filter((s) => s.deletingAt === undefined);
     const messages = await ctx.db.query("messages").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).order("desc").take(100);
     return { notebook, sources, messages: messages.reverse() };
   },
@@ -68,38 +69,25 @@ export const setSourceMode = mutation({
   },
 });
 
+/** Messages cleared per call; the app calls again while more is true. */
+const CLEAR_BATCH = 200;
+
 export const clearChat = mutation({
   args: { notebookId: v.id("notebooks") },
-  handler: async (ctx, args) => {
+  handler: async (ctx, args): Promise<{ more: boolean }> => {
     const { notebook } = await ownNotebook(ctx, args.notebookId);
-    for (const m of await ctx.db.query("messages").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect()) await ctx.db.delete(m._id);
+    const rows = await ctx.db.query("messages").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).take(CLEAR_BATCH);
+    for (const m of rows) await ctx.db.delete(m._id);
+    return { more: rows.length === CLEAR_BATCH };
   },
 });
 
-/** Deletes a source with its pages, chunks and file. */
-export async function deleteSourceData(ctx: MutationCtx, source: Doc<"sources">): Promise<void> {
-  for (const row of await ctx.db.query("chunks").withIndex("by_source", (q) => q.eq("sourceId", source._id)).collect()) await ctx.db.delete(row._id);
-  for (const row of await ctx.db.query("pages").withIndex("by_source_page", (q) => q.eq("sourceId", source._id)).collect()) await ctx.db.delete(row._id);
-  if (source.storageId !== undefined) await ctx.storage.delete(source.storageId).catch(() => undefined);
-  await ctx.db.delete(source._id);
-}
-
-/** Deletes a notebook with its sources and chat. Used by remove and by account deletion. */
-export async function deleteNotebookData(ctx: MutationCtx, notebook: Doc<"notebooks">): Promise<void> {
-  for (const s of await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect()) await deleteSourceData(ctx, s);
-  for (const m of await ctx.db.query("messages").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect()) await ctx.db.delete(m._id);
-  for (const o of await ctx.db.query("outputs").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect()) {
-    for (const c of await ctx.db.query("cards").withIndex("by_output", (q) => q.eq("outputId", o._id)).collect()) await ctx.db.delete(c._id);
-    for (const a of await ctx.db.query("quizAttempts").withIndex("by_output", (q) => q.eq("outputId", o._id)).collect()) await ctx.db.delete(a._id);
-    await ctx.db.delete(o._id);
-  }
-  await ctx.db.delete(notebook._id);
-}
-
+/** Hidden at once, then emptied in batches (convex/privacy/purge.ts). */
 export const remove = mutation({
   args: { notebookId: v.id("notebooks") },
   handler: async (ctx, args) => {
     const { notebook } = await ownNotebook(ctx, args.notebookId);
-    await deleteNotebookData(ctx, notebook);
+    await ctx.db.patch(notebook._id, { deletingAt: Date.now() });
+    await startPurge(ctx, { kind: "notebook", id: notebook._id });
   },
 });

@@ -245,3 +245,7 @@
 .chat-empty { display: grid; gap: 0.75rem; justify-items: start; padding: 1rem 0; }
 .chat-empty h2 { margin: 0; font-size: clamp(1.3rem, 1.1rem + 1vw, 1.6rem); }
 .chat-empty p { margin: 0; }
+
+/* What a study tool is made from: sources, a chapter or a page range. */
+.tool-scope { border: 0; padding: 0; margin: 0 0 0.6rem; display: grid; gap: 0.35rem; min-width: 0; }
+.tool-scope legend { font-weight: 600; padding: 0; margin-bottom: 0.2rem; }

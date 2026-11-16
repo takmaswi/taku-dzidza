@@ -80,6 +80,8 @@ if (mode === "mock") {
   values.AI_DAILY_USD_CAP = "1000";
   values.LEARNER_DAILY_USD_CAP = "1000";
   values.MOCK_AI_DELAY_MS = "120";
+  // Fake vectors in mock mode cost nothing; production turns this on by hand (DECISIONS.md, Stage 1).
+  values.EMBEDDINGS_MODE = "on";
 }
 if (rotate || !have.has("JWT_PRIVATE_KEY") || !have.has("JWKS")) {
   const keys = await generateKeyPair("RS256", { extractable: true });

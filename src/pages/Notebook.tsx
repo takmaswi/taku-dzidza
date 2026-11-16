@@ -85,14 +85,13 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
   const onDrop = (e: DragEvent) => {
     e.preventDefault();
     setDragging(false);
-    const file = e.dataTransfer.files?.[0];
-    if (file !== undefined) void sources.upload(file);
+    void sources.uploadAll([...(e.dataTransfer.files ?? [])]);
   };
 
   const sourceList = (
     <SourceList notebookId={notebookId} list={data.sources} sources={sources} />
   );
-  const studyPanel = <StudyPanel notebookId={notebookId} readAloud={profile.accessibility.readAloud} initialTool={initialTool} />;
+  const studyPanel = <StudyPanel notebookId={notebookId} sources={data.sources} readAloud={profile.accessibility.readAloud} initialTool={initialTool} />;
 
   return (
     <AppShell scroll="panes" tabs={false} bar={<NotebookBar notebook={notebook} count={data.sources.length} wide={wide} railOpen={railOpen} toolsOpen={toolsOpen} onSources={() => (wide ? setRail(railOpen ? "folded" : "open") : setSheet("sources"))} onTools={toggleTools} />}>
@@ -190,6 +189,10 @@ function NotebookBar({ notebook, count, wide, railOpen, toolsOpen, onSources, on
   const t = copy.notebook;
   const rename = useMutation(api.notebooks.notebooks.rename);
   const clearChat = useMutation(api.notebooks.notebooks.clearChat);
+  // A long chat is cleared a batch at a time.
+  const clearAll = async () => {
+    for (let i = 0; i < 50; i++) if (!(await clearChat({ notebookId: notebook._id })).more) return;
+  };
   const remove = useMutation(api.notebooks.notebooks.remove);
   const navigate = useNavigate();
   const [editing, setEditing] = useState(false);
@@ -272,7 +275,7 @@ function NotebookBar({ notebook, count, wide, railOpen, toolsOpen, onSources, on
             <button type="button" role="menuitem" onClick={() => (close(), setName(notebook.title), setEditing(true))}>
               <Pencil size={16} aria-hidden="true" /> {t.rename}
             </button>
-            <button type="button" role="menuitem" onClick={() => (close(), void clearChat({ notebookId: notebook._id }))}>
+            <button type="button" role="menuitem" onClick={() => (close(), void clearAll())}>
               <Eraser size={16} aria-hidden="true" /> {t.clearChat}
             </button>
             {!wide && (

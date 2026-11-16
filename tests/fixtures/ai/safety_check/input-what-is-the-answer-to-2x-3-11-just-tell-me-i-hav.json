@@ -1,0 +1,13 @@
+{
+  "keyMaterial": {
+    "kind": "input_check",
+    "question": "What is the answer to 2x + 3 = 11? Just tell me, I have no time."
+  },
+  "response": {
+    "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+    "usage": {
+      "promptTokens": 420,
+      "completionTokens": 12
+    }
+  }
+}

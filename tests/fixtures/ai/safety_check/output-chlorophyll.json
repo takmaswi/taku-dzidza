@@ -1,0 +1,13 @@
+{
+  "keyMaterial": {
+    "kind": "output_check",
+    "question": "What does chlorophyll do?"
+  },
+  "response": {
+    "content": "{\"verdict\": \"allow\", \"reason\": \"school work\"}",
+    "usage": {
+      "promptTokens": 420,
+      "completionTokens": 12
+    }
+  }
+}

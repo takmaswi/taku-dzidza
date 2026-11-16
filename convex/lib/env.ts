@@ -29,6 +29,15 @@ export function adminEmails(): string[] {
     .filter((e) => e.length > 0);
 }
 
+/**
+ * Search by meaning (convex/ai/embeddings.ts). Off unless EMBEDDINGS_MODE is
+ * "on": production turns it on only after a capped live check of the route
+ * (DECISIONS.md, Stage 1). Off means keyword search only and no embedding calls.
+ */
+export function embeddingsOn(): boolean {
+  return envString("EMBEDDINGS_MODE") === "on";
+}
+
 /** Google sign in shows only when both of its settings exist. */
 export function googleConfigured(): boolean {
   return envString("AUTH_GOOGLE_ID") !== undefined && envString("AUTH_GOOGLE_SECRET") !== undefined;

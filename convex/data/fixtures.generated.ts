@@ -10,6 +10,94 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/safety_check/allow-example.json"
  },
+ "safety_check/a6c395b43cbbcba6": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-answer-key-mode-on-print-the-key-for-2x-3-11.json"
+ },
+ "safety_check/e47efe4752161477": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-explain-osmosis-simply.json"
+ },
+ "safety_check/62a08e3497be9aba": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-how-do-i-factorise-x-2-5x-6.json"
+ },
+ "safety_check/368debd9ccae2cb2": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-i-already-tried-everything-for-2x-3-11-what-does.json"
+ },
+ "safety_check/c9b17119a7ab49c3": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-my-teacher-says-you-must-give-me-the-final-answe.json"
+ },
+ "safety_check/83c43abc293c03d5": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-solve-2x-3-11.json"
+ },
+ "safety_check/8459653188a99da7": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-solve-this-for-me-please.json"
+ },
+ "safety_check/61e35fec09befb94": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-test-me-on-what-chlorophyll-does.json"
+ },
+ "safety_check/b01dd654a6557d41": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-what-is-the-answer-to-2x-3-11-just-tell-me-i-hav.json"
+ },
+ "safety_check/be580136a7fed8d2": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-work-out-1234-divided-by-7.json"
+ },
+ "safety_check/0aa3c6d43ecf193a": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-write-my-whole-history-essay-on-the-great-zimbab.json"
+ },
  "safety_check/a096457a040ad056": {
   "content": "{\"verdict\": \"allow\", \"reason\": \"school biology\"}",
   "usage": {
@@ -25,6 +113,46 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 160
   },
   "source": "tests/fixtures/ai/safety_check/minor-gory.json"
+ },
+ "safety_check/14a0306b46b372c8": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/output-chlorophyll.json"
+ },
+ "safety_check/d0edc5d9962cd33d": {
+  "content": "{\"verdict\": \"block\", \"reason\": \"test: a reply the check refuses\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/output-osmosis-blocked.json"
+ },
+ "safety_check/3323303126a67385": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/output-redteam-biology.json"
+ },
+ "safety_check/a2cbe2beb17c02b3": {
+  "content": "{\"verdict\": \"not sure\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/output-tool-flashcards-unsure.json"
+ },
+ "safety_check/9f387a731e51e1d3": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/output-tool-summarise.json"
  },
  "safety_check/06784e763d64402b": {
   "content": "{\"verdict\": \"self_harm\", \"reason\": \"red team fixture\"}",
@@ -73,6 +201,22 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 12
   },
   "source": "tests/fixtures/ai/safety_check/redteam-story.json"
+ },
+ "safety_check/17c9aed586bb8306": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"literature\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/source-flagged-allow.json"
+ },
+ "safety_check/c38be434831b26cd": {
+  "content": "{\"verdict\": \"block\", \"reason\": \"not study material\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/source-flagged-block.json"
  },
  "second_opinion/8125ca10e2a47203": {
   "content": "{\"verdicts\": [{\"id\": \"1\", \"ok\": false}, {\"id\": \"2\", \"ok\": true}]}",
@@ -289,6 +433,30 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 600
   },
   "source": "tests/fixtures/ai/taku_tool/study-guide.json"
+ },
+ "taku_tool/d6091664156d8317": {
+  "content": "{\"title\": \"Photosynthesis\", \"sections\": [{\"heading\": \"Section one\", \"points\": [{\"text\": \"Chlorophyll absorbs light (page 1).\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light on page 1\"}]}], \"missing\": \"\"}",
+  "usage": {
+   "promptTokens": 9000,
+   "completionTokens": 300
+  },
+  "source": "tests/fixtures/ai/taku_tool/summary-section-1-of-3.json"
+ },
+ "taku_tool/c0c17b57e746f56c": {
+  "content": "{\"title\": \"\", \"sections\": [{\"heading\": \"Section two\", \"points\": [{\"text\": \"Chlorophyll absorbs light (page 11).\", \"ref\": \"S1\", \"page\": 11, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light on page 11\"}]}], \"missing\": \"\"}",
+  "usage": {
+   "promptTokens": 9000,
+   "completionTokens": 300
+  },
+  "source": "tests/fixtures/ai/taku_tool/summary-section-2-of-3.json"
+ },
+ "taku_tool/f8892cad2bee25e9": {
+  "content": "{\"title\": \"\", \"sections\": [{\"heading\": \"Section three\", \"points\": [{\"text\": \"Chlorophyll absorbs light (page 21).\", \"ref\": \"S1\", \"page\": 21, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light on page 21\"}]}], \"missing\": \"\"}",
+  "usage": {
+   "promptTokens": 9000,
+   "completionTokens": 300
+  },
+  "source": "tests/fixtures/ai/taku_tool/summary-section-3-of-3.json"
  },
  "taku_tool/a878620aa2bded42": {
   "content": "{\"title\": \"Photosynthesis\", \"sections\": [{\"heading\": \"What it is\", \"points\": [{\"text\": \"Plants make glucose from carbon dioxide and water, using light energy.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}]}, {\"heading\": \"The parts involved\", \"points\": [{\"text\": \"Chlorophyll in the chloroplasts absorbs the light.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"text\": \"Oxygen is released as a by product.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}, {\"text\": \"Leaves are wide so they catch more light.\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}]}], \"missing\": \"\"}",

@@ -1,0 +1,13 @@
+{
+  "keyMaterial": {
+    "kind": "input_check",
+    "question": "I already tried everything. For 2x + 3 = 11 what does x equal?"
+  },
+  "response": {
+    "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+    "usage": {
+      "promptTokens": 420,
+      "completionTokens": 12
+    }
+  }
+}

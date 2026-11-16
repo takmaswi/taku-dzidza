@@ -23,6 +23,17 @@ export const PURPOSES = [
   "taku_widget",
 ] as const;
 
+/**
+ * The embedding model for notebook search (DECISIONS.md, Stage 1). Checked on
+ * 16 November 2026: the embeddings model list has it at USD 0.02 per million
+ * tokens, and the zero data retention endpoint list has it on EMBED_PROVIDER.
+ * Override with EMBED_MODEL and EMBED_PROVIDER; a model must return at least
+ * EMBEDDING_DIMENSIONS numbers whose prefix is a usable embedding.
+ */
+export const DEFAULT_EMBED_MODEL = "openai/text-embedding-3-small";
+export const DEFAULT_EMBED_PROVIDER = "azure";
+export const EMBED_USD_PER_TOKEN = 0.02 / 1_000_000;
+
 export type Purpose = (typeof PURPOSES)[number];
 
 function env(name: string): string | undefined {
@@ -105,11 +116,18 @@ export const SEED_PRICES_PER_MILLION: Record<string, { prompt: number; cached: n
   "anthropic/claude-haiku-5.5": { prompt: 0.1, cached: 0.01, completion: 0.5 },
 };
 
+/**
+ * The price assumed for a model with no price row and no cost from the
+ * provider, USD per million tokens. Set above the dearest model family on the
+ * chain's provider list, on purpose: wrong in the safe direction.
+ */
+export const UNKNOWN_MODEL_PER_MILLION = { prompt: 15, cached: 15, completion: 75 } as const;
+
 export function seedPrice(model: string): ModelPrice {
   const seed = SEED_PRICES_PER_MILLION[model];
   if (seed === undefined) {
-    // An unknown model is priced at zero rather than guessed.
-    return { promptUsdPerToken: 0, cachedPromptUsdPerToken: 0, completionUsdPerToken: 0 };
+    // An unknown model fails closed (audit S10): priced high, so the caps trip early rather than never.
+    return priceFromPerMillion(UNKNOWN_MODEL_PER_MILLION.prompt, UNKNOWN_MODEL_PER_MILLION.cached, UNKNOWN_MODEL_PER_MILLION.completion);
   }
   return priceFromPerMillion(seed.prompt, seed.cached, seed.completion);
 }

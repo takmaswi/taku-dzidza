@@ -1,0 +1,13 @@
+{
+  "keyMaterial": {
+    "kind": "output_check",
+    "question": "How does the male reproductive system work? It is in my biology syllabus."
+  },
+  "response": {
+    "content": "{\"verdict\": \"allow\", \"reason\": \"school work\"}",
+    "usage": {
+      "promptTokens": 420,
+      "completionTokens": 12
+    }
+  }
+}

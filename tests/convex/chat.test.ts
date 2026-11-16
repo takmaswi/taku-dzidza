@@ -13,7 +13,7 @@ describe("general chat with Taku", () => {
     expect(data.chat.title).toBe("Explain osmosis simply");
     expect(data.messages.map((m) => m.role)).toEqual(["learner", "taku"]);
     expect(data.messages[1].text).toMatch(/partially permeable membrane/);
-    expect(await p.as.query(api.chat.chats.list, {})).toHaveLength(1);
+    expect((await p.as.query(api.chat.chats.list, { paginationOpts: { numItems: 10, cursor: null } })).page).toHaveLength(1);
   });
 
   test("Guide me changes how Taku answers", async () => {

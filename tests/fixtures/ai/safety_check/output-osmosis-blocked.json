@@ -1,0 +1,13 @@
+{
+  "keyMaterial": {
+    "kind": "output_check",
+    "question": "Explain osmosis simply"
+  },
+  "response": {
+    "content": "{\"verdict\": \"block\", \"reason\": \"test: a reply the check refuses\"}",
+    "usage": {
+      "promptTokens": 420,
+      "completionTokens": 12
+    }
+  }
+}

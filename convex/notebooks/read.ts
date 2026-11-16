@@ -5,7 +5,11 @@ import { internalAction, internalMutation, internalQuery, type ActionCtx, type M
 import { PROMPTS } from "../data/generated";
 import type { LinkOutcome } from "../sources/linkGuard";
 import { SOURCE_LIMITS } from "../sources/limits";
-import { chunkPage, htmlToText, linkProblem, splitPages } from "../sources/text";
+import { ADULT_AGE, ageOn } from "../accounts/age";
+import { embeddingsOn } from "../lib/env";
+import { sourceAllowed } from "../safety/checks";
+import { prefilter } from "../safety/prefilter";
+import { chunkPage, findSections, htmlToText, linkProblem, splitPages } from "../sources/text";
 
 /**
  * Reading a source into pages and search chunks. Text, Word files, PDFs with
@@ -16,7 +20,7 @@ import { chunkPage, htmlToText, linkProblem, splitPages } from "../sources/text"
 
 export async function writePages(ctx: MutationCtx, sourceId: Id<"sources">, pages: readonly string[], title?: string): Promise<void> {
   const source = await ctx.db.get(sourceId);
-  if (source === null) return;
+  if (source === null || source.deletingAt !== undefined) return;
   for (const row of await ctx.db.query("chunks").withIndex("by_source", (q) => q.eq("sourceId", sourceId)).collect()) await ctx.db.delete(row._id);
   for (const row of await ctx.db.query("pages").withIndex("by_source_page", (q) => q.eq("sourceId", sourceId)).collect()) await ctx.db.delete(row._id);
   const kept = pages.slice(0, SOURCE_LIMITS.maxPages);
@@ -31,7 +35,48 @@ export async function writePages(ctx: MutationCtx, sourceId: Id<"sources">, page
     pageCount: kept.length,
     ...(readable ? { error: undefined } : { error: "No text could be read from this source." }),
     ...(title !== undefined && title.length > 0 ? { title: title.slice(0, 120) } : {}),
+    sections: findSections(kept),
+    embeddedAt: undefined,
   });
+  if (readable && embeddingsOn()) await ctx.scheduler.runAfter(0, internal.ai.embeddings.embedSource, { sourceId });
+}
+
+/** Flagged pages of one source the model looks at. More than this and the source is refused: it is not study material. */
+export const MAX_FLAGGED_PAGES = 8;
+
+export const SCREEN_ERRORS = {
+  blocked: "This material cannot be used here. Add your school notes or textbook pages instead.",
+  unchecked: "Taku could not check this material just now. Add it again in a moment.",
+} as const;
+
+export const audienceFor = internalQuery({
+  args: { sourceId: v.id("sources") },
+  handler: async (ctx, args): Promise<"minor" | "adult"> => {
+    const source = await ctx.db.get(args.sourceId);
+    const profile = source === null ? null : await ctx.db.get(source.profileId);
+    return profile !== null && ageOn(profile.birthYear, profile.birthMonth, new Date()) < ADULT_AGE ? "minor" : "adult";
+  },
+});
+
+/**
+ * An under 18's source is screened as it is read (audit S6). The word filter
+ * runs on every page for free. Only pages it flags go to the model, and any
+ * answer but a clear allow keeps the source out. Returns the error to show,
+ * or null when the source may be used. Adults' material is theirs: not screened.
+ */
+export async function screenPages(ctx: ActionCtx, source: Pick<Doc<"sources">, "_id" | "profileId">, pages: readonly string[]): Promise<string | null> {
+  const audience: "minor" | "adult" = await ctx.runQuery(internal.notebooks.read.audienceFor, { sourceId: source._id });
+  if (audience === "adult") return null;
+  const flagged = pages.filter((text) => {
+    const verdict = prefilter(text.slice(0, 4000), "minor");
+    return verdict.kind === "redirect" || verdict.kind === "distress";
+  });
+  if (flagged.length === 0) return null;
+  if (flagged.length > MAX_FLAGGED_PAGES) return SCREEN_ERRORS.blocked;
+  const room = await ctx.runQuery(internal.ai.usage.check, { profileId: source.profileId });
+  if (!room.allowed) return SCREEN_ERRORS.unchecked;
+  for (const text of flagged) if (!(await sourceAllowed(ctx, { profileId: source.profileId, text }))) return SCREEN_ERRORS.blocked;
+  return null;
 }
 
 export const savePages = internalMutation({
@@ -128,6 +173,8 @@ export const readFile = internalAction({
       }
       if (pages === "limit") return await fail("You have used today's Taku allowance, so this file was not read. Add it again after 2am Harare time.");
       if (pages === null) return await fail("Taku could not read this file just now. Try again later.");
+      const refused = await screenPages(ctx, source, pages);
+      if (refused !== null) return await fail(refused);
       await ctx.runMutation(internal.notebooks.read.savePages, { sourceId: args.sourceId, pages });
     } catch (error) {
       console.warn(`reading source failed: ${error instanceof Error ? error.name : "error"}`);
@@ -153,6 +200,25 @@ export const readLink = internalAction({
     const { title, text } = contentType.includes("html") ? htmlToText(body) : { title: "", text: body };
     const pages = splitPages(text);
     if (pages.length === 0) return await fail("No text could be read from this page.");
+    const refused = await screenPages(ctx, source, pages);
+    if (refused !== null) return await fail(refused);
     await ctx.runMutation(internal.notebooks.read.savePages, { sourceId: args.sourceId, pages, title });
+  },
+});
+
+/** Pasted text from an under 18: screened, then saved. Adults' text is saved in the mutation that adds it. */
+export const readText = internalAction({
+  args: { sourceId: v.id("sources"), pages: v.array(v.string()) },
+  handler: async (ctx, args): Promise<void> => {
+    const source: Doc<"sources"> | null = await ctx.runQuery(internal.notebooks.read.sourceFor, { sourceId: args.sourceId });
+    if (source === null) return;
+    try {
+      const refused = await screenPages(ctx, source, args.pages);
+      if (refused !== null) return void (await ctx.runMutation(internal.notebooks.read.markFailed, { sourceId: args.sourceId, error: refused }));
+      await ctx.runMutation(internal.notebooks.read.savePages, { sourceId: args.sourceId, pages: args.pages });
+    } catch (error) {
+      console.warn(`screening text failed: ${error instanceof Error ? error.name : "error"}`);
+      await ctx.runMutation(internal.notebooks.read.markFailed, { sourceId: args.sourceId, error: SCREEN_ERRORS.unchecked });
+    }
   },
 });

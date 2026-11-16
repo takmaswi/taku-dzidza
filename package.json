@@ -22,6 +22,7 @@
     "setup-env": "node scripts/setup-env.mjs",
     "live-check": "node scripts/live-check.mjs",
     "redteam": "node scripts/redteam.mjs",
+    "csp-check": "node scripts/check-env.mjs && node scripts/csp-check.mjs",
     "deploy:prod": "node scripts/deploy-vercel.mjs"
   },
   "dependencies": {

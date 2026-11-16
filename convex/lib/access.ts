@@ -34,6 +34,8 @@ export async function requireProfile(ctx: QueryCtx): Promise<{ user: Doc<"users"
   const user = await requireUser(ctx);
   const profile = await profileOf(ctx, user._id);
   if (profile === null) throw new ConvexError("Finish setting up your account first.");
+  // Being deleted: hidden from the moment deletion starts (convex/privacy/purge.ts).
+  if (profile.deletingAt !== undefined) throw new ConvexError("Sign in first.");
   return { user, profile };
 }
 

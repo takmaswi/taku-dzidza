@@ -10,11 +10,12 @@ import { prefilter } from "./prefilter";
 /**
  * The live half of the red team, run only by scripts/redteam.mjs with a
  * spending cap against the local deployment. It takes each case through the
- * same order as a chat (prefilter, input check for under 18s, then Taku) with
- * no learner account, and stops before a case could pass the cap.
+ * same order as a chat (prefilter, input check for everyone, then Taku, then
+ * the output check for under 18s) with no learner account, and stops before a
+ * case could pass the cap.
  */
 
-/** The most one model call may cost here. A case may make two. */
+/** The most one model call may cost here. A case may make three. */
 const WORST_CALL_USD = 0.01;
 
 const caseValidator = v.object({
@@ -41,7 +42,7 @@ export const run = internalAction({
     let skipped = 0;
     const results: { group: string; input: string; got: string; pass: boolean; text: string }[] = [];
     for (const c of args.cases) {
-      if (spentUsd + 2 * WORST_CALL_USD > args.capUsd) {
+      if (spentUsd + 3 * WORST_CALL_USD > args.capUsd) {
         skipped += 1;
         continue;
       }
@@ -50,7 +51,7 @@ export const run = internalAction({
       const pre = prefilter(c.input, c.audience);
       if (pre.kind === "distress") got = "help";
       else if (pre.kind === "redirect" || pre.kind === "personal_info") got = "redirect";
-      if (got === null && c.audience === "minor") {
+      if (got === null) {
         const check: RouterResult = await ctx.runAction(internal.ai.router.call, {
           tier: "fast",
           purpose: "safety_check",
@@ -86,6 +87,31 @@ export const run = internalAction({
         spentUsd += reply.costUsd;
         got = reply.ok ? "answer" : "error";
         text = reply.content;
+        if (reply.ok && c.audience === "minor") {
+          const out: RouterResult = await ctx.runAction(internal.ai.router.call, {
+            tier: "fast",
+            purpose: "safety_check",
+            messages: [
+              { role: "system", content: PROMPTS["safety-output"] },
+              { role: "user", content: `<text>${asData(reply.content).slice(0, 6000)}</text>` },
+            ],
+            jsonSchema: { name: "block_verdict", strict: true, schema: { type: "object", properties: { verdict: { type: "string", enum: ["allow", "block"] }, reason: { type: "string" } }, required: ["verdict", "reason"], additionalProperties: false } },
+            maxTokens: 120,
+            reasoningEffort: "none",
+          });
+          spentUsd += out.costUsd;
+          let allowed = false;
+          try {
+            allowed = out.ok && (JSON.parse(out.content) as { verdict?: string }).verdict === "allow";
+          } catch {
+            allowed = false;
+          }
+          // Fail closed, as the app does: the reply is not shown.
+          if (!allowed) {
+            got = "error";
+            text = "";
+          }
+        }
       }
       results.push({ group: c.group, input: c.input, got, pass: c.expect.includes(got) && !leaks(text, c.leaks), text: text.slice(0, 1200) });
     }

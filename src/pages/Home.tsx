@@ -1,4 +1,4 @@
-import { useAction, useMutation, useQuery } from "convex/react";
+import { useAction, useMutation, usePaginatedQuery, useQuery } from "convex/react";
 import { ArrowRight, BookOpen, Check, Circle, FileUp, MessageCircle, Plus, Sparkles } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
@@ -32,7 +32,7 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
   const createNotebook = useMutation(api.notebooks.notebooks.create);
   const createSample = useMutation(api.notebooks.sample.create);
   const notebooks = useQuery(api.notebooks.notebooks.list);
-  const chats = useQuery(api.chat.chats.list);
+  const { results: chats } = usePaginatedQuery(api.chat.chats.list, {}, { initialNumItems: 5 });
   const [now] = useState(() => Date.now());
   const sky = skyFor(new Date(now).getHours());
   const due = useQuery(api.study.cards.dueCount, { now });
@@ -44,7 +44,7 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
   const starters = t.starters[profile.studyingFor ?? "olevel"];
   const readyNotebooks = (notebooks ?? []).filter((n) => n.sourceCount > 0);
   const lastNotebook = [...(notebooks ?? [])].sort((a, b) => b.updatedAt - a.updatedAt)[0];
-  const lastChat = chats?.[0];
+  const lastChat = chats[0];
 
   const ask = async (text: string) => {
     if (text.trim().length === 0 || busy) return;

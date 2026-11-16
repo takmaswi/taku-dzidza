@@ -1,4 +1,5 @@
 import { useMutation } from "convex/react";
+import { ConvexError } from "convex/values";
 import { Camera, Link2, Type, Upload } from "lucide-react";
 import { useRef, useState } from "react";
 import { api } from "../../../convex/_generated/api";
@@ -8,6 +9,9 @@ import { useTrack } from "../../analytics";
 import { copy } from "../../copy/en";
 
 const ACCEPT = ".pdf,.docx,image/jpeg,image/png,image/webp,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+/** Files taken from one drop or one pick. */
+const MAX_FILES_AT_ONCE = 20;
 
 export type AddKind = "upload" | "snap" | "paste" | "link";
 export type Sources = ReturnType<typeof useSources>;
@@ -43,14 +47,38 @@ export function useSources(notebookId: Id<"notebooks">) {
     }
   };
 
-  const upload = (file: File) =>
-    run(async () => {
-      const url = await generateUploadUrl({});
-      const response = await fetch(url, { method: "POST", headers: { "Content-Type": file.type || "application/octet-stream" }, body: file });
-      if (!response.ok) throw new Error("upload failed");
-      const { storageId } = (await response.json()) as { storageId: Id<"_storage"> };
-      await addFile({ notebookId, storageId, fileName: file.name });
-    });
+  const uploadOne = async (file: File) => {
+    const { url, uploadId } = await generateUploadUrl({});
+    const response = await fetch(url, { method: "POST", headers: { "Content-Type": file.type || "application/octet-stream" }, body: file });
+    if (!response.ok) throw new Error("upload failed");
+    const { storageId } = (await response.json()) as { storageId: Id<"_storage"> };
+    const added = await addFile({ notebookId, uploadId, storageId, fileName: file.name });
+    if (!added.ok) throw new ConvexError(added.message);
+  };
+
+  /** Several files at once (a drop, or a multiple pick): one after another, and one bad file does not stop the rest. */
+  const uploadAll = async (files: readonly File[]) => {
+    const list = files.slice(0, MAX_FILES_AT_ONCE);
+    if (list.length === 0) return;
+    setError(null);
+    setBusy(true);
+    const failed: string[] = [];
+    let firstError: string | null = null;
+    for (const file of list) {
+      try {
+        await uploadOne(file);
+        track("source_added");
+      } catch (e) {
+        failed.push(file.name);
+        firstError ??= errorText(e, copy.errors.generic);
+      }
+    }
+    if (failed.length > 0) setError(list.length === 1 ? firstError : copy.notebook.someFilesFailed(failed.length, list.length, firstError ?? copy.errors.generic));
+    else if (files.length > list.length) setError(copy.notebook.tooManyFiles(MAX_FILES_AT_ONCE));
+    setBusy(false);
+  };
+
+  const upload = (file: File) => uploadAll([file]);
 
   const start = (kind: AddKind) => {
     setError(null);
@@ -60,14 +88,14 @@ export function useSources(notebookId: Id<"notebooks">) {
   };
 
   const onPicked = (input: HTMLInputElement) => {
-    const file = input.files?.[0];
+    const files = [...(input.files ?? [])];
     input.value = "";
-    if (file !== undefined) void upload(file);
+    void uploadAll(files);
   };
 
   const inputs = (
     <>
-      <input ref={fileInput} type="file" hidden accept={ACCEPT} data-testid="file-input" onChange={(e) => onPicked(e.target)} />
+      <input ref={fileInput} type="file" hidden multiple accept={ACCEPT} data-testid="file-input" onChange={(e) => onPicked(e.target)} />
       <input ref={cameraInput} type="file" hidden accept="image/*" capture="environment" onChange={(e) => onPicked(e.target)} />
     </>
   );
@@ -79,6 +107,7 @@ export function useSources(notebookId: Id<"notebooks">) {
     setForm,
     start,
     upload,
+    uploadAll,
     addText: (title: string, text: string) => run(() => addTextM({ notebookId, title, text })),
     addLink: (url: string) => run(() => addLinkM({ notebookId, url })),
     inputs,

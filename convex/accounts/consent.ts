@@ -3,6 +3,7 @@ import { internal } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
 import { action, internalMutation, mutation, query, type QueryCtx } from "../_generated/server";
 import { requireProfile } from "../lib/access";
+import { beginAccountDeletion } from "../privacy/purge";
 import { randomDigits, randomToken, tokenHash } from "../lib/tokens";
 import { aiMode } from "../lib/env";
 import { CONSENT_POINTS, CONSENT_TEXT_VERSION } from "./consentText";
@@ -60,7 +61,7 @@ async function requestFor(ctx: QueryCtx, token: string): Promise<{ request: Doc<
   const row = await ctx.db.query("consentRequests").withIndex("by_token", (q) => q.eq("tokenHash", hash)).unique();
   if (row === null || row.expiresAt < Date.now()) return null;
   const profile = await ctx.db.get(row.profileId);
-  if (profile === null) return null;
+  if (profile === null || profile.deletingAt !== undefined) return null;
   return { request: row, profile };
 }
 
@@ -176,8 +177,30 @@ export const withdraw = mutation({
     // The newest: a guardian can give, withdraw and give again on one link.
     const consent = await ctx.db.query("consents").withIndex("by_request", (q) => q.eq("requestId", found.request._id)).order("desc").first();
     if (consent === null || consent.withdrawnAt !== undefined) throw new ConvexError("There is no consent to withdraw on this link.");
-    await ctx.db.patch(consent._id, { withdrawnAt: Date.now() });
-    await ctx.db.patch(found.profile._id, { consentState: "withdrawn" });
+    const now = Date.now();
+    await ctx.db.patch(consent._id, { withdrawnAt: now });
+    await ctx.db.patch(found.profile._id, { consentState: "withdrawn", consentWithdrawnAt: now });
     return { state: "withdrawn" as const };
+  },
+});
+
+/**
+ * Public, with the link's token: the guardian asks for the learner's account
+ * and everything in it to be deleted now (audit S4). Works on the link of an
+ * under 18's account once consent was given on it, or withdrawn. Without this
+ * the data goes WITHDRAWN_DAYS after a withdrawal (convex/privacy/retention.ts).
+ */
+export const requestDeletion = mutation({
+  args: { token: v.string(), confirm: v.boolean() },
+  handler: async (ctx, args): Promise<{ state: "deleted" }> => {
+    const found = await requestFor(ctx, args.token);
+    if (found === null) throw new ConvexError("This link has expired.");
+    if (!args.confirm) throw new ConvexError("Tick the box to confirm.");
+    const consent = await ctx.db.query("consents").withIndex("by_request", (q) => q.eq("requestId", found.request._id)).first();
+    // Only a guardian who gave consent on this link can delete: the link alone is what a learner holds too.
+    if (consent === null) throw new ConvexError("Only the guardian who gave permission on this link can ask for this.");
+    const user = await ctx.db.get(found.profile.userId);
+    if (user !== null) await beginAccountDeletion(ctx, user, "guardian");
+    return { state: "deleted" };
   },
 });

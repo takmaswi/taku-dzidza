@@ -1,0 +1,13 @@
+{
+  "keyMaterial": {
+    "kind": "output_check",
+    "tool": "flashcards"
+  },
+  "response": {
+    "content": "{\"verdict\": \"not sure\"}",
+    "usage": {
+      "promptTokens": 420,
+      "completionTokens": 12
+    }
+  }
+}

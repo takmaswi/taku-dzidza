@@ -21,6 +21,21 @@ export async function makeUser(t: T): Promise<Person> {
   return { userId, email, as: t.withIdentity({ subject: `${userId}|session${seq}`, email }) };
 }
 
+/**
+ * Lets scheduled functions run to the end: batched deletes, the screening of
+ * an under 18's text, embeddings. Real timers, so it waits a tick, lets what
+ * started finish, and repeats until nothing is waiting.
+ */
+export async function settle(t: T): Promise<void> {
+  for (let i = 0; i < 400; i++) {
+    await new Promise((resolve) => setTimeout(resolve, 1));
+    await t.finishInProgressScheduledFunctions();
+    const waiting = await t.run(async (ctx) => (await ctx.db.system.query("_scheduled_functions").collect()).filter((job) => job.state.kind === "pending" || job.state.kind === "inProgress").length);
+    if (waiting === 0) return;
+  }
+  throw new Error("scheduled functions did not finish");
+}
+
 export function birthForAge(age: number, now = new Date()): { birthYear: number; birthMonth: number } {
   // Born in January, so the age is already reached this year.
   return { birthYear: now.getUTCFullYear() - age, birthMonth: 1 };

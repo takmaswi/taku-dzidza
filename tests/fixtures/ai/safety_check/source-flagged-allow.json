@@ -1,0 +1,13 @@
+{
+  "keyMaterial": {
+    "kind": "source_check",
+    "text": "Poem. I want to die, said the old king in the play, and the court fell silent."
+  },
+  "response": {
+    "content": "{\"verdict\": \"allow\", \"reason\": \"literature\"}",
+    "usage": {
+      "promptTokens": 420,
+      "completionTokens": 12
+    }
+  }
+}

@@ -3,14 +3,16 @@ import { api, internal } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { REPLIES } from "../../convex/notebooks/ask";
 import { DEFAULT_DAILY_USD_CAP, DEFAULT_LEARNER_DAILY_USD_CAP, STARTS_PER_MINUTE } from "../../convex/ai/usage";
-import { addConsent, makeLearner, makeT, type Person, type T } from "./people";
+import { addConsent, makeLearner, makeT, settle, type Person, type T } from "./people";
 
 const NOTES = "Photosynthesis\nGreen plants make glucose from carbon dioxide and water using light energy.\nChlorophyll in the chloroplasts absorbs the light.\nOxygen is released as a by product.";
 const QUESTION = "What does chlorophyll do?";
 
-async function notebookWithNotes(_t: T, p: Person): Promise<Id<"notebooks">> {
+async function notebookWithNotes(t: T, p: Person): Promise<Id<"notebooks">> {
   const notebookId = await p.as.mutation(api.notebooks.notebooks.create, { title: "Form 4 Biology" });
   await p.as.mutation(api.notebooks.sources.addText, { notebookId, title: "Biology notes", text: NOTES });
+  // An under 18's text is screened in a scheduled step before it is ready.
+  await settle(t);
   return notebookId;
 }
 
@@ -161,7 +163,11 @@ describe("spending limits", () => {
     const notebookId = await notebookWithNotes(t, p);
     const profile = (await p.as.query(api.accounts.profiles.me, {}))!.profile!;
     await t.run(async (ctx) => {
-      await ctx.db.insert("aiUsageDaily", { day: new Date().toISOString().slice(0, 10), scope: profile._id, calls: 3, costUsd: DEFAULT_LEARNER_DAILY_USD_CAP });
+      // The learner's row may exist already: embedding their notes is counted too.
+      const day = new Date().toISOString().slice(0, 10);
+      const row = (await ctx.db.query("aiUsageDaily").collect()).find((r) => r.scope === profile._id);
+      if (row === undefined) await ctx.db.insert("aiUsageDaily", { day, scope: profile._id, calls: 3, costUsd: DEFAULT_LEARNER_DAILY_USD_CAP });
+      else await ctx.db.patch(row._id, { costUsd: DEFAULT_LEARNER_DAILY_USD_CAP });
     });
     const before = process.env.LEARNER_DAILY_USD_CAP;
     delete process.env.LEARNER_DAILY_USD_CAP;
@@ -212,12 +218,19 @@ describe("spending limits", () => {
     const before = process.env.AI_DAILY_USD_CAP;
     delete process.env.AI_DAILY_USD_CAP;
     try {
+      // Alerts are written when the next call is admitted, which is where the total is read.
+      const admit = () => t.mutation(internal.ai.usage.admit, { profileId: "someone", kind: "read" });
       await t.mutation(internal.ai.usage.record, { profileId: "p", tool: "chat", costUsd: DEFAULT_DAILY_USD_CAP * 0.4 });
+      await admit();
       expect(await t.query(internal.ai.usage.alerts, {})).toEqual([]);
       await t.mutation(internal.ai.usage.record, { profileId: "p", tool: "chat", costUsd: DEFAULT_DAILY_USD_CAP * 0.2 });
+      await admit();
+      await admit();
       expect((await t.query(internal.ai.usage.alerts, {})).map((a) => a.percent)).toEqual([50]);
       await t.mutation(internal.ai.usage.record, { profileId: "p", tool: "quiz", costUsd: DEFAULT_DAILY_USD_CAP * 0.3 });
       await t.mutation(internal.ai.usage.record, { profileId: "p", tool: "quiz", costUsd: DEFAULT_DAILY_USD_CAP * 0.01 });
+      await admit();
+      await admit();
       expect((await t.query(internal.ai.usage.alerts, {})).map((a) => a.percent).sort()).toEqual([50, 80]);
       const tools = await t.query(internal.ai.usage.costPerTool, {});
       expect(tools.map((r) => [r.tool, r.calls])).toEqual([
@@ -235,13 +248,16 @@ describe("spending limits", () => {
     const notebookId = await notebookWithNotes(t, p);
     const profile = (await p.as.query(api.accounts.profiles.me, {}))!.profile!;
     await p.as.action(api.notebooks.ask.ask, { notebookId, question: QUESTION });
-    const rows = await t.run(async (ctx) => await ctx.db.query("aiUsageDaily").collect());
-    const by = new Map(rows.map((r) => [r.scope, r]));
-    // One answer plus one second opinion.
-    expect(by.get("all")?.calls).toBe(2);
-    expect(by.get(profile._id)?.calls).toBe(2);
-    expect(by.get("tool:answer")?.calls).toBe(1);
-    expect(by.get("tool:second_opinion")?.calls).toBe(1);
-    expect(by.get("all")?.costUsd).toBeGreaterThan(0);
+    const mine = await t.run(async (ctx) => (await ctx.db.query("aiUsageDaily").collect()).find((r) => r.scope === profile._id));
+    const all = await t.query(internal.ai.usage.dayTotal, {});
+    const tools = new Map((await t.query(internal.ai.usage.costPerTool, {})).map((r) => [r.tool, r.calls]));
+    // Embedding the notes, the input check, one answer and one second opinion. The deployment and tool totals are sums over shards.
+    expect(all.calls).toBe(4);
+    expect(mine?.calls).toBe(4);
+    expect(tools.get("embed")).toBe(1);
+    expect(tools.get("safety_check")).toBe(1);
+    expect(tools.get("answer")).toBe(1);
+    expect(tools.get("second_opinion")).toBe(1);
+    expect(all.costUsd).toBeGreaterThan(0);
   });
 });

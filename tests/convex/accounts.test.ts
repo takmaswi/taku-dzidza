@@ -4,7 +4,7 @@ import { CONSENT_TEXT_VERSION } from "../../convex/accounts/consentText";
 import { requireAdmin } from "../../convex/lib/access";
 import { NO_CONSENT_DAYS } from "../../convex/privacy/retention";
 import { CODE_MAX_ATTEMPTS, CODE_MAX_SENDS_PER_DAY } from "../../convex/accounts/consent";
-import { addConsent, birthForAge, GUARDIAN_PHONE, lastCode, makeLearner, makeT, makeUser } from "./people";
+import { addConsent, birthForAge, GUARDIAN_PHONE, lastCode, makeLearner, makeT, makeUser, settle } from "./people";
 
 describe("sign up and profiles", () => {
   test("an adult needs no consent and starts in Calm", async () => {
@@ -225,8 +225,10 @@ describe("retention", () => {
     await t.run(async (ctx) => {
       for (const profile of await ctx.db.query("profiles").collect()) await ctx.db.patch(profile._id, { createdAt: old });
     });
-    const result = await t.mutation(internal.privacy.retention.sweep, {});
-    expect(result.accounts).toBe(1);
+    // The sweep starts one account per step; the steps run as scheduled functions.
+    await t.mutation(internal.privacy.retention.sweep, {});
+    await settle(t);
+    expect((await t.run(async (ctx) => await ctx.db.query("accountDeletions").collect())).map((d) => d.reason)).toEqual(["no_consent"]);
     const users = await t.run(async (ctx) => await ctx.db.query("users").collect());
     expect(users.map((u) => u._id)).toEqual([adult.userId]);
     expect(users.map((u) => u._id)).not.toContain(waiting.userId);

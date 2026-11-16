@@ -1,0 +1,17 @@
+{
+  "keyMaterial": {
+    "kind": "tool",
+    "mode": "summarise",
+    "sourceMode": "mine_plus",
+    "options": {},
+    "section": 2,
+    "of": 3
+  },
+  "response": {
+    "content": "{\"title\": \"\", \"sections\": [{\"heading\": \"Section two\", \"points\": [{\"text\": \"Chlorophyll absorbs light (page 11).\", \"ref\": \"S1\", \"page\": 11, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light on page 11\"}]}], \"missing\": \"\"}",
+    "usage": {
+      "promptTokens": 9000,
+      "completionTokens": 300
+    }
+  }
+}

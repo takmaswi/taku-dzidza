@@ -44,6 +44,7 @@ export default function Output({ profile }: { profile: Doc<"profiles"> }) {
       <FocusShell exitTo={back} title={output.title}>
         <div className="paper-wrap">
           <QuizPaper output={output} content={output.content as QuizContent} />
+          <CoverageLine output={output} />
           {output.note !== undefined && <p className="soft small-text">{output.note}</p>}
         </div>
       </FocusShell>
@@ -76,8 +77,23 @@ export function OutputBody({ output, titles, notebookId, readAloud }: { output: 
           </Link>
         </div>
       )}
+      <CoverageLine output={output} />
       {output.note !== undefined && <p className="soft small-text">{output.note}</p>}
     </>
+  );
+}
+
+/** Which pages the tool was made from, so a learner never takes ten pages for the whole book (audit U1). */
+export function CoverageLine({ output }: { output: Doc<"outputs"> }) {
+  const t = copy.tools;
+  const runs = output.coverage ?? [];
+  if (runs.length === 0) return null;
+  const parts = runs.map((r) => t.coveragePages(r.title, r.fromPage, r.toPage));
+  const text = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(", ")}${t.coverageAnd}${parts[parts.length - 1]}`;
+  return (
+    <p className="soft small-text" data-testid="coverage">
+      {t.coverage(text)}
+    </p>
   );
 }
 

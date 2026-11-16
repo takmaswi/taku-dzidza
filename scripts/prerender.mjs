@@ -8,6 +8,7 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import react from "@vitejs/plugin-react";
 import { build } from "vite";
+import { LANDING_HIDE_SCRIPT } from "./lib/security-headers.mjs";
 
 const OUT = ".prerender";
 await build({
@@ -20,7 +21,8 @@ const { renderLanding } = await import(pathToFileURL(join(process.cwd(), OUT, "p
 const html = renderLanding();
 rmSync(OUT, { recursive: true, force: true });
 
-const hide = `<script>(function(){var saved=false;try{saved=Object.keys(localStorage).some(function(k){return k.indexOf("__convexAuth")===0})}catch(e){}if(saved||location.pathname!=="/"){document.getElementById("prerender").remove()}})()</script>`;
+// The script's text lives with the security headers, which allow it by its hash.
+const hide = `<script>${LANDING_HIDE_SCRIPT}</script>`;
 const noScript = `<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>`;
 const path = join("dist", "index.html");
 const page = readFileSync(path, "utf8");

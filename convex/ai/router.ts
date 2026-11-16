@@ -3,11 +3,15 @@ import { internalAction } from "../_generated/server";
 import { internal } from "../_generated/api";
 import { AI_FIXTURES } from "../data/fixtures.generated";
 import { canonicalJson, sha256Hex } from "../lib/canonical";
+import { fakeEmbedding, shorten } from "./embeddings";
 import {
   PURPOSES,
   acceptsSampling,
   costOf,
   DEFAULT_CHAIN,
+  DEFAULT_EMBED_MODEL,
+  DEFAULT_EMBED_PROVIDER,
+  EMBED_USD_PER_TOKEN,
   modelChain,
   needsCacheMarker,
   openRouterAttribution,
@@ -47,6 +51,8 @@ import {
 const ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
 const MODELS_ENDPOINT = "https://openrouter.ai/api/v1/models";
 const SPEECH_ENDPOINT = "https://openrouter.ai/api/v1/audio/speech";
+const EMBEDDINGS_ENDPOINT = "https://openrouter.ai/api/v1/embeddings";
+const EMBED_TIMEOUT_MS = 30_000;
 const SPEECH_TIMEOUT_MS = 25_000;
 
 const REQUEST_TIMEOUT_MS = 90_000;
@@ -428,6 +434,60 @@ export const speech = internalAction({
     } catch (error) {
       console.warn(`speech failed (${args.model}): ${error instanceof Error ? error.name : "error"}`);
       return { ok: false, error: "speech request failed" };
+    } finally {
+      clearTimeout(timer);
+    }
+  },
+});
+
+/**
+ * Embeddings for notebook search (convex/ai/embeddings.ts). Same credential
+ * and the same data policy as every call: data_collection "deny", zdr true,
+ * and only the provider checked to have a zero data retention endpoint. Mock
+ * mode returns vectors made from the words alone: the one place the router
+ * answers without a fixture, because a vector per chunk cannot be recorded
+ * by hand and the fake is the same on every run.
+ */
+export const embed = internalAction({
+  args: { inputs: v.array(v.string()) },
+  handler: async (_ctx, args): Promise<{ ok: boolean; vectors: number[][]; costUsd: number }> => {
+    const failed = { ok: false, vectors: [], costUsd: 0 };
+    if (args.inputs.length === 0) return { ok: true, vectors: [], costUsd: 0 };
+    if (isMock()) {
+      const tokens = args.inputs.reduce((n, t) => n + Math.ceil(t.length / 4), 0);
+      return { ok: true, vectors: args.inputs.map(fakeEmbedding), costUsd: roundCost(tokens * EMBED_USD_PER_TOKEN) };
+    }
+    const apiKey = process.env.OPENROUTER_API_KEY;
+    if (apiKey === undefined || apiKey.trim() === "") return failed;
+    const attribution = openRouterAttribution();
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), EMBED_TIMEOUT_MS);
+    try {
+      const response = await fetch(EMBEDDINGS_ENDPOINT, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json", "HTTP-Referer": attribution.siteUrl, "X-Title": attribution.appName },
+        body: JSON.stringify({
+          model: envValue("EMBED_MODEL") ?? DEFAULT_EMBED_MODEL,
+          input: args.inputs,
+          encoding_format: "float",
+          provider: { only: [envValue("EMBED_PROVIDER") ?? DEFAULT_EMBED_PROVIDER], allow_fallbacks: false, data_collection: "deny", zdr: true },
+        }),
+        signal: controller.signal,
+      });
+      if (!response.ok) {
+        console.warn(`embedding failed: ${response.status}`);
+        return failed;
+      }
+      const payload = (await response.json()) as { data?: { index?: number; embedding?: number[] }[]; usage?: { prompt_tokens?: number; total_tokens?: number; cost?: number } };
+      const rows = [...(payload.data ?? [])].sort((a, b) => (a.index ?? 0) - (b.index ?? 0));
+      const vectors = rows.map((r) => (Array.isArray(r.embedding) ? shorten(r.embedding) : null));
+      if (vectors.length !== args.inputs.length || vectors.some((x) => x === null)) return failed;
+      const tokens = payload.usage?.prompt_tokens ?? payload.usage?.total_tokens ?? args.inputs.reduce((n, t) => n + Math.ceil(t.length / 3), 0);
+      const reported = payload.usage?.cost;
+      return { ok: true, vectors: vectors as number[][], costUsd: roundCost(typeof reported === "number" && Number.isFinite(reported) ? reported : tokens * EMBED_USD_PER_TOKEN) };
+    } catch (error) {
+      console.warn(`embedding failed: ${error instanceof Error ? error.name : "error"}`);
+      return failed;
     } finally {
       clearTimeout(timer);
     }

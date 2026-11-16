@@ -29,6 +29,8 @@ export const me = query({
     if (userId === null || (await ctx.db.get(userId)) === null) return null;
     const user = await requireUser(ctx);
     const profile = await profileOf(ctx, user._id);
+    // Being deleted (convex/privacy/purge.ts): gone as far as the app is concerned.
+    if (profile?.deletingAt !== undefined) return null;
     return { email: user.email ?? "", profile };
   },
 });

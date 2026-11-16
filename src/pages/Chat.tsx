@@ -1,4 +1,4 @@
-import { useAction, useMutation, useQuery } from "convex/react";
+import { useAction, useMutation, usePaginatedQuery, useQuery } from "convex/react";
 import { MoreHorizontal, Plus, Sparkles, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
@@ -29,7 +29,7 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
   const { chatId } = useParams();
   const id = chatId as Id<"chats"> | undefined;
   const data = useQuery(api.chat.chats.get, id !== undefined ? { chatId: id } : "skip");
-  const chats = useQuery(api.chat.chats.list);
+  const { results: chats, status: chatsStatus, loadMore } = usePaginatedQuery(api.chat.chats.list, {}, { initialNumItems: 20 });
   const send = useAction(api.chat.chats.send);
   const start = useMutation(api.chat.chats.start);
   const remove = useMutation(api.chat.chats.remove);
@@ -114,11 +114,11 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
               <h2>{t.list}</h2>
             </div>
             <div className="rail-body">
-              {(chats ?? []).length === 0 ? (
+              {chats.length === 0 ? (
                 <p className="soft small-text">{copy.home.noChats}</p>
               ) : (
                 <ul className="past-chats">
-                  {(chats ?? []).map((c) => (
+                  {chats.map((c) => (
                     <li key={c._id}>
                       <Link to={`/chat/${c._id}`} aria-current={c._id === id ? "page" : undefined}>
                         <b>{c.title}</b>
@@ -127,6 +127,11 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
                     </li>
                   ))}
                 </ul>
+              )}
+              {chatsStatus === "CanLoadMore" && (
+                <button type="button" className="link" onClick={() => loadMore(20)}>
+                  {t.older}
+                </button>
               )}
             </div>
           </aside>

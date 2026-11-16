@@ -1,3 +1,4 @@
+import { paginationOptsValidator } from "convex/server";
 import { ConvexError, v } from "convex/values";
 import { internal } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
@@ -6,20 +7,24 @@ import { ADULT_AGE, ageOn } from "../accounts/age";
 import { PROMPTS } from "../data/generated";
 import { requireLearner, requireLearnerInAction } from "../lib/access";
 import { asData, capReply, cleanDashes, REPLIES } from "../notebooks/ask";
+import { BLOCKED_REPLY, inputCheck, outputAllowed } from "../safety/checks";
 import { prefilter, type Audience } from "../safety/prefilter";
 import { widgetValidator } from "../schema";
 import { extractWidget, stripWidgetBlock, widgetFromText, type StoredWidget } from "../widgets/inline";
 
 /**
  * A normal chat with Taku from general knowledge (no notebook, no
- * citations). Same safety order as notebook questions: prefilter, the model
- * input check for under 18s, spending caps, then Taku. The reply is saved to
- * its message as it arrives, and the app shows it growing.
+ * citations). Same safety order as notebook questions: prefilter, spending
+ * caps, the model input check for every learner, then Taku. An adult's reply
+ * is saved to its message as it arrives, and the app shows it growing. An
+ * under 18's reply is not streamed: it is written whole, passes the output
+ * check, and only then is shown (audit S6).
  */
 
 export const MAX_MESSAGE = 2000;
 const HISTORY = 10;
 const TITLE_CHARS = 60;
+const REMOVE_BATCH = 300;
 
 async function ownChat(ctx: QueryCtx, chatId: Id<"chats">): Promise<{ profile: Doc<"profiles">; chat: Doc<"chats"> }> {
   const { profile } = await requireLearner(ctx);
@@ -33,11 +38,23 @@ function titleFrom(question: string): string {
   return title.length > 0 ? title : "New chat";
 }
 
+/** The learner's chats, newest first, a page at a time, so old chats stay reachable (audit S11). */
 export const list = query({
-  args: {},
-  handler: async (ctx) => {
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
     const { profile } = await requireLearner(ctx);
-    return await ctx.db.query("chats").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).order("desc").take(50);
+    return await ctx.db.query("chats").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).order("desc").paginate({ ...args.paginationOpts, numItems: Math.min(Math.max(1, args.paginationOpts.numItems), 50) });
+  },
+});
+
+export const removeRest = internalMutation({
+  args: { chatId: v.id("chats") },
+  handler: async (ctx, args) => {
+    const rows = await ctx.db.query("chatMessages").withIndex("by_chat", (q) => q.eq("chatId", args.chatId)).take(REMOVE_BATCH);
+    for (const m of rows) await ctx.db.delete(m._id);
+    if (rows.length < REMOVE_BATCH) {
+      if ((await ctx.db.get(args.chatId)) !== null) await ctx.db.delete(args.chatId);
+    } else await ctx.scheduler.runAfter(0, internal.chat.chats.removeRest, { chatId: args.chatId });
   },
 });
 
@@ -54,8 +71,11 @@ export const remove = mutation({
   args: { chatId: v.id("chats") },
   handler: async (ctx, args) => {
     const { chat } = await ownChat(ctx, args.chatId);
-    for (const m of await ctx.db.query("chatMessages").withIndex("by_chat", (q) => q.eq("chatId", chat._id)).collect()) await ctx.db.delete(m._id);
-    await ctx.db.delete(chat._id);
+    // A chat keeps at most a few hundred short messages; a very long one is finished by the next call.
+    const rows = await ctx.db.query("chatMessages").withIndex("by_chat", (q) => q.eq("chatId", chat._id)).take(REMOVE_BATCH);
+    for (const m of rows) await ctx.db.delete(m._id);
+    if (rows.length < REMOVE_BATCH) await ctx.db.delete(chat._id);
+    else await ctx.scheduler.runAfter(0, internal.chat.chats.removeRest, { chatId: chat._id });
   },
 });
 
@@ -163,31 +183,11 @@ export const send = action({
       const room = await ctx.runMutation(internal.ai.usage.admit, { profileId: c.profileId, kind: "ask" });
       if (!room.allowed) return await reply({ kind: "error", text: capReply(room.reason) });
 
-      if (c.audience === "minor") {
-        const check = await ctx.runAction(internal.ai.router.call, {
-          tier: "fast",
-          purpose: "safety_check",
-          messages: [
-            { role: "system", content: PROMPTS["safety-input"] },
-            { role: "user", content: `<text>${asData(question)}</text>` },
-          ],
-          jsonSchema: { name: "input_verdict", strict: true, schema: { type: "object", properties: { verdict: { type: "string", enum: ["allow", "redirect", "self_harm", "harmed"] }, reason: { type: "string" } }, required: ["verdict", "reason"], additionalProperties: false } },
-          maxTokens: 120,
-          reasoningEffort: "none",
-          stablePrefixCount: 1,
-          fixtureKey: { kind: "input_check", question },
-        });
-        await ctx.runMutation(internal.ai.usage.record, { profileId: c.profileId, tool: "safety_check", costUsd: check.costUsd });
-        let verdict: string | null = null;
-        try {
-          verdict = check.ok ? ((JSON.parse(check.content) as { verdict?: string }).verdict ?? null) : null;
-        } catch {
-          verdict = null;
-        }
-        if (verdict === "self_harm" || verdict === "harmed") return await reply({ kind: "help", text: REPLIES.help });
-        if (verdict === "redirect") return await reply({ kind: "redirect", text: REPLIES.redirect });
-        if (verdict !== "allow") return await reply({ kind: "error", text: REPLIES.failed });
-      }
+      // Every learner, whatever age they gave (audit S5). Fail closed: no clear allow, no answer.
+      const verdict = await inputCheck(ctx, { profileId: c.profileId, question });
+      if (verdict === "help") return await reply({ kind: "help", text: REPLIES.help });
+      if (verdict === "redirect") return await reply({ kind: "redirect", text: REPLIES.redirect });
+      if (verdict !== "allow") return await reply({ kind: "error", text: REPLIES.failed });
 
       const result = await ctx.runAction(internal.ai.router.call, {
         tier: "main",
@@ -199,13 +199,15 @@ export const send = action({
         ],
         maxTokens: 1600,
         stablePrefixCount: 1,
-        streamTo: messageId,
+        // An under 18 never sees a draft: nothing is on screen before the output check.
+        ...(c.audience === "minor" ? {} : { streamTo: messageId }),
         fixtureKey: { kind: "chat", question, answerMode: c.answerMode },
       });
       await ctx.runMutation(internal.ai.usage.record, { profileId: c.profileId, tool: "chat", costUsd: result.costUsd });
       if (!result.ok || result.content.trim() === "") return await reply({ kind: "error", text: REPLIES.failed });
       const { text, raw } = extractWidget(result.content);
       const widget = c.answerMode === "guide" && raw !== null ? widgetFromText(raw, ["equation-steps", "long-division"]) : null;
+      if (c.audience === "minor" && !(await outputAllowed(ctx, { profileId: c.profileId, text: `${text}\n${widget === null ? "" : JSON.stringify(widget.data)}`, key: { question } }))) return await reply({ kind: "error", text: BLOCKED_REPLY });
       return await reply({ kind: "answer", text: cleanDashes(text.trim()), ...(widget === null ? {} : { widget }) });
     } catch (error) {
       // Never leave a reply stuck on the typing dots.

@@ -3,7 +3,7 @@ import { BookMarked, Brain, ChevronRight, Layers, ListChecks, Network, ScrollTex
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { api } from "../../../convex/_generated/api";
-import type { Id } from "../../../convex/_generated/dataModel";
+import type { Doc, Id } from "../../../convex/_generated/dataModel";
 import { errorText } from "../../access";
 import { useTrack } from "../../analytics";
 import { ObjectArt } from "../../components/ObjectArt";
@@ -21,7 +21,8 @@ const ORDER = ["summarise", "flashcards", "quiz", "mind-map", "scroll", "study-g
  * Summaries, mind maps and widgets open here; practice papers, Scroll and
  * flashcard review open in focus mode.
  */
-export function StudyPanel({ notebookId, readAloud, initialTool }: { notebookId: Id<"notebooks">; readAloud: boolean; initialTool: string | null }) {
+export function StudyPanel({ notebookId, sources, readAloud, initialTool }: { notebookId: Id<"notebooks">; sources: Doc<"sources">[]; readAloud: boolean; initialTool: string | null }) {
+  const ready = sources.filter((s) => s.status === "ready" && s.pageCount > 0);
   const t = copy.tools;
   const modes = useQuery(api.study.tools.modes);
   const outputs = useQuery(api.study.tools.list, { notebookId });
@@ -60,12 +61,12 @@ export function StudyPanel({ notebookId, readAloud, initialTool }: { notebookId:
     }
   };
 
-  const make = (slug: string, output: string, form: FormData) => {
+  const make = (slug: string, output: string, form: FormData, scope: Scope | undefined) => {
     const options: { count?: number; difficulty?: string; minutes?: number } = {};
     if (form.has("count")) options.count = Number(form.get("count"));
     if (form.has("difficulty")) options.difficulty = String(form.get("difficulty"));
     if (form.has("minutes")) options.minutes = Number(form.get("minutes"));
-    void work(() => generate({ notebookId, mode: slug, options }), output, "tool_made");
+    void work(() => generate({ notebookId, mode: slug, options, ...(scope === undefined ? {} : { scope }) }), output, "tool_made");
   };
 
   if (view !== null) return <PanelOutput outputId={view} notebookId={notebookId} readAloud={readAloud} onBack={() => setView(null)} />;
@@ -99,7 +100,7 @@ export function StudyPanel({ notebookId, readAloud, initialTool }: { notebookId:
       </div>
 
       {openMode !== undefined && (
-        <ToolForm key={openMode.slug} slug={openMode.slug} name={t.label[openMode.slug as keyof typeof t.label] ?? openMode.title} tagline={openMode.tagline} options={openMode.options} busy={busy} onMake={(form) => make(openMode.slug, openMode.output, form)} />
+        <ToolForm key={openMode.slug} slug={openMode.slug} name={t.label[openMode.slug as keyof typeof t.label] ?? openMode.title} tagline={openMode.tagline} options={openMode.options} sources={ready} busy={busy} onMake={(form, scope) => make(openMode.slug, openMode.output, form, scope)} />
       )}
       {open === "widgets" && (
         <div className="tool-form raised">
@@ -172,19 +173,100 @@ export function StudyPanel({ notebookId, readAloud, initialTool }: { notebookId:
   );
 }
 
-function ToolForm({ slug, name, tagline, options, busy, onMake }: { slug: string; name: string; tagline: string; options: unknown; busy: boolean; onMake: (form: FormData) => void }) {
+type Scope = { sourceId: Id<"sources">; fromPage?: number; toPage?: number }[];
+
+function ToolForm({ slug, name, tagline, options, sources, busy, onMake }: { slug: string; name: string; tagline: string; options: unknown; sources: Doc<"sources">[]; busy: boolean; onMake: (form: FormData, scope: Scope | undefined) => void }) {
   const t = copy.tools;
   const opts = options as { count?: { min: number; max: number; default: number }; difficulty?: boolean; minutes?: boolean };
+  // Every source starts chosen: the whole notebook. Unticking narrows it; one source alone can be narrowed to a chapter or pages.
+  const [off, setOff] = useState<ReadonlySet<string>>(new Set());
+  const [section, setSection] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const chosen = sources.filter((s) => !off.has(s._id));
+  const only = chosen.length === 1 ? chosen[0] : undefined;
+  const sections = only?.sections ?? [];
+
+  const scopeOf = (): Scope | undefined | null => {
+    if (chosen.length === 0) return null;
+    if (only !== undefined && only.pageCount > 1) {
+      const picked = section === "" ? undefined : sections[Number(section)];
+      const fromPage = from !== "" ? Number(from) : picked?.fromPage;
+      const toPage = to !== "" ? Number(to) : picked?.toPage;
+      if (fromPage !== undefined || toPage !== undefined) return [{ sourceId: only._id, ...(fromPage === undefined ? {} : { fromPage }), ...(toPage === undefined ? {} : { toPage }) }];
+    }
+    return chosen.length === sources.length ? undefined : chosen.map((s) => ({ sourceId: s._id }));
+  };
+  const toggle = (id: string) => {
+    const next = new Set(off);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
+    setOff(next);
+    setSection("");
+    setFrom("");
+    setTo("");
+  };
+
   return (
     <form
       className="tool-form raised rise"
       onSubmit={(e) => {
         e.preventDefault();
-        onMake(new FormData(e.currentTarget));
+        const scope = scopeOf();
+        if (scope !== null) onMake(new FormData(e.currentTarget), scope);
       }}
     >
       <b>{name}</b>
       <p className="soft small-text">{tagline}</p>
+      {sources.length > 0 && (sources.length > 1 || sources[0].pageCount > 1) && (
+        <fieldset className="tool-scope" data-testid="tool-scope">
+          <legend>{t.scopeTitle}</legend>
+          {sources.length > 1 &&
+            sources.map((s) => (
+              <label key={s._id} className="check">
+                <input type="checkbox" checked={!off.has(s._id)} onChange={() => toggle(s._id)} /> {s.title}
+              </label>
+            ))}
+          {chosen.length === 0 && (
+            <p className="error" role="alert">
+              {t.scopePick}
+            </p>
+          )}
+          {only !== undefined && only.pageCount > 1 && (
+            <div className="row">
+              {sections.length > 0 && (
+                <div className="field">
+                  <label htmlFor={`section-${slug}`}>{t.scopeChapter}</label>
+                  <select
+                    id={`section-${slug}`}
+                    value={section}
+                    onChange={(e) => {
+                      setSection(e.target.value);
+                      setFrom("");
+                      setTo("");
+                    }}
+                  >
+                    <option value="">{t.scopeWholeSource}</option>
+                    {sections.map((sec, i) => (
+                      <option key={`${sec.fromPage}:${sec.title}`} value={i}>
+                        {sec.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              <div className="field">
+                <label htmlFor={`from-${slug}`}>{t.scopeFrom}</label>
+                <input id={`from-${slug}`} type="number" inputMode="numeric" min={1} max={only.pageCount} value={from} placeholder={String(section === "" ? 1 : sections[Number(section)].fromPage)} onChange={(e) => setFrom(e.target.value)} />
+              </div>
+              <div className="field">
+                <label htmlFor={`to-${slug}`}>{t.scopeTo}</label>
+                <input id={`to-${slug}`} type="number" inputMode="numeric" min={1} max={only.pageCount} value={to} placeholder={String(section === "" ? only.pageCount : sections[Number(section)].toPage)} onChange={(e) => setTo(e.target.value)} />
+              </div>
+            </div>
+          )}
+        </fieldset>
+      )}
       <div className="row">
         {opts.count !== undefined && (
           <div className="field">

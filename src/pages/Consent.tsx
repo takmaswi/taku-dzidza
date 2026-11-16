@@ -13,6 +13,8 @@ export default function Consent() {
   const sendCode = useAction(api.accounts.consent.sendCode);
   const give = useMutation(api.accounts.consent.give);
   const withdraw = useMutation(api.accounts.consent.withdraw);
+  const requestDeletion = useMutation(api.accounts.consent.requestDeletion);
+  const [deleted, setDeleted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [codeSent, setCodeSent] = useState(false);
@@ -62,7 +64,7 @@ export default function Consent() {
       <div className="narrow panel stack">
         <h1>{t.title}</h1>
         {info === undefined && <p>{copy.loading}</p>}
-        {info === null && <p>{t.expired}</p>}
+        {info === null && <p className={deleted ? "notice" : undefined}>{deleted ? t.deleted : t.expired}</p>}
         {info != null && info.state === "given" && (
           <>
             <p className="notice">{t.given}</p>
@@ -72,6 +74,29 @@ export default function Consent() {
           </>
         )}
         {info != null && info.state === "withdrawn" && <p className="notice">{t.withdrawn}</p>}
+        {info != null && (info.state === "given" || info.state === "withdrawn") && (
+          <form
+            className="stack"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setError(null);
+              void requestDeletion({ token, confirm: new FormData(e.currentTarget).get("confirmDelete") === "on" })
+                .then(() => setDeleted(true))
+                .catch((err) => setError(errorText(err, copy.errors.generic)));
+            }}
+          >
+            <h2>{t.deleteTitle}</h2>
+            <p>{t.deleteBody(info.learnerName)}</p>
+            <label className="check">
+              <input type="checkbox" name="confirmDelete" required /> {t.deleteConfirm}
+            </label>
+            <div className="actions">
+              <button className="pill ghost" type="submit">
+                {t.deleteButton}
+              </button>
+            </div>
+          </form>
+        )}
         {info != null && info.state === "pending" && !info.smsReady && <p className="notice">{t.smsNotReady}</p>}
         {info != null && info.state === "pending" && info.smsReady && (
           <>
