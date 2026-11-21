@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
+import { ADMIN_ERRORS } from "../../convex/organisations/admin";
 import { JOIN_ORG_ERRORS } from "../../convex/organisations/organisations";
 import { addConsent, GUARDIAN_PHONE, lastCode, makeLearner, makeT, settle, type Person, type T } from "./people";
 
@@ -250,6 +251,88 @@ describe("deleting an account", () => {
         expect(await ctx.db.query("follows").withIndex("by_org", (q) => q.eq("organisationId", listed)).collect()).toEqual([]);
         expect((await ctx.db.query("memberships").collect()).every((m) => m.organisationId === listed)).toBe(true);
       });
+    });
+  });
+});
+
+describe("the organisation admin page", () => {
+  const NOTES = "Photosynthesis\nGreen plants make glucose from carbon dioxide and water using light energy.\nChlorophyll in the chloroplasts absorbs the light.\nOxygen is released as a by product.";
+
+  /** A listed organisation with its admin, a teacher who joined with a staff code, and an adult learner who joined with the learner code. */
+  async function staffedOrg(t: T, owner: Person) {
+    const { admin, organisationId } = await listedOrg(t, owner);
+    const teacherCode = await admin.as.mutation(api.organisations.codes.makeCode, { organisationId, role: "teacher" });
+    const teacher = await makeLearner(t, 34, "Chipo Dube");
+    await teacher.as.mutation(api.organisations.organisations.joinWithCode, { code: teacherCode });
+    const { joinCode } = await admin.as.query(api.organisations.codes.codes, { organisationId });
+    const learner = await makeLearner(t, 20, "Tariro Moyo Banda");
+    await learner.as.mutation(api.organisations.organisations.joinWithCode, { code: joinCode });
+    return { admin, teacher, learner, organisationId };
+  }
+
+  test("members by role, learners by first name only, and only admins may look", async () => {
+    const t = makeT();
+    const owner = await makeOwner(t);
+    await withEnv("ADMIN_EMAILS", owner.email, async () => {
+      const { admin, teacher, learner, organisationId } = await staffedOrg(t, owner);
+      const members = await admin.as.query(api.organisations.admin.members, { organisationId });
+      expect(members.admin).toEqual([expect.objectContaining({ name: "Rumbi Admin", you: true })]);
+      expect(members.teacher).toEqual([expect.objectContaining({ name: "Chipo Dube", you: false, adult: true })]);
+      expect(members.learner).toEqual([expect.objectContaining({ name: "Tariro" })]);
+      expect(JSON.stringify(members)).not.toMatch(/Moyo|Banda|example\.com/);
+      expect(members.guardian).toEqual([]);
+      await expect(teacher.as.query(api.organisations.admin.members, { organisationId })).rejects.toThrow(/not found/);
+      await expect(learner.as.query(api.organisations.admin.results, { organisationId })).rejects.toThrow(/not found/);
+    });
+  });
+
+  test("an admin makes a teacher an admin and removes members, never the last admin or themselves", async () => {
+    const t = makeT();
+    const owner = await makeOwner(t);
+    await withEnv("ADMIN_EMAILS", owner.email, async () => {
+      const { admin, teacher, learner, organisationId } = await staffedOrg(t, owner);
+      const members = await admin.as.query(api.organisations.admin.members, { organisationId });
+      const me = members.admin[0].membershipId;
+      await expect(admin.as.mutation(api.organisations.admin.removeMember, { membershipId: me })).rejects.toThrow(ADMIN_ERRORS.self);
+      await expect(admin.as.mutation(api.organisations.admin.makeAdmin, { membershipId: members.learner[0].membershipId })).rejects.toThrow(ADMIN_ERRORS.notTeacher);
+      // A teacher cannot use the admin functions.
+      await expect(teacher.as.mutation(api.organisations.admin.removeMember, { membershipId: members.learner[0].membershipId })).rejects.toThrow(/not found/);
+
+      await admin.as.mutation(api.organisations.admin.makeAdmin, { membershipId: members.teacher[0].membershipId });
+      expect(await roleOf(teacher, organisationId)).toBe("admin");
+      // Now two admins: the new one may remove the first, but not the last one left.
+      await teacher.as.mutation(api.organisations.admin.removeMember, { membershipId: me });
+      expect(await roleOf(admin, organisationId)).toBeNull();
+      const after = await teacher.as.query(api.organisations.admin.members, { organisationId });
+      expect(after.admin.map((m) => m.name)).toEqual(["Chipo Dube"]);
+      await teacher.as.mutation(api.organisations.admin.removeMember, { membershipId: after.learner[0].membershipId });
+      expect(await roleOf(learner, organisationId)).toBeNull();
+      expect((await teacher.as.query(api.organisations.admin.members, { organisationId })).learner).toEqual([]);
+    });
+  });
+
+  test("results by topic across the organisation's classes: counts and percentages, the teacher's first name, no learner named", async () => {
+    const t = makeT();
+    const owner = await makeOwner(t);
+    await withEnv("ADMIN_EMAILS", owner.email, async () => {
+      const { admin, teacher, organisationId } = await staffedOrg(t, owner);
+      expect(await admin.as.query(api.organisations.admin.results, { organisationId })).toEqual({ topics: [], classes: [] });
+      await teacher.as.mutation(api.classes.roles.setTeaching, { on: true });
+      const notebookId = await teacher.as.mutation(api.notebooks.notebooks.create, { title: "Biology" });
+      await teacher.as.mutation(api.notebooks.sources.addText, { notebookId, title: "Notes", text: NOTES });
+      await settle(t);
+      const made = await teacher.as.action(api.study.tools.generate, { notebookId, mode: "quiz", options: { count: 4, difficulty: "medium", minutes: 15 } });
+      if (!made.ok) throw new Error(made.message);
+      const classId = await teacher.as.mutation(api.classes.classes.createClass, { name: "Form 3 Blue", subject: "Combined Science", level: "Form 3" });
+      const assignmentId = await teacher.as.mutation(api.classes.assignments.assign, { classId, outputId: made.outputId });
+      const rosterId = await teacher.as.mutation(api.classes.classes.addName, { classId, firstName: "Tendai" });
+      await teacher.as.mutation(api.classes.assignments.enterMarks, { assignmentId, rosterId, marks: [{ number: 1, got: 1 }, { number: 2, got: 2 }, { number: 3, got: 2 }, { number: 4, got: 0 }] });
+
+      const results = await admin.as.query(api.organisations.admin.results, { organisationId });
+      expect(results.classes).toEqual([expect.objectContaining({ name: "Form 3 Blue", teacher: "Chipo", scripts: 1, percent: 71 })]);
+      // The same counts and percentages as the class's own results.
+      expect(results.topics).toEqual((await teacher.as.query(api.classes.assignments.results, { classId })).topics);
+      expect(JSON.stringify(results)).not.toMatch(/Tendai|Dube/);
     });
   });
 });

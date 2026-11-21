@@ -34,6 +34,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/safety_check/input-compare-pele-maradona-messi-and-ronaldo.json"
  },
+ "safety_check/dfcb5c7904110c23": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-expand-x-2-x-3-and-show-every-step-on-one-line.json"
+ },
  "safety_check/e47efe4752161477": {
   "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
   "usage": {
@@ -537,6 +545,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 120
   },
   "source": "tests/fixtures/ai/taku_chat/factorise.json"
+ },
+ "taku_chat/b5a0b9c6f56e7010": {
+  "content": "Multiply each term in the first bracket by each term in the second, then collect like terms:\n\n$$(x+2)(x+3) = x \\cdot x + 3 \\cdot x + 2 \\cdot x + 2 \\cdot 3 = x^2 + 3x + 2x + 6 = x^2 + 5x + 6$$\n\nSo $(x+2)(x+3) = x^2 + 5x + 6$.",
+  "usage": {
+   "promptTokens": 600,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/long-equation.json"
  },
  "taku_chat/e8c8bd1298f3b97e": {
   "content": "Let's work it out together. What do you think a partially permeable membrane lets through, and what does it stop?",

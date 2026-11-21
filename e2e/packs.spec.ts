@@ -27,7 +27,9 @@ test("a teacher publishes a course pack; a learner adds it, reads its sources an
   await page.getByRole("button", { name: "Set it up" }).click();
   await expect(page.getByRole("heading", { name: school })).toBeVisible();
   const orgUrl = page.url();
+  await page.getByRole("link", { name: "Open the admin page" }).click();
   const learnerCode = ((await page.getByTestId("learner-code").textContent()) ?? "").replace("Learner code: ", "").trim();
+  await page.goto(new URL(orgUrl).pathname);
 
   // A draft from the notebook, then publish with the rights box ticked.
   await page.getByRole("button", { name: "New course pack" }).click();

@@ -34,10 +34,11 @@ export function QrCode({ text, label, size = 200 }: { text: string; label: strin
   );
 }
 
-/** Type a class code. Used in Settings and on the join page. */
+/** The join page's form: a class code, an organisation's learner code or a staff code, from a link or QR code. */
 export function JoinForm({ initial = "", onDone }: { initial?: string; onDone?: () => void }) {
   const t = copy.classes;
-  const join = useMutation(api.classes.joining.requestJoin);
+  const o = copy.orgs;
+  const join = useMutation(api.organisations.organisations.joinWithCode);
   const [code, setCode] = useState(initial);
   const [note, setNote] = useState<{ ok: boolean; text: string } | null>(null);
   return (
@@ -48,14 +49,15 @@ export function JoinForm({ initial = "", onDone }: { initial?: string; onDone?: 
         void join({ code })
           .then((r) => {
             if (!r.ok) return setNote({ ok: false, text: r.message });
-            setNote({ ok: true, text: r.status === "approved" ? t.joined(r.className) : t.waiting(r.className) });
+            if (r.kind === "class") setNote({ ok: true, text: r.status === "approved" ? t.joined(r.className) : t.waiting(r.className) });
+            else setNote({ ok: true, text: r.role === "learner" ? o.joinedOrg(r.name) : o.joinedStaff(r.name, o.roles[r.role]) });
             onDone?.();
           })
           .catch((err: unknown) => setNote({ ok: false, text: errorText(err, copy.errors.generic) }));
       }}
     >
       <div className="field">
-        <label htmlFor="class-code">{t.codeLabel}</label>
+        <label htmlFor="class-code">{o.codeLabel}</label>
         <input id="class-code" type="text" inputMode="text" autoCapitalize="characters" autoComplete="off" maxLength={12} value={code} onChange={(e) => setCode(e.target.value)} />
       </div>
       <button className="pill small" type="submit">

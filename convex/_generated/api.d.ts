@@ -63,6 +63,7 @@ import type * as notebooks_sample from "../notebooks/sample.js";
 import type * as notebooks_sources from "../notebooks/sources.js";
 import type * as notebooks_uploads from "../notebooks/uploads.js";
 import type * as organisations_access from "../organisations/access.js";
+import type * as organisations_admin from "../organisations/admin.js";
 import type * as organisations_codes from "../organisations/codes.js";
 import type * as organisations_members from "../organisations/members.js";
 import type * as organisations_organisations from "../organisations/organisations.js";
@@ -158,6 +159,7 @@ declare const fullApi: ApiFromModules<{
   "notebooks/sources": typeof notebooks_sources;
   "notebooks/uploads": typeof notebooks_uploads;
   "organisations/access": typeof organisations_access;
+  "organisations/admin": typeof organisations_admin;
   "organisations/codes": typeof organisations_codes;
   "organisations/members": typeof organisations_members;
   "organisations/organisations": typeof organisations_organisations;

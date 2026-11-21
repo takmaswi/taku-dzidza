@@ -277,3 +277,7 @@
 .test-mark.wrong { color: var(--danger); }
 .test-question { margin: 0.6rem 0 0; padding: 0.6rem 0.8rem; border-left: 4px solid var(--pick-line); background: var(--pick); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
 .paper-clock { font-weight: 600; margin: 0.5rem 0 0; }
+
+/* Display maths: a long worked line scrolls inside the message, never past the screen. */
+.math-display { display: block; max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+.math-display .katex-display { margin: 0.6em 0; }

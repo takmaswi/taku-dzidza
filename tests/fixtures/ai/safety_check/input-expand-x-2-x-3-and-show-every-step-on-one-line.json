@@ -1,0 +1,13 @@
+{
+  "keyMaterial": {
+    "kind": "input_check",
+    "question": "Expand (x+2)(x+3) and show every step on one line"
+  },
+  "response": {
+    "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+    "usage": {
+      "promptTokens": 420,
+      "completionTokens": 12
+    }
+  }
+}

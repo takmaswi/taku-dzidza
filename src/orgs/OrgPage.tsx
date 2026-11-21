@@ -1,15 +1,14 @@
 import { useMutation, useQuery } from "convex/react";
 import { useState } from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { errorText } from "../access";
 import { AppShell } from "../components/Layout";
 import { copy } from "../copy/en";
 import { PublishedPacks, StaffPacks } from "../packs/OrgPacks";
-import { OrgCodes } from "./OrgCodes";
 
-/** An organisation's public page: who it is, follow or stop following, its published course packs, and, for its teachers and admins, making packs and the join codes. */
+/** An organisation's public page: who it is, follow or stop following, its published course packs, and, for its teachers and admins, making packs. Admins also get a link to the admin page. */
 export default function OrgPage() {
   const { organisationId } = useParams();
   const t = copy.orgs;
@@ -68,9 +67,14 @@ function OrgDetail({ organisationId }: { organisationId: Id<"organisations"> }) 
           {error}
         </p>
       )}
+      {org.role === "admin" && (
+        <Link to={`/org/${organisationId}/admin`} className="pill">
+          {t.adminLink}
+        </Link>
+      )}
       <PublishedPacks organisationId={organisationId} />
       {(org.role === "teacher" || org.role === "admin") && <StaffPacks organisationId={organisationId} />}
-      {org.role === "admin" && <OrgCodes organisationId={organisationId} />}
+
     </>
   );
 }

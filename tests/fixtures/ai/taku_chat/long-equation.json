@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "Expand (x+2)(x+3) and show every step on one line",
+    "answerMode": "answer"
+  },
+  "response": {
+    "content": "Multiply each term in the first bracket by each term in the second, then collect like terms:\n\n$$(x+2)(x+3) = x \\cdot x + 3 \\cdot x + 2 \\cdot x + 2 \\cdot 3 = x^2 + 3x + 2x + 6 = x^2 + 5x + 6$$\n\nSo $(x+2)(x+3) = x^2 + 5x + 6$.",
+    "usage": {
+      "promptTokens": 600,
+      "completionTokens": 120
+    }
+  }
+}

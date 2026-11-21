@@ -118,6 +118,9 @@ async function setUpFromSettings(page: Page, name: string, type: string) {
   await expect(page.getByRole("heading", { name })).toBeVisible();
   await expect(page.getByText("Waiting to be checked")).toBeVisible();
   await expect(page.getByText("Your role here: admin.")).toBeVisible();
+  // Join codes live on the admin page.
+  await page.getByRole("link", { name: "Open the admin page" }).click();
+  await expect(page.getByRole("heading", { name: `${name}: Admin` })).toBeVisible();
 }
 
 test("an adult sets up a school, the owner lists it; a learner finds it by type in onboarding and joins with its code; a teacher joins with a staff code", async ({ page, browser }, info) => {

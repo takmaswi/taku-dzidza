@@ -59,9 +59,9 @@ test("a teacher sets up a class in under ten steps; a learner joins by link, doe
   // A learner opens the link before signing in, signs up, and comes back to join.
   const learner = await learnerPage(browser, info);
   await learner.goto(`/join/${code}`);
-  await expect(learner.getByRole("heading", { name: "Join the class" })).toBeVisible();
+  await expect(learner.getByRole("heading", { name: "Join with a code" })).toBeVisible();
   await adultSignedUp(learner, info, "e2e-join", "Kuda");
-  await expect(learner.getByRole("heading", { name: "Join the class" })).toBeVisible();
+  await expect(learner.getByRole("heading", { name: "Join with a code" })).toBeVisible();
   await learner.getByRole("button", { name: "Join", exact: true }).click();
   await expect(learner.getByText("You are in Form 3 Blue.")).toBeVisible();
   await learner.goto("/");

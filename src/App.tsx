@@ -35,6 +35,7 @@ const JoinSignedOut = lazy(() => import("./pages/classes/Join").then((m) => ({ d
 const Family = lazy(() => import("./pages/classes/Family"));
 const OrgPage = lazy(() => import("./orgs/OrgPage"));
 const OwnerOrgs = lazy(() => import("./orgs/OwnerOrgs"));
+const OrgAdmin = lazy(() => import("./orgs/OrgAdmin"));
 
 /**
  * Takudzidza routes. Public: "/", "/signin", "/help", "/privacy", "/terms" and
@@ -126,6 +127,7 @@ function AppRoutes({ profile, email }: { profile: Doc<"profiles">; email: string
           <Route path="/join/:code" element={<Join />} />
           <Route path="/family" element={<Family />} />
           <Route path="/org/:organisationId" element={<OrgPage />} />
+          <Route path="/org/:organisationId/admin" element={<OrgAdmin />} />
           <Route path="/owner/organisations" element={<OwnerOrgs />} />
         </>
       )}

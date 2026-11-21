@@ -37,7 +37,8 @@ export function MathText({ text }: { text: string }) {
         if (katex === null) return <Fragment key={i}>{segment.tex}</Fragment>;
         // trust is off, so KaTeX refuses links and raw HTML in the source: its output is safe to place here.
         const html = katex.renderToString(segment.tex, { displayMode: segment.display, throwOnError: false, trust: false, strict: "ignore", maxExpand: 200 });
-        return <span key={i} dangerouslySetInnerHTML={{ __html: html }} />;
+        // A display line scrolls inside the message on a narrow screen rather than widening the page.
+        return <span key={i} className={segment.display ? "math-display" : undefined} dangerouslySetInnerHTML={{ __html: html }} />;
       })}
     </>
   );

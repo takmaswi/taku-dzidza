@@ -50,6 +50,12 @@ export function shareText(className: string, origin: string, code: string): stri
   return `Join my class ${className} on Takudzidza. Open ${joinLink(origin, code)} or type the class code ${code}.`;
 }
 
+/** An organisation's learner or staff code, shared by its admin. The same join page takes every kind of code. */
+export function orgShareText(orgName: string, origin: string, code: string, role: "learner" | "teacher" | "admin"): string {
+  const as = role === "learner" ? "" : ` as ${role === "admin" ? "an admin" : "a teacher"}`;
+  return `Join ${orgName}${as} on Takudzidza. Open ${joinLink(origin, code)} or type the code ${code}.`;
+}
+
 export function whatsAppLink(text: string): string {
   return `https://wa.me/?text=${encodeURIComponent(text)}`;
 }

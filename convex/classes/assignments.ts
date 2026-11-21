@@ -208,29 +208,42 @@ export const enterMarks = mutation({
   },
 });
 
+export type TopicTally = Map<string, { got: number; of: number; answers: number }>;
+export type PaperResult = { assignmentId: Id<"assignments">; title: string; scripts: number; percent: number | null };
+
+/** Adds one class's confirmed marks to a running tally by topic, and returns its papers. Drafts are not counted. */
+export async function tallyClass(ctx: QueryCtx, classId: Id<"classes">, byTopic: TopicTally): Promise<PaperResult[]> {
+  const assignments = await ctx.db.query("assignments").withIndex("by_class", (q) => q.eq("classId", classId)).order("desc").take(50);
+  const papers: PaperResult[] = [];
+  for (const a of assignments) {
+    const marks = (await ctx.db.query("classMarks").withIndex("by_assignment", (q) => q.eq("assignmentId", a._id)).take(MAX_MARKS_READ)).filter((m) => m.confirmed);
+    const topicOf = new Map(a.topics.map((t) => [t.number, t.topic]));
+    for (const m of marks) {
+      for (const q of m.perQuestion) {
+        const topic = topicOf.get(q.number) ?? a.title;
+        const t = byTopic.get(topic) ?? { got: 0, of: 0, answers: 0 };
+        byTopic.set(topic, { got: t.got + q.got, of: t.of + q.marks, answers: t.answers + 1 });
+      }
+    }
+    const got = marks.reduce((n, m) => n + m.score, 0);
+    const of = marks.reduce((n, m) => n + m.total, 0);
+    papers.push({ assignmentId: a._id, title: a.title, scripts: marks.length, percent: of === 0 ? null : Math.round((got / of) * 100) });
+  }
+  return papers;
+}
+
+/** Weakest topics first. */
+export function topicRows(byTopic: TopicTally): { topic: string; answers: number; percent: number }[] {
+  return [...byTopic.entries()].map(([topic, t]) => ({ topic, answers: t.answers, percent: t.of === 0 ? 0 : Math.round((t.got / t.of) * 100) })).sort((a, b) => a.percent - b.percent);
+}
+
 /** Results by topic and by paper: counts and percentages only, no names. Drafts are not counted. */
 export const results = query({
   args: { classId: v.id("classes") },
   handler: async (ctx, args) => {
     const { cls } = await ownClass(ctx, args.classId);
-    const assignments = await ctx.db.query("assignments").withIndex("by_class", (q) => q.eq("classId", cls._id)).order("desc").take(50);
-    const byTopic = new Map<string, { got: number; of: number; answers: number }>();
-    const papers = [];
-    for (const a of assignments) {
-      const marks = (await ctx.db.query("classMarks").withIndex("by_assignment", (q) => q.eq("assignmentId", a._id)).take(MAX_MARKS_READ)).filter((m) => m.confirmed);
-      const topicOf = new Map(a.topics.map((t) => [t.number, t.topic]));
-      for (const m of marks) {
-        for (const q of m.perQuestion) {
-          const topic = topicOf.get(q.number) ?? a.title;
-          const t = byTopic.get(topic) ?? { got: 0, of: 0, answers: 0 };
-          byTopic.set(topic, { got: t.got + q.got, of: t.of + q.marks, answers: t.answers + 1 });
-        }
-      }
-      const got = marks.reduce((n, m) => n + m.score, 0);
-      const of = marks.reduce((n, m) => n + m.total, 0);
-      papers.push({ assignmentId: a._id, title: a.title, scripts: marks.length, percent: of === 0 ? null : Math.round((got / of) * 100) });
-    }
-    const topics = [...byTopic.entries()].map(([topic, t]) => ({ topic, answers: t.answers, percent: t.of === 0 ? 0 : Math.round((t.got / t.of) * 100) })).sort((a, b) => a.percent - b.percent);
-    return { topics, papers };
+    const byTopic: TopicTally = new Map();
+    const papers = await tallyClass(ctx, cls._id, byTopic);
+    return { topics: topicRows(byTopic), papers };
   },
 });
