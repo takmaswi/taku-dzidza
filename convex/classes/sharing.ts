@@ -1,7 +1,9 @@
 import { ConvexError, v } from "convex/values";
+import { internal } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
-import { mutation, query, type QueryCtx } from "../_generated/server";
-import { ownClass, requireClassMember, requireTeacher } from "./access";
+import { action, internalMutation, internalQuery, mutation, query, type QueryCtx } from "../_generated/server";
+import { checkForMinors, findingsMessage } from "../safety/minorCheck";
+import { ownClass, requireClassMember, requireTeacher, requireTeacherInAction } from "./access";
 
 /**
  * A teacher shares their own notebooks with a class, view only: the source
@@ -9,17 +11,65 @@ import { ownClass, requireClassMember, requireTeacher } from "./access";
  * marked as pages from a published book (thirdParty) is never shown to a
  * class, and citations into it lose their quote. Licensed shelf books
  * (Stage 4) live outside notebooks and are never shared.
+ *
+ * A class may hold learners under 18, so sharing runs the under 18 checks
+ * (convex/safety/minorCheck.ts) on the notebook's sources and shareable
+ * tools, once each, and the class sees only what passed. Anything added
+ * after sharing waits until the teacher shares again.
  */
 
 /** Read only tools. Quizzes and papers reach a class as set work (convex/classes/assignments.ts), never with their scheme. */
 const SHAREABLE: readonly Doc<"outputs">["kind"][] = ["summary", "mindmap"];
 
-export const share = mutation({
+/** What a class may see of a notebook: sources not marked as a published book, and read only tools, each once it passed the under 18 check. */
+function shareableSource(s: Doc<"sources">): boolean {
+  return s.deletingAt === undefined && s.thirdParty !== true && s.status === "ready";
+}
+
+async function ownNotebookFor(ctx: QueryCtx, classId: Id<"classes">, notebookId: Id<"notebooks">): Promise<{ profile: Doc<"profiles">; cls: Doc<"classes">; notebook: Doc<"notebooks"> }> {
+  const { profile, cls } = await ownClass(ctx, classId);
+  const notebook = await ctx.db.get(notebookId);
+  if (notebook === null || notebook.profileId !== profile._id || notebook.deletingAt !== undefined) throw new ConvexError("Notebook not found.");
+  return { profile, cls, notebook };
+}
+
+/** The teacher's sources and tools a share would show the class. */
+export const sharePlan = internalQuery({
+  args: { classId: v.id("classes"), notebookId: v.id("notebooks") },
+  handler: async (ctx, args): Promise<{ payerId: Id<"profiles">; title: string; sourceIds: Id<"sources">[]; outputIds: Id<"outputs">[] }> => {
+    const { profile, notebook } = await ownNotebookFor(ctx, args.classId, args.notebookId);
+    const sources = (await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).take(50)).filter(shareableSource);
+    const outputs = (await ctx.db.query("outputs").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).order("desc").take(50)).filter((o) => SHAREABLE.includes(o.kind));
+    return { payerId: profile._id, title: notebook.title, sourceIds: sources.map((s) => s._id), outputIds: outputs.map((o) => o._id) };
+  },
+});
+
+export type ShareResult = { ok: true } | { ok: false; message: string };
+
+/**
+ * Shares a notebook with a class, or stops. Sharing checks every source and
+ * tool the class would see for under 18s, charged to the teacher; if one
+ * fails, nothing is shared and the teacher is told which. Sharing a notebook
+ * that is shared already checks what was added since.
+ */
+export const share = action({
+  args: { classId: v.id("classes"), notebookId: v.id("notebooks"), on: v.boolean() },
+  handler: async (ctx, args): Promise<ShareResult> => {
+    await requireTeacherInAction(ctx, args.classId);
+    if (args.on) {
+      const plan = await ctx.runQuery(internal.classes.sharing.sharePlan, { classId: args.classId, notebookId: args.notebookId });
+      const message = findingsMessage(await checkForMinors(ctx, { payerId: plan.payerId, sourceIds: plan.sourceIds, outputIds: plan.outputIds, key: { shared: plan.title } }), "shared");
+      if (message !== null) return { ok: false, message };
+    }
+    await ctx.runMutation(internal.classes.sharing.setShare, args);
+    return { ok: true };
+  },
+});
+
+export const setShare = internalMutation({
   args: { classId: v.id("classes"), notebookId: v.id("notebooks"), on: v.boolean() },
   handler: async (ctx, args) => {
-    const { profile, cls } = await ownClass(ctx, args.classId);
-    const notebook = await ctx.db.get(args.notebookId);
-    if (notebook === null || notebook.profileId !== profile._id || notebook.deletingAt !== undefined) throw new ConvexError("Notebook not found.");
+    const { cls, notebook } = await ownNotebookFor(ctx, args.classId, args.notebookId);
     const rows = await ctx.db.query("classShares").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).take(100);
     const existing = rows.find((r) => r.classId === cls._id);
     if (args.on && existing === undefined) await ctx.db.insert("classShares", { classId: cls._id, notebookId: notebook._id, sharedAt: Date.now() });
@@ -40,7 +90,7 @@ export const setThirdParty = mutation({
   },
 });
 
-/** The teacher's share picker: their notebooks and sources, with what is shared and what is marked as a published book. */
+/** The teacher's share picker: their notebooks and sources, with what is shared, what is marked as a published book, and how much is waiting for the under 18 check. */
 export const picker = query({
   args: { classId: v.id("classes") },
   handler: async (ctx, args) => {
@@ -55,7 +105,12 @@ export const picker = query({
       const quizzes = (await ctx.db.query("outputs").withIndex("by_notebook", (q) => q.eq("notebookId", nb._id)).order("desc").take(50))
         .filter((o) => o.kind === "quiz")
         .map((o) => ({ outputId: o._id, title: o.title }));
-      out.push({ notebookId: nb._id, title: nb.title, shared: shared.has(nb._id as string), sources, quizzes });
+      const checkable = [
+        ...(await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", nb._id)).take(50)).filter(shareableSource),
+        ...(await ctx.db.query("outputs").withIndex("by_notebook", (q) => q.eq("notebookId", nb._id)).take(50)).filter((o) => SHAREABLE.includes(o.kind)),
+      ];
+      const waiting = checkable.filter((x) => x.minorCheck !== "allowed").length;
+      out.push({ notebookId: nb._id, title: nb.title, shared: shared.has(nb._id as string), sources, quizzes, waiting });
     }
     return out;
   },
@@ -77,8 +132,8 @@ export const material = query({
     for (const s of await ctx.db.query("classShares").withIndex("by_class", (q) => q.eq("classId", cls._id)).take(50)) {
       const nb = await ctx.db.get(s.notebookId);
       if (nb === null || nb.deletingAt !== undefined || nb.profileId !== cls.teacherProfileId) continue;
-      const sources = (await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", nb._id)).take(50)).filter((x) => x.deletingAt === undefined && x.thirdParty !== true).map((x) => ({ title: x.title, pages: x.pageCount }));
-      const outputs = (await ctx.db.query("outputs").withIndex("by_notebook", (q) => q.eq("notebookId", nb._id)).order("desc").take(50)).filter((o) => SHAREABLE.includes(o.kind)).map((o) => ({ outputId: o._id, title: o.title, kind: o.kind }));
+      const sources = (await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", nb._id)).take(50)).filter((x) => shareableSource(x) && x.minorCheck === "allowed").map((x) => ({ title: x.title, pages: x.pageCount }));
+      const outputs = (await ctx.db.query("outputs").withIndex("by_notebook", (q) => q.eq("notebookId", nb._id)).order("desc").take(50)).filter((o) => SHAREABLE.includes(o.kind) && o.minorCheck === "allowed").map((o) => ({ outputId: o._id, title: o.title, kind: o.kind }));
       notebooks.push({ notebookId: nb._id, title: nb.title, sources, outputs });
     }
     const work = [];
@@ -96,7 +151,7 @@ export const sharedOutput = query({
   handler: async (ctx, args) => {
     const { cls } = await requireClassMember(ctx, args.classId);
     const output = await ctx.db.get(args.outputId);
-    if (output === null || output.profileId !== cls.teacherProfileId || !SHAREABLE.includes(output.kind)) throw new ConvexError("Not found.");
+    if (output === null || output.profileId !== cls.teacherProfileId || !SHAREABLE.includes(output.kind) || output.minorCheck !== "allowed") throw new ConvexError("Not found.");
     await sharedNotebook(ctx, cls._id, output.notebookId);
     const sources = await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", output.notebookId)).take(50);
     const hidden = new Set(sources.filter((s) => s.thirdParty === true).map((s) => s._id as string));

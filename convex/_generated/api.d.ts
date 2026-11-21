@@ -73,6 +73,7 @@ import type * as packs_scope from "../packs/scope.js";
 import type * as privacy_purge from "../privacy/purge.js";
 import type * as privacy_retention from "../privacy/retention.js";
 import type * as safety_checks from "../safety/checks.js";
+import type * as safety_minorCheck from "../safety/minorCheck.js";
 import type * as safety_prefilter from "../safety/prefilter.js";
 import type * as safety_redteam from "../safety/redteam.js";
 import type * as sources_docx from "../sources/docx.js";
@@ -167,6 +168,7 @@ declare const fullApi: ApiFromModules<{
   "privacy/purge": typeof privacy_purge;
   "privacy/retention": typeof privacy_retention;
   "safety/checks": typeof safety_checks;
+  "safety/minorCheck": typeof safety_minorCheck;
   "safety/prefilter": typeof safety_prefilter;
   "safety/redteam": typeof safety_redteam;
   "sources/docx": typeof sources_docx;

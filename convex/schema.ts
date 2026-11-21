@@ -29,6 +29,8 @@ export const deletionReasonValidator = v.union(v.literal("self"), v.literal("own
 /** Dimensions of a chunk's embedding (convex/ai/embeddings.ts). */
 export const EMBEDDING_DIMENSIONS = 512;
 /** A part of a source a study tool can be made from: a chapter found in the text, or a block of pages. */
+/** "allowed" or "blocked" by the under 18 check (convex/safety/minorCheck.ts). */
+export const minorCheckValidator = v.union(v.literal("allowed"), v.literal("blocked"));
 export const sectionValidator = v.object({ title: v.string(), fromPage: v.number(), toPage: v.number() });
 /** The pages a study tool was made from, shown on the tool. */
 export const coverageValidator = v.array(v.object({ sourceId: v.string(), title: v.string(), fromPage: v.number(), toPage: v.number() }));
@@ -128,7 +130,10 @@ export default defineSchema({
 
   /** A learner's notebook (SPEC.md 3.2). */
   notebooks: defineTable({
-    profileId: v.id("profiles"),
+    /** The learner who owns it. Unset only for a course pack's copy, which belongs to its organisation. */
+    profileId: v.optional(v.id("profiles")),
+    /** A course pack's copy of its sources and tools, owned by the organisation and no account (convex/packs/publish.ts). */
+    organisationId: v.optional(v.id("organisations")),
     title: v.string(),
     sourceMode: sourceModeValidator,
     createdAt: v.number(),
@@ -143,11 +148,13 @@ export default defineSchema({
     packVersion: v.optional(v.number()),
   })
     .index("by_profile", ["profileId", "updatedAt"])
-    .index("by_pack", ["packId", "profileId"]),
+    .index("by_pack", ["packId", "profileId"])
+    .index("by_organisation", ["organisationId"]),
 
   sources: defineTable({
     notebookId: v.id("notebooks"),
-    profileId: v.id("profiles"),
+    /** Who added it. Unset in a course pack's copy, which no account owns. */
+    profileId: v.optional(v.id("profiles")),
     kind: sourceKindValidator,
     title: v.string(),
     /** Uploaded file, kept while the source exists so the learner can open the original. */
@@ -164,6 +171,10 @@ export default defineSchema({
     embeddedAt: v.optional(v.number()),
     /** Pages from a published book the owner does not hold the rights to share. Never shown to a class. */
     thirdParty: v.optional(v.boolean()),
+    /** In a course pack's copy: the teacher's source it was copied from. */
+    copiedFrom: v.optional(v.id("sources")),
+    /** The check for under 18s, run once before the source reaches a pack or a class. Unset until checked; cleared when the source is read again. */
+    minorCheck: v.optional(minorCheckValidator),
   }).index("by_notebook", ["notebookId", "createdAt"]).index("by_storage", ["storageId"]),
 
   /**
@@ -236,7 +247,8 @@ export default defineSchema({
   /** A study tool Taku made from a notebook (SPEC.md 3.3). content is checked by convex/study/shapes.ts before it is stored. */
   outputs: defineTable({
     notebookId: v.id("notebooks"),
-    profileId: v.id("profiles"),
+    /** Who made it. Unset for a course pack's tools, which belong to the organisation. */
+    profileId: v.optional(v.id("profiles")),
     mode: v.string(),
     kind: v.union(v.literal("summary"), v.literal("cards"), v.literal("quiz"), v.literal("mindmap"), v.literal("scroll"), v.literal("widget")),
     title: v.string(),
@@ -245,13 +257,16 @@ export default defineSchema({
     note: v.optional(v.string()),
     coverage: v.optional(coverageValidator),
     createdAt: v.number(),
+    /** The check for under 18s, run once before the tool reaches a pack or a class. */
+    minorCheck: v.optional(minorCheckValidator),
   }).index("by_notebook", ["notebookId", "createdAt"]),
 
   /** One flashcard with its spaced repetition state (ts-fsrs). */
   cards: defineTable({
     notebookId: v.id("notebooks"),
     outputId: v.id("outputs"),
-    profileId: v.id("profiles"),
+    /** Whose review schedule this is. Unset for the cards of a course pack's own flashcards, which only seed learners' cards. */
+    profileId: v.optional(v.id("profiles")),
     front: v.string(),
     back: v.string(),
     origin: originValidator,
@@ -365,8 +380,12 @@ export default defineSchema({
     subject: v.string(),
     level: v.string(),
     syllabusId: v.optional(v.string()),
-    masterNotebookId: v.id("notebooks"),
-    createdBy: v.id("profiles"),
+    /** The teacher's notebook the pack is made from. Unset when they leave the organisation or delete their account. */
+    masterNotebookId: v.optional(v.id("notebooks")),
+    /** The teacher who made it. Unset when their account is deleted; the pack stays with the organisation. */
+    createdBy: v.optional(v.id("profiles")),
+    /** The organisation's own copy of the sources, made at the first publish. Every version's tools are made from it. */
+    notebookId: v.optional(v.id("notebooks")),
     version: v.number(),
     status: v.union(v.literal("draft"), v.literal("published")),
     publishedAt: v.optional(v.number()),
@@ -380,6 +399,7 @@ export default defineSchema({
   })
     .index("by_org", ["organisationId", "createdAt"])
     .index("by_master", ["masterNotebookId"])
+    .index("by_notebook", ["notebookId"])
     .index("by_created_by", ["createdBy"]),
   /** A teacher's class. Learners join with the code, a link or a QR code. */
   classes: defineTable({
@@ -422,6 +442,7 @@ export default defineSchema({
     .index("by_guardian", ["guardianProfileId"]),
 
   /** A teacher's own notebook shared with a class, view only. */
+  /** A notebook shared with a class. The class sees only its sources and tools that passed the under 18 check. */
   classShares: defineTable({ classId: v.id("classes"), notebookId: v.id("notebooks"), sharedAt: v.number() })
     .index("by_class", ["classId"])
     .index("by_notebook", ["notebookId"]),

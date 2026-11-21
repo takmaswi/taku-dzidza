@@ -43,7 +43,8 @@ async function releaseFile(ctx: MutationCtx, source: Doc<"sources">): Promise<vo
   const bytes = upload?.bytes ?? meta?.size ?? 0;
   if (upload !== null) await ctx.db.delete(upload._id);
   if (meta !== null) await ctx.storage.delete(storageId);
-  const profile = await ctx.db.get(source.profileId);
+  // A course pack's copy belongs to its organisation: no account's storage counts it.
+  const profile = source.profileId === undefined ? null : await ctx.db.get(source.profileId);
   if (profile !== null && bytes > 0) await ctx.db.patch(profile._id, { storageBytes: Math.max(0, (profile.storageBytes ?? 0) - bytes) });
 }
 
@@ -67,7 +68,8 @@ async function purgeNotebook(ctx: MutationCtx, notebook: Doc<"notebooks">, budge
   if (!(await drain(ctx, budget, (n) => ctx.db.query("classShares").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).take(n)))) return false;
   // A course pack copy: the learner's own review cards and paper attempts on the pack's tools.
   if (!(await drain(ctx, budget, (n) => ctx.db.query("cards").withIndex("by_notebook_due", (q) => q.eq("notebookId", notebook._id)).take(n)))) return false;
-  if (!(await drain(ctx, budget, (n) => ctx.db.query("quizAttempts").withIndex("by_profile", (q) => q.eq("profileId", notebook.profileId)).filter((q) => q.eq(q.field("notebookId"), notebook._id)).take(n)))) return false;
+  const owner = notebook.profileId;
+  if (owner !== undefined && !(await drain(ctx, budget, (n) => ctx.db.query("quizAttempts").withIndex("by_profile", (q) => q.eq("profileId", owner)).filter((q) => q.eq(q.field("notebookId"), notebook._id)).take(n)))) return false;
   for (;;) {
     const output = await ctx.db.query("outputs").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).first();
     if (output === null) break;
@@ -80,6 +82,24 @@ async function purgeNotebook(ctx: MutationCtx, notebook: Doc<"notebooks">, budge
   if (budget.left <= 0) return false;
   await ctx.db.delete(notebook._id);
   budget.left -= 1;
+  return true;
+}
+
+/**
+ * An organisation's course packs, with the notebooks that hold their sources
+ * and tools. Only deleting the organisation does this; learners' linked
+ * notebooks then show only what each learner added.
+ */
+async function purgeOrgPacks(ctx: MutationCtx, organisationId: Id<"organisations">, budget: Budget): Promise<boolean> {
+  for (;;) {
+    const pack = await ctx.db.query("coursePacks").withIndex("by_org", (q) => q.eq("organisationId", organisationId)).first();
+    if (pack === null) break;
+    const copy = pack.notebookId === undefined ? null : await ctx.db.get(pack.notebookId);
+    if (copy !== null && !(await purgeNotebook(ctx, copy, budget))) return false;
+    if (budget.left <= 0) return false;
+    await ctx.db.delete(pack._id);
+    budget.left -= 1;
+  }
   return true;
 }
 
@@ -117,6 +137,7 @@ async function purgeClassData(ctx: MutationCtx, profile: Doc<"profiles">, budget
     if ((await ctx.db.query("memberships").withIndex("by_org_role", (q) => q.eq("organisationId", org._id)).first()) !== null) continue;
     if (!(await drain(ctx, budget, (n) => ctx.db.query("follows").withIndex("by_org", (q) => q.eq("organisationId", org._id)).take(n)))) return false;
     if (!(await drain(ctx, budget, (n) => ctx.db.query("orgCodes").withIndex("by_org", (q) => q.eq("organisationId", org._id)).take(n)))) return false;
+    if (!(await purgeOrgPacks(ctx, org._id, budget))) return false;
     for (const c of await ctx.db.query("classes").withIndex("by_organisation", (q) => q.eq("organisationId", org._id)).take(Math.max(0, budget.left))) {
       await ctx.db.patch(c._id, { organisationId: undefined });
       budget.left -= 1;
@@ -138,8 +159,12 @@ async function purgeProfile(ctx: MutationCtx, profile: Doc<"profiles">, budget: 
     await ctx.db.delete(chat._id);
     budget.left -= 1;
   }
-  // Course packs made from this account's notebooks go with them; linked copies then show the learner's own work only.
-  if (!(await drain(ctx, budget, (n) => ctx.db.query("coursePacks").withIndex("by_created_by", (q) => q.eq("createdBy", profile._id)).take(n)))) return false;
+  // Course packs this account made belong to their organisations and stay; only the link to this account goes.
+  for (const pack of await ctx.db.query("coursePacks").withIndex("by_created_by", (q) => q.eq("createdBy", profile._id)).take(Math.max(0, budget.left))) {
+    await ctx.db.patch(pack._id, { createdBy: undefined, masterNotebookId: undefined });
+    budget.left -= 1;
+  }
+  if (budget.left <= 0) return false;
   for (;;) {
     const notebook = await ctx.db.query("notebooks").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).first();
     if (notebook === null) break;

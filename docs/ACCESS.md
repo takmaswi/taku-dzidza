@@ -18,12 +18,12 @@ The five consent functions are the guardian's page, opened from the learner's li
 | `requireAdmin` | the owner: an address on `ADMIN_EMAILS` that has been verified | owner screens (Phase 7), listing, checking and merging organisations people added |
 | `requireTeacher` | TEACHER_MODE on, an adult with the teacher role switched on | creating classes, marking photographed scripts, marking a source as a published book |
 | `ownClass` | `requireTeacher` plus: the class is theirs | everything on a class page: roster, names, shares, papers, marks, results |
-| `requireTeacherInAction` | `ownClass` from an action | marking a photographed script |
+| `requireTeacherInAction` | `ownClass` from an action | marking a photographed script; sharing a notebook with a class, which runs the under 18 checks |
 | `requireGuardian` | TEACHER_MODE on, an adult | adding a child, the family page, answering class requests (only for a child whose standing consent this account gave) |
 | `requireClassMember` | TEACHER_MODE on, `requireLearner`, approved in the class | shared material, the papers set, handing in, marking written answers, leaving |
 | `requireJoiningLearner` | TEACHER_MODE on, `requireLearner` | joining by code, the learner's class list, cancelling a request |
 | `requireOrgsProfile` | TEACHER_MODE on, `requireLearner` | searching organisations (listed and checked only), following, adding a missing one, the one code box, an organisation's public page and its published course packs, adding a pack |
-| `requireOrgMember` | `requireOrgsProfile` plus: a member of the organisation in one of the given roles; a staff or guardian role only counts for an adult | leaving an organisation; teachers and admins making, listing and publishing course packs (publishing also needs the pack to be their own) |
+| `requireOrgMember` | `requireOrgsProfile` plus: a member of the organisation in one of the given roles; a staff or guardian role only counts for an adult | leaving an organisation; teachers and admins making and listing course packs; publishing, unpublishing and editing one also needs `managedPack` (`convex/packs/packs.ts`): an admin, or the teacher who made it while still on the staff |
 | `requireOrgAdmin` | `requireOrgMember` as an admin | join codes (make, revoke, new learner code) |
 
 Teachers see a learner's first name only (the first word of their display name), never an email, birth date or anything they study on their own. Results by topic are counts and percentages with no names.

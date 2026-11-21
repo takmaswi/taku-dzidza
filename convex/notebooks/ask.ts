@@ -102,7 +102,7 @@ async function chunkScope(ctx: QueryCtx, notebookId: Id<"notebooks">): Promise<{
   const notebook = await ctx.db.get(notebookId);
   const scope = notebook === null ? null : await packScope(ctx, notebook);
   if (scope === null) return { notebookIds: [notebookId], packSources: null };
-  return { notebookIds: [notebookId, scope.pack.masterNotebookId], packSources: new Set(scope.sources.map((s) => s._id as string)) };
+  return { notebookIds: [notebookId, scope.pack.notebookId], packSources: new Set(scope.sources.map((s) => s._id as string)) };
 }
 
 function inScope(chunk: Doc<"chunks">, notebookId: Id<"notebooks">, s: { notebookIds: Id<"notebooks">[]; packSources: Set<string> | null }): boolean {

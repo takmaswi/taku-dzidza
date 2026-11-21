@@ -8,6 +8,7 @@ import { uniqueCode, withRole } from "../classes/roles";
 import { orgTypeValidator } from "../schema";
 import { membershipOf, requireOrgMember, requireOrgsProfile, type OrgRole } from "./access";
 import { ensureMembership } from "./members";
+import { releasePacks } from "../packs/packs";
 
 /**
  * Organisations: secondary schools, universities, colleges, training
@@ -176,6 +177,8 @@ export const leave = mutation({
       if (admins.length < 2) throw new ConvexError("You are the only admin. Make someone else an admin first.");
     }
     await ctx.db.delete(membership._id);
+    // The organisation keeps the course packs they made.
+    await releasePacks(ctx, args.organisationId, membership.profileId);
     return null;
   },
 });

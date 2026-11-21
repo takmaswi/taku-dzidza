@@ -77,7 +77,7 @@ export const pending = internalQuery({
     if (source === null || source.deletingAt !== undefined || source.status !== "ready") return { profileId: null, chunks: [], more: false, last: args.after };
     const rows = await ctx.db.query("chunks").withIndex("by_source", (q) => q.eq("sourceId", args.sourceId).gt("_creationTime", args.after)).take(BATCH);
     return {
-      profileId: source.profileId,
+      profileId: source.profileId ?? null,
       chunks: rows.filter((c) => c.embedding === undefined).map((c) => ({ _id: c._id, text: c.text })),
       more: rows.length === BATCH,
       // The walk is by creation time: the last row seen, embedded or not.

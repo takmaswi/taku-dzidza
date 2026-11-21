@@ -37,6 +37,8 @@ export async function writePages(ctx: MutationCtx, sourceId: Id<"sources">, page
     ...(title !== undefined && title.length > 0 ? { title: title.slice(0, 120) } : {}),
     sections: findSections(kept),
     embeddedAt: undefined,
+    // Read again: the under 18 check runs again before it reaches a pack or a class.
+    minorCheck: undefined,
   });
   if (readable && embeddingsOn()) await ctx.scheduler.runAfter(0, internal.ai.embeddings.embedSource, { sourceId });
 }
@@ -53,30 +55,43 @@ export const audienceFor = internalQuery({
   args: { sourceId: v.id("sources") },
   handler: async (ctx, args): Promise<"minor" | "adult"> => {
     const source = await ctx.db.get(args.sourceId);
-    const profile = source === null ? null : await ctx.db.get(source.profileId);
+    const profile = source === null || source.profileId === undefined ? null : await ctx.db.get(source.profileId);
     return profile !== null && ageOn(profile.birthYear, profile.birthMonth, new Date()) < ADULT_AGE ? "minor" : "adult";
   },
 });
 
+export type Screen = { verdict: "allowed" } | { verdict: "blocked"; page: number } | { verdict: "unchecked" };
+
 /**
- * An under 18's source is screened as it is read (audit S6). The word filter
- * runs on every page for free. Only pages it flags go to the model, and any
- * answer but a clear allow keeps the source out. Returns the error to show,
- * or null when the source may be used. Adults' material is theirs: not screened.
+ * The source screen for under 18s, on pages numbered from 1. The word filter
+ * runs on every page for free. Only pages it flags go to the model, charged to
+ * `payerId`, and any answer but a clear allow blocks the source. More than
+ * MAX_FLAGGED_PAGES flagged pages and it is not study material.
+ */
+export async function screenForMinor(ctx: ActionCtx, payerId: Id<"profiles">, pages: readonly string[]): Promise<Screen> {
+  const flagged = pages.flatMap((text, i) => {
+    const verdict = prefilter(text.slice(0, 4000), "minor");
+    return verdict.kind === "redirect" || verdict.kind === "distress" ? [{ page: i + 1, text }] : [];
+  });
+  if (flagged.length === 0) return { verdict: "allowed" };
+  if (flagged.length > MAX_FLAGGED_PAGES) return { verdict: "blocked", page: flagged[0].page };
+  const room = await ctx.runQuery(internal.ai.usage.check, { profileId: payerId });
+  if (!room.allowed) return { verdict: "unchecked" };
+  for (const f of flagged) if (!(await sourceAllowed(ctx, { profileId: payerId, text: f.text }))) return { verdict: "blocked", page: f.page };
+  return { verdict: "allowed" };
+}
+
+/**
+ * An under 18's source is screened as it is read (audit S6). Returns the error
+ * to show, or null when the source may be used. Adults' material is theirs:
+ * not screened here (a pack or a class share screens it, convex/safety/minorCheck.ts).
  */
 export async function screenPages(ctx: ActionCtx, source: Pick<Doc<"sources">, "_id" | "profileId">, pages: readonly string[]): Promise<string | null> {
+  if (source.profileId === undefined) return null;
   const audience: "minor" | "adult" = await ctx.runQuery(internal.notebooks.read.audienceFor, { sourceId: source._id });
   if (audience === "adult") return null;
-  const flagged = pages.filter((text) => {
-    const verdict = prefilter(text.slice(0, 4000), "minor");
-    return verdict.kind === "redirect" || verdict.kind === "distress";
-  });
-  if (flagged.length === 0) return null;
-  if (flagged.length > MAX_FLAGGED_PAGES) return SCREEN_ERRORS.blocked;
-  const room = await ctx.runQuery(internal.ai.usage.check, { profileId: source.profileId });
-  if (!room.allowed) return SCREEN_ERRORS.unchecked;
-  for (const text of flagged) if (!(await sourceAllowed(ctx, { profileId: source.profileId, text }))) return SCREEN_ERRORS.blocked;
-  return null;
+  const screen = await screenForMinor(ctx, source.profileId, pages);
+  return screen.verdict === "allowed" ? null : screen.verdict === "blocked" ? SCREEN_ERRORS.blocked : SCREEN_ERRORS.unchecked;
 }
 
 export const savePages = internalMutation({
@@ -151,7 +166,9 @@ export const readFile = internalAction({
   args: { sourceId: v.id("sources") },
   handler: async (ctx, args): Promise<void> => {
     const source: Doc<"sources"> | null = await ctx.runQuery(internal.notebooks.read.sourceFor, { sourceId: args.sourceId });
-    if (source === null || source.storageId === undefined) return;
+    // A course pack's copy has no account and is never read again: it was copied already read.
+    if (source === null || source.storageId === undefined || source.profileId === undefined) return;
+    const profileId = source.profileId;
     const fail = async (error: string): Promise<void> => {
       await ctx.runMutation(internal.notebooks.read.markFailed, { sourceId: args.sourceId, error });
     };
@@ -167,9 +184,9 @@ export const readFile = internalAction({
         const layer: string[] = await ctx.runAction(internal.sources.fileText.pdf, { storageId: source.storageId });
         const empty = layer.filter((p: string) => p.trim().length < 30).length;
         // Mostly scans: the model reads the pages instead.
-        pages = layer.length > 0 && empty <= layer.length / 2 ? layer : await transcribe(ctx, { profileId: source.profileId, name: source.title, kind: "pdf", bytes, contentType: "application/pdf" });
+        pages = layer.length > 0 && empty <= layer.length / 2 ? layer : await transcribe(ctx, { profileId, name: source.title, kind: "pdf", bytes, contentType: "application/pdf" });
       } else if (source.kind === "image") {
-        pages = await transcribe(ctx, { profileId: source.profileId, name: source.title, kind: "image", bytes, contentType: blob.type || "image/jpeg" });
+        pages = await transcribe(ctx, { profileId, name: source.title, kind: "image", bytes, contentType: blob.type || "image/jpeg" });
       }
       if (pages === "limit") return await fail("You have used today's Taku allowance, so this file was not read. Add it again after 2am Harare time.");
       if (pages === null) return await fail("Taku could not read this file just now. Try again later.");

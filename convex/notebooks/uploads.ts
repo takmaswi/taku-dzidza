@@ -128,7 +128,7 @@ export const backfill = internalMutation({
     const batch = await ctx.db.query("sources").withIndex("by_creation_time", (q) => q.gt("_creationTime", at.value)).take(SWEEP_BATCH);
     let sources = 0;
     for (const source of batch) {
-      if (source.storageId === undefined) continue;
+      if (source.storageId === undefined || source.profileId === undefined) continue;
       const storageId = source.storageId;
       if ((await ctx.db.query("uploads").withIndex("by_storage", (q) => q.eq("storageId", storageId)).first()) !== null) continue;
       const meta = await ctx.db.system.get(storageId);

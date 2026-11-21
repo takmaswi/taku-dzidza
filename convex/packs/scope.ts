@@ -3,18 +3,24 @@ import type { QueryCtx } from "../_generated/server";
 
 /**
  * What a learner's linked notebook reads from its course pack. Only the
- * published version counts: its sourceIds and outputIds. A source marked as
- * pages from a published book is never part of a pack, even if one slipped
- * in. Nothing is copied: the learner's notebook points at the pack.
+ * published version counts: its sourceIds and outputIds, all in the pack's
+ * own notebook, which belongs to the organisation. A source marked as pages
+ * from a published book is never part of a pack, even if one slipped in.
+ * Nothing is copied into the learner's notebook: it points at the pack.
  */
 
+export type PublishedPack = Doc<"coursePacks"> & { notebookId: Id<"notebooks"> };
 export type PackSource = Doc<"sources"> & { fromPack: true };
-export type PackScope = { pack: Doc<"coursePacks">; sources: PackSource[] } | null;
+export type PackScope = { pack: PublishedPack; sources: PackSource[] } | null;
 
-export async function publishedPack(ctx: QueryCtx, packId: Id<"coursePacks"> | undefined): Promise<Doc<"coursePacks"> | null> {
+function isPublished(pack: Doc<"coursePacks"> | null): pack is PublishedPack {
+  return pack !== null && pack.status === "published" && pack.notebookId !== undefined;
+}
+
+export async function publishedPack(ctx: QueryCtx, packId: Id<"coursePacks"> | undefined): Promise<PublishedPack | null> {
   if (packId === undefined) return null;
   const pack = await ctx.db.get(packId);
-  return pack === null || pack.status !== "published" ? null : pack;
+  return isPublished(pack) ? pack : null;
 }
 
 export async function packScope(ctx: QueryCtx, notebook: Doc<"notebooks">): Promise<PackScope> {
@@ -23,7 +29,7 @@ export async function packScope(ctx: QueryCtx, notebook: Doc<"notebooks">): Prom
   const sources: PackSource[] = [];
   for (const id of pack.sourceIds) {
     const s = await ctx.db.get(id);
-    if (s === null || s.deletingAt !== undefined || s.thirdParty === true || s.notebookId !== pack.masterNotebookId) continue;
+    if (s === null || s.deletingAt !== undefined || s.thirdParty === true || s.notebookId !== pack.notebookId) continue;
     sources.push({ ...s, fromPack: true });
   }
   return { pack, sources };
@@ -43,9 +49,9 @@ export async function linkedNotebook(ctx: QueryCtx, packId: Id<"coursePacks">, p
 }
 
 /** The published pack a source or output belongs to, if this learner has added it. */
-async function packFor(ctx: QueryCtx, masterNotebookId: Id<"notebooks">, profileId: Id<"profiles">, holds: (pack: Doc<"coursePacks">) => boolean): Promise<Doc<"coursePacks"> | null> {
-  for (const pack of await ctx.db.query("coursePacks").withIndex("by_master", (q) => q.eq("masterNotebookId", masterNotebookId)).take(20)) {
-    if (pack.status !== "published" || !holds(pack)) continue;
+async function packFor(ctx: QueryCtx, packNotebookId: Id<"notebooks">, profileId: Id<"profiles">, holds: (pack: PublishedPack) => boolean): Promise<PublishedPack | null> {
+  for (const pack of await ctx.db.query("coursePacks").withIndex("by_notebook", (q) => q.eq("notebookId", packNotebookId)).take(20)) {
+    if (!isPublished(pack) || !holds(pack)) continue;
     if ((await linkedNotebook(ctx, pack._id, profileId)) !== null) return pack;
   }
   return null;
@@ -56,6 +62,6 @@ export async function packSourceReadable(ctx: QueryCtx, source: Doc<"sources">, 
   return (await packFor(ctx, source.notebookId, profileId, (p) => p.sourceIds.includes(source._id))) !== null;
 }
 
-export async function packOutputReadable(ctx: QueryCtx, output: Doc<"outputs">, profileId: Id<"profiles">): Promise<Doc<"coursePacks"> | null> {
+export async function packOutputReadable(ctx: QueryCtx, output: Doc<"outputs">, profileId: Id<"profiles">): Promise<PublishedPack | null> {
   return await packFor(ctx, output.notebookId, profileId, (p) => p.outputIds.includes(output._id));
 }

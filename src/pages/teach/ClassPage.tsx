@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "convex/react";
+import { useAction, useMutation, useQuery } from "convex/react";
 import { ArrowLeft, Copy, MessageCircle, QrCode as QrIcon } from "lucide-react";
 import { useState } from "react";
 import { Link, useParams } from "react-router";
@@ -98,8 +98,14 @@ function ShareBox({ name, code }: { name: string; code: string }) {
 function MaterialBox({ classId }: { classId: Id<"classes"> }) {
   const t = copy.classes;
   const picker = useQuery(api.classes.sharing.picker, { classId });
-  const share = useMutation(api.classes.sharing.share);
+  const share = useAction(api.classes.sharing.share);
   const setThirdParty = useMutation(api.classes.sharing.setThirdParty);
+  const [note, setNote] = useState<{ notebookId: Id<"notebooks">; text: string } | null>(null);
+  const shareNow = async (notebookId: Id<"notebooks">, on: boolean): Promise<void> => {
+    setNote(null);
+    const result = await share({ classId, notebookId, on });
+    if (!result.ok) setNote({ notebookId, text: result.message });
+  };
   if (picker === undefined) return null;
   return (
     <section className="panel stack" aria-labelledby="material">
@@ -117,9 +123,22 @@ function MaterialBox({ classId }: { classId: Id<"classes"> }) {
           {picker.map((nb) => (
             <li key={nb.notebookId} className="stack-tight">
               <label className="check-row">
-                <SavedCheckbox checked={nb.shared} save={(on) => share({ classId, notebookId: nb.notebookId, on })} />
+                <SavedCheckbox checked={nb.shared} save={(on) => shareNow(nb.notebookId, on)} />
                 <span>{t.shareNotebook(nb.title)}</span>
               </label>
+              {nb.shared && nb.waiting > 0 && (
+                <p className="soft small-text indent">
+                  {t.notChecked(nb.waiting)}{" "}
+                  <button type="button" className="pill small ghost" onClick={() => void shareNow(nb.notebookId, true)}>
+                    {t.checkNew}
+                  </button>
+                </p>
+              )}
+              {note !== null && note.notebookId === nb.notebookId && (
+                <p className="error" role="alert">
+                  {note.text}
+                </p>
+              )}
               {nb.shared && nb.sources.length > 0 && (
                 <ul className="plain-list indent">
                   {nb.sources.map((s) => (

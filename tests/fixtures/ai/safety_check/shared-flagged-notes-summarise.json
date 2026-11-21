@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "output_check",
+    "shared": "Flagged notes",
+    "tool": "summarise"
+  },
+  "response": {
+    "content": "{\"verdict\":\"block\",\"reason\":\"not for under 18s\"}",
+    "usage": {
+      "promptTokens": 420,
+      "completionTokens": 12
+    }
+  }
+}

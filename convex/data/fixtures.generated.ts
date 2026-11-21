@@ -226,6 +226,78 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/safety_check/output-tool-summarise.json"
  },
+ "safety_check/805077f3681f0940": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/pack-biology-basics-flashcards.json"
+ },
+ "safety_check/88486938ff871bfe": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/pack-biology-basics-quiz.json"
+ },
+ "safety_check/291bb959be8a80d9": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/pack-biology-basics-summarise.json"
+ },
+ "safety_check/a1c25b6e0e8f467d": {
+  "content": "{\"verdict\":\"block\",\"reason\":\"not for under 18s\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/pack-flagged-biology-flashcards.json"
+ },
+ "safety_check/c4417cd225db57aa": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/pack-flagged-biology-quiz.json"
+ },
+ "safety_check/f28acb5f477e7cd2": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/pack-flagged-biology-summarise.json"
+ },
+ "safety_check/9efee0afab9150c6": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/pack-form-3-biology-flashcards.json"
+ },
+ "safety_check/de07b7535b3f9e39": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/pack-form-3-biology-quiz.json"
+ },
+ "safety_check/b26146b03be4c029": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/pack-form-3-biology-summarise.json"
+ },
  "safety_check/06784e763d64402b": {
   "content": "{\"verdict\": \"self_harm\", \"reason\": \"red team fixture\"}",
   "usage": {
@@ -273,6 +345,22 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 12
   },
   "source": "tests/fixtures/ai/safety_check/redteam-story.json"
+ },
+ "safety_check/605d9653f906a5e4": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/shared-biology-summarise.json"
+ },
+ "safety_check/33551760d36d69e8": {
+  "content": "{\"verdict\":\"block\",\"reason\":\"not for under 18s\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/shared-flagged-notes-summarise.json"
  },
  "safety_check/17c9aed586bb8306": {
   "content": "{\"verdict\": \"allow\", \"reason\": \"literature\"}",

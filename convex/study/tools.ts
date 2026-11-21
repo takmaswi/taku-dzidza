@@ -1,7 +1,7 @@
 import { ConvexError, v } from "convex/values";
 import { internal } from "../_generated/api";
-import type { Id } from "../_generated/dataModel";
-import { action, internalMutation, internalQuery, mutation, query, type ActionCtx } from "../_generated/server";
+import type { Doc, Id } from "../_generated/dataModel";
+import { action, internalMutation, internalQuery, mutation, query, type ActionCtx, type QueryCtx } from "../_generated/server";
 import { createEmptyCard } from "ts-fsrs";
 import { ADULT_AGE, ageOn } from "../accounts/age";
 import { needs, voiceOf, type Voice } from "../accounts/voices";
@@ -99,27 +99,44 @@ export const toolContext = internalQuery({
 export const scopeValidator = v.array(v.object({ sourceId: v.id("sources"), fromPage: v.optional(v.number()), toPage: v.optional(v.number()) }));
 export type ToolScope = { sourceId: Id<"sources">; fromPage?: number; toPage?: number }[];
 type Range = { ref: string; sourceId: Id<"sources">; title: string; fromPage: number; toPage: number };
-type Plan = { profileId: Id<"profiles">; voice: Voice; simpleEnglish: boolean; sourceMode: SourceMode; minor: boolean; ranges: Range[] };
+/** profileId is who pays for the calls; ownerId is who the tool belongs to, unset for a course pack's tools. */
+export type Plan = { profileId: Id<"profiles">; ownerId?: Id<"profiles">; voice: Voice; simpleEnglish: boolean; sourceMode: SourceMode; minor: boolean; ranges: Range[] };
+
+/**
+ * The page ranges a tool will read from a notebook's sources. `payer` pays
+ * and sets the voice; the caller has already checked they may use the notebook.
+ */
+export async function planFor(ctx: QueryCtx, payer: Doc<"profiles">, notebook: Doc<"notebooks">, scope: ToolScope | undefined): Promise<Plan> {
+  // A linked notebook can make tools from its course pack's sources too.
+  const sources = (await notebookSources(ctx, notebook)).filter((s) => s.status === "ready" && s.pageCount > 0);
+  const refs = new Map(sources.map((s, i) => [s._id as string, { ref: `S${i + 1}`, source: s }]));
+  const chosen: ToolScope = scope === undefined || scope.length === 0 ? sources.map((s) => ({ sourceId: s._id })) : scope.slice(0, 60);
+  const ranges: Range[] = [];
+  for (const pick of chosen) {
+    const found = refs.get(pick.sourceId);
+    // A source from another notebook, or one that is not ready, is not the learner's to use here.
+    if (found === undefined) throw new ConvexError("Source not found.");
+    const fromPage = Math.min(found.source.pageCount, Math.max(1, Math.round(pick.fromPage ?? 1)));
+    const toPage = Math.min(found.source.pageCount, Math.max(fromPage, Math.round(pick.toPage ?? found.source.pageCount)));
+    ranges.push({ ref: found.ref, sourceId: found.source._id, title: found.source.title, fromPage, toPage });
+  }
+  return {
+    profileId: payer._id,
+    ...(notebook.profileId === undefined ? {} : { ownerId: notebook.profileId }),
+    voice: voiceOf(payer),
+    simpleEnglish: needs(payer, "english"),
+    sourceMode: notebook.sourceMode,
+    minor: ageOn(payer.birthYear, payer.birthMonth, new Date()) < ADULT_AGE,
+    ranges,
+  };
+}
 
 /** The page ranges a tool will read, checked against the learner's own notebook. */
 export const toolPlan = internalQuery({
   args: { notebookId: v.id("notebooks"), scope: v.optional(scopeValidator) },
   handler: async (ctx, args): Promise<Plan> => {
     const { profile, notebook } = await ownNotebook(ctx, args.notebookId);
-    // A linked notebook can make tools from its course pack's sources too.
-    const sources = (await notebookSources(ctx, notebook)).filter((s) => s.status === "ready" && s.pageCount > 0);
-    const refs = new Map(sources.map((s, i) => [s._id as string, { ref: `S${i + 1}`, source: s }]));
-    const chosen: ToolScope = args.scope === undefined || args.scope.length === 0 ? sources.map((s) => ({ sourceId: s._id })) : args.scope.slice(0, 60);
-    const ranges: Range[] = [];
-    for (const pick of chosen) {
-      const found = refs.get(pick.sourceId);
-      // A source from another notebook, or one that is not ready, is not the learner's to use here.
-      if (found === undefined) throw new ConvexError("Source not found.");
-      const fromPage = Math.min(found.source.pageCount, Math.max(1, Math.round(pick.fromPage ?? 1)));
-      const toPage = Math.min(found.source.pageCount, Math.max(fromPage, Math.round(pick.toPage ?? found.source.pageCount)));
-      ranges.push({ ref: found.ref, sourceId: found.source._id, title: found.source.title, fromPage, toPage });
-    }
-    return { profileId: profile._id, voice: voiceOf(profile), simpleEnglish: needs(profile, "english"), sourceMode: notebook.sourceMode, minor: ageOn(profile.birthYear, profile.birthMonth, new Date()) < ADULT_AGE, ranges };
+    return await planFor(ctx, profile, notebook, args.scope);
   },
 });
 
@@ -223,7 +240,8 @@ export function mergeBuilt(kind: OutputKind, parts: readonly Built[], options: T
 export const saveOutput = internalMutation({
   args: {
     notebookId: v.id("notebooks"),
-    profileId: v.id("profiles"),
+    /** Unset for a course pack's tools: they belong to the organisation, and their cards only seed learners' cards. */
+    profileId: v.optional(v.id("profiles")),
     mode: v.string(),
     kind: v.string(),
     title: v.string(),
@@ -303,90 +321,96 @@ export const generate = action({
   },
   handler: async (ctx, args): Promise<GenerateResult> => {
     await requireLearnerInAction(ctx);
-    const mode = MODES[args.mode];
-    if (mode === undefined) throw new ConvexError("That study tool does not exist.");
-    const options = checkOptions(args.mode, args.options as ToolOptions);
+    if (MODES[args.mode] === undefined) throw new ConvexError("That study tool does not exist.");
     const c: Plan = await ctx.runQuery(internal.study.tools.toolPlan, { notebookId: args.notebookId, scope: args.scope });
-    if (c.ranges.length === 0) return { ok: false, message: TOOL_MESSAGES.noSources };
-    const room = await ctx.runMutation(internal.ai.usage.admit, { profileId: c.profileId, kind: "ask" });
-    if (!room.allowed) return { ok: false, message: capMessage(room.reason) };
-
-    const kind = mode.frontmatter.output as OutputKind;
-    const { sections, complete } = await readSections(ctx, c.ranges);
-    if (sections.length === 0) return { ok: false, message: TOOL_MESSAGES.noSources };
-    const perSection = sectionOptions(options, sections.length);
-    const built: Built[] = [];
-    const used: Page[] = [];
-    let stopped = !complete;
-    for (const [i, pages] of sections.entries()) {
-      // Every section after the first is a further call: stop at the caps and keep what is made.
-      if (i > 0 && !(await ctx.runQuery(internal.ai.usage.check, { profileId: c.profileId })).allowed) {
-        stopped = true;
-        break;
-      }
-      const result = await ctx.runAction(internal.ai.router.call, {
-        tier: mode.frontmatter.modelTier,
-        purpose: "taku_tool",
-        messages: [
-          { role: "system", content: toolPrompt(args.mode, c, perSection) },
-          { role: "user", content: sourceBlockOf(pages) },
-        ],
-        jsonSchema: { name: `taku_${kind}`, strict: true, schema: JSON_SCHEMAS[kind] },
-        maxTokens: mode.frontmatter.maxTokens,
-        stablePrefixCount: 1,
-        fixtureKey: sections.length === 1 ? { kind: "tool", mode: args.mode, sourceMode: c.sourceMode, options } : { kind: "tool", mode: args.mode, sourceMode: c.sourceMode, options, section: i + 1, of: sections.length },
-      });
-      await ctx.runMutation(internal.ai.usage.record, { profileId: c.profileId, tool: args.mode, costUsd: result.costUsd });
-      if (!result.ok) continue;
-      let raw: unknown;
-      try {
-        const t = result.content.trim();
-        raw = JSON.parse(t.slice(t.indexOf("{"), t.lastIndexOf("}") + 1));
-      } catch {
-        continue;
-      }
-      const byRefPage = new Map(pages.map((p) => [`${p.ref}:${p.page}`, p]));
-      const one = buildContent(kind, raw, c.sourceMode, (ref, page) => {
-        const found = byRefPage.get(`${ref}:${page}`);
-        return found === undefined ? null : { sourceId: found.sourceId as string, text: found.text };
-      });
-      if (one === null) continue;
-      built.push(one);
-      used.push(...pages);
-    }
-    if (built.length === 0) return { ok: false, message: TOOL_MESSAGES.failed };
-    if (built.length < sections.length) stopped = true;
-    const first = mergeBuilt(kind, built, options);
-    if (first.items === 0) return { ok: false, message: TOOL_MESSAGES.empty };
-    // A second opinion on Taku's own ideas, and on every marking scheme.
-    const checked =
-      kind === "quiz"
-        ? applyMarking(first, await secondOpinion(ctx, { profileId: c.profileId, check: "marking", items: markingItems(first) }))
-        : applyIdeas(kind, first, await secondOpinion(ctx, { profileId: c.profileId, check: "ideas", items: ideaItems(kind, first) }));
-    const final = checked.built;
-    if (final.items === 0) return { ok: false, message: TOOL_MESSAGES.empty };
-    // Under 18s: nothing is shown before the output check allows it (audit S6).
-    if (c.minor && !(await outputAllowed(ctx, { profileId: c.profileId, text: JSON.stringify({ content: final.content, cards: final.cards ?? [] }), key: { tool: args.mode } }))) return { ok: false, message: TOOL_MESSAGES.blocked };
-    const notes: string[] = [];
-    if (final.missing.length > 0) notes.push(cleanDashes(final.missing));
-    if (final.dropped > 0) notes.push(`${final.dropped} ${final.dropped === 1 ? "item was" : "items were"} left out because ${final.dropped === 1 ? "it" : "they"} could not be found in your material.`);
-    if (checked.left > 0) notes.push(`${checked.left} ${checked.left === 1 ? "item was" : "items were"} left out because a second check did not agree.`);
-    if (stopped) notes.push(TOOL_MESSAGES.partNote);
-    const outputId: Id<"outputs"> = await ctx.runMutation(internal.study.tools.saveOutput, {
-      notebookId: args.notebookId,
-      profileId: c.profileId,
-      mode: args.mode,
-      kind,
-      title: final.title || mode.listing.title,
-      content: final.content,
-      sourceMode: c.sourceMode,
-      note: notes.length > 0 ? notes.join(" ") : undefined,
-      coverage: coverageOf(used),
-      cards: final.cards,
-    });
-    return { ok: true, outputId };
+    return await makeTool(ctx, c, { notebookId: args.notebookId, mode: args.mode, options: args.options as ToolOptions });
   },
 });
+
+/** Makes and saves one study tool from a plan. The plan says who pays and who owns it (a course pack's tools have no owner). */
+export async function makeTool(ctx: ActionCtx, c: Plan, args: { notebookId: Id<"notebooks">; mode: string; options: ToolOptions }): Promise<GenerateResult> {
+  const mode = MODES[args.mode];
+  if (mode === undefined) throw new ConvexError("That study tool does not exist.");
+  const options = checkOptions(args.mode, args.options);
+  if (c.ranges.length === 0) return { ok: false, message: TOOL_MESSAGES.noSources };
+  const room = await ctx.runMutation(internal.ai.usage.admit, { profileId: c.profileId, kind: "ask" });
+  if (!room.allowed) return { ok: false, message: capMessage(room.reason) };
+
+  const kind = mode.frontmatter.output as OutputKind;
+  const { sections, complete } = await readSections(ctx, c.ranges);
+  if (sections.length === 0) return { ok: false, message: TOOL_MESSAGES.noSources };
+  const perSection = sectionOptions(options, sections.length);
+  const built: Built[] = [];
+  const used: Page[] = [];
+  let stopped = !complete;
+  for (const [i, pages] of sections.entries()) {
+    // Every section after the first is a further call: stop at the caps and keep what is made.
+    if (i > 0 && !(await ctx.runQuery(internal.ai.usage.check, { profileId: c.profileId })).allowed) {
+      stopped = true;
+      break;
+    }
+    const result = await ctx.runAction(internal.ai.router.call, {
+      tier: mode.frontmatter.modelTier,
+      purpose: "taku_tool",
+      messages: [
+        { role: "system", content: toolPrompt(args.mode, c, perSection) },
+        { role: "user", content: sourceBlockOf(pages) },
+      ],
+      jsonSchema: { name: `taku_${kind}`, strict: true, schema: JSON_SCHEMAS[kind] },
+      maxTokens: mode.frontmatter.maxTokens,
+      stablePrefixCount: 1,
+      fixtureKey: sections.length === 1 ? { kind: "tool", mode: args.mode, sourceMode: c.sourceMode, options } : { kind: "tool", mode: args.mode, sourceMode: c.sourceMode, options, section: i + 1, of: sections.length },
+    });
+    await ctx.runMutation(internal.ai.usage.record, { profileId: c.profileId, tool: args.mode, costUsd: result.costUsd });
+    if (!result.ok) continue;
+    let raw: unknown;
+    try {
+      const t = result.content.trim();
+      raw = JSON.parse(t.slice(t.indexOf("{"), t.lastIndexOf("}") + 1));
+    } catch {
+      continue;
+    }
+    const byRefPage = new Map(pages.map((p) => [`${p.ref}:${p.page}`, p]));
+    const one = buildContent(kind, raw, c.sourceMode, (ref, page) => {
+      const found = byRefPage.get(`${ref}:${page}`);
+      return found === undefined ? null : { sourceId: found.sourceId as string, text: found.text };
+    });
+    if (one === null) continue;
+    built.push(one);
+    used.push(...pages);
+  }
+  if (built.length === 0) return { ok: false, message: TOOL_MESSAGES.failed };
+  if (built.length < sections.length) stopped = true;
+  const first = mergeBuilt(kind, built, options);
+  if (first.items === 0) return { ok: false, message: TOOL_MESSAGES.empty };
+  // A second opinion on Taku's own ideas, and on every marking scheme.
+  const checked =
+    kind === "quiz"
+      ? applyMarking(first, await secondOpinion(ctx, { profileId: c.profileId, check: "marking", items: markingItems(first) }))
+      : applyIdeas(kind, first, await secondOpinion(ctx, { profileId: c.profileId, check: "ideas", items: ideaItems(kind, first) }));
+  const final = checked.built;
+  if (final.items === 0) return { ok: false, message: TOOL_MESSAGES.empty };
+  // Under 18s: nothing is shown before the output check allows it (audit S6).
+  if (c.minor && !(await outputAllowed(ctx, { profileId: c.profileId, text: JSON.stringify({ content: final.content, cards: final.cards ?? [] }), key: { tool: args.mode } }))) return { ok: false, message: TOOL_MESSAGES.blocked };
+  const notes: string[] = [];
+  if (final.missing.length > 0) notes.push(cleanDashes(final.missing));
+  if (final.dropped > 0) notes.push(`${final.dropped} ${final.dropped === 1 ? "item was" : "items were"} left out because ${final.dropped === 1 ? "it" : "they"} could not be found in your material.`);
+  if (checked.left > 0) notes.push(`${checked.left} ${checked.left === 1 ? "item was" : "items were"} left out because a second check did not agree.`);
+  if (stopped) notes.push(TOOL_MESSAGES.partNote);
+  const outputId: Id<"outputs"> = await ctx.runMutation(internal.study.tools.saveOutput, {
+    notebookId: args.notebookId,
+    ...(c.ownerId === undefined ? {} : { profileId: c.ownerId }),
+    mode: args.mode,
+    kind,
+    title: final.title || mode.listing.title,
+    content: final.content,
+    sourceMode: c.sourceMode,
+    note: notes.length > 0 ? notes.join(" ") : undefined,
+    coverage: coverageOf(used),
+    cards: final.cards,
+  });
+  return { ok: true, outputId };
+}
 
 type Lookup = (ref: string, page: number) => { sourceId: string; text: string } | null;
 

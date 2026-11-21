@@ -79,7 +79,11 @@ export const merge = mutation({
     }
     for (const c of await ctx.db.query("orgCodes").withIndex("by_org", (q) => q.eq("organisationId", from._id)).take(500)) await ctx.db.patch(c._id, { organisationId: into._id });
     for (const c of await ctx.db.query("classes").withIndex("by_organisation", (q) => q.eq("organisationId", from._id)).take(2000)) await ctx.db.patch(c._id, { organisationId: into._id });
-    for (const p of await ctx.db.query("coursePacks").withIndex("by_org", (q) => q.eq("organisationId", from._id)).take(200)) await ctx.db.patch(p._id, { organisationId: into._id });
+    for (const p of await ctx.db.query("coursePacks").withIndex("by_org", (q) => q.eq("organisationId", from._id)).take(200)) {
+      await ctx.db.patch(p._id, { organisationId: into._id });
+      // The notebook holding the pack's sources and tools moves with it.
+      if (p.notebookId !== undefined && (await ctx.db.get(p.notebookId)) !== null) await ctx.db.patch(p.notebookId, { organisationId: into._id });
+    }
     await ctx.db.delete(from._id);
     return into._id as Id<"organisations">;
   },

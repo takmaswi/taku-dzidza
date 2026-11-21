@@ -93,24 +93,42 @@ export function StaffPacks({ organisationId }: { organisationId: Id<"organisatio
   );
 }
 
-type StaffPack = { _id: Id<"coursePacks">; title: string; subject: string; level: string; status: "draft" | "published"; version: number; learners: number; mine: boolean; publishing: boolean };
+type StaffPack = { _id: Id<"coursePacks">; title: string; subject: string; level: string; status: "draft" | "published"; version: number; learners: number; canManage: boolean; publishing: boolean };
+type Note = { ok: boolean; text: string } | null;
+
+function stateLine(pack: StaffPack): string {
+  const t = copy.packs;
+  if (pack.status === "published") return `${t.published}, ${t.version(pack.version).toLowerCase()}`;
+  return pack.version > 0 ? `${t.notPublished}, ${t.version(pack.version).toLowerCase()}` : t.draft;
+}
 
 function StaffPackRow({ pack }: { pack: StaffPack }) {
   const t = copy.packs;
   const publish = useAction(api.packs.publish.publish);
+  const unpublish = useMutation(api.packs.packs.unpublish);
   const [rights, setRights] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [note, setNote] = useState<{ ok: boolean; text: string } | null>(null);
+  const [editing, setEditing] = useState(false);
+  const [note, setNote] = useState<Note>(null);
   const id = `rights-${pack._id}`;
   return (
     <li className="owner-row" aria-label={pack.title}>
       <span>
         <b>{pack.title}</b>
         <small className="soft" style={{ display: "block" }}>
-          {t.level(pack.subject, pack.level)}. {pack.status === "published" ? `${t.published}, ${t.version(pack.version).toLowerCase()}` : t.draft}. {t.learners(pack.learners)}
+          {t.level(pack.subject, pack.level)}. {stateLine(pack)}. {t.learners(pack.learners)}
         </small>
       </span>
-      {pack.mine && (
+      {pack.canManage && editing && (
+        <EditPackForm
+          pack={pack}
+          onDone={(saved) => {
+            setEditing(false);
+            if (saved) setNote({ ok: true, text: t.savedNote });
+          }}
+        />
+      )}
+      {pack.canManage && !editing && (
         <form
           className="stack"
           onSubmit={(e) => {
@@ -131,6 +149,24 @@ function StaffPackRow({ pack }: { pack: StaffPack }) {
             {pack.status === "published" ? t.republish : t.publish}
           </button>
           {(busy || pack.publishing) && <p className="soft">{t.publishing}</p>}
+          <div className="actions">
+            <button type="button" className="pill small ghost" onClick={() => setEditing(true)}>
+              {t.edit}
+            </button>
+            {pack.status === "published" && (
+              <button
+                type="button"
+                className="pill small ghost"
+                onClick={() =>
+                  void unpublish({ packId: pack._id })
+                    .then(() => setNote({ ok: true, text: t.unpublishedNote }))
+                    .catch((err: unknown) => setNote({ ok: false, text: errorText(err, copy.errors.generic) }))
+                }
+              >
+                {t.unpublish}
+              </button>
+            )}
+          </div>
         </form>
       )}
       {note !== null && (
@@ -139,6 +175,55 @@ function StaffPackRow({ pack }: { pack: StaffPack }) {
         </p>
       )}
     </li>
+  );
+}
+
+function EditPackForm({ pack, onDone }: { pack: StaffPack; onDone: (saved: boolean) => void }) {
+  const t = copy.packs;
+  const save = useMutation(api.packs.packs.edit);
+  const [title, setTitle] = useState(pack.title);
+  const [subject, setSubject] = useState(pack.subject);
+  const [level, setLevel] = useState(pack.level);
+  const [error, setError] = useState<string | null>(null);
+  const key = pack._id;
+  return (
+    <form
+      className="stack"
+      aria-label={t.edit}
+      onSubmit={(e) => {
+        e.preventDefault();
+        setError(null);
+        void save({ packId: pack._id, title, subject, level })
+          .then(() => onDone(true))
+          .catch((err: unknown) => setError(errorText(err, copy.errors.generic)));
+      }}
+    >
+      <div className="field">
+        <label htmlFor={`title-${key}`}>{t.packTitle}</label>
+        <input id={`title-${key}`} type="text" maxLength={80} value={title} onChange={(e) => setTitle(e.target.value)} />
+      </div>
+      <div className="field">
+        <label htmlFor={`subject-${key}`}>{t.subject}</label>
+        <input id={`subject-${key}`} type="text" maxLength={60} value={subject} onChange={(e) => setSubject(e.target.value)} />
+      </div>
+      <div className="field">
+        <label htmlFor={`level-${key}`}>{t.packLevel}</label>
+        <input id={`level-${key}`} type="text" maxLength={30} value={level} onChange={(e) => setLevel(e.target.value)} />
+      </div>
+      {error !== null && (
+        <p className="error" role="alert">
+          {error}
+        </p>
+      )}
+      <div className="actions">
+        <button type="submit" className="pill small">
+          {t.save}
+        </button>
+        <button type="button" className="pill small ghost" onClick={() => onDone(false)}>
+          {copy.orgs.cancel}
+        </button>
+      </div>
+    </form>
   );
 }
 
