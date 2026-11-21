@@ -11,6 +11,7 @@ import { requireLearner, requireLearnerInAction } from "../lib/access";
 import type { OutputKind } from "../modes/package";
 import { cleanDashes } from "../notebooks/ask";
 import { ownNotebook } from "../notebooks/notebooks";
+import { boughtInfo } from "../market/reader";
 import { notebookSources, packOutputReadable, packScope } from "../packs/scope";
 import { outputAllowed } from "../safety/checks";
 import { coverageValidator } from "../schema";
@@ -545,10 +546,13 @@ export const get = query({
     // The learner's own tool, or one from a course pack they added (read only).
     const fromPack = output.profileId === profile._id ? null : await packOutputReadable(ctx, output, profile._id);
     if (output.profileId !== profile._id && fromPack === null) throw new ConvexError("Not found.");
+    // A bought or rented listing's tool: view only, marked with the buyer, and the paper labelled with its author (convex/market/reader.ts).
+    const info = fromPack?.listingId === undefined ? null : await boughtInfo(ctx, fromPack, null);
+    const bought = info === null ? null : { paperLabel: info.paperLabel, watermark: info.watermark };
     const notebook = await ctx.db.get(output.notebookId);
     if (notebook === null || notebook.deletingAt !== undefined) throw new ConvexError("Not found.");
     const sources = await notebookSources(ctx, notebook);
-    return { output, fromPack: fromPack !== null, titles: Object.fromEntries(sources.map((s) => [s._id as string, s.title])) };
+    return { output, fromPack: fromPack !== null, bought, titles: Object.fromEntries(sources.map((s) => [s._id as string, s.title])) };
   },
 });
 

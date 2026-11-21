@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "output_check",
+    "listing": "Biology for grown ups",
+    "tool": "summarise"
+  },
+  "response": {
+    "content": "{\"verdict\":\"block\",\"reason\":\"not suitable for learners under 18\"}",
+    "usage": {
+      "promptTokens": 420,
+      "completionTokens": 12
+    }
+  }
+}

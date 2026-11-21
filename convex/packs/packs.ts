@@ -6,7 +6,7 @@ import { syllabusById } from "../curriculum/catalogue";
 import { MAX_NOTEBOOKS, ownNotebook } from "../notebooks/notebooks";
 import { membershipOf, requireOrgMember, requireOrgsProfile } from "../organisations/access";
 import { isPublic } from "../organisations/organisations";
-import { linkedNotebook, publishedPack, type PublishedPack } from "./scope";
+import { linkedNotebook, publishedPack, readableListing } from "./scope";
 
 /**
  * Course packs (DECISIONS.md, Course packs). A teacher or admin of an
@@ -177,12 +177,16 @@ export const published = query({
   },
 });
 
+/** What a linked notebook's review cards are made from: a published pack or a live listing. */
+export type CardSource = { notebookId: Id<"notebooks">; outputIds: Id<"outputs">[]; version: number };
+
 /**
- * Brings a linked notebook's review cards up to the pack's version: a card
- * for each card in the pack's flashcards, with a fresh schedule, keeping the
- * schedule of a card whose front is unchanged; cards from older versions go.
+ * Brings a linked notebook's review cards up to the pack's (or listing's)
+ * version: a card for each card in its flashcards, with a fresh schedule,
+ * keeping the schedule of a card whose front is unchanged; cards from older
+ * versions go.
  */
-async function syncCards(ctx: MutationCtx, notebook: Doc<"notebooks">, pack: PublishedPack): Promise<void> {
+export async function syncCards(ctx: MutationCtx, notebook: Doc<"notebooks">, pack: CardSource): Promise<void> {
   const mine = await ctx.db.query("cards").withIndex("by_notebook_due", (q) => q.eq("notebookId", notebook._id)).take(MAX_CARDS);
   const current = new Set(pack.outputIds as string[]);
   const fromPack = [];
@@ -236,6 +240,9 @@ export const sync = mutation({
     const { notebook } = await ownNotebook(ctx, args.notebookId);
     const pack = await publishedPack(ctx, notebook.packId);
     if (pack !== null && notebook.packVersion !== pack.version) await syncCards(ctx, notebook, pack);
+    // A bought or rented listing (convex/market) keeps its cards in step the same way.
+    const bought = pack === null ? await readableListing(ctx, notebook.listingId, notebook.profileId) : null;
+    if (bought !== null && notebook.packVersion !== bought.listing.version) await syncCards(ctx, notebook, bought.listing);
     return null;
   },
 });

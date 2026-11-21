@@ -38,11 +38,6 @@ export function embeddingsOn(): boolean {
   return envString("EMBEDDINGS_MODE") === "on";
 }
 
-/** Teachers, classes and guardians (Stage 2). Off unless TEACHER_MODE is "on". */
-export function teacherModeOn(): boolean {
-  return envString("TEACHER_MODE") === "on";
-}
-
 /** The licensed book shelf (Stage 4). Off unless BOOKS_MODE is "on". */
 export function booksModeOn(): boolean {
   return envString("BOOKS_MODE") === "on";

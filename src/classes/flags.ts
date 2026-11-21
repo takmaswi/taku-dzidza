@@ -2,14 +2,14 @@ import { useQuery } from "convex/react";
 import { useEffect } from "react";
 import { api } from "../../convex/_generated/api";
 
-/** TEACHER_MODE and BOOKS_MODE for the app (convex/flags.ts), and the join link kept across sign in. */
+/** TEACHER_MODE, MARKETPLACE_MODE and BOOKS_MODE for this account (convex/flags.ts), and the join link kept across sign in. */
 
 export const JOIN_KEY = "taku.joinCode";
 
-export type Flags = { teacher: boolean; books: boolean };
+export type Flags = { teacher: boolean; market: boolean; books: boolean };
 
 export function useFlags(): Flags {
-  return useQuery(api.flags.get) ?? { teacher: false, books: false };
+  return useQuery(api.flags.get) ?? { teacher: false, market: false, books: false };
 }
 
 /** The flags, or null while they load (routes wait, so a join link is not sent home). */

@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "convex/react";
 import { ArrowLeft, Printer } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link, useParams, useSearchParams } from "react-router";
 import { calmTests } from "../../convex/accounts/voices";
 import { api } from "../../convex/_generated/api";
@@ -10,6 +10,7 @@ import { AppShell, FocusShell } from "../components/Layout";
 import { MathText } from "../components/MathText";
 import { ReadAloud } from "../components/ReadAloud";
 import { copy } from "../copy/en";
+import { Protected } from "../market/Watermark";
 import { WidgetHost } from "../widgets/WidgetHost";
 
 type Origin = { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added"; unchecked?: boolean };
@@ -35,7 +36,9 @@ export default function Output({ profile }: { profile: Doc<"profiles"> }) {
       </FocusShell>
     );
   }
-  const { output, titles } = data;
+  const { output, titles, bought } = data;
+  // Bought or rented notes: view only, with the buyer's name and email across the page.
+  const guard = (node: ReactNode) => (bought === null ? node : <Protected watermark={bought.watermark}>{node}</Protected>);
   if (output.kind === "scroll") {
     return (
       <FocusShell exitTo={back} title={output.title} dark>
@@ -47,7 +50,8 @@ export default function Output({ profile }: { profile: Doc<"profiles"> }) {
     return (
       <FocusShell exitTo={back} title={output.title}>
         <div className="paper-wrap">
-          <QuizPaper output={output} content={output.content as QuizContent} timed={timed} />
+          {bought !== null && <p className="small-text paper-label">{bought.paperLabel}</p>}
+          {guard(<QuizPaper output={output} content={output.content as QuizContent} timed={timed} />)}
           <CoverageLine output={output} />
           {output.note !== undefined && <p className="soft small-text">{output.note}</p>}
         </div>
@@ -60,7 +64,7 @@ export default function Output({ profile }: { profile: Doc<"profiles"> }) {
         <Link to={`${back}?tab=tools`} className="back-link no-print">
           <ArrowLeft size={18} aria-hidden="true" /> {t.back}
         </Link>
-        <OutputBody output={output} titles={titles} notebookId={id} readAloud={profile.accessibility.readAloud} />
+        {guard(<OutputBody output={output} titles={titles} notebookId={id} readAloud={profile.accessibility.readAloud} />)}
       </div>
     </AppShell>
   );
@@ -109,7 +113,15 @@ export function PanelOutput({ outputId, notebookId, readAloud, onBack }: { outpu
       <button type="button" className="icon-button" onClick={onBack}>
         <ArrowLeft size={16} aria-hidden="true" /> {copy.tools.backToTools}
       </button>
-      {data === undefined ? <p className="soft">{copy.loading}</p> : <OutputBody output={data.output} titles={data.titles} notebookId={notebookId} readAloud={readAloud} />}
+      {data === undefined ? (
+        <p className="soft">{copy.loading}</p>
+      ) : data.bought === null ? (
+        <OutputBody output={data.output} titles={data.titles} notebookId={notebookId} readAloud={readAloud} />
+      ) : (
+        <Protected watermark={data.bought.watermark}>
+          <OutputBody output={data.output} titles={data.titles} notebookId={notebookId} readAloud={readAloud} />
+        </Protected>
+      )}
     </div>
   );
 }

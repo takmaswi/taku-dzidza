@@ -21,10 +21,10 @@ export const MAX_PICKED = 5;
 const MAX_PAGES = 10;
 const MAX_LIST = 200;
 
-export type PickedNotebook = { notebookId: Id<"notebooks">; title: string; kind: "own" | "pack" };
+export type PickedNotebook = { notebookId: Id<"notebooks">; title: string; kind: "own" | "pack" | "bought" };
 
 function kindOf(n: Doc<"notebooks">): PickedNotebook["kind"] {
-  return n.packId !== undefined ? "pack" : "own";
+  return n.packId !== undefined ? "pack" : n.listingId !== undefined ? "bought" : "own";
 }
 
 /** The learner's notebooks Taku may answer from: theirs and not being deleted. */

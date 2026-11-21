@@ -2,7 +2,7 @@ import { ConvexError, v } from "convex/values";
 import type { Doc } from "../_generated/dataModel";
 import { mutation, type MutationCtx } from "../_generated/server";
 import { requireProfile } from "../lib/access";
-import { teacherModeOn } from "../lib/env";
+import { featureOn } from "../lib/features";
 import { isAdult, TEACHER_OFF, type Role } from "./access";
 import { cryptoRandom, randomCode } from "./codes";
 
@@ -35,7 +35,7 @@ export function withRole(profile: Doc<"profiles">, role: Role, on: boolean): Rol
 export const setTeaching = mutation({
   args: { on: v.boolean() },
   handler: async (ctx, args) => {
-    if (!teacherModeOn()) throw new ConvexError(TEACHER_OFF);
+    if (!(await featureOn(ctx, "TEACHER_MODE"))) throw new ConvexError(TEACHER_OFF);
     const { profile } = await requireProfile(ctx);
     if (!isAdult(profile)) throw new ConvexError("Teaching tools are for adults.");
     await ctx.db.patch(profile._id, { roles: withRole(profile, "teacher", args.on) });

@@ -3,7 +3,7 @@ import type { Doc, Id } from "../_generated/dataModel";
 import type { QueryCtx } from "../_generated/server";
 import { isAdult, TEACHER_OFF } from "../classes/access";
 import { requireLearner } from "../lib/access";
-import { teacherModeOn } from "../lib/env";
+import { featureOn } from "../lib/features";
 
 /**
  * Access helpers for organisations (schools, universities, colleges, training
@@ -17,7 +17,7 @@ import { teacherModeOn } from "../lib/env";
 export type OrgRole = Doc<"memberships">["role"];
 
 export async function requireOrgsProfile(ctx: QueryCtx): Promise<{ user: Doc<"users">; profile: Doc<"profiles"> }> {
-  if (!teacherModeOn()) throw new ConvexError(TEACHER_OFF);
+  if (!(await featureOn(ctx, "TEACHER_MODE"))) throw new ConvexError(TEACHER_OFF);
   return await requireLearner(ctx);
 }
 

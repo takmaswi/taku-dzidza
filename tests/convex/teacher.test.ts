@@ -67,13 +67,13 @@ describe("TEACHER_MODE", () => {
     const t = makeT();
     const p = await makeLearner(t, 34);
     await withMode(undefined, async () => {
-      expect(await t.query(api.flags.get, {})).toEqual({ teacher: false, books: false });
+      expect(await t.query(api.flags.get, {})).toEqual({ teacher: false, market: true, books: false });
       await expect(p.as.mutation(api.classes.roles.setTeaching, { on: true })).rejects.toThrow(/not on yet/);
       await expect(p.as.query(api.classes.classes.myClasses, {})).rejects.toThrow(/not on yet/);
       await expect(p.as.mutation(api.classes.joining.requestJoin, { code: "ABC23X" })).rejects.toThrow(/not on yet/);
       await expect(p.as.mutation(api.classes.guardians.createChildCode, { firstName: "Tari" })).rejects.toThrow(/not on yet/);
     });
-    expect(await t.query(api.flags.get, {})).toEqual({ teacher: true, books: false });
+    expect(await t.query(api.flags.get, {})).toEqual({ teacher: true, market: true, books: false });
   });
 
   test("teaching is for adults who switched it on", async () => {

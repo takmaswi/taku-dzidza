@@ -36,6 +36,12 @@ const Family = lazy(() => import("./pages/classes/Family"));
 const OrgPage = lazy(() => import("./orgs/OrgPage"));
 const OwnerOrgs = lazy(() => import("./orgs/OwnerOrgs"));
 const OrgAdmin = lazy(() => import("./orgs/OrgAdmin"));
+const Market = lazy(() => import("./market/Market"));
+const ListingPage = lazy(() => import("./market/ListingPage"));
+const Checkout = lazy(() => import("./market/Checkout"));
+const Sell = lazy(() => import("./market/Sell"));
+const SellerTerms = lazy(() => import("./market/SellerTerms"));
+const OwnerMarket = lazy(() => import("./market/OwnerMarket"));
 
 /**
  * Takudzidza routes. Public: "/", "/signin", "/help", "/privacy", "/terms" and
@@ -129,6 +135,16 @@ function AppRoutes({ profile, email }: { profile: Doc<"profiles">; email: string
           <Route path="/org/:organisationId" element={<OrgPage />} />
           <Route path="/org/:organisationId/admin" element={<OrgAdmin />} />
           <Route path="/owner/organisations" element={<OwnerOrgs />} />
+        </>
+      )}
+      {flags.market && (
+        <>
+          <Route path="/market" element={<Market />} />
+          <Route path="/market/l/:listingId" element={<ListingPage />} />
+          <Route path="/market/checkout/:checkoutId" element={<Checkout />} />
+          <Route path="/market/sell" element={<Sell />} />
+          <Route path="/market/terms" element={<SellerTerms />} />
+          <Route path="/owner/market" element={<OwnerMarket />} />
         </>
       )}
       <Route path="*" element={<Navigate to="/" replace />} />

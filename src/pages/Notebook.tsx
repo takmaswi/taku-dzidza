@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "convex/react";
 import { ChevronRight, Eraser, FileText, LifeBuoy, MoreHorizontal, PanelLeftClose, PanelLeftOpen, PanelRightClose, Pencil, Shapes, Trash2 } from "lucide-react";
 import { useEffect, useState, type DragEvent } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router";
+import type { FunctionReturnType } from "convex/server";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import { BrandMark } from "../components/BrandMark";
@@ -10,6 +11,7 @@ import { useMedia, useStored, WIDE, XWIDE } from "../components/hooks";
 import { useSprinting, useStudyMode } from "../components/studySession";
 import { Menu, Sheet } from "../components/ui";
 import { copy } from "../copy/en";
+import { day } from "../market/format";
 import { EmptyNotebook } from "./notebook/EmptyNotebook";
 import { NotebookChat, type Citation } from "./notebook/NotebookChat";
 import { SourcePage } from "./notebook/SourcePage";
@@ -29,7 +31,7 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
   const data = useQuery(api.notebooks.notebooks.get, { notebookId });
   // A course pack copy brings its review cards up to a newer version when it opens.
   const syncPack = useMutation(api.packs.packs.sync);
-  const stale = data?.pack?.stale === true;
+  const stale = data?.pack?.stale === true || data?.bought?.stale === true;
   useEffect(() => {
     if (stale) void syncPack({ notebookId });
   }, [stale, notebookId, syncPack]);
@@ -98,13 +100,21 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
     void sources.uploadAll([...(e.dataTransfer.files ?? [])]);
   };
 
-  const packLine = data.pack === null ? undefined : (
-    <p className="pack-line" data-testid="pack-line">
-      {copy.packs.fromPack(data.pack.organisation, data.pack.title)}
-    </p>
-  );
+  const bought = data.bought;
+  const packLine =
+    bought !== null ? (
+      <BoughtLine bought={bought} />
+    ) : data.pack === null ? undefined : (
+      <p className="pack-line" data-testid="pack-line">
+        {copy.packs.fromPack(data.pack.organisation, data.pack.title)}
+      </p>
+    );
+  // Bought or rented notes: the view only reader, marked with the buyer's name and email.
+  const watermark = bought !== null && bought.access !== "ended" ? bought.watermark : undefined;
+  const read = watermark === undefined ? undefined : (sourceId: Id<"sources">) => cite({ sourceId, page: 1, quote: "" });
+  const turn = watermark === undefined || citation === null ? undefined : (page: number) => setCitation({ ...citation, page, quote: "" });
   const sourceList = (
-    <SourceList notebookId={notebookId} list={data.sources} sources={sources} header={packLine} />
+    <SourceList notebookId={notebookId} list={data.sources} sources={sources} header={packLine} onRead={read} />
   );
   const studyPanel = <StudyPanel notebookId={notebookId} sources={data.sources} readAloud={profile.accessibility.readAloud} initialTool={initialTool} />;
 
@@ -136,10 +146,10 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
                   {citation !== null ? (
                     <>
                       <BackToSources onBack={() => setCitation(null)} />
-                      <SourcePage citation={citation} />
+                      <SourcePage citation={citation} watermark={watermark} onPage={turn} />
                     </>
                   ) : (
-                    <SourceList notebookId={notebookId} list={data.sources} sources={sources} forms={!empty} header={packLine} />
+                    <SourceList notebookId={notebookId} list={data.sources} sources={sources} forms={!empty} header={packLine} onRead={read} />
                   )}
                 </div>
               </>
@@ -153,7 +163,7 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
           </aside>
         )}
 
-        <section className="ws-center">{empty ? <EmptyNotebook sources={sources} /> : <NotebookChat notebook={notebook} profile={profile} messages={messages} titles={titles} onCite={cite} studyMode={studyMode} onStudyMode={setStudyMode} />}</section>
+        <section className="ws-center">{bought?.access === "ended" && <div className="ended-banner"><BoughtLine bought={bought} /></div>}{empty ? <EmptyNotebook sources={sources} /> : <NotebookChat notebook={notebook} profile={profile} messages={messages} titles={titles} onCite={cite} studyMode={studyMode} onStudyMode={setStudyMode} />}</section>
 
         {wide && toolsOpen && (
           <>
@@ -184,11 +194,29 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
       )}
       {sheet === "page" && citation !== null && (
         <Sheet title={copy.notebook.sourcesTitle} onClose={() => setSheet(null)}>
-          <SourcePage citation={citation} />
+          <SourcePage citation={citation} watermark={watermark} onPage={turn} />
         </Sheet>
       )}
       {askedForTools && <ClearParams onDone={() => setParams({}, { replace: true })} />}
     </AppShell>
+  );
+}
+
+/** A bought or rented notebook: "Bought", "Rented until <date>", or ended with a way to renew; and the practice paper's author. */
+function BoughtLine({ bought }: { bought: NonNullable<FunctionReturnType<typeof api.notebooks.notebooks.get>["bought"]> }) {
+  const t = copy.market;
+  return (
+    <div className="pack-line stack-tight" data-testid="bought-line">
+      <span>
+        <b>{bought.access === "bought" ? t.bought : bought.access === "rented" ? t.rentedUntil(day(bought.endsAt ?? 0)) : t.rentalEnded}</b> {t.by(bought.author)}
+      </span>
+      <small className="soft">{bought.paperLabel}</small>
+      {bought.access === "ended" && (
+        <Link to={`/market/l/${bought.listingId}`} className="pill small">
+          {t.renew}
+        </Link>
+      )}
+    </div>
   );
 }
 

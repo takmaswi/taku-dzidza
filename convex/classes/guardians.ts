@@ -3,7 +3,7 @@ import type { Doc, Id } from "../_generated/dataModel";
 import { mutation, query, type QueryCtx } from "../_generated/server";
 import { newConsentRequest } from "../accounts/consent";
 import { requireProfile } from "../lib/access";
-import { teacherModeOn } from "../lib/env";
+import { featureOn } from "../lib/features";
 import { tokenHash } from "../lib/tokens";
 import { isAdult, requireGuardian, TEACHER_OFF } from "./access";
 import { cryptoRandom, firstName, normaliseCode, randomCode, validCode, validFirstName } from "./codes";
@@ -61,7 +61,7 @@ export const createChildCode = mutation({
 export const redeemChildCode = mutation({
   args: { code: v.string() },
   handler: async (ctx, args): Promise<{ ok: true } | { ok: false; message: string }> => {
-    if (!teacherModeOn()) throw new ConvexError(TEACHER_OFF);
+    if (!(await featureOn(ctx, "TEACHER_MODE"))) throw new ConvexError(TEACHER_OFF);
     const { profile } = await requireProfile(ctx);
     if (isAdult(profile)) return { ok: false, message: CHILD_CODE_ERRORS.adult };
     const now = Date.now();

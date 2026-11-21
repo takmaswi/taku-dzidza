@@ -1,34 +1,11 @@
-import { expect, test, type Browser, type Page, type TestInfo } from "@playwright/test";
-import { adultOnHome, freshEmail, PASSWORD, phone, setUp, signUp } from "./helpers";
+import { expect, test, type Page } from "@playwright/test";
+import { adultOnHome, freshEmail, otherPage, ownerSignedIn, setUp, signUp } from "./helpers";
 
 /**
  * Organisations (DECISIONS.md, Schools become organisations). The list starts
  * empty: people add a missing one, the owner lists it or merges a duplicate,
  * and others then find and follow it. TEACHER_MODE is on locally.
  */
-
-async function otherPage(browser: Browser, info: TestInfo): Promise<Page> {
-  const context = await browser.newContext({ storageState: "e2e/look-chosen.json", ...(phone(info) ? { viewport: { width: 360, height: 780 }, isMobile: true, hasTouch: true } : { viewport: { width: 1280, height: 800 } }) });
-  return await context.newPage();
-}
-
-/** The e2e owner (on ADMIN_EMAILS in local mock mode, scripts/setup-env.mjs): signs in, or signs up the first time. */
-async function ownerSignedIn(page: Page, info: TestInfo) {
-  const email = `e2e-owner-${info.project.name}@example.com`;
-  await page.goto("/signin");
-  await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password", { exact: true }).fill(PASSWORD);
-  await page.locator("form").getByRole("button", { name: "Sign in" }).click();
-  const home = page.getByRole("heading", { name: /What are we studying today/ });
-  const wrong = page.getByText("That email and password did not match.");
-  await expect(home.or(wrong)).toBeVisible();
-  if (await wrong.isVisible()) {
-    await signUp(page, email);
-    await setUp(page, "Takunda", new Date().getFullYear() - 30);
-    await page.getByRole("button", { name: "Skip" }).click();
-    await expect(home).toBeVisible();
-  }
-}
 
 /** Search matches any word, so each run's names share one made up word nobody else uses. */
 async function addMissing(page: Page, name: string, word: string) {

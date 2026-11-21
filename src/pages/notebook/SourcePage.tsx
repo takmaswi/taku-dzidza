@@ -1,25 +1,31 @@
 import { useQuery } from "convex/react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { api } from "../../../convex/_generated/api";
 import { copy } from "../../copy/en";
+import { Protected } from "../../market/Watermark";
 import type { Citation } from "./NotebookChat";
 
-/** The cited page with the quote highlighted. In the sources rail on wide screens, in a sheet on phones. */
-export function SourcePage({ citation }: { citation: Citation }) {
+/**
+ * The cited page with the quote highlighted. In the sources rail on wide
+ * screens, in a sheet on phones. For bought or rented notes (`watermark`)
+ * it is the view only reader, with the next and previous pages (`onPage`).
+ */
+export function SourcePage({ citation, watermark, onPage }: { citation: Citation; watermark?: string; onPage?: (page: number) => void }) {
   const t = copy.notebook;
   const page = useQuery(api.notebooks.sources.page, { sourceId: citation.sourceId, page: citation.page });
   const mark = useRef<HTMLElement>(null);
   const text = page?.text ?? null;
-  const at = text === null ? -1 : text.toLowerCase().indexOf(citation.quote.toLowerCase());
+  const at = text === null || citation.quote === "" ? -1 : text.toLowerCase().indexOf(citation.quote.toLowerCase());
   useEffect(() => {
     mark.current?.scrollIntoView({ block: "center" });
   }, [at, citation]);
   const heading = page ? t.fromPage(page.title, citation.page) : copy.loading;
-  return (
+  const body = (
     <section className="source-page" data-testid="source-page" aria-label={heading}>
       <h3>{heading}</h3>
       {page !== undefined && text === null && <p>{t.pageMissing}</p>}
-      {text !== null && at < 0 && <blockquote className="quote">{citation.quote}</blockquote>}
+      {text !== null && at < 0 && citation.quote !== "" && <blockquote className="quote">{citation.quote}</blockquote>}
       {text !== null && (
         <div className="page-text">
           {at < 0 ? (
@@ -33,6 +39,18 @@ export function SourcePage({ citation }: { citation: Citation }) {
           )}
         </div>
       )}
+      {onPage !== undefined && page !== undefined && page.pageCount > 1 && (
+        <div className="actions page-nav">
+          <button type="button" className="pill small ghost" disabled={citation.page <= 1} onClick={() => onPage(citation.page - 1)}>
+            <ChevronLeft size={16} aria-hidden="true" /> {t.prevPage}
+          </button>
+          <span className="soft small-text">{t.pageOf(citation.page, page.pageCount)}</span>
+          <button type="button" className="pill small ghost" disabled={citation.page >= page.pageCount} onClick={() => onPage(citation.page + 1)}>
+            {t.nextPage} <ChevronRight size={16} aria-hidden="true" />
+          </button>
+        </div>
+      )}
     </section>
   );
+  return watermark === undefined ? body : <Protected watermark={watermark}>{body}</Protected>;
 }

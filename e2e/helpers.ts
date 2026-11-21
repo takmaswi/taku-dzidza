@@ -1,4 +1,4 @@
-import { expect, type Page, type TestInfo } from "@playwright/test";
+import { expect, type Browser, type Page, type TestInfo } from "@playwright/test";
 import { spawnSync } from "node:child_process";
 
 /** Shared steps for the journeys. The mock senders put their codes in a test outbox on the local backend. */
@@ -117,4 +117,28 @@ export async function ask(page: Page, question: string) {
 export async function pickChip(page: Page, chip: RegExp, choice: RegExp) {
   await page.getByRole("button", { name: chip }).click();
   await page.getByRole("menuitemradio", { name: choice }).click();
+}
+
+/** A second person in the same journey: a new browser context at this project's screen size. */
+export async function otherPage(browser: Browser, info: TestInfo): Promise<Page> {
+  const context = await browser.newContext({ storageState: "e2e/look-chosen.json", ...(phone(info) ? { viewport: { width: 360, height: 780 }, isMobile: true, hasTouch: true } : { viewport: { width: 1280, height: 800 } }) });
+  return await context.newPage();
+}
+
+/** The e2e owner (on ADMIN_EMAILS in local mock mode, scripts/setup-env.mjs): signs in, or signs up the first time. */
+export async function ownerSignedIn(page: Page, info: TestInfo) {
+  const email = `e2e-owner-${info.project.name}@example.com`;
+  await page.goto("/signin");
+  await page.getByLabel("Email").fill(email);
+  await page.getByLabel("Password", { exact: true }).fill(PASSWORD);
+  await page.locator("form").getByRole("button", { name: "Sign in" }).click();
+  const home = page.getByRole("heading", { name: /What are we studying today/ });
+  const wrong = page.getByText("That email and password did not match.");
+  await expect(home.or(wrong)).toBeVisible();
+  if (await wrong.isVisible()) {
+    await signUp(page, email);
+    await setUp(page, "Takunda", new Date().getFullYear() - 30);
+    await page.getByRole("button", { name: "Skip" }).click();
+    await expect(home).toBeVisible();
+  }
 }

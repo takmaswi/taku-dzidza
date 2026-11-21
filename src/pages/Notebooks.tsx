@@ -7,6 +7,7 @@ import { errorText } from "../access";
 import { AppShell } from "../components/Layout";
 import { ObjectArt } from "../components/ObjectArt";
 import { copy } from "../copy/en";
+import { day } from "../market/format";
 
 export default function Notebooks() {
   const t = copy.notebooks;
@@ -76,6 +77,7 @@ export default function Notebooks() {
               </span>
               <b>{nb.title}</b>
               <small>{h.sources(nb.sourceCount)}</small>
+              {nb.bought !== null && <span className="tag">{nb.bought.kind === "buy" ? copy.market.bought : nb.bought.kind === "rent" ? copy.market.rentedUntil(day(nb.bought.endsAt ?? 0)) : copy.market.rentalEnded}</span>}
             </Link>
           ))}
         </div>

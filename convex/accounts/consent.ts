@@ -5,7 +5,7 @@ import type { Doc, Id } from "../_generated/dataModel";
 import { action, internalMutation, mutation, query, type MutationCtx, type QueryCtx } from "../_generated/server";
 import { pendingClassRequests } from "../classes/requests";
 import { profileOf, requireProfile } from "../lib/access";
-import { teacherModeOn } from "../lib/env";
+import { featureNotOff } from "../lib/features";
 import { ADULT_AGE, ageOn } from "./age";
 import { beginAccountDeletion } from "../privacy/purge";
 import { randomDigits, randomToken, tokenHash } from "../lib/tokens";
@@ -88,7 +88,7 @@ export const requestInfo = query({
       points: CONSENT_POINTS,
       smsReady: smsReady(),
       // Classes waiting for this guardian (Stage 2), only once consent is given on this link.
-      classRequests: teacherModeOn() && (await givenOn(ctx, found.request._id)) ? await pendingClassRequests(ctx, found.profile._id) : [],
+      classRequests: featureNotOff("TEACHER_MODE") && (await givenOn(ctx, found.request._id)) ? await pendingClassRequests(ctx, found.profile._id) : [],
     };
   },
 });
@@ -179,7 +179,7 @@ export const give = mutation({
       return { state: "wrong_code", error: ERRORS.wrongCode };
     }
 
-    const guardian = teacherModeOn() ? await signedInGuardian(ctx, found.profile) : null;
+    const guardian = featureNotOff("TEACHER_MODE") ? await signedInGuardian(ctx, found.profile) : null;
     await ctx.db.insert("consents", {
       profileId: found.profile._id,
       requestId: found.request._id,
@@ -255,7 +255,7 @@ export const prepareApprovalCode = internalMutation({
 export const sendApprovalCode = action({
   args: { token: v.string() },
   handler: async (ctx, args): Promise<{ sent: boolean }> => {
-    if (!teacherModeOn() || !smsReady()) return { sent: false };
+    if (!featureNotOff("TEACHER_MODE") || !smsReady()) return { sent: false };
     const { code, phone }: { code: string; phone: string } = await ctx.runMutation(internal.accounts.consent.prepareApprovalCode, { token: args.token });
     if (aiMode() === "mock") await ctx.runMutation(internal.accounts.outbox.record, { channel: "sms", to: phone, code });
     const result = await smsSender().send(phone, `Your Takudzidza code to answer a class request is ${code}. It works for ${CODE_MINUTES} minutes.`);
@@ -268,7 +268,7 @@ export const sendApprovalCode = action({
 export const decideClass = mutation({
   args: { token: v.string(), enrolmentId: v.id("enrolments"), approve: v.boolean(), code: v.string() },
   handler: async (ctx, args): Promise<{ state: "decided" | "wrong_code"; error?: string }> => {
-    if (!teacherModeOn()) throw new ConvexError("Teacher tools are not on yet.");
+    if (!featureNotOff("TEACHER_MODE")) throw new ConvexError("Teacher tools are not on yet.");
     const found = await requestFor(ctx, args.token);
     if (found === null) throw new ConvexError(ERRORS.expired);
     const consent = await givenOn(ctx, found.request._id);

@@ -149,8 +149,59 @@ async function purgeClassData(ctx: MutationCtx, profile: Doc<"profiles">, budget
   return true;
 }
 
+/** Patches rows from one query until none is left to patch or the budget is spent. True when done. */
+async function unlink<T extends { _id: Id<TableNames> }>(budget: Budget, next: (n: number) => Promise<T[]>, each: (row: T) => Promise<void>): Promise<boolean> {
+  while (budget.left > 0) {
+    const rows = await next(Math.min(budget.left, STEP_ROWS));
+    if (rows.length === 0) return true;
+    for (const row of rows) {
+      await each(row);
+      budget.left -= 1;
+    }
+  }
+  return false;
+}
+
+/**
+ * The marketplace (Step 9). A buyer's purchases and ledger rows stay for the
+ * books, shown as "deleted account"; their checkouts and reviews go. A
+ * seller's listings stop selling; people who bought keep them, and rentals
+ * run to their end. The seller's name and payout number stay only while
+ * money is owed to them (convex/market/money.ts, markPaid).
+ */
+async function purgeMarketData(ctx: MutationCtx, profile: Doc<"profiles">, budget: Budget): Promise<boolean> {
+  const me = profile._id;
+  if (!(await unlink(budget, (n) => ctx.db.query("purchases").withIndex("by_buyer", (q) => q.eq("buyerProfileId", me)).take(n), (r) => ctx.db.patch(r._id, { buyerProfileId: undefined })))) return false;
+  if (!(await unlink(budget, (n) => ctx.db.query("ledger").withIndex("by_buyer", (q) => q.eq("buyerProfileId", me)).take(n), (r) => ctx.db.patch(r._id, { buyerProfileId: undefined })))) return false;
+  if (!(await unlink(budget, (n) => ctx.db.query("reports").withIndex("by_profile", (q) => q.eq("profileId", me)).take(n), (r) => ctx.db.patch(r._id, { profileId: undefined })))) return false;
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("checkouts").withIndex("by_buyer", (q) => q.eq("buyerProfileId", me)).take(n)))) return false;
+  const reviewsDone = await drain(
+    ctx,
+    budget,
+    (n) => ctx.db.query("reviews").withIndex("by_profile", (q) => q.eq("profileId", me)).take(n),
+    async (r) => {
+      const listing = await ctx.db.get(r.listingId);
+      if (listing !== null) await ctx.db.patch(listing._id, { ratingSum: Math.max(0, listing.ratingSum - r.stars), ratingCount: Math.max(0, listing.ratingCount - 1) });
+    },
+  );
+  if (!reviewsDone) return false;
+  const seller = await ctx.db.query("sellers").withIndex("by_profile", (q) => q.eq("profileId", me)).first();
+  if (seller === null) return true;
+  const now = Date.now();
+  for (const l of await ctx.db.query("listings").withIndex("by_seller", (q) => q.eq("sellerId", seller._id)).take(Math.max(0, budget.left))) {
+    if (l.profileId !== undefined) await ctx.db.patch(l._id, { profileId: undefined, masterNotebookId: undefined, sellerGoneAt: now, pending: undefined, pendingAt: undefined });
+    budget.left -= 1;
+  }
+  if (budget.left <= 0) return false;
+  const sold = (await ctx.db.query("ledger").withIndex("by_seller", (q) => q.eq("sellerId", seller._id)).first()) !== null;
+  await ctx.db.patch(seller._id, { profileId: undefined, deletedAt: now, ...(sold ? {} : { realName: "Deleted seller", payoutNumber: "" }) });
+  budget.left -= 1;
+  return true;
+}
+
 async function purgeProfile(ctx: MutationCtx, profile: Doc<"profiles">, budget: Budget): Promise<boolean> {
   if (!(await purgeClassData(ctx, profile, budget))) return false;
+  if (!(await purgeMarketData(ctx, profile, budget))) return false;
   for (;;) {
     const chat = await ctx.db.query("chats").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).first();
     if (chat === null) break;

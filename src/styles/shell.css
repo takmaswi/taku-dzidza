@@ -42,14 +42,14 @@
 
 /* Phone tab bar: part of the column, not floating, so content never hides under it. Hidden while typing. */
 .tabbar {
-  flex: none; position: relative; display: grid; grid-template-columns: repeat(5, 1fr);
+  flex: none; position: relative; display: grid; grid-template-columns: repeat(var(--tabs, 5), 1fr);
   padding: 0.35rem 0.4rem calc(0.35rem + env(safe-area-inset-bottom, 0px));
   background: var(--topbar); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--line);
 }
 .tabbar a { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 0.1rem; padding: 0.35rem 0.1rem; text-decoration: none; color: var(--text-soft); font-size: 0.7rem; font-weight: 500; }
 .tabbar a.active { color: var(--text); font-weight: 600; }
 .tab-indicator {
-  position: absolute; top: 0.35rem; left: 0.4rem; width: calc((100% - 0.8rem) / 5); height: calc(100% - 0.7rem - env(safe-area-inset-bottom, 0px));
+  position: absolute; top: 0.35rem; left: 0.4rem; width: calc((100% - 0.8rem) / var(--tabs, 5)); height: calc(100% - 0.7rem - env(safe-area-inset-bottom, 0px));
   border-radius: 14px; background: var(--pick-fill); box-shadow: inset 0 0 0 1px var(--pick-line); transform: translateX(calc(var(--active) * 100%));
   transition: transform calc(0.35s * var(--speed)) var(--ease), opacity 0.2s;
 }

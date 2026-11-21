@@ -1,5 +1,5 @@
 import { useMutation } from "convex/react";
-import { ChevronLeft, FileText, Link2, Plus, Search, Trash2 } from "lucide-react";
+import { BookOpen, ChevronLeft, FileText, Link2, Plus, Search, Trash2 } from "lucide-react";
 import { useState, type FormEvent, type ReactNode } from "react";
 import { api } from "../../../convex/_generated/api";
 import type { Doc, Id } from "../../../convex/_generated/dataModel";
@@ -100,7 +100,8 @@ export function AddSourceMenu({ sources }: { sources: Sources }) {
 
 /** The list of sources with search, removal and the add menu. Used in the rail and in the phone sheet. */
 /** `forms` is false while the empty notebook centre shows the same add forms, so they never appear twice. */
-export function SourceList({ notebookId, list, sources, header, forms = true }: { notebookId: Id<"notebooks">; list: (Doc<"sources"> & { fromPack?: boolean })[]; sources: Sources; header?: ReactNode; forms?: boolean }) {
+/** onRead: bought or rented notes open in the view only reader from here. */
+export function SourceList({ notebookId, list, sources, header, forms = true, onRead }: { notebookId: Id<"notebooks">; list: (Doc<"sources"> & { fromPack?: boolean })[]; sources: Sources; header?: ReactNode; forms?: boolean; onRead?: (sourceId: Id<"sources">) => void }) {
   const t = copy.notebook;
   const remove = useMutation(api.notebooks.sources.remove);
   const [query, setQuery] = useState("");
@@ -129,6 +130,11 @@ export function SourceList({ notebookId, list, sources, header, forms = true }: 
                   {s.fromPack === true ? `. ${copy.packs.packTag}` : ""}
                 </small>
               </span>
+              {onRead !== undefined && s.fromPack === true && s.status === "ready" && s.pageCount > 0 && (
+                <button type="button" className="icon-button" aria-label={t.readSource(s.title)} onClick={() => onRead(s._id)}>
+                  <BookOpen size={16} aria-hidden="true" />
+                </button>
+              )}
               {s.fromPack !== true && (
                 <button type="button" className="icon-button" aria-label={`${t.removeSource} ${s.title}`} onClick={() => void remove({ sourceId: s._id })}>
                   <Trash2 size={16} aria-hidden="true" />

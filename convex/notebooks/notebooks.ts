@@ -2,7 +2,8 @@ import { ConvexError, v } from "convex/values";
 import type { Doc, Id } from "../_generated/dataModel";
 import { mutation, query, type QueryCtx } from "../_generated/server";
 import { requireLearner } from "../lib/access";
-import { notebookSources, packScope } from "../packs/scope";
+import { boughtInfo } from "../market/reader";
+import { activePurchase, notebookSources, packScope } from "../packs/scope";
 import { startPurge } from "../privacy/purge";
 import { sourceModeValidator } from "../schema";
 
@@ -29,10 +30,20 @@ export const list = query({
     const { profile } = await requireLearner(ctx);
     const notebooks = (await ctx.db.query("notebooks").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).order("desc").take(MAX_NOTEBOOKS)).filter((n) => n.deletingAt === undefined);
     return await Promise.all(
-      notebooks.map(async (n) => ({ ...n, sourceCount: n.packId === undefined ? (await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", n._id)).take(60)).filter((s) => s.deletingAt === undefined).length : (await notebookSources(ctx, n)).length })),
+      notebooks.map(async (n) => ({
+        ...n,
+        sourceCount: n.packId === undefined && n.listingId === undefined ? (await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", n._id)).take(60)).filter((s) => s.deletingAt === undefined).length : (await notebookSources(ctx, n)).length,
+        // A bought or rented listing: "Bought", "Rented until <date>", or ended.
+        bought: n.listingId === undefined ? null : await accessOf(ctx, n.listingId, profile._id),
+      })),
     );
   },
 });
+
+async function accessOf(ctx: QueryCtx, listingId: Id<"listings">, profileId: Id<"profiles">): Promise<{ kind: "buy" | "rent" | "ended"; endsAt: number | null }> {
+  const p = await activePurchase(ctx, listingId, profileId);
+  return p === null ? { kind: "ended", endsAt: null } : { kind: p.kind, endsAt: p.endsAt ?? null };
+}
 
 export const create = mutation({
   args: { title: v.string() },
@@ -50,11 +61,14 @@ export const get = query({
     const { notebook } = await ownNotebook(ctx, args.notebookId);
     const sources = await notebookSources(ctx, notebook);
     const scope = await packScope(ctx, notebook);
-    const org = scope === null ? null : await ctx.db.get(scope.pack.organisationId);
-    const pack = scope === null ? null : { title: scope.pack.title, organisation: org?.name ?? "", version: scope.pack.version, stale: notebook.packVersion !== scope.pack.version };
+    const shared = scope?.pack ?? null;
+    const org = shared?.kind === "pack" ? await ctx.db.get(shared.pack.organisationId) : null;
+    const pack = shared?.kind === "pack" ? { title: shared.title, organisation: org?.name ?? "", version: shared.version, stale: notebook.packVersion !== shared.version } : null;
+    // A bought or rented listing (convex/market/reader.ts): how long it lasts, and what the reader marks every page with.
+    const bought = notebook.listingId === undefined ? null : await boughtInfo(ctx, notebook, shared?.kind === "listing" ? shared : null);
     const messages = await ctx.db.query("messages").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).order("desc").take(100);
     // A Test me answer stays on the server: the learner sees the question and the mark only.
-    return { notebook, sources, pack, messages: messages.reverse().map((m) => (m.test === undefined ? m : { ...m, test: { ...m.test, answer: "", origin: undefined } })) };
+    return { notebook, sources, pack, bought, messages: messages.reverse().map((m) => (m.test === undefined ? m : { ...m, test: { ...m.test, answer: "", origin: undefined } })) };
   },
 });
 
@@ -94,6 +108,8 @@ export const remove = mutation({
     const { notebook } = await ownNotebook(ctx, args.notebookId);
     // Learners read a course pack from its notebook, so that notebook stays while the pack does.
     if ((await ctx.db.query("coursePacks").withIndex("by_master", (q) => q.eq("masterNotebookId", notebook._id)).first()) !== null) throw new ConvexError("This notebook is a course pack. It stays while the pack does.");
+    const listing = await ctx.db.query("listings").withIndex("by_master", (q) => q.eq("masterNotebookId", notebook._id)).first();
+    if (listing !== null && listing.status !== "removed") throw new ConvexError("This notebook is in the marketplace. Take the listing down first.");
     await ctx.db.patch(notebook._id, { deletingAt: Date.now() });
     await startPurge(ctx, { kind: "notebook", id: notebook._id });
   },

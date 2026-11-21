@@ -178,6 +178,102 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/safety_check/input-write-my-whole-history-essay-on-the-great-zimbab.json"
  },
+ "safety_check/6ac4b3b404ecac55": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/listing-biology-for-grown-ups-flashcards.json"
+ },
+ "safety_check/3c0e175aa23778c7": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/listing-biology-for-grown-ups-quiz.json"
+ },
+ "safety_check/12430b4beb77ccd4": {
+  "content": "{\"verdict\":\"block\",\"reason\":\"not suitable for learners under 18\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/listing-biology-for-grown-ups-summarise.json"
+ },
+ "safety_check/9343dd51e551a484": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/listing-form-4-biology-notes-flashcards.json"
+ },
+ "safety_check/566a2c54fad04a6b": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/listing-form-4-biology-notes-quiz.json"
+ },
+ "safety_check/59200523f747396a": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/listing-form-4-biology-notes-summarise.json"
+ },
+ "safety_check/6bc7e529548a52ce": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/listing-leaf-notes-desktop-flashcards.json"
+ },
+ "safety_check/a390793f198ea819": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/listing-leaf-notes-desktop-quiz.json"
+ },
+ "safety_check/adc03c50321d702a": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/listing-leaf-notes-desktop-summarise.json"
+ },
+ "safety_check/5e1488d18af45e33": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/listing-leaf-notes-phone-flashcards.json"
+ },
+ "safety_check/eb2c8ecde0b49d1a": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/listing-leaf-notes-phone-quiz.json"
+ },
+ "safety_check/c6a56edea835a084": {
+  "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/listing-leaf-notes-phone-summarise.json"
+ },
  "safety_check/a096457a040ad056": {
   "content": "{\"verdict\": \"allow\", \"reason\": \"school biology\"}",
   "usage": {

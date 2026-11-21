@@ -1,9 +1,9 @@
 import { ConvexError, v } from "convex/values";
 import type { Id } from "../_generated/dataModel";
 import { mutation, query } from "../_generated/server";
-import { TEACHER_OFF } from "../classes/access";
-import { adminEmails, teacherModeOn } from "../lib/env";
+import { requireTeacherMode } from "../classes/access";
 import { requireAdmin, requireUser } from "../lib/access";
+import { featureOn, isAdminUser } from "../lib/features";
 import { uniqueCode } from "../classes/roles";
 import { requireOrgsProfile } from "./access";
 import { ensureMembership } from "./members";
@@ -16,24 +16,19 @@ import { ensureMembership } from "./members";
 
 const MAX_PENDING = 100;
 
-function requireMode(): void {
-  if (!teacherModeOn()) throw new ConvexError(TEACHER_OFF);
-}
-
 /** Whether to show the owner's link. True only for a verified email on ADMIN_EMAILS. */
 export const isOwner = query({
   args: {},
   handler: async (ctx) => {
     const user = await requireUser(ctx);
-    const email = (user.email ?? "").toLowerCase();
-    return teacherModeOn() && email !== "" && user.emailVerificationTime !== undefined && adminEmails().includes(email);
+    return (await featureOn(ctx, "TEACHER_MODE")) && isAdminUser(user);
   },
 });
 
 export const pending = query({
   args: {},
   handler: async (ctx) => {
-    requireMode();
+    await requireTeacherMode(ctx);
     await requireAdmin(ctx);
     const rows = await ctx.db.query("organisations").withIndex("by_status", (q) => q.eq("status", "pending")).take(MAX_PENDING);
     const out = [];
@@ -49,7 +44,7 @@ export const pending = query({
 export const setStatus = mutation({
   args: { organisationId: v.id("organisations"), status: v.union(v.literal("listed"), v.literal("verified")) },
   handler: async (ctx, args) => {
-    requireMode();
+    await requireTeacherMode(ctx);
     await requireAdmin(ctx);
     const org = await ctx.db.get(args.organisationId);
     if (org === null) throw new ConvexError("Organisation not found.");
@@ -62,7 +57,7 @@ export const setStatus = mutation({
 export const merge = mutation({
   args: { fromId: v.id("organisations"), intoId: v.id("organisations") },
   handler: async (ctx, args) => {
-    requireMode();
+    await requireTeacherMode(ctx);
     await requireAdmin(ctx);
     const from = await ctx.db.get(args.fromId);
     const into = await ctx.db.get(args.intoId);
@@ -99,7 +94,7 @@ export const TAKUDZIDZA = { name: "Takudzidza", type: "other", town: "Harare", c
 export const takudzidza = mutation({
   args: {},
   handler: async (ctx): Promise<Id<"organisations">> => {
-    requireMode();
+    await requireTeacherMode(ctx);
     await requireAdmin(ctx);
     const { profile } = await requireOrgsProfile(ctx);
     const rows = await ctx.db.query("organisations").withIndex("by_status", (q) => q.eq("status", "verified")).take(500);

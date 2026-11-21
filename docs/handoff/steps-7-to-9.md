@@ -102,5 +102,5 @@ TEACHER_MODE and MARKETPLACE_MODE each take off, admins or on. "admins" shows th
 
 - [x] Step 7
 - [x] Step 8
-- [ ] Step 9
+- [x] Step 9
 - [ ] FINISH

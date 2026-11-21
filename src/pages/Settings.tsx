@@ -10,6 +10,7 @@ import { supportSettings, VOICES, voiceOf, type SupportNeed } from "../../convex
 import { errorText } from "../access";
 import { AppShell } from "../components/Layout";
 import { SettingsClasses } from "../classes/SettingsClasses";
+import { SettingsMoney } from "../market/SettingsMoney";
 import { SettingsOrgs } from "../orgs/SettingsOrgs";
 import { SupportPicker } from "../components/SupportPicker";
 import { Switch } from "../components/Switch";
@@ -102,6 +103,7 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
         </section>
         <SettingsClasses profile={profile} adult={adult} />
         <SettingsOrgs adult={adult} />
+        <SettingsMoney />
         </div>
 
         <div className="settings-col">

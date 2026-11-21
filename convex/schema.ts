@@ -144,11 +144,14 @@ export default defineSchema({
     testReview: v.optional(v.boolean()),
     /** A learner's copy of a course pack: the pack's sources and tools are read from the pack, never copied (convex/packs). */
     packId: v.optional(v.id("coursePacks")),
-    /** The pack version this copy's review cards were last brought up to. */
+    /** The pack or listing version this copy's review cards were last brought up to. */
     packVersion: v.optional(v.number()),
+    /** A buyer's copy of a marketplace listing, read from the listing like a course pack while the purchase or rental lasts (convex/market). */
+    listingId: v.optional(v.id("listings")),
   })
     .index("by_profile", ["profileId", "updatedAt"])
     .index("by_pack", ["packId", "profileId"])
+    .index("by_listing", ["listingId", "profileId"])
     .index("by_organisation", ["organisationId"]),
 
   sources: defineTable({
@@ -500,4 +503,165 @@ export default defineSchema({
     cachedPromptUsdPerToken: v.number(),
     refreshedAt: v.number(),
   }).index("by_model", ["model"]),
+
+  // ---------- Notes marketplace (Step 9, behind MARKETPLACE_MODE; convex/market) ----------
+
+  /** An adult who sells notes. The real name and mobile money number are for payouts only. Kept after the account goes while money is owed. */
+  sellers: defineTable({
+    /** Unset once the seller's account is deleted. */
+    profileId: v.optional(v.id("profiles")),
+    realName: v.string(),
+    payoutNumber: v.string(),
+    rightsAgreedAt: v.number(),
+    termsVersion: v.string(),
+    createdAt: v.number(),
+    deletedAt: v.optional(v.number()),
+  }).index("by_profile", ["profileId"]),
+
+  /**
+   * A notebook made into something to buy or rent, published like a course
+   * pack: the sources are copied once into the listing's own notebook (no
+   * account owns it) and the tools are made once. sourceIds and outputIds are
+   * the live version; `pending` is a version waiting for the owner's approval.
+   */
+  listings: defineTable({
+    sellerId: v.id("sellers"),
+    /** The seller's profile. Unset once their account is deleted. */
+    profileId: v.optional(v.id("profiles")),
+    title: v.string(),
+    subject: v.string(),
+    level: v.string(),
+    exam: v.string(),
+    description: v.string(),
+    /** How many of the first pages anyone may read before buying (0 to 3). */
+    previewCount: v.number(),
+    /** Price to buy, in US cents. Unset when it can only be rented; 0 means free. */
+    buyCents: v.optional(v.number()),
+    /** Rental prices in US cents, by length. */
+    rentCents: v.optional(v.object({ d7: v.optional(v.number()), d30: v.optional(v.number()), d90: v.optional(v.number()) })),
+    masterNotebookId: v.optional(v.id("notebooks")),
+    /** The listing's own copy, made at the first submit. */
+    notebookId: v.optional(v.id("notebooks")),
+    status: v.union(v.literal("draft"), v.literal("live"), v.literal("removed")),
+    version: v.number(),
+    sourceIds: v.array(v.id("sources")),
+    outputIds: v.array(v.id("outputs")),
+    pending: v.optional(
+      v.object({
+        sourceIds: v.array(v.id("sources")),
+        outputIds: v.array(v.id("outputs")),
+        /** Why the owner should look closely (convex/market/rules.ts, examPaperFlag). */
+        flag: v.optional(v.string()),
+        /** New words for a live listing, shown once this version is approved. */
+        details: v.optional(v.object({ title: v.string(), subject: v.string(), level: v.string(), exam: v.string(), description: v.string() })),
+      }),
+    ),
+    /** When the pending version was sent for approval; indexed for the owner's queue. */
+    pendingAt: v.optional(v.number()),
+    /** Failed the under 18 checks at approval: shown to adults only. */
+    adultsOnly: v.optional(v.boolean()),
+    /** Reported and waiting for the owner's decision: no new buyers meanwhile. */
+    hiddenAt: v.optional(v.number()),
+    /** What the seller is told: adults only, or why a version was not approved. */
+    sellerNote: v.optional(v.string()),
+    /** The seller stopped selling: no new buyers; people who bought keep it. */
+    closedAt: v.optional(v.number()),
+    sellerGoneAt: v.optional(v.number()),
+    sales: v.number(),
+    ratingSum: v.number(),
+    ratingCount: v.number(),
+    publishingSince: v.optional(v.number()),
+    liveAt: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_seller", ["sellerId", "createdAt"])
+    .index("by_status", ["status", "liveAt"])
+    .index("by_pending", ["pendingAt"])
+    .index("by_notebook", ["notebookId"])
+    .index("by_master", ["masterNotebookId"]),
+
+  /** One checkout: what the buyer chose, before the payment provider says yes or no. */
+  checkouts: defineTable({
+    listingId: v.id("listings"),
+    buyerProfileId: v.id("profiles"),
+    kind: v.union(v.literal("buy"), v.literal("rent")),
+    days: v.optional(v.number()),
+    amountCents: v.number(),
+    provider: v.string(),
+    status: v.union(v.literal("open"), v.literal("paid"), v.literal("failed")),
+    createdAt: v.number(),
+  }).index("by_buyer", ["buyerProfileId", "createdAt"]),
+
+  /** A sale or rental. Access lasts while it is active, and for a rental until endsAt. */
+  purchases: defineTable({
+    listingId: v.id("listings"),
+    /** Unset once the buyer's account is deleted. */
+    buyerProfileId: v.optional(v.id("profiles")),
+    kind: v.union(v.literal("buy"), v.literal("rent")),
+    days: v.optional(v.number()),
+    amountCents: v.number(),
+    provider: v.string(),
+    method: v.string(),
+    reference: v.string(),
+    startsAt: v.number(),
+    endsAt: v.optional(v.number()),
+    status: v.union(v.literal("active"), v.literal("ended"), v.literal("refunded")),
+    refundedAt: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_buyer", ["buyerProfileId", "createdAt"])
+    .index("by_listing_buyer", ["listingId", "buyerProfileId"]),
+
+  /** Money in and out, one row per sale, rental or refund. A refund is a reversing row with negative amounts. */
+  ledger: defineTable({
+    purchaseId: v.id("purchases"),
+    listingId: v.id("listings"),
+    sellerId: v.id("sellers"),
+    buyerProfileId: v.optional(v.id("profiles")),
+    amountCents: v.number(),
+    commissionCents: v.number(),
+    sellerCents: v.number(),
+    provider: v.string(),
+    status: v.union(v.literal("paid"), v.literal("refund")),
+    createdAt: v.number(),
+  })
+    .index("by_seller", ["sellerId", "createdAt"])
+    .index("by_purchase", ["purchaseId"])
+    .index("by_buyer", ["buyerProfileId"])
+    .index("by_created", ["createdAt"]),
+
+  /** Money the owner paid a seller, by hand. Nothing is paid out automatically. */
+  payouts: defineTable({
+    sellerId: v.id("sellers"),
+    amountCents: v.number(),
+    paidOn: v.string(),
+    reference: v.string(),
+    createdAt: v.number(),
+  }).index("by_seller", ["sellerId", "createdAt"]),
+
+  /** A buyer's rating and short review, one per buyer per listing. */
+  reviews: defineTable({
+    listingId: v.id("listings"),
+    profileId: v.id("profiles"),
+    stars: v.number(),
+    text: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_listing", ["listingId", "createdAt"])
+    .index("by_profile", ["profileId", "listingId"]),
+
+  /** A report on a listing, and the owner's decision. */
+  reports: defineTable({
+    listingId: v.id("listings"),
+    /** Unset once the reporter's account is deleted. */
+    profileId: v.optional(v.id("profiles")),
+    reason: v.union(v.literal("copyright"), v.literal("exam_paper"), v.literal("wrong"), v.literal("harmful")),
+    note: v.string(),
+    createdAt: v.number(),
+    decidedAt: v.optional(v.number()),
+    decision: v.optional(v.union(v.literal("restored"), v.literal("removed"))),
+  })
+    .index("by_listing", ["listingId", "createdAt"])
+    .index("by_decided", ["decidedAt", "createdAt"])
+    .index("by_profile", ["profileId"]),
 });

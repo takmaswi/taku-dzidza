@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "output_check",
+    "listing": "Leaf notes desktop",
+    "tool": "quiz"
+  },
+  "response": {
+    "content": "{\"verdict\":\"allow\",\"reason\":\"school work\"}",
+    "usage": {
+      "promptTokens": 420,
+      "completionTokens": 12
+    }
+  }
+}

@@ -205,7 +205,7 @@ export const finish = internalMutation({
 export type PublishResult = { ok: true; version: number } | { ok: false; message: string };
 
 /** Copies the master's sources into the pack's notebook; returns the copies, in the master's order. */
-async function copySources(ctx: Parameters<typeof makeTool>[0], copyId: Id<"notebooks">, masterSources: readonly Id<"sources">[]): Promise<Id<"sources">[]> {
+export async function copySources(ctx: Parameters<typeof makeTool>[0], copyId: Id<"notebooks">, masterSources: readonly Id<"sources">[]): Promise<Id<"sources">[]> {
   const out: Id<"sources">[] = [];
   for (const fromId of masterSources) {
     const started: { id: Id<"sources">; done: boolean } = await ctx.runMutation(internal.packs.publish.beginCopy, { copyId, fromId });
