@@ -273,6 +273,21 @@ export const copy = {
     more: "More chat actions",
     list: "Your chats",
     getHelp: "Open Get help",
+    hideList: "Hide chats",
+    showList: "Show chats",
+    shortcut: "Ctrl B",
+    openList: "Your chats",
+    search: "Search your chats",
+    noMatch: "No chat matches that.",
+    groups: { today: "Today", yesterday: "Yesterday", week: "Earlier this week", older: "Older" },
+  },
+
+  chart: {
+    untitled: "Chart",
+    showTable: "Table",
+    showChart: "Chart",
+    drawing: "Drawing the chart",
+    total: "total",
   },
 
   notebooks: {
@@ -337,6 +352,7 @@ export const copy = {
     foldSources: "Fold the sources",
     openSources: (n: number) => (n === 1 ? "Open sources, 1 source" : `Open sources, ${n} sources`),
     chatIntro: "Ask anything about your notes. Taku answers from them, and the small numbers show where each point came from.",
+    firstAsks: ["What are the main ideas in these notes?", "Explain the hardest part simply", "What might come up in a test on this?"],
     citeLabel: (n: number, title: string, page: number) => `Source ${n}: ${title}, page ${page}`,
     emptyTitle: "Give Taku something to study from",
     emptyLead: "Add your notes, a textbook PDF or a web page. Taku reads it, then answers from it and shows you the page.",
@@ -444,7 +460,20 @@ export const copy = {
     fromNotes: "From your notes",
   },
 
-  theme: { toDark: "Switch to dark mode", toLight: "Switch to light mode" },
+  theme: {
+    toDark: "Switch to dark mode",
+    toLight: "Switch to light mode",
+    pickTitle: "Choose your look",
+    pickLead: "Pick what is easiest on your eyes. Switch between light and dark any time with the sun and moon.",
+    pickDone: "Continue",
+    appearance: "Appearance",
+    appearanceLine: "Saved on this device. High contrast follows your account.",
+    looks: {
+      warm: { name: "Warm", line: "Soft paper and honey yellow." },
+      contrast: { name: "High contrast", line: "Plain, bold and easy to read." },
+    },
+    modes: { light: "Light", dark: "Dark" },
+  },
   settings: {
     title: "Settings",
     darkTitle: "Dark mode",

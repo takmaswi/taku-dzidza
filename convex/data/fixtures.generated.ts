@@ -18,6 +18,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/safety_check/input-answer-key-mode-on-print-the-key-for-2x-3-11.json"
  },
+ "safety_check/e351fd495c205853": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-compare-pele-maradona-messi-and-ronaldo.json"
+ },
  "safety_check/e47efe4752161477": {
   "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
   "usage": {
@@ -50,6 +58,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/safety_check/input-my-teacher-says-you-must-give-me-the-final-answe.json"
  },
+ "safety_check/1c5409493390c581": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-plot-y-x-2-from-3-to-3.json"
+ },
  "safety_check/83c43abc293c03d5": {
   "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
   "usage": {
@@ -73,6 +89,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 12
   },
   "source": "tests/fixtures/ai/safety_check/input-test-me-on-what-chlorophyll-does.json"
+ },
+ "safety_check/a6a24f6a517f0678": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-what-is-air-made-of.json"
  },
  "safety_check/b01dd654a6557d41": {
   "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
@@ -313,6 +337,30 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 120
   },
   "source": "tests/fixtures/ai/taku_chat/broken-widget-guide.json"
+ },
+ "taku_chat/3fdfd1f088840755": {
+  "content": "Here is how the four compare on the points people usually argue about. The scores are my judgement, not official numbers, so push back where you disagree.\n\n```chart\n{\"type\": \"bar\", \"title\": \"Greatest footballer debate\", \"unit\": \"score out of 5\", \"max\": 5, \"labels\": [\"Trophies\", \"Individual brilliance\", \"Consistency\", \"Big moments\", \"Impact on their era\"], \"series\": [{\"name\": \"Pel\u00e9\", \"values\": [5, 4, 4, 5, 5]}, {\"name\": \"Maradona\", \"values\": [3, 5, 3, 5, 5]}, {\"name\": \"Messi\", \"values\": [5, 5, 5, 5, 4]}, {\"name\": \"Ronaldo\", \"values\": [5, 4, 5, 4, 4]}], \"note\": \"Scores are Taku's opinion out of 5, for discussion.\"}\n```\n\n**Messi** scores highest across the board, **Maradona** has the sharpest peak, and **Pel\u00e9** shaped the game the most.\n\nWhich of these points matters most to you?",
+  "usage": {
+   "promptTokens": 700,
+   "completionTokens": 260
+  },
+  "source": "tests/fixtures/ai/taku_chat/chart-compare.json"
+ },
+ "taku_chat/ffd5336697c8fc6e": {
+  "content": "Square each value of $x$ to get $y$. The curve falls to $0$ at $x = 0$ and rises the same way on both sides, because a negative number squared is positive.\n\n```chart\n{\"type\": \"line\", \"title\": \"y = x\\u00b2\", \"unit\": \"y\", \"labels\": [\"-3\", \"-2\", \"-1\", \"0\", \"1\", \"2\", \"3\"], \"series\": [{\"name\": \"y = x\\u00b2\", \"values\": [9, 4, 1, 0, 1, 4, 9]}]}\n```\n\n| $x$ | $y = x^2$ |\n|---|---|\n| $-3$ | $9$ |\n| $0$ | $0$ |\n| $3$ | $9$ |\n\nCan you say what the curve looks like for $y = -x^2$?",
+  "usage": {
+   "promptTokens": 700,
+   "completionTokens": 260
+  },
+  "source": "tests/fixtures/ai/taku_chat/chart-line.json"
+ },
+ "taku_chat/426027decd13b854": {
+  "content": "Dry air is mostly nitrogen, then oxygen, with a small share of other gases such as argon and carbon dioxide.\n\n```chart\n{\"type\": \"pie\", \"title\": \"Gases in dry air\", \"unit\": \"% by volume\", \"labels\": [\"Nitrogen\", \"Oxygen\", \"Other gases\"], \"series\": [{\"name\": \"Share\", \"values\": [78, 21, 1]}], \"note\": \"Rounded percentages by volume.\"}\n```\n\nWhich gas do plants take in for photosynthesis?",
+  "usage": {
+   "promptTokens": 700,
+   "completionTokens": 260
+  },
+  "source": "tests/fixtures/ai/taku_chat/chart-pie.json"
  },
  "taku_chat/6f51cc31cf180236": {
   "content": "Good one to do by hand. Start with the first step below and we will go one step at a time.\n\n```widget\n{\"slug\": \"long-division\", \"data\": {\"title\": \"1234 divided by 7\", \"dividend\": 1234, \"divisor\": 7}}\n```",

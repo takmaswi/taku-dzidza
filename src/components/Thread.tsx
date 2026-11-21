@@ -2,7 +2,8 @@ import { ArrowDown, Check, Copy, Info, Square, Volume2 } from "lucide-react";
 import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { copy } from "../copy/en";
 import { BrandMark } from "./BrandMark";
-import { speakable } from "./math";
+import { withChartsAsText } from "./chartSpec";
+import { prettyPlain, speakable } from "./math";
 
 const NEAR = 120;
 
@@ -73,7 +74,7 @@ export function LearnerBubble({ text, testId }: { text: string; testId: string }
   return (
     <article className="msg learner rise" data-testid={testId}>
       <span className="sr-only">{copy.chat.you}: </span>
-      <p>{text}</p>
+      <p>{prettyPlain(text)}</p>
     </article>
   );
 }
@@ -129,8 +130,10 @@ export function Typing() {
 }
 
 /** Copy and read aloud, under every answer. */
-export function CopyAndRead({ text }: { text: string }) {
+export function CopyAndRead({ text: reply }: { text: string }) {
   const t = copy.thread;
+  // Charts copy and read as plain sentences, never as their JSON.
+  const text = withChartsAsText(reply);
   const [copied, setCopied] = useState(false);
   const [speaking, setSpeaking] = useState(false);
   const canSpeak = typeof window !== "undefined" && "speechSynthesis" in window;

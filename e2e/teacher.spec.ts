@@ -46,7 +46,7 @@ async function firstRun(page: Page): Promise<{ code: string; steps: number }> {
 }
 
 async function learnerPage(browser: Browser, info: TestInfo): Promise<Page> {
-  const context = await browser.newContext({ ...(phone(info) ? { viewport: { width: 360, height: 780 }, isMobile: true, hasTouch: true } : { viewport: { width: 1280, height: 800 } }) });
+  const context = await browser.newContext({ storageState: "e2e/look-chosen.json", ...(phone(info) ? { viewport: { width: 360, height: 780 }, isMobile: true, hasTouch: true } : { viewport: { width: 1280, height: 800 } }) });
   return await context.newPage();
 }
 

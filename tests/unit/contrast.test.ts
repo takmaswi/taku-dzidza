@@ -88,10 +88,29 @@ const DARK: [string, string][] = [
   ["d-text", "d-page"],
 ];
 
+/** High contrast dark, where AAA (7) is the bar for text. */
+const HC_DARK: [string, string][] = [
+  ["hc-text", "hc-page"],
+  ["hc-text", "hc-raised"],
+  ["hc-text", "hc-pick"],
+  ["hc-accent", "hc-page"],
+  ["hc-accent", "hc-raised"],
+  ["hc-danger", "hc-page"],
+  ["hc-ok", "hc-page"],
+  ["ink", "hc-text"],
+  ["ink", "hc-accent"],
+];
+
 describe("contrast", () => {
   for (const [fg, bg] of [...LIGHT, ...DARK]) {
     test(`${fg} on ${bg} is at least 4.5`, () => {
       expect(ratio(token(fg), token(bg))).toBeGreaterThanOrEqual(4.5);
+    });
+  }
+
+  for (const [fg, bg] of HC_DARK) {
+    test(`high contrast: ${fg} on ${bg} is at least 7`, () => {
+      expect(ratio(token(fg), token(bg))).toBeGreaterThanOrEqual(7);
     });
   }
 

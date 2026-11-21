@@ -49,7 +49,7 @@ test("a 14 year old waits for a guardian, who consents from the link with a phon
   const link = await page.getByTestId("consent-link").inputValue();
   expect(link).toContain("/consent/");
 
-  const guardianContext = await browser.newContext();
+  const guardianContext = await browser.newContext({ storageState: "e2e/look-chosen.json" });
   const guardian = await guardianContext.newPage();
   await guardian.goto(link);
   await expect(guardian.getByText(/Tafara would like to use Takudzidza/)).toBeVisible();

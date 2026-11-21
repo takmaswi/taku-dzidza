@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "Compare Pele, Maradona, Messi and Ronaldo",
+    "answerMode": "answer"
+  },
+  "response": {
+    "content": "Here is how the four compare on the points people usually argue about. The scores are my judgement, not official numbers, so push back where you disagree.\n\n```chart\n{\"type\": \"bar\", \"title\": \"Greatest footballer debate\", \"unit\": \"score out of 5\", \"max\": 5, \"labels\": [\"Trophies\", \"Individual brilliance\", \"Consistency\", \"Big moments\", \"Impact on their era\"], \"series\": [{\"name\": \"Pelé\", \"values\": [5, 4, 4, 5, 5]}, {\"name\": \"Maradona\", \"values\": [3, 5, 3, 5, 5]}, {\"name\": \"Messi\", \"values\": [5, 5, 5, 5, 4]}, {\"name\": \"Ronaldo\", \"values\": [5, 4, 5, 4, 4]}], \"note\": \"Scores are Taku's opinion out of 5, for discussion.\"}\n```\n\n**Messi** scores highest across the board, **Maradona** has the sharpest peak, and **Pelé** shaped the game the most.\n\nWhich of these points matters most to you?",
+    "usage": {
+      "promptTokens": 700,
+      "completionTokens": 260
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "keyMaterial": {
+    "kind": "input_check",
+    "question": "What is air made of"
+  },
+  "response": {
+    "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+    "usage": {
+      "promptTokens": 420,
+      "completionTokens": 12
+    }
+  }
+}

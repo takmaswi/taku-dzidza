@@ -53,7 +53,8 @@ let ok = false;
 try {
   if (!bundle.includes("<script>")) throw new Error("the build has no prerendered landing page; run pnpm build, not vite build");
   browser = await chromium.launch(process.env.E2E_CHROMIUM ? { executablePath: process.env.E2E_CHROMIUM } : {});
-  const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  // Past the first run look picker, which has its own journey.
+  const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, storageState: { cookies: [], origins: [{ origin: ORIGIN, localStorage: [{ name: "takudzidza-look-chosen", value: "yes" }] }] } });
   page.on("console", (m) => {
     if (m.type() === "error") problems.push(`console: ${m.text()}`);
   });

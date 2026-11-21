@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "Plot y = x^2 from -3 to 3",
+    "answerMode": "answer"
+  },
+  "response": {
+    "content": "Square each value of $x$ to get $y$. The curve falls to $0$ at $x = 0$ and rises the same way on both sides, because a negative number squared is positive.\n\n```chart\n{\"type\": \"line\", \"title\": \"y = x\\u00b2\", \"unit\": \"y\", \"labels\": [\"-3\", \"-2\", \"-1\", \"0\", \"1\", \"2\", \"3\"], \"series\": [{\"name\": \"y = x\\u00b2\", \"values\": [9, 4, 1, 0, 1, 4, 9]}]}\n```\n\n| $x$ | $y = x^2$ |\n|---|---|\n| $-3$ | $9$ |\n| $0$ | $0$ |\n| $3$ | $9$ |\n\nCan you say what the curve looks like for $y = -x^2$?",
+    "usage": {
+      "promptTokens": 700,
+      "completionTokens": 260
+    }
+  }
+}

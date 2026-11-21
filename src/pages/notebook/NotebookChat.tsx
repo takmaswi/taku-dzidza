@@ -65,8 +65,15 @@ export function NotebookChat({
     <div className="chat-pane">
       <Thread follow={`${lastLength}:${messages[messages.length - 1]?.stage ?? ""}`} testId="notebook-thread">
         {messages.length === 0 && (
-          <div className="thread-intro">
+          <div className="thread-intro rise">
             <p className="lead">{t.chatIntro}</p>
+            <div className="chips">
+              {t.firstAsks.map((q) => (
+                <button key={q} type="button" className="chip" onClick={() => void send(q)} disabled={busy}>
+                  <Sparkles size={14} aria-hidden="true" /> {q}
+                </button>
+              ))}
+            </div>
           </div>
         )}
         {messages.map((m, i) => {

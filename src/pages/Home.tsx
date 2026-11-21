@@ -11,6 +11,7 @@ import { HomeClasses } from "../classes/HomeClasses";
 import { AppShell } from "../components/Layout";
 import { ObjectArt } from "../components/ObjectArt";
 import { skyFor } from "../components/sky";
+import { prettyPlain } from "../components/math";
 import { copy } from "../copy/en";
 
 function today(): string {
@@ -160,7 +161,7 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
                       <MessageCircle size={18} aria-hidden="true" />
                     </span>
                     <span>
-                      <b>{lastChat.title}</b>
+                      <b>{prettyPlain(lastChat.title)}</b>
                       <small>{copy.nav.chat}</small>
                     </span>
                     <ArrowRight size={18} aria-hidden="true" />
@@ -239,7 +240,7 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
           <div className="chips">
             {starters.map((s, i) => (
               <button key={s} type="button" className="chip rise" style={{ ["--i" as string]: i }} onClick={() => void ask(s)} disabled={busy}>
-                <Sparkles size={14} aria-hidden="true" /> {s}
+                <Sparkles size={14} aria-hidden="true" /> {prettyPlain(s)}
               </button>
             ))}
           </div>

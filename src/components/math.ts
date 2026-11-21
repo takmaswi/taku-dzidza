@@ -80,3 +80,10 @@ export function speakable(text: string): string {
     .replace(/\s+/g, " ")
     .trim();
 }
+
+const SUPER: Record<string, string> = { "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹", "-": "⁻", n: "ⁿ" };
+
+/** Typed maths in a title or a chip, made readable without KaTeX: x^2 shows as x². Only for display; the text sent stays as typed. */
+export function prettyPlain(text: string): string {
+  return text.replace(/\^\(?(-?[0-9n]+)\)?/g, (_all, p: string) => [...p].map((c) => SUPER[c] ?? c).join(""));
+}

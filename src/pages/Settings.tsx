@@ -11,12 +11,12 @@ import { AppShell } from "../components/Layout";
 import { SettingsClasses } from "../classes/SettingsClasses";
 import { StylePicker } from "../components/StylePicker";
 import { Switch } from "../components/Switch";
-import { useThemeMode } from "../components/ThemeToggle";
-import { setThemeMode } from "../theme";
+import { ThemePicker } from "../components/ThemePicker";
 import { copy } from "../copy/en";
 
 type Access = Doc<"profiles">["accessibility"];
-const ACCESS_KEYS: (keyof Access)[] = ["dyslexia", "largeText", "readAloud", "shortChunks", "highContrast", "reducedMotion"];
+// High contrast is chosen with the looks in Appearance, beside light and dark.
+const ACCESS_KEYS: (keyof Access)[] = ["dyslexia", "largeText", "readAloud", "shortChunks", "reducedMotion"];
 
 export default function Settings({ profile, email }: { profile: Doc<"profiles">; email: string }) {
   const t = copy.settings;
@@ -34,7 +34,6 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
   // Switches move at once; the server copy follows (and the theme with it).
   const [access, setAccess] = useState<Access>(profile.accessibility);
   const [analytics, setAnalyticsOn] = useState(profile.analyticsConsent === true);
-  const themeMode = useThemeMode();
   const adult = ageOn(profile.birthYear, profile.birthMonth, new Date()) >= ADULT_AGE;
 
   return (
@@ -90,16 +89,13 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
 
         <div className="settings-col">
         <section className="panel">
+          <h2>{copy.theme.appearance}</h2>
+          <p className="soft small-text">{copy.theme.appearanceLine}</p>
+          <ThemePicker access={access} onAccess={setAccess} />
+        </section>
+
+        <section className="panel">
           <h2>{t.accessTitle}</h2>
-          <div className="toggle-row">
-            <label htmlFor="a-dark" style={{ margin: 0 }}>
-              {t.darkTitle}
-              <small className="soft" style={{ display: "block", fontWeight: 400 }}>
-                {t.darkLine}
-              </small>
-            </label>
-            <Switch id="a-dark" label={t.darkTitle} checked={themeMode === "dark"} onChange={(on) => setThemeMode(on ? "dark" : "light")} />
-          </div>
           {ACCESS_KEYS.map((key) => (
             <div className="toggle-row" key={key}>
               <label htmlFor={`a-${key}`} style={{ margin: 0 }}>

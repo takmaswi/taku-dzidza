@@ -1,6 +1,6 @@
 import { useAction, useMutation, usePaginatedQuery, useQuery } from "convex/react";
-import { MoreHorizontal, Plus, Sparkles, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { MessagesSquare, MoreHorizontal, PanelLeftClose, PanelLeftOpen, Plus, Sparkles, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
@@ -12,8 +12,10 @@ import { AppShell } from "../components/Layout";
 import { Markdown } from "../components/Markdown";
 import { ObjectArt } from "../components/ObjectArt";
 import { CopyAndRead, LearnerBubble, TakuMessage, Thread, Typing } from "../components/Thread";
-import { useMedia, WIDE } from "../components/hooks";
-import { Menu } from "../components/ui";
+import { ChatList } from "../components/ChatList";
+import { useMedia, useStored, WIDE } from "../components/hooks";
+import { prettyPlain } from "../components/math";
+import { Menu, Sheet } from "../components/ui";
 import { copy } from "../copy/en";
 import { WidgetHost } from "../widgets/WidgetHost";
 
@@ -42,6 +44,22 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
   const [pending, setPending] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [now] = useState(() => Date.now());
+  // The past chats panel: open by default on wide screens, folded away when the learner wants the whole width. Kept on this device.
+  const [listPref, setListPref] = useStored("takudzidza-chat-list");
+  const listOpen = listPref !== "closed";
+  const toggleList = () => setListPref(listOpen ? "closed" : "open");
+  const [sheet, setSheet] = useState(false);
+  useEffect(() => {
+    // Ctrl B or Cmd B folds and opens the panel, as in most editors.
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && e.key.toLowerCase() === "b" && wide) {
+        e.preventDefault();
+        setListPref(listOpen ? "closed" : "open");
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [wide, listOpen, setListPref]);
   const messages = data?.messages ?? [];
   const starters = copy.home.starters[profile.studyingFor ?? "olevel"];
   const last = messages[messages.length - 1];
@@ -71,6 +89,7 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
   };
 
   const title = data?.chat.title ?? t.newChat;
+  const listLabel = listOpen ? t.hideList : t.showList;
   const bar = (
     <>
       {!wide && (
@@ -78,7 +97,16 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
           <BrandMark />
         </Link>
       )}
-      <h1 className="bar-title">{data?.chat.title ?? t.title}</h1>
+      {wide ? (
+        <button type="button" className="icon-button list-toggle" aria-label={listLabel} title={`${listLabel} (${t.shortcut})`} aria-expanded={listOpen} aria-controls="chat-list" onClick={toggleList}>
+          {listOpen ? <PanelLeftClose size={20} aria-hidden="true" /> : <PanelLeftOpen size={20} aria-hidden="true" />}
+        </button>
+      ) : (
+        <button type="button" className="icon-button" aria-label={t.openList} title={t.openList} onClick={() => setSheet(true)}>
+          <MessagesSquare size={20} aria-hidden="true" />
+        </button>
+      )}
+      <h1 className="bar-title">{prettyPlain(data?.chat.title ?? t.title)}</h1>
       <span className="spacer" />
       <Link to="/chat" className="pill ghost small">
         <Plus size={16} aria-hidden="true" />
@@ -107,34 +135,21 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
 
   return (
     <AppShell scroll="panes" tabs={false} bar={bar} title={title}>
-      <div className="workspace chat-workspace">
+      <div className={`workspace chat-workspace${listOpen ? "" : " list-closed"}`}>
         {wide && (
-          <aside className="chat-list" aria-label={t.list}>
+          <aside className="chat-list" id="chat-list" aria-label={t.list} inert={!listOpen}>
             <div className="rail-head">
               <h2>{t.list}</h2>
             </div>
             <div className="rail-body">
-              {chats.length === 0 ? (
-                <p className="soft small-text">{copy.home.noChats}</p>
-              ) : (
-                <ul className="past-chats">
-                  {chats.map((c) => (
-                    <li key={c._id}>
-                      <Link to={`/chat/${c._id}`} aria-current={c._id === id ? "page" : undefined}>
-                        <b>{c.title}</b>
-                        <small>{new Date(c.updatedAt).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</small>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {chatsStatus === "CanLoadMore" && (
-                <button type="button" className="link" onClick={() => loadMore(20)}>
-                  {t.older}
-                </button>
-              )}
+              <ChatList chats={chats} current={id} canLoadMore={chatsStatus === "CanLoadMore"} onLoadMore={() => loadMore(20)} />
             </div>
           </aside>
+        )}
+        {!wide && sheet && (
+          <Sheet title={t.list} onClose={() => setSheet(false)} testId="chat-sheet">
+            <ChatList chats={chats} current={id} canLoadMore={chatsStatus === "CanLoadMore"} onLoadMore={() => loadMore(20)} onPick={() => setSheet(false)} />
+          </Sheet>
         )}
         <section className="ws-center">
           <div className="chat-pane">
@@ -147,7 +162,7 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
                   <div className="chips">
                     {starters.map((s) => (
                       <button key={s} type="button" className="chip" onClick={() => void submit(s)}>
-                        <Sparkles size={14} aria-hidden="true" /> {s}
+                        <Sparkles size={14} aria-hidden="true" /> {prettyPlain(s)}
                       </button>
                     ))}
                   </div>

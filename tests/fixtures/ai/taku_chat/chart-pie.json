@@ -1,0 +1,14 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "What is air made of",
+    "answerMode": "answer"
+  },
+  "response": {
+    "content": "Dry air is mostly nitrogen, then oxygen, with a small share of other gases such as argon and carbon dioxide.\n\n```chart\n{\"type\": \"pie\", \"title\": \"Gases in dry air\", \"unit\": \"% by volume\", \"labels\": [\"Nitrogen\", \"Oxygen\", \"Other gases\"], \"series\": [{\"name\": \"Share\", \"values\": [78, 21, 1]}], \"note\": \"Rounded percentages by volume.\"}\n```\n\nWhich gas do plants take in for photosynthesis?",
+    "usage": {
+      "promptTokens": 700,
+      "completionTokens": 260
+    }
+  }
+}

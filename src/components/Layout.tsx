@@ -1,11 +1,13 @@
 import { useQuery } from "convex/react";
 import { BookOpen, Home, Layers, LifeBuoy, MessageCircle, Settings, X } from "lucide-react";
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
-import { Link, NavLink, useLocation } from "react-router";
+import { Link, useLocation } from "react-router";
 import { api } from "../../convex/_generated/api";
 import { copy } from "../copy/en";
 import { BrandMark, Lockup } from "./BrandMark";
 import { SignedInContext } from "./signedIn";
+import { lookPicked, markLookPicked } from "../theme";
+import { ThemeWelcome } from "./ThemePicker";
 import { ThemeToggle } from "./ThemeToggle";
 
 /**
@@ -65,12 +67,13 @@ export function AppShell({ children, bar, title, scroll = "page", tabs = true }:
   const name = me?.profile?.displayName ?? "";
   const active = activeIndex(pathname);
   const items = [
-    { to: "/", label: n.home, Icon: Home, end: true },
+    { to: "/", label: n.home, Icon: Home },
     { to: "/chat", label: n.chat, Icon: MessageCircle },
     { to: "/notebooks", label: n.notebooks, Icon: BookOpen },
     { to: reviewTo, label: n.review, Icon: Layers, badge: dueCount },
     { to: "/settings", label: n.settings, Icon: Settings },
   ];
+  const [welcome, setWelcome] = useState(() => !lookPicked());
   const indicator = { ["--active" as string]: Math.max(active, 0), opacity: active < 0 ? 0 : 1 } as CSSProperties;
 
   return (
@@ -82,12 +85,12 @@ export function AppShell({ children, bar, title, scroll = "page", tabs = true }:
           </Link>
           <div className="rail-items">
             <span className="rail-indicator" style={indicator} aria-hidden="true" />
-            {items.map(({ to, label, Icon, end, badge }, i) => (
-              <NavLink key={label} to={to} end={end} className={i === active ? "active" : undefined} aria-current={i === active ? "page" : undefined}>
+            {items.map(({ to, label, Icon, badge }, i) => (
+              <Link key={label} to={to} className={i === active ? "active" : undefined} aria-current={i === active ? "page" : undefined}>
                 <Icon size={20} aria-hidden="true" />
                 <span>{label}</span>
                 {badge !== undefined && badge > 0 && <span className="badge">{badge}</span>}
-              </NavLink>
+              </Link>
             ))}
           </div>
           <ThemeToggle className="icon-button rail-theme" />
@@ -105,7 +108,7 @@ export function AppShell({ children, bar, title, scroll = "page", tabs = true }:
               </Link>
               <span className="topbar-title">{title ?? copy.appName}</span>
               <span className="spacer" />
-              <ThemeToggle />
+              <ThemeToggle className="icon-button bar-theme" />
               <Link to="/help" className="pill ghost small">
                 <LifeBuoy size={16} aria-hidden="true" />
                 <span className="hide-narrow">{copy.menu.help}</span>
@@ -114,18 +117,27 @@ export function AppShell({ children, bar, title, scroll = "page", tabs = true }:
             </>
           )}
         </header>
+        {ready && welcome && me?.profile != null && (
+          <ThemeWelcome
+            access={me.profile.accessibility}
+            onDone={() => {
+              markLookPicked();
+              setWelcome(false);
+            }}
+          />
+        )}
         <main className={`app-main${scroll === "panes" ? " panes" : ""}`}>
           <SignedInContext.Provider value={ready}>{children}</SignedInContext.Provider>
         </main>
         {ready && tabs && (
           <nav className="tabbar" aria-label="Main">
             <span className="tab-indicator" style={indicator} aria-hidden="true" />
-            {items.map(({ to, label, Icon, end, badge }, i) => (
-              <NavLink key={label} to={to} end={end} className={i === active ? "active" : undefined} aria-current={i === active ? "page" : undefined}>
+            {items.map(({ to, label, Icon, badge }, i) => (
+              <Link key={label} to={to} className={i === active ? "active" : undefined} aria-current={i === active ? "page" : undefined}>
                 <Icon size={20} aria-hidden="true" />
                 {label}
                 {badge !== undefined && badge > 0 && <span className="badge">{badge}</span>}
-              </NavLink>
+              </Link>
             ))}
           </nav>
         )}

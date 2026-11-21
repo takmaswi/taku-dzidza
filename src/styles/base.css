@@ -152,7 +152,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--ink); outline: n
 .highlight { position: relative; white-space: nowrap; z-index: 0; }
 /* A strip of honey bookcloth laid under the word, cut a little unevenly. In dark mode it drops to an underline so cream text keeps its contrast. */
 .highlight::after { content: ""; position: absolute; left: -0.12em; right: -0.16em; bottom: 0.06em; height: 0.5em; z-index: -1; background: var(--pick-fill); border-radius: 3px 7px 4px 8px; transform: rotate(-1deg); }
-:root[data-theme="dark"][data-shell="app"]:not([data-contrast="true"]) .highlight::after { background: var(--cloth-tex) 0 0 / 512px 512px, var(--cloth-honey); height: 0.16em; bottom: -0.08em; }
+:root[data-theme="dark"][data-shell="app"] .highlight::after { background: var(--cloth-tex) 0 0 / 512px 512px, var(--cloth-honey); height: 0.16em; bottom: -0.08em; }
 
 /* Motion. Off when the learner or the phone asks. */
 @keyframes rise { from { opacity: 0; transform: translateY(calc(12px * var(--speed))); } to { opacity: 1; transform: none; } }

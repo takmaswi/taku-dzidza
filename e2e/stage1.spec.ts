@@ -58,7 +58,7 @@ test("a guardian deletes the learner's account from the consent link", async ({ 
   await page.getByRole("button", { name: /link/i }).first().click();
   const link = await page.getByTestId("consent-link").inputValue();
 
-  const guardianContext = await browser.newContext();
+  const guardianContext = await browser.newContext({ storageState: "e2e/look-chosen.json" });
   const guardian = await guardianContext.newPage();
   await guardian.goto(link);
   await guardian.getByLabel("Your full name").fill("Rudo Moyo");

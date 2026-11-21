@@ -21,6 +21,8 @@ export default defineConfig({
     // A machine with a preinstalled browser of another version sets E2E_CHROMIUM to its path.
     launchOptions: process.env.E2E_CHROMIUM ? { executablePath: process.env.E2E_CHROMIUM } : {},
     screenshot: "only-on-failure",
+    // The first run look picker is its own journey (e2e/looks.spec.ts); every other journey starts past it.
+    storageState: "e2e/look-chosen.json",
   },
   projects: [
     // 360 wide: the narrowest common Android phone (SPEC.md 3.7).

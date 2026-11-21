@@ -4,7 +4,11 @@
 
 @media (min-width: 900px) {
   .workspace { grid-template-columns: auto minmax(0, 1fr) auto; }
-  .chat-workspace { grid-template-columns: 260px minmax(0, 1fr); }
+  .chat-workspace { grid-template-columns: 272px minmax(0, 1fr); transition: grid-template-columns calc(0.3s * var(--speed)) var(--ease); }
+  .chat-workspace.list-closed { grid-template-columns: 0px minmax(0, 1fr); }
+  .chat-list { overflow: hidden; min-width: 0; transition: opacity calc(0.2s * var(--speed)) var(--ease), visibility 0s linear 0s; }
+  .chat-list > * { min-width: 272px; }
+  .list-closed .chat-list { opacity: 0; visibility: hidden; border-right-width: 0; transition: opacity calc(0.15s * var(--speed)) var(--ease), visibility 0s linear calc(0.3s * var(--speed)); }
 }
 
 .sources-rail, .study-panel, .chat-list {
@@ -21,7 +25,7 @@
   height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; padding: 0.9rem 0;
   background: none; border: 0; cursor: pointer; color: var(--text-soft); font: inherit;
 }
-.rail-strip:hover { color: var(--text); background: rgb(17 17 17 / 0.06); }
+.rail-strip:hover { color: var(--text); background: var(--hover); }
 .strip-count { min-width: 26px; height: 26px; border-radius: 999px; display: grid; place-items: center; background: var(--tint); color: var(--on-tint); font-weight: 600; font-size: 0.85rem; }
 /* Between 900 and 1199 px the tools panel slides over the chat. */
 @media (min-width: 900px) and (max-width: 1199px) {
@@ -37,7 +41,7 @@
 .nb-name, .bar-title { margin: 0; font-size: 1.05rem; font-weight: 600; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nb-name { display: flex; }
 .nb-name button { background: none; border: 0; padding: 0.3rem 0.45rem; border-radius: 8px; font: inherit; color: inherit; cursor: text; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.nb-name button:hover { background: rgb(17 17 17 / 0.08); }
+.nb-name button:hover { background: var(--hover); }
 .nb-name-input { min-height: 38px !important; max-width: 320px; font-weight: 600; }
 .count-chip { flex: none; padding: 0.3rem 0.7rem; font-size: 0.85rem; }
 @media (min-width: 900px) { .count-num { display: none; } }
@@ -58,7 +62,7 @@
 .search input { padding-left: 2.2rem; min-height: 40px; }
 .source-list { list-style: none; padding: 0; margin: 0 0 0.75rem; display: grid; gap: 0.25rem; }
 .source-list li { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.55rem 0.5rem; border-radius: 12px; }
-.source-list li:hover { background: rgb(17 17 17 / 0.06); }
+.source-list li:hover { background: var(--hover); }
 .source-icon { flex: none; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: var(--tint); color: var(--on-tint); }
 .source-text { flex: 1; min-width: 0; display: grid; }
 .source-text b { font-weight: 500; font-size: 0.92rem; word-break: break-word; }
@@ -80,7 +84,7 @@
 .dock { flex: none; width: 100%; max-width: calc(var(--reading) + 2 * clamp(0.85rem, 3vw, 1.5rem)); margin: 0 auto; padding: 0.4rem clamp(0.85rem, 3vw, 1.5rem) max(0.85rem, env(safe-area-inset-bottom, 0px)); }
 .dock .error { margin: 0.4rem 0 0; }
 .jump {
-  position: absolute; left: 50%; bottom: 0.75rem; transform: translateX(-50%); z-index: 5; display: inline-flex; align-items: center; gap: 0.4rem;
+  position: absolute; left: 0; right: 0; margin: 0 auto; width: fit-content; bottom: 0.75rem; z-index: 5; display: inline-flex; align-items: center; gap: 0.4rem;
   padding: 0.45rem 0.9rem; border-radius: 999px; border: 1px solid var(--line); background: var(--raised); color: var(--text); font: inherit; font-size: 0.85rem; font-weight: 500; cursor: pointer; box-shadow: var(--shadow-raised);
   animation: rise calc(0.25s * var(--speed)) var(--ease) both;
 }
@@ -227,7 +231,7 @@
 .made-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.25rem; }
 .made-list li { display: flex; align-items: center; gap: 0.25rem; }
 .made-open { flex: 1; min-width: 0; display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem; border-radius: 12px; border: 0; background: none; color: var(--text); font: inherit; text-align: left; cursor: pointer; }
-.made-open:hover { background: rgb(17 17 17 / 0.06); }
+.made-open:hover { background: var(--hover); }
 .made-open span { flex: 1; min-width: 0; display: grid; }
 .made-open b { font-weight: 500; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .panel-output { display: grid; gap: 0.75rem; }
@@ -236,9 +240,15 @@
 .panel-output h2 { font-size: 1.05rem; }
 
 /* ---------- Ask Taku ---------- */
-.past-chats { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.15rem; }
-.past-chats a { display: grid; padding: 0.55rem 0.6rem; border-radius: 12px; text-decoration: none; color: var(--text); }
-.past-chats a:hover { background: rgb(17 17 17 / 0.06); }
+.past-chats { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.1rem; }
+.chat-group + .chat-group { margin-top: 0.9rem; }
+.chat-group h3 { margin: 0 0 0.3rem; padding: 0 0.6rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-soft); }
+.chat-search { display: flex; align-items: center; gap: 0.45rem; margin: 0 0 0.9rem; padding: 0 0.7rem; height: 36px; border-radius: 12px; border: 1px solid var(--line); background: var(--raised); color: var(--text-soft); }
+.chat-search:focus-within { border-color: var(--line-strong); color: var(--text); }
+.chat-search input { flex: 1; min-width: 0; border: 0; background: none; padding: 0; font: inherit; font-size: 0.88rem; color: var(--text); outline: none; box-shadow: none; height: auto; }
+.list-toggle { margin-left: -0.35rem; }
+.past-chats a { display: grid; padding: 0.5rem 0.6rem; border-radius: 12px; text-decoration: none; color: var(--text); }
+.past-chats a:hover { background: var(--hover); }
 .past-chats a[aria-current="page"] { background: var(--pick); }
 .past-chats b { font-weight: 500; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .past-chats small { color: var(--text-soft); font-size: 0.76rem; }
@@ -249,3 +259,4 @@
 /* What a study tool is made from: sources, a chapter or a page range. */
 .tool-scope { border: 0; padding: 0; margin: 0 0 0.6rem; display: grid; gap: 0.35rem; min-width: 0; }
 .tool-scope legend { font-weight: 600; padding: 0; margin-bottom: 0.2rem; }
+.thread-intro .chips { margin-top: 1rem; }

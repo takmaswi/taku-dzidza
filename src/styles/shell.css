@@ -37,8 +37,8 @@
 .mark-auto { display: inline-grid; }
 .mark-auto > svg { grid-area: 1 / 1; width: 100%; height: 100%; }
 .mark-auto .mark-dark { visibility: hidden; }
-:root[data-theme="dark"][data-shell="app"]:not([data-contrast="true"]) .mark-auto .mark-light { visibility: hidden; }
-:root[data-theme="dark"][data-shell="app"]:not([data-contrast="true"]) .mark-auto .mark-dark { visibility: visible; }
+:root[data-theme="dark"][data-shell="app"] .mark-auto .mark-light { visibility: hidden; }
+:root[data-theme="dark"][data-shell="app"] .mark-auto .mark-dark { visibility: visible; }
 
 /* Phone tab bar: part of the column, not floating, so content never hides under it. Hidden while typing. */
 .tabbar {
@@ -138,3 +138,41 @@ body:has(.composer textarea:focus) .tabbar { display: none; }
 /* Light and dark switch in the rail, just above the avatar. */
 .rail .rail-theme { margin-top: auto; color: var(--text-soft); }
 .rail .rail-theme + .avatar { margin-top: 0.4rem; }
+
+/* On wide screens the rail holds the sun and moon, so the top bar does not repeat it. */
+@media (min-width: 900px) { .app:has(> .rail) .bar-theme { display: none; } }
+
+/* ---------- Looks: the theme picker and the first run dialog (src/components/ThemePicker.tsx) ---------- */
+.looks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; margin-top: 0.75rem; }
+@media (min-width: 640px) { .looks { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.look {
+  position: relative; display: grid; gap: 0.5rem; padding: 0.5rem; border-radius: 16px; border: 1px solid var(--line); background: var(--raised);
+  font: inherit; color: var(--text); text-align: left; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s, transform calc(0.15s * var(--speed)) var(--ease);
+}
+.look:hover { transform: translateY(calc(-2px * var(--speed))); box-shadow: var(--shadow-raised); }
+.look[aria-checked="true"] { border-color: var(--pick-line); box-shadow: 0 0 0 2px var(--pick-line); }
+.look-name { font-size: 0.85rem; padding: 0 0.2rem 0.15rem; color: var(--text-soft); }
+.look-name b { color: var(--text); font-weight: 600; }
+.look-tick { position: absolute; top: 0.85rem; right: 0.85rem; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--primary); color: var(--on-primary); }
+/* A tiny picture of the app in that look: rail, a card with two lines and a button, a chat bubble. */
+.look-art { position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 11px; overflow: hidden; --p: #fff8ec; --r: #fffdf8; --c: #fffdf8; --l: #f1e3bf; --t: #111111; --s: #8a7e6c; --b: #111111; --a: #f2c766; }
+.look-art.look-warm-light { background: url("/art/textures/paper-cotton.webp") 0 0 / 256px, var(--p); }
+.look-art.look-warm-dark { --p: #121212; --r: #1b1a18; --c: #262523; --l: #3b3936; --t: #fff8ec; --s: #8f887d; --b: #262523; --a: #f2c766; background: url("/art/textures/linen-charcoal.webp") 0 0 / 256px, var(--p); }
+.look-art.look-contrast-light { --p: #ffffff; --r: #ffffff; --c: #ffffff; --l: #111111; --t: #111111; --s: #111111; --b: #111111; --a: #f8e2a8; background: var(--p); }
+.look-art.look-contrast-dark { --p: #000000; --r: #000000; --c: #0d0d0d; --l: #ffffff; --t: #ffffff; --s: #ffffff; --b: #ffffff; --a: #ffd27a; background: var(--p); }
+.la-rail { position: absolute; left: 0; top: 0; bottom: 0; width: 17%; background: var(--r); border-right: 1px solid var(--l); }
+.la-rail::after { content: ""; position: absolute; left: 22%; right: 22%; top: 22%; height: 14%; border-radius: 5px; background: var(--a); }
+.la-card { position: absolute; left: 24%; right: 7%; top: 12%; height: 42%; border-radius: 8px; background: var(--c); border: 1px solid var(--l); }
+.la-line { position: absolute; left: 9%; height: 9%; border-radius: 4px; background: var(--t); opacity: 0.85; }
+.la-line.w1 { top: 20%; width: 56%; }
+.la-line.w2 { top: 42%; width: 40%; background: var(--s); }
+.la-pill { position: absolute; right: 8%; bottom: 16%; width: 26%; height: 20%; border-radius: 99px; background: var(--a); }
+.la-bubble { position: absolute; right: 7%; bottom: 10%; width: 38%; height: 16%; border-radius: 10px 10px 3px 10px; background: var(--b); border: 1px solid var(--l); }
+.look-dialog {
+  position: fixed; z-index: 71; inset: 0; margin: auto; height: fit-content; width: min(760px, calc(100vw - 2rem)); max-height: calc(100dvh - 2rem); overflow-y: auto;
+  padding: clamp(1.1rem, 3vw, 1.75rem); border-radius: 24px; background: var(--panel-fill); border: 1px solid var(--line); box-shadow: var(--shadow-lift);
+  animation: rise calc(0.25s * var(--speed)) var(--ease) both;
+}
+.look-dialog h2 { margin: 0 0 0.35rem; font-size: clamp(1.3rem, 1.1rem + 1vw, 1.6rem); }
+.look-dialog > p { margin: 0; }
+.look-dialog .actions { margin-top: 1.25rem; display: flex; justify-content: flex-end; }

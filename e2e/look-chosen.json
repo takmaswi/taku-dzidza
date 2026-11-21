@@ -1,0 +1,7 @@
+{
+  "cookies": [],
+  "origins": [
+    { "origin": "http://localhost:5199", "localStorage": [{ "name": "takudzidza-look-chosen", "value": "yes" }] },
+    { "origin": "http://localhost:5198", "localStorage": [{ "name": "takudzidza-look-chosen", "value": "yes" }] }
+  ]
+}

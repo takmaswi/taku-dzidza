@@ -45,3 +45,29 @@ export function applyTheme(profile: Pick<Doc<"profiles">, "studyStyle" | "access
   root.dataset.contrast = String(a?.highContrast ?? false);
   root.dataset.motion = a?.reducedMotion ? "off" : "on";
 }
+
+/** The two looks. Warm is the default; high contrast lives in the account's accessibility settings. Each has light and dark. */
+export type Look = "warm" | "contrast";
+const PICKED_KEY = "takudzidza-look-chosen";
+
+/** True once the learner has chosen a look on this device (the first run picker shows until then). */
+export function lookPicked(): boolean {
+  try {
+    return localStorage.getItem(PICKED_KEY) === "yes";
+  } catch {
+    return true;
+  }
+}
+
+export function markLookPicked(): void {
+  try {
+    localStorage.setItem(PICKED_KEY, "yes");
+  } catch {
+    // Storage blocked: the picker may show again next visit, which is harmless.
+  }
+}
+
+/** Shows a look at once, before the account copy comes back. */
+export function previewLook(look: Look): void {
+  document.documentElement.dataset.contrast = String(look === "contrast");
+}

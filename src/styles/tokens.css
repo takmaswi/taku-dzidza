@@ -2,6 +2,7 @@
  * Takudzidza design tokens. Light is the default: white and cream surfaces,
  * honey and butter yellows, black ink for text and pill buttons (SPEC.md
  * section 4). Dark is opt in only, set by the learner (data-theme="dark"),
+ * in both looks, warm and high contrast (data-contrast="true"),
  * never by the phone or computer setting. Neither mode uses brown surfaces
  * or brown text. No blue or cool tone anywhere (tests/unit/palette.test.ts). Every
  * text and background pair in use is checked in tests/unit/contrast.test.ts,
@@ -44,6 +45,15 @@
   --d-ok: #bccba8;
   --d-pick: #2c2a26;
 
+  /* High contrast dark: black, white text and lines, bright honey. Only when the learner picks it. */
+  --hc-page: #000000;
+  --hc-raised: #0d0d0d;
+  --hc-text: #ffffff;
+  --hc-accent: #ffd27a;
+  --hc-pick: #3a2e00;
+  --hc-danger: #ffb4a3;
+  --hc-ok: #cfe3b8;
+
   --text: var(--ink);
   --text-soft: var(--grey);
   --heading: var(--ink);
@@ -69,6 +79,7 @@
   --mark-line: var(--honey);
   --topbar: rgb(255 248 236 / 0.8);
   --scrim: rgb(17 17 17 / 0.45);
+  --hover: rgb(17 17 17 / 0.06);
   --brown-shadow: rgb(17 17 17 / 0.14);
 
   /* Real surfaces, made by tools/make-textures.py: seamless, high passed, drawn at 512 px. No gradients behind anything. */
@@ -134,6 +145,7 @@
   --mark-line: var(--d-accent);
   --topbar: rgb(18 18 18 / 0.82);
   --scrim: rgb(0 0 0 / 0.55);
+  --hover: rgb(255 248 236 / 0.07);
   --page-bg: var(--linen-tex) 0 0 / 512px 512px, var(--d-page);
   --panel-fill: var(--d-panel);
   --card-edge: inset 0 1px 0 rgb(255 255 255 / 0.05);
@@ -191,6 +203,48 @@
   --muted-text: var(--ink);
   --pick: var(--butter);
   --pick-line: var(--ink);
+}
+
+:root[data-contrast="true"] { --hover: rgb(17 17 17 / 0.1); }
+
+/* High contrast dark: the same plain, bordered surfaces in black and white. */
+:root[data-theme="dark"][data-shell="app"][data-contrast="true"] {
+  color-scheme: dark;
+  --text: var(--hc-text);
+  --text-soft: var(--hc-text);
+  --heading: var(--hc-text);
+  --accent-text: var(--hc-accent);
+  --on-tint: var(--ink);
+  --panel: var(--hc-page);
+  --raised: var(--hc-raised);
+  --sunken: var(--hc-page);
+  --line: var(--hc-text);
+  --line-strong: var(--hc-text);
+  --primary: var(--hc-accent);
+  --on-primary: var(--ink);
+  --dark-fill: var(--hc-text);
+  --on-dark: var(--ink);
+  --pick: var(--hc-pick);
+  --pick-line: var(--hc-accent);
+  --pick-fill: var(--hc-pick);
+  --pick-soft: var(--hc-text);
+  --bubble: var(--hc-text);
+  --on-bubble: var(--ink);
+  --danger: var(--hc-danger);
+  --ok: var(--hc-ok);
+  --mark-line: var(--hc-accent);
+  --topbar: rgb(0 0 0 / 0.94);
+  --scrim: rgb(0 0 0 / 0.7);
+  --hover: rgb(255 255 255 / 0.14);
+  --page-bg: var(--hc-page);
+  --panel-fill: var(--hc-page);
+  --card-edge: 0 0 0 0 transparent;
+  --muted-fill: var(--hc-page);
+  --muted-line: var(--hc-text);
+  --muted-text: var(--hc-text);
+  --shadow-panel: none;
+  --shadow-raised: none;
+  --shadow-lift: 0 0 0 2px var(--hc-text);
 }
 
 :root[data-motion="off"] {
