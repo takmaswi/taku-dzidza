@@ -14,6 +14,8 @@ test("an adult signs up, says what gets in the way, changes settings and deletes
 
   await expect(page.getByRole("heading", { name: "What are you studying for?" })).toBeVisible();
   await page.getByRole("button", { name: /A professional exam/ }).click();
+  await expect(page.getByRole("heading", { name: "Where do you study?" })).toBeVisible();
+  await page.getByRole("button", { name: "Next" }).click();
   await expect(page.getByRole("heading", { name: "What gets in the way when you study?" })).toBeVisible();
   await expect(page.getByTestId("support-sentence")).toContainText("Nothing changes for now");
   await page.getByLabel("Reading takes me a long time").check();

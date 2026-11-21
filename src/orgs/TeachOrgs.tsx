@@ -3,8 +3,9 @@ import { Link } from "react-router";
 import { api } from "../../convex/_generated/api";
 import { copy } from "../copy/en";
 import { OrgCodeBox } from "./OrgCodeBox";
+import { SetUpOrg } from "./SetUpOrg";
 
-/** On the Teach page: the organisations this teacher teaches at, and a box for a staff code. Folded away until opened. */
+/** On the Teach page: the organisations this teacher teaches at, a box for a staff code, and setting one up. Folded away until opened. */
 export function TeachOrgs() {
   const t = copy.orgs;
   const mine = useQuery(api.organisations.organisations.mine);
@@ -30,6 +31,7 @@ export function TeachOrgs() {
         )}
         <p className="soft">{t.teachLine}</p>
         <OrgCodeBox id="staff-code" />
+        <SetUpOrg />
       </div>
     </details>
   );

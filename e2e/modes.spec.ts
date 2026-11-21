@@ -64,6 +64,7 @@ test("onboarding: losing focus starts in Sprint, and test anxiety hides the coun
   await signUp(page, freshEmail(info.project.name, "e2e-support"));
   await setUp(page, "Nyasha", new Date().getFullYear() - 19);
   await page.getByRole("button", { name: /University or college/ }).click();
+  await page.getByRole("button", { name: "Next" }).click();
   await page.getByLabel("I lose focus easily").check();
   await page.getByLabel("Tests make me anxious").check();
   await expect(page.getByTestId("support-sentence")).toHaveText(

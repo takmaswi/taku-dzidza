@@ -1,11 +1,11 @@
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Authenticated, AuthLoading, Unauthenticated, useQuery } from "convex/react";
 import { lazy, Suspense, useEffect } from "react";
-import { Navigate, Route, Routes } from "react-router";
+import { Navigate, Route, Routes, useLocation } from "react-router";
 import { api } from "../convex/_generated/api";
 import type { Doc } from "../convex/_generated/dataModel";
 import { canStudyState } from "./access";
-import { useFlagsLoaded, useStoredJoin } from "./classes/flags";
+import { storedJoinCode, useClearStoredJoin, useFlagsLoaded } from "./classes/flags";
 import { copy } from "./copy/en";
 import { applyTheme } from "./theme";
 
@@ -98,8 +98,13 @@ function SignedIn() {
 
 function AppRoutes({ profile, email }: { profile: Doc<"profiles">; email: string }) {
   const flags = useFlagsLoaded();
-  useStoredJoin();
+  const { pathname } = useLocation();
+  // With classes off there is no join page, so a waiting code is dropped.
+  useClearStoredJoin(flags !== null && !flags.teacher);
   if (flags === null) return <p className="app-loading">{copy.loading}</p>;
+  const joinCode = flags.teacher ? storedJoinCode() : null;
+  const joinPath = joinCode === null ? null : `/join/${encodeURIComponent(joinCode)}`;
+  if (joinPath !== null && pathname !== joinPath) return <Navigate to={joinPath} replace />;
   return (
     <Routes>
       <Route path="/" element={<Home profile={profile} />} />

@@ -164,6 +164,9 @@ export const copy = {
     skip: "Skip",
     back: "Back",
     start: "Let's go",
+    whereTitle: "Where do you study?",
+    whereLead: "Optional. Find your school, college or workplace to follow it. If a teacher or admin gave you a code, type it below.",
+    next: "Next",
     stepLabel: (n: number, total: number) => `Step ${n} of ${total}`,
     forTitle: "What are you studying for?",
     forOptions: [
@@ -644,7 +647,7 @@ export const copy = {
     verifiedTag: "Checked",
     place: (town: string, country: string) => `${town}, ${country}`,
     pageNotFound: "This organisation is not available.",
-    yourRole: (role: string) => `You are a ${role.toLowerCase()} here.`,
+    yourRole: (role: string) => `Your role here: ${role.toLowerCase()}.`,
     followLine: "Following shows you what it shares. It does not share anything about you.",
     leave: "Leave",
     // Codes, for admins
@@ -673,6 +676,11 @@ export const copy = {
     mergeSearch: "Find the one that already exists",
     merge: "Merge",
     merged: (name: string) => `Merged into ${name}.`,
+    // Setting one up, adults only
+    setUp: "Set up my school or institution",
+    setUpTitle: "Set up a school or institution",
+    setUpLine: "You will be its admin and can make join codes straight away. It shows in search once it has been checked.",
+    setUpSubmit: "Set it up",
   },
   classes: {
     // Settings

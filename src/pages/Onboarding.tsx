@@ -6,6 +6,10 @@ import type { Doc } from "../../convex/_generated/dataModel";
 import type { SupportNeed } from "../../convex/accounts/voices";
 import { BrandMark } from "../components/BrandMark";
 import { SupportPicker, SupportSentence } from "../components/SupportPicker";
+import { useFlags } from "../classes/flags";
+import { OrgCodeBox } from "../orgs/OrgCodeBox";
+import { OrgSearch } from "../orgs/OrgSearch";
+import { orgTypesFor } from "../orgs/types";
 import { copy } from "../copy/en";
 
 type StudyingFor = NonNullable<Doc<"profiles">["studyingFor"]>;
@@ -13,20 +17,25 @@ const FOR_ICONS: Record<StudyingFor, typeof School> = { olevel: School, alevel: 
 
 /**
  * Onboarding after sign up, one question per screen with a progress bar:
- * what you are studying for, then an optional "What gets in the way when you
- * study?". Skip at the top keeps the age based defaults.
+ * what you are studying for, an optional "Where do you study?" (while
+ * TEACHER_MODE is on), then an optional "What gets in the way when you
+ * study?". Skip at the top keeps the age based defaults. Setting up a school
+ * or institution is never offered here; adults find it in Settings.
  */
 export default function Onboarding({ profile }: { profile: Doc<"profiles"> }) {
   const t = copy.onboarding;
   const setStudyingFor = useMutation(api.accounts.profiles.setStudyingFor);
   const finish = useMutation(api.accounts.profiles.finishOnboarding);
   const skip = useMutation(api.accounts.profiles.skipOnboarding);
-  const steps = ["for", "support"] as const;
+  const flags = useFlags();
+  const steps: readonly ("for" | "where" | "support")[] = flags.teacher ? ["for", "where", "support"] : ["for", "support"];
   const total = steps.length;
   const [step, setStep] = useState(0);
   const [support, setSupport] = useState<SupportNeed[]>(profile.support ?? []);
+  const [studyingFor, setFor] = useState<StudyingFor | undefined>(profile.studyingFor);
 
   const pickFor = (value: StudyingFor) => {
+    setFor(value);
     void setStudyingFor({ studyingFor: value });
     setStep(step + 1);
   };
@@ -72,6 +81,23 @@ export default function Onboarding({ profile }: { profile: Doc<"profiles"> }) {
                 </button>
               );
             })}
+          </div>
+        </section>
+      )}
+
+      {steps[step] === "where" && (
+        <section className="step-body step-in" key="where">
+          <div>
+            <span className="eyebrow">{t.stepLabel(step + 1, total)}</span>
+            <h1>{t.whereTitle}</h1>
+            <p className="lead soft">{t.whereLead}</p>
+          </div>
+          <OrgSearch types={orgTypesFor(studyingFor)} />
+          <OrgCodeBox />
+          <div className="actions">
+            <button type="button" className="pill" onClick={() => setStep(step + 1)}>
+              {t.next}
+            </button>
           </div>
         </section>
       )}

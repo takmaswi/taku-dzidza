@@ -69,7 +69,7 @@ export default function Teach() {
             <Plus size={16} aria-hidden="true" /> {t.newClass}
           </button>
         )}
-        {!first && <TeachOrgs />}
+        <TeachOrgs />
       </div>
     </AppShell>
   );

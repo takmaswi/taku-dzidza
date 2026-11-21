@@ -5,9 +5,10 @@ import { useFlags } from "../classes/flags";
 import { copy } from "../copy/en";
 import { OrgCodeBox } from "./OrgCodeBox";
 import { OrgSearch } from "./OrgSearch";
+import { SetUpOrg } from "./SetUpOrg";
 
-/** Settings while TEACHER_MODE is on: where you belong, what you follow, a code box, and search. */
-export function SettingsOrgs() {
+/** Settings while TEACHER_MODE is on: where you belong, what you follow, a code box, search, and for adults, setting one up. */
+export function SettingsOrgs({ adult }: { adult: boolean }) {
   const t = copy.orgs;
   const flags = useFlags();
   if (!flags.teacher) return null;
@@ -17,16 +18,11 @@ export function SettingsOrgs() {
       <p className="soft">{t.settingsLine}</p>
       <MyOrgs />
       <OrgCodeBox />
-      <FollowSearch />
+      <OrgSearch />
+      {adult && <SetUpOrg />}
       <OwnerLink />
     </section>
   );
-}
-
-function FollowSearch() {
-  const mine = useQuery(api.organisations.organisations.mine);
-  const followed = new Set<string>([...(mine?.follows ?? []).map((o) => o._id), ...(mine?.members ?? []).map((o) => o._id)]);
-  return <OrgSearch followed={followed} />;
 }
 
 export function MyOrgs() {

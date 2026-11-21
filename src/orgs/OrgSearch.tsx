@@ -14,13 +14,15 @@ import { ORG_TYPES, type OrgType } from "./types";
  */
 
 
-export function OrgSearch({ types, followed, onPick, pickLabel }: { types?: OrgType[]; followed?: Set<string>; onPick?: (id: Id<"organisations">, name: string) => void; pickLabel?: string }) {
+export function OrgSearch({ types, onPick, pickLabel }: { types?: OrgType[]; onPick?: (id: Id<"organisations">, name: string) => void; pickLabel?: string }) {
   const t = copy.orgs;
   const [text, setText] = useState("");
   const [adding, setAdding] = useState(false);
   const typed = text.trim().length >= 2;
   const results = useQuery(api.organisations.organisations.search, typed ? { text, types } : "skip");
   const follow = useMutation(api.organisations.organisations.follow);
+  const mine = useQuery(api.organisations.organisations.mine);
+  const followed = new Set<string>([...(mine?.follows ?? []), ...(mine?.members ?? [])].map((o) => o._id));
   const [error, setError] = useState<string | null>(null);
   return (
     <div className="stack">
@@ -46,7 +48,7 @@ export function OrgSearch({ types, followed, onPick, pickLabel }: { types?: OrgT
                 <button type="button" className="pill small" onClick={() => onPick(o._id, o.name)}>
                   {pickLabel ?? t.follow}
                 </button>
-              ) : followed?.has(o._id) ? (
+              ) : followed.has(o._id) ? (
                 <span className="tag">{t.following}</span>
               ) : (
                 <button type="button" className="pill small ghost" aria-label={`${t.follow} ${o.name}`} onClick={() => void follow({ organisationId: o._id }).catch((err: unknown) => setError(errorText(err, copy.errors.generic)))}>

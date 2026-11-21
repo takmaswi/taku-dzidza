@@ -1,5 +1,5 @@
 import { expect, test, type Browser, type Page, type TestInfo } from "@playwright/test";
-import { adultOnHome, PASSWORD, phone, setUp, signUp } from "./helpers";
+import { adultOnHome, freshEmail, PASSWORD, phone, setUp, signUp } from "./helpers";
 
 /**
  * Organisations (DECISIONS.md, Schools become organisations). The list starts
@@ -106,4 +106,77 @@ test("a stranger cannot open the owner page or see its link", async ({ page }, i
   await expect(page.getByRole("heading", { name: /What are we studying today/ })).toBeVisible();
   await page.goto("/settings");
   await expect(page.getByRole("link", { name: "Organisations to check" })).toHaveCount(0);
+});
+
+async function setUpFromSettings(page: Page, name: string, type: string) {
+  await page.goto("/settings");
+  await page.getByRole("button", { name: "Set up my school or institution" }).click();
+  await page.getByLabel("Full name").fill(name);
+  await page.getByLabel("Type", { exact: true }).selectOption({ label: type });
+  await page.getByLabel("Town or city").fill("Mutare");
+  await page.getByRole("button", { name: "Set it up" }).click();
+  await expect(page.getByRole("heading", { name })).toBeVisible();
+  await expect(page.getByText("Waiting to be checked")).toBeVisible();
+  await expect(page.getByText("Your role here: admin.")).toBeVisible();
+}
+
+test("an adult sets up a school, the owner lists it; a learner finds it by type in onboarding and joins with its code; a teacher joins with a staff code", async ({ page, browser }, info) => {
+  test.setTimeout(180_000);
+  const word = `Chido${String(Date.now()).slice(-6)}`;
+  const school = `${word} High School`;
+  const university = `${word} University`;
+
+  await adultOnHome(page, info, "e2e-org-admin", "Rumbi");
+  await setUpFromSettings(page, university, "University");
+  await setUpFromSettings(page, school, "Secondary school");
+  const learnerCode = ((await page.getByTestId("learner-code").textContent()) ?? "").replace("Learner code: ", "").trim();
+  expect(learnerCode).toMatch(/^[A-Z0-9]{6}$/);
+  await page.getByRole("button", { name: "Make a teacher code" }).click();
+  const staffList = page.getByRole("list", { name: "Staff codes" });
+  await expect(staffList).toContainText("for a teacher");
+  const teacherCode = ((await staffList.locator(".code-line").first().textContent()) ?? "").split(",")[0].trim();
+
+  const owner = await otherPage(browser, info);
+  await ownerSignedIn(owner, info);
+  await owner.goto("/owner/organisations");
+  for (const name of [school, university]) {
+    const row = owner.getByRole("listitem", { name });
+    await row.getByRole("button", { name: "List it" }).click();
+    await expect(row).toHaveCount(0);
+  }
+
+  // A learner doing A Level sees secondary schools only, follows one, then joins with its code, all in onboarding.
+  const learner = await otherPage(browser, info);
+  await signUp(learner, freshEmail(info.project.name, "e2e-org-learner"));
+  await setUp(learner, "Nyasha", new Date().getFullYear() - 19);
+  await learner.getByRole("button", { name: /A Level/ }).click();
+  await expect(learner.getByRole("heading", { name: "Where do you study?" })).toBeVisible();
+  await learner.getByLabel("Search by name").fill(word);
+  const results = learner.getByRole("list", { name: "Results" });
+  await expect(results.getByRole("listitem")).toHaveCount(1);
+  await expect(results).toContainText(school);
+  await expect(results).not.toContainText(university);
+  await expect(learner.getByRole("button", { name: "Set up my school or institution" })).toHaveCount(0);
+  await results.getByRole("button", { name: `Follow ${school}` }).click();
+  await expect(results.getByText("Following", { exact: true })).toBeVisible();
+  await learner.getByLabel("Have a code?").fill(learnerCode.toLowerCase());
+  await learner.getByRole("button", { name: "Join", exact: true }).click();
+  await expect(learner.getByRole("status")).toHaveText(`You joined ${school}.`);
+  await learner.getByRole("button", { name: "Next" }).click();
+  await learner.getByRole("button", { name: "Let's go" }).click();
+  await expect(learner.getByRole("heading", { name: /What are we studying today, Nyasha/ })).toBeVisible();
+  await learner.goto("/settings");
+  await expect(learner.getByRole("list", { name: "Yours" })).toContainText(`${school}Member: learner`);
+
+  // A teacher types the staff code on the Teach page.
+  const teacher = await otherPage(browser, info);
+  await adultOnHome(teacher, info, "e2e-org-teacher", "Farai");
+  await teacher.goto("/settings");
+  await teacher.getByRole("switch", { name: "I teach" }).check();
+  await teacher.getByRole("link", { name: "Open your classes" }).click();
+  await teacher.getByText("Your school or institution").click();
+  await teacher.getByLabel("Have a code?").fill(teacherCode);
+  await teacher.getByRole("button", { name: "Join", exact: true }).click();
+  await expect(teacher.getByRole("status")).toHaveText(`You joined ${school} as teacher.`);
+  await expect(teacher.getByRole("list", { name: "Your school or institution" })).toContainText(`${school} Member: teacher`);
 });

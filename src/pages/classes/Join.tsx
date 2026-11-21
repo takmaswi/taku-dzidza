@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router";
-import { JOIN_KEY } from "../../classes/flags";
+import { JOIN_KEY, useClearStoredJoin } from "../../classes/flags";
 import { JoinForm } from "../../classes/shared";
 import { AppShell, Layout } from "../../components/Layout";
 import { copy } from "../../copy/en";
@@ -30,6 +30,7 @@ export default function Join() {
   const t = copy.classes;
   const { code = "" } = useParams();
   const navigate = useNavigate();
+  useClearStoredJoin();
   return (
     <AppShell title={t.joinPageTitle}>
       <div className="narrow panel stack">

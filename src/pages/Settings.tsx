@@ -101,7 +101,7 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
           </div>
         </section>
         <SettingsClasses profile={profile} adult={adult} />
-        <SettingsOrgs />
+        <SettingsOrgs adult={adult} />
         </div>
 
         <div className="settings-col">

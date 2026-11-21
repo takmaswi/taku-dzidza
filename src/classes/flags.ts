@@ -1,6 +1,5 @@
 import { useQuery } from "convex/react";
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
 import { api } from "../../convex/_generated/api";
 
 /** TEACHER_MODE and BOOKS_MODE for the app (convex/flags.ts), and the join link kept across sign in. */
@@ -18,13 +17,17 @@ export function useFlagsLoaded(): Flags | null {
   return useQuery(api.flags.get) ?? null;
 }
 
-/** Sends a signed in learner to the join page if they opened a join link before signing in. */
-export function useStoredJoin(): void {
-  const navigate = useNavigate();
+/**
+ * A join link opened before signing in: the code waiting in storage, read
+ * while rendering so the routes send the learner there before any other
+ * redirect runs. The join page clears it once open (clearStoredJoin).
+ */
+export function storedJoinCode(): string | null {
+  return window.localStorage.getItem(JOIN_KEY);
+}
+
+export function useClearStoredJoin(when = true): void {
   useEffect(() => {
-    const code = window.localStorage.getItem(JOIN_KEY);
-    if (code === null) return;
-    window.localStorage.removeItem(JOIN_KEY);
-    navigate(`/join/${encodeURIComponent(code)}`, { replace: true });
-  }, [navigate]);
+    if (when) window.localStorage.removeItem(JOIN_KEY);
+  }, [when]);
 }
