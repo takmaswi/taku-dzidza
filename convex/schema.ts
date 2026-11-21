@@ -37,6 +37,9 @@ export const originValidator = v.union(
 );
 /** An interactive widget attached to an answer or stored as a study tool (convex/widgets). */
 export const widgetValidator = v.object({ slug: v.string(), data: v.any() });
+/** Roles an adult account can add (Stage 2). Every account is a learner. */
+export const roleValidator = v.union(v.literal("teacher"), v.literal("guardian"), v.literal("school_admin"));
+export const perQuestionValidator = v.array(v.object({ number: v.number(), got: v.number(), marks: v.number() }));
 
 export default defineSchema({
   ...authTables,
@@ -65,6 +68,8 @@ export default defineSchema({
     /** Set when deletion starts: the account is hidden and signed out, then emptied in batches (convex/privacy/purge.ts). */
     deletingAt: v.optional(v.number()),
     deletionReason: v.optional(deletionReasonValidator),
+    /** Teacher, guardian, school admin (convex/classes). Adults only. */
+    roles: v.optional(v.array(roleValidator)),
     createdAt: v.number(),
   }).index("by_user", ["userId"]).index("by_consent_state", ["consentState", "createdAt"]).index("by_deleting", ["deletingAt"]),
 
@@ -87,6 +92,8 @@ export default defineSchema({
     givenAt: v.number(),
     /** When the guardian typed the code sent to guardianContact. Older consents predate the code. */
     phoneVerifiedAt: v.optional(v.number()),
+    /** Set when the guardian gave consent signed in to their own adult account; that account may then approve classes (convex/classes). */
+    guardianProfileId: v.optional(v.id("profiles")),
     withdrawnAt: v.optional(v.number()),
   }).index("by_profile", ["profileId"]).index("by_request", ["requestId"]),
 
@@ -133,6 +140,8 @@ export default defineSchema({
     sections: v.optional(v.array(sectionValidator)),
     /** When every chunk got its embedding. Unset means keyword search only for this source. */
     embeddedAt: v.optional(v.number()),
+    /** Pages from a published book the owner does not hold the rights to share. Never shown to a class. */
+    thirdParty: v.optional(v.boolean()),
   }).index("by_notebook", ["notebookId", "createdAt"]).index("by_storage", ["storageId"]),
 
   /**
@@ -255,7 +264,7 @@ export default defineSchema({
   aiUsageDaily: defineTable({ day: v.string(), scope: v.string(), calls: v.number(), costUsd: v.number() }).index("by_day_scope", ["day", "scope"]).index("by_scope", ["scope"]),
 
   /** How many things a learner started in the current minute (convex/ai/usage.ts). One row per learner and kind. */
-  aiStarts: defineTable({ profileId: v.string(), kind: v.union(v.literal("ask"), v.literal("read"), v.literal("upload")), windowStart: v.number(), count: v.number() }).index("by_profile_kind", ["profileId", "kind"]),
+  aiStarts: defineTable({ profileId: v.string(), kind: v.union(v.literal("ask"), v.literal("read"), v.literal("upload"), v.literal("code")), windowStart: v.number(), count: v.number() }).index("by_profile_kind", ["profileId", "kind"]),
 
   /** The deployment passed a share of its daily cap. Read by the owner with npx convex run ai/usage:alerts. */
   spendAlerts: defineTable({ day: v.string(), percent: v.number(), costUsd: v.number(), capUsd: v.number(), createdAt: v.number() }).index("by_day_percent", ["day", "percent"]),
@@ -271,6 +280,97 @@ export default defineSchema({
 
   /** Where a sweep that walks a whole table got to, so each run carries on (convex/privacy/retention.ts). */
   sweepCursors: defineTable({ name: v.string(), value: v.number() }).index("by_name", ["name"]),
+
+  // ---- Stage 2: teachers, classes and guardians (convex/classes) --------------
+
+  /** A school. The admin shares the staff code; teachers join with it. */
+  schools: defineTable({ name: v.string(), adminProfileId: v.id("profiles"), staffCode: v.string(), createdAt: v.number() })
+    .index("by_admin", ["adminProfileId"])
+    .index("by_staff_code", ["staffCode"]),
+  schoolStaff: defineTable({ schoolId: v.id("schools"), profileId: v.id("profiles"), role: v.union(v.literal("admin"), v.literal("teacher")), joinedAt: v.number() })
+    .index("by_school", ["schoolId"])
+    .index("by_profile", ["profileId"]),
+
+  /** A teacher's class. Learners join with the code, a link or a QR code. */
+  classes: defineTable({
+    teacherProfileId: v.id("profiles"),
+    schoolId: v.optional(v.id("schools")),
+    name: v.string(),
+    subject: v.string(),
+    level: v.string(),
+    /** A syllabus pack id (convex/curriculum). */
+    syllabusId: v.optional(v.string()),
+    code: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_teacher", ["teacherProfileId"])
+    .index("by_code", ["code"])
+    .index("by_school", ["schoolId"]),
+
+  /** A learner in a class. An under 18 waits for a guardian (pending) before the teacher sees them as joined. */
+  enrolments: defineTable({
+    classId: v.id("classes"),
+    learnerProfileId: v.id("profiles"),
+    status: v.union(v.literal("pending"), v.literal("approved"), v.literal("declined")),
+    requestedAt: v.number(),
+    decidedAt: v.optional(v.number()),
+    decidedBy: v.optional(v.union(v.literal("adult"), v.literal("guardian"), v.literal("teacher"))),
+  })
+    .index("by_class", ["classId", "status"])
+    .index("by_learner", ["learnerProfileId"]),
+
+  /** A learner without an account, for a class that shares one phone: a first name the teacher typed. */
+  rosterNames: defineTable({ classId: v.id("classes"), firstName: v.string(), createdAt: v.number() }).index("by_class", ["classId"]),
+
+  /** A guardian's link to a child's own account. */
+  guardianLinks: defineTable({ guardianProfileId: v.id("profiles"), childProfileId: v.id("profiles"), createdAt: v.number() })
+    .index("by_guardian", ["guardianProfileId"])
+    .index("by_child", ["childProfileId"]),
+  /** A one time code a guardian gives a child to link their accounts. Only the hash is stored. */
+  childCodes: defineTable({ guardianProfileId: v.id("profiles"), codeHash: v.string(), firstName: v.string(), createdAt: v.number(), expiresAt: v.number(), usedAt: v.optional(v.number()) })
+    .index("by_code", ["codeHash"])
+    .index("by_guardian", ["guardianProfileId"]),
+
+  /** A teacher's own notebook shared with a class, view only. */
+  classShares: defineTable({ classId: v.id("classes"), notebookId: v.id("notebooks"), sharedAt: v.number() })
+    .index("by_class", ["classId"])
+    .index("by_notebook", ["notebookId"]),
+
+  /** A quiz or practice paper set for a class. The paper is a copy, so later edits never reach learners. */
+  assignments: defineTable({
+    classId: v.id("classes"),
+    teacherProfileId: v.id("profiles"),
+    outputId: v.id("outputs"),
+    title: v.string(),
+    content: v.any(),
+    /** The topic of each question, for results by topic. */
+    topics: v.array(v.object({ number: v.number(), topic: v.string() })),
+    createdAt: v.number(),
+  }).index("by_class", ["classId", "createdAt"]),
+
+  /**
+   * Marks for one learner on one assignment: from the app, typed by the
+   * teacher, or read from a photographed script. Marks read from a photo stay
+   * a draft until the teacher confirms them; check lists the questions the
+   * second opinion did not agree with.
+   */
+  classMarks: defineTable({
+    assignmentId: v.id("assignments"),
+    classId: v.id("classes"),
+    learnerProfileId: v.optional(v.id("profiles")),
+    rosterId: v.optional(v.id("rosterNames")),
+    via: v.union(v.literal("app"), v.literal("hand"), v.literal("photo")),
+    perQuestion: perQuestionValidator,
+    score: v.number(),
+    total: v.number(),
+    confirmed: v.boolean(),
+    check: v.optional(v.array(v.number())),
+    notes: v.optional(v.array(v.object({ number: v.number(), answer: v.string(), reason: v.string() }))),
+    createdAt: v.number(),
+  })
+    .index("by_assignment", ["assignmentId"])
+    .index("by_class", ["classId"])
+    .index("by_learner", ["learnerProfileId"]),
 
   modelPrices: defineTable({
     model: v.string(),

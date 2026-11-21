@@ -3,7 +3,9 @@ import { Authenticated, AuthLoading, Unauthenticated, useQuery } from "convex/re
 import { lazy, Suspense, useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { api } from "../convex/_generated/api";
+import type { Doc } from "../convex/_generated/dataModel";
 import { canStudyState } from "./access";
+import { useFlagsLoaded, useStoredJoin } from "./classes/flags";
 import { copy } from "./copy/en";
 import { applyTheme } from "./theme";
 
@@ -22,6 +24,15 @@ const Review = lazy(() => import("./pages/Review"));
 const GetHelp = lazy(() => import("./pages/GetHelp"));
 const Consent = lazy(() => import("./pages/Consent"));
 const Legal = lazy(() => import("./pages/Legal"));
+const Teach = lazy(() => import("./pages/teach/Teach"));
+const ClassPage = lazy(() => import("./pages/teach/ClassPage"));
+const MarkSheet = lazy(() => import("./pages/teach/MarkSheet"));
+const LearnerClass = lazy(() => import("./pages/classes/LearnerClass"));
+const SharedOutput = lazy(() => import("./pages/classes/LearnerClass").then((m) => ({ default: m.SharedOutput })));
+const ClassWork = lazy(() => import("./pages/classes/ClassWork"));
+const Join = lazy(() => import("./pages/classes/Join"));
+const JoinSignedOut = lazy(() => import("./pages/classes/Join").then((m) => ({ default: m.JoinSignedOut })));
+const Family = lazy(() => import("./pages/classes/Family"));
 
 /**
  * Takudzidza routes. Public: "/", "/signin", "/help", "/privacy", "/terms" and
@@ -48,6 +59,7 @@ export default function App() {
                 <Routes>
                   <Route path="/" element={<Landing />} />
                   <Route path="/signin" element={<SignIn />} />
+                  <Route path="/join/:code" element={<JoinSignedOut />} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </Unauthenticated>
@@ -79,16 +91,35 @@ function SignedIn() {
   if (profile === null) return <Setup />;
   if (!canStudyState(profile.consentState)) return <Guardian state={profile.consentState} />;
   if (!profile.styleChosen) return <StyleQuiz profile={profile} />;
+  return <AppRoutes profile={profile} email={me.email} />;
+}
+
+function AppRoutes({ profile, email }: { profile: Doc<"profiles">; email: string }) {
+  const flags = useFlagsLoaded();
+  useStoredJoin();
+  if (flags === null) return <p className="app-loading">{copy.loading}</p>;
   return (
     <Routes>
       <Route path="/" element={<Home profile={profile} />} />
-      <Route path="/settings" element={<Settings profile={profile} email={me.email} />} />
+      <Route path="/settings" element={<Settings profile={profile} email={email} />} />
       <Route path="/chat" element={<Chat profile={profile} />} />
       <Route path="/chat/:chatId" element={<Chat profile={profile} />} />
       <Route path="/notebooks" element={<Notebooks />} />
       <Route path="/n/:id" element={<Notebook profile={profile} />} />
       <Route path="/n/:id/o/:outputId" element={<Output profile={profile} />} />
       <Route path="/n/:id/review" element={<Review />} />
+      {flags.teacher && (
+        <>
+          <Route path="/teach" element={<Teach />} />
+          <Route path="/teach/:classId" element={<ClassPage />} />
+          <Route path="/teach/:classId/a/:assignmentId" element={<MarkSheet />} />
+          <Route path="/class/:classId" element={<LearnerClass />} />
+          <Route path="/class/:classId/o/:outputId" element={<SharedOutput profile={profile} />} />
+          <Route path="/class/:classId/a/:assignmentId" element={<ClassWork />} />
+          <Route path="/join/:code" element={<Join />} />
+          <Route path="/family" element={<Family />} />
+        </>
+      )}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

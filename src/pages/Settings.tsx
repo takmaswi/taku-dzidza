@@ -8,6 +8,7 @@ import type { Doc } from "../../convex/_generated/dataModel";
 import { ADULT_AGE, ageOn } from "../../convex/accounts/age";
 import { errorText } from "../access";
 import { AppShell } from "../components/Layout";
+import { SettingsClasses } from "../classes/SettingsClasses";
 import { StylePicker } from "../components/StylePicker";
 import { Switch } from "../components/Switch";
 import { useThemeMode } from "../components/ThemeToggle";
@@ -84,6 +85,7 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
             })}
           </div>
         </section>
+        <SettingsClasses profile={profile} adult={adult} />
         </div>
 
         <div className="settings-col">

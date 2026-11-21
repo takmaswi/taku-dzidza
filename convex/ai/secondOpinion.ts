@@ -12,8 +12,14 @@ import type { RouterResult } from "./router";
  */
 
 export type OpinionItem = { id: string; text: string };
-export type OpinionCheck = "ideas" | "marking";
+export type OpinionCheck = "ideas" | "marking" | "script";
 export type Opinion = { rejected: ReadonlySet<string>; unchecked: ReadonlySet<string> };
+
+const CHECKS: Record<OpinionCheck, string> = {
+  marking: "Each item is an exam question with its answer and marking points. Say ok false if the answer or a marking point is wrong, or does not answer the question.",
+  ideas: "Each item is a study note a tutor added from general knowledge. Say ok false if it states something false or misleading.",
+  script: "Each item is an exam question, its marking scheme, a learner's answer as read from their script, and the marks a marker gave. Say ok false if the marks given do not follow the marking scheme for that answer.",
+};
 
 const SCHEMA = {
   name: "second_opinion",
@@ -55,7 +61,7 @@ export async function secondOpinion(ctx: ActionCtx, args: { profileId: string; c
     tier: "fast",
     purpose: "second_opinion",
     messages: [
-      { role: "system", content: PROMPTS["second-opinion"].replace("{{CHECK}}", args.check === "marking" ? "Each item is an exam question with its answer and marking points. Say ok false if the answer or a marking point is wrong, or does not answer the question." : "Each item is a study note a tutor added from general knowledge. Say ok false if it states something false or misleading.") },
+      { role: "system", content: PROMPTS["second-opinion"].replace("{{CHECK}}", CHECKS[args.check]) },
       { role: "user", content: block },
     ],
     jsonSchema: SCHEMA,

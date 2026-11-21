@@ -1,0 +1,21 @@
+/* Stage 2: teachers, classes and guardians. Existing tokens only; no new colours, except the QR code, which scanners need black on white. */
+.class-list,
+.plain-list { list-style: none; margin: 0; padding: 0; }
+.class-list > li + li,
+.plain-list > li + li { margin-top: 0.6rem; }
+.plain-list.indent { padding-left: 1.6rem; margin-top: 0.5rem; }
+.stack-tight > * + * { margin-top: 0.4rem; }
+.actions.wrap { flex-wrap: wrap; }
+.class-code { font-family: var(--mono); font-size: 2rem; font-weight: 500; letter-spacing: 0.18em; margin: 0; color: var(--heading); }
+.code-line { font-family: var(--mono); margin: 0; }
+.qr { display: block; border-radius: 8px; box-shadow: 0 0 0 1px var(--line); }
+.check-row { display: flex; gap: 0.6rem; align-items: flex-start; cursor: pointer; }
+.check-row input { margin-top: 0.2rem; }
+.status-label { margin-left: 0.4rem; }
+.results-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.results-table th,
+.results-table td { text-align: left; padding: 0.45rem 0.5rem; border-bottom: 1px solid var(--line); }
+.results-table th { font-weight: 600; color: var(--text-soft); font-size: 0.85rem; }
+.marks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: 0.75rem; }
+.marks-grid .field.flagged { box-shadow: inset 3px 0 0 var(--danger); padding-left: 0.6rem; }
+.file-pick { position: relative; cursor: pointer; }

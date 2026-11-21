@@ -163,3 +163,32 @@ The site published on 13 November (`index-BSaZHnIA.js`) was built with `VITE_CON
 
 - `npx convex run notebooks/uploads:backfill` gives each account its byte count from files it already holds.
 - `npx convex run ai/embeddings:backfill` embeds existing chunks (it also runs daily). It spends money: about USD 0.02 per million tokens, counted against the caps.
+
+## Stage 2: teacher foundation (16 November 2026)
+
+Behind `TEACHER_MODE` (Convex env, default off). Every function in `convex/classes` refuses while it is off, and `flags:get` tells the app to hide the pages.
+
+### Provenance
+
+| Takudzidza file | From | Changes |
+| --- | --- | --- |
+| `convex/classes/codes.ts` | amayi-learn `convex/accounts/rules.ts` at `290e4b4` ("names, PINs and codes") | Codes and first names only; adds join link, WhatsApp text and link |
+| `convex/classes/schools.ts` | amayi-learn `convex/classes/classes.ts` at `290e4b4` ("schools") | Roles on the one account instead of a separate grown up profile and unlock PIN; school admin role; a teacher's classes move into the school they make or join |
+| `convex/classes/classes.ts` | amayi-learn `convex/classes/classes.ts` at `290e4b4` ("classes", roster) | Subject, form and syllabus id instead of grade; first names from the display name; listed names for a class that shares one phone |
+| `convex/classes/joining.ts` | amayi-learn `requestJoin` and `decide` in the same file | Learners have their own accounts: adults are in at once, under 18s wait for a guardian |
+| `convex/classes/guardians.ts`, `convex/classes/sharing.ts`, `convex/classes/assignments.ts`, `convex/classes/marking.ts` | New | |
+
+amayi-learn `convex/teach`, `src/grown`, `src/office` and `src/worksheet` are Stage 3 material (schemes, plans, term tests, Word and PDF export) and were read, not ported, here.
+
+### Decisions
+
+- **Roles on one account.** `profiles.roles` (optional): teacher, guardian, school admin. Every account is a learner. Only adults can teach or be a guardian. Teaching is a switch in Settings; guardian is added when an adult first makes a child code; school admin when they make a school.
+- **Teachers see first names only.** The first word of the display name. Never an email, a birth date or anything the learner studies on their own. Results by topic are counts and percentages with no names.
+- **Guardian approval cannot be done by the learner.** The consent link is held by the learner too (they made it). So an answer from the link needs a fresh code sent to the phone the guardian verified when giving consent (`accounts/consent:sendApprovalCode`, `decideClass`). A guardian account can answer with one tap only for a child whose standing consent that account gave while signed in (`consents.guardianProfileId`); a child who makes a second adult account and links it gets no say. Without an SMS provider in production, the link route waits for SMS and the account route works.
+- **Consent once.** A guardian adds a child with a one time code (hashed, 7 days, 10 tries an hour per child account), then gives permission once from their family page, signed in, with the usual phone code. After that, class requests are one tap.
+- **Sharing is view only, of the teacher's own notebooks.** Summaries and mind maps, and source titles. Quizzes and papers reach a class only as set work, so the scheme is never shown before hand in. A source the teacher marks as pages from a published book is never shown to a class and citations into it lose their quote. Stage 4 shelf books are a separate store and are never shared.
+- **Marking.** Multiple choice is marked on the server; written answers are marked by the learner against the scheme after hand in (Stage 5 replaces this with Taku). Teachers can type marks from a printed paper. A photographed script is read and marked against the scheme (`script_mark`), every mark is read by a second model (`second_opinion`, check "script"), and the questions it disagreed with or could not judge are shown first. Marks from a photo stay a draft until the teacher confirms them and only confirmed marks count. The photos are deleted when marking ends, worked or not. The image type comes from the file's bytes, not the upload header.
+- **Topic of a question.** The chapter of the page its citation points to, else the source title, else the paper's title. Stage 3 adds syllabus objective ids.
+- **Deletion.** An account takes its classes (requests, listed names, shares, papers, marks), its places and marks in other classes, guardian links and codes, and school places; a school goes with its admin and its classes stay with their teachers.
+- **QR code.** `qrcode-generator` 1.4.4 (MIT, no dependencies), drawn as SVG squares: no image, no inline script, so the CSP is unchanged. Black on white is the one colour outside the tokens, because scanners need it.
+- **Navigation unchanged.** No new tabs. Classes, teaching and family appear as cards on Home once used, and in Settings.

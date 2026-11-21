@@ -64,6 +64,7 @@ async function purgeNotebook(ctx: MutationCtx, notebook: Doc<"notebooks">, budge
     if (!(await purgeSource(ctx, source, budget))) return false;
   }
   if (!(await drain(ctx, budget, (n) => ctx.db.query("messages").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).take(n)))) return false;
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("classShares").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).take(n)))) return false;
   for (;;) {
     const output = await ctx.db.query("outputs").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).first();
     if (output === null) break;
@@ -79,7 +80,50 @@ async function purgeNotebook(ctx: MutationCtx, notebook: Doc<"notebooks">, budge
   return true;
 }
 
+/** A class and everything in it: requests, listed names, shares, papers and marks (Stage 2). */
+async function purgeClass(ctx: MutationCtx, cls: Doc<"classes">, budget: Budget): Promise<boolean> {
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("classMarks").withIndex("by_class", (q) => q.eq("classId", cls._id)).take(n)))) return false;
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("assignments").withIndex("by_class", (q) => q.eq("classId", cls._id)).take(n)))) return false;
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("enrolments").withIndex("by_class", (q) => q.eq("classId", cls._id)).take(n)))) return false;
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("rosterNames").withIndex("by_class", (q) => q.eq("classId", cls._id)).take(n)))) return false;
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("classShares").withIndex("by_class", (q) => q.eq("classId", cls._id)).take(n)))) return false;
+  if (budget.left <= 0) return false;
+  await ctx.db.delete(cls._id);
+  budget.left -= 1;
+  return true;
+}
+
+/** Classes taught, classes joined, guardian links and codes, and school places (Stage 2). */
+async function purgeClassData(ctx: MutationCtx, profile: Doc<"profiles">, budget: Budget): Promise<boolean> {
+  for (;;) {
+    const cls = await ctx.db.query("classes").withIndex("by_teacher", (q) => q.eq("teacherProfileId", profile._id)).first();
+    if (cls === null) break;
+    if (!(await purgeClass(ctx, cls, budget))) return false;
+  }
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("classMarks").withIndex("by_learner", (q) => q.eq("learnerProfileId", profile._id)).take(n)))) return false;
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("enrolments").withIndex("by_learner", (q) => q.eq("learnerProfileId", profile._id)).take(n)))) return false;
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("guardianLinks").withIndex("by_guardian", (q) => q.eq("guardianProfileId", profile._id)).take(n)))) return false;
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("guardianLinks").withIndex("by_child", (q) => q.eq("childProfileId", profile._id)).take(n)))) return false;
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("childCodes").withIndex("by_guardian", (q) => q.eq("guardianProfileId", profile._id)).take(n)))) return false;
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("schoolStaff").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).take(n)))) return false;
+  for (;;) {
+    // A school goes with its admin: its staff list goes, and its classes stay with their teachers.
+    const school = await ctx.db.query("schools").withIndex("by_admin", (q) => q.eq("adminProfileId", profile._id)).first();
+    if (school === null) break;
+    if (!(await drain(ctx, budget, (n) => ctx.db.query("schoolStaff").withIndex("by_school", (q) => q.eq("schoolId", school._id)).take(n)))) return false;
+    for (const c of await ctx.db.query("classes").withIndex("by_school", (q) => q.eq("schoolId", school._id)).take(Math.max(0, budget.left))) {
+      await ctx.db.patch(c._id, { schoolId: undefined });
+      budget.left -= 1;
+    }
+    if (budget.left <= 0) return false;
+    await ctx.db.delete(school._id);
+    budget.left -= 1;
+  }
+  return true;
+}
+
 async function purgeProfile(ctx: MutationCtx, profile: Doc<"profiles">, budget: Budget): Promise<boolean> {
+  if (!(await purgeClassData(ctx, profile, budget))) return false;
   for (;;) {
     const chat = await ctx.db.query("chats").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).first();
     if (chat === null) break;

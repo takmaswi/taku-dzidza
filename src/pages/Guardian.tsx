@@ -4,6 +4,8 @@ import { useState } from "react";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { errorText } from "../access";
+import { useFlags } from "../classes/flags";
+import { GuardianCodeForm } from "../classes/shared";
 import { AppShell } from "../components/Layout";
 import { ObjectArt } from "../components/ObjectArt";
 import { copy } from "../copy/en";
@@ -16,6 +18,7 @@ export default function Guardian({ state }: { state: Doc<"profiles">["consentSta
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const t = copy.guardian;
+  const flags = useFlags();
 
   const make = async () => {
     setError(null);
@@ -66,6 +69,7 @@ export default function Guardian({ state }: { state: Doc<"profiles">["consentSta
             {error}
           </p>
         )}
+        {flags.teacher && <GuardianCodeForm />}
         {/* Settings is not open yet at this point, so sign out stays here. */}
         <button type="button" className="link" onClick={() => void signOut()}>
           {copy.menu.signOut}

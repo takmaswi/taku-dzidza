@@ -3,6 +3,7 @@ import { useState, type FormEvent } from "react";
 import { Link, useParams } from "react-router";
 import { api } from "../../convex/_generated/api";
 import { errorText } from "../access";
+import { ConsentClasses } from "../classes/ConsentClasses";
 import { Layout } from "../components/Layout";
 import { copy } from "../copy/en";
 
@@ -68,6 +69,7 @@ export default function Consent() {
         {info != null && info.state === "given" && (
           <>
             <p className="notice">{t.given}</p>
+            <ConsentClasses token={token} learnerName={info.learnerName} requests={info.classRequests} />
             <button className="pill ghost" type="button" onClick={() => void withdraw({ token }).catch((e) => setError(errorText(e, copy.errors.generic)))}>
               {t.withdraw}
             </button>

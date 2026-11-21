@@ -21,6 +21,8 @@ export const PURPOSES = [
   "second_opinion",
   // The structured data of an interactive widget.
   "taku_widget",
+  // Reading a photographed answer script and marking it against the scheme (Stage 2).
+  "script_mark",
 ] as const;
 
 /**

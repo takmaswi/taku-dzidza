@@ -7,6 +7,6 @@ export default defineConfig({
     environmentMatchGlobs: [["tests/convex/**", "edge-runtime"]],
     testTimeout: 30_000,
     server: { deps: { inline: ["convex-test"] } },
-    env: { AI_MODE: "mock", EMBEDDINGS_MODE: "on" },
+    env: { AI_MODE: "mock", EMBEDDINGS_MODE: "on", TEACHER_MODE: "on" },
   },
 });

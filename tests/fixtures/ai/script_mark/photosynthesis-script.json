@@ -1,0 +1,15 @@
+{
+  "keyMaterial": {
+    "kind": "script_mark",
+    "paper": "Photosynthesis practice test",
+    "photos": 1,
+    "bytes": 6679
+  },
+  "response": {
+    "content": "{\"marks\": [{\"number\": 1, \"answer\": \"Oxygen\", \"got\": 1, \"reason\": \"Correct gas.\"}, {\"number\": 2, \"answer\": \"carbon dioxide and water\", \"got\": 2, \"reason\": \"Both raw materials named.\"}, {\"number\": 3, \"answer\": \"(a) chlorophyll (b) chloroplast\", \"got\": 2, \"reason\": \"Both parts correct.\"}, {\"number\": 4, \"answer\": \"it keeps energy from the sun\", \"got\": 1, \"reason\": \"Says energy is kept; does not say it is stored in glucose.\"}]}",
+    "usage": {
+      "promptTokens": 1500,
+      "completionTokens": 200
+    }
+  }
+}

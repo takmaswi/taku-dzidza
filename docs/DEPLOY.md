@@ -31,6 +31,8 @@ Set on 29 October 2026: `AI_MODE=live`, `OPENROUTER_APP_NAME`, `ADMIN_EMAILS`, `
 | Setting | Where | Effect when unset |
 |---|---|---|
 | `STORAGE_QUOTA_MB` | Convex | 500 MB of uploaded files per account. |
+| `TEACHER_MODE` | Convex | `on` shows teachers, classes and guardians (Stage 2). Off by default. |
+| `BOOKS_MODE` | Convex | `on` shows the licensed shelf (Stage 4). Off by default; stays off in production. |
 | `EMBEDDINGS_MODE` | Convex | Off: keyword search only and no embedding calls. Set to `on` only after `ai/embeddings:liveCheck` passes. |
 | `EMBED_MODEL`, `EMBED_PROVIDER` | Convex | `openai/text-embedding-3-small` on `azure` (DECISIONS.md, Stage 1). |
 

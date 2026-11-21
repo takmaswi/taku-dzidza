@@ -218,6 +218,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/safety_check/source-flagged-block.json"
  },
+ "script_mark/7cd9d83d89a395fc": {
+  "content": "{\"marks\": [{\"number\": 1, \"answer\": \"Oxygen\", \"got\": 1, \"reason\": \"Correct gas.\"}, {\"number\": 2, \"answer\": \"carbon dioxide and water\", \"got\": 2, \"reason\": \"Both raw materials named.\"}, {\"number\": 3, \"answer\": \"(a) chlorophyll (b) chloroplast\", \"got\": 2, \"reason\": \"Both parts correct.\"}, {\"number\": 4, \"answer\": \"it keeps energy from the sun\", \"got\": 1, \"reason\": \"Says energy is kept; does not say it is stored in glucose.\"}]}",
+  "usage": {
+   "promptTokens": 1500,
+   "completionTokens": 200
+  },
+  "source": "tests/fixtures/ai/script_mark/photosynthesis-script.json"
+ },
  "second_opinion/8125ca10e2a47203": {
   "content": "{\"verdicts\": [{\"id\": \"1\", \"ok\": false}, {\"id\": \"2\", \"ok\": true}]}",
   "usage": {
@@ -249,6 +257,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 40
   },
   "source": "tests/fixtures/ai/second_opinion/quiz-maths-marking.json"
+ },
+ "second_opinion/04ebc8ee92416350": {
+  "content": "{\"verdicts\": [{\"id\": \"1\", \"ok\": true}, {\"id\": \"2\", \"ok\": true}, {\"id\": \"3\", \"ok\": true}, {\"id\": \"4\", \"ok\": false}]}",
+  "usage": {
+   "promptTokens": 400,
+   "completionTokens": 40
+  },
+  "source": "tests/fixtures/ai/second_opinion/script-photosynthesis.json"
  },
  "second_opinion/496c6e9736da78cb": {
   "content": "{\"verdicts\": [{\"id\": \"1.2\", \"ok\": true}]}",

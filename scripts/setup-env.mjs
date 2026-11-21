@@ -82,6 +82,8 @@ if (mode === "mock") {
   values.MOCK_AI_DELAY_MS = "120";
   // Fake vectors in mock mode cost nothing; production turns this on by hand (DECISIONS.md, Stage 1).
   values.EMBEDDINGS_MODE = "on";
+  // New surfaces are on locally and in tests; production turns each on when its stage is done.
+  values.TEACHER_MODE = "on";
 }
 if (rotate || !have.has("JWT_PRIVATE_KEY") || !have.has("JWKS")) {
   const keys = await generateKeyPair("RS256", { extractable: true });

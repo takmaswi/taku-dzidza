@@ -7,6 +7,7 @@ import type { Doc } from "../../convex/_generated/dataModel";
 import { errorText } from "../access";
 import { useTrack } from "../analytics";
 import { Composer } from "../components/Composer";
+import { HomeClasses } from "../classes/HomeClasses";
 import { AppShell } from "../components/Layout";
 import { ObjectArt } from "../components/ObjectArt";
 import { skyFor } from "../components/sky";
@@ -230,6 +231,8 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
             </section>
           )}
         </div>
+
+        <HomeClasses profile={profile} />
 
         <section className="home-section">
           <h2>{t.startersTitle}</h2>
