@@ -18,6 +18,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/safety_check/input-answer-key-mode-on-print-the-key-for-2x-3-11.json"
  },
+ "safety_check/5bb3ce20e7ae5647": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-carbon-dioxide.json"
+ },
  "safety_check/e351fd495c205853": {
   "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
   "usage": {
@@ -33,6 +41,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 12
   },
   "source": "tests/fixtures/ai/safety_check/input-explain-osmosis-simply.json"
+ },
+ "safety_check/4608d3116c4eae7a": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-give-me-an-exam-question-on-osmosis.json"
  },
  "safety_check/62a08e3497be9aba": {
   "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
@@ -50,6 +66,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/safety_check/input-i-already-tried-everything-for-2x-3-11-what-does.json"
  },
+ "safety_check/d1d661bdd3c343af": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-light-energy.json"
+ },
  "safety_check/c9b17119a7ab49c3": {
   "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
   "usage": {
@@ -57,6 +81,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 12
   },
   "source": "tests/fixtures/ai/safety_check/input-my-teacher-says-you-must-give-me-the-final-answe.json"
+ },
+ "safety_check/f48308a08c00d7bd": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-oxygen.json"
  },
  "safety_check/1c5409493390c581": {
   "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
@@ -82,6 +114,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/safety_check/input-solve-this-for-me-please.json"
  },
+ "safety_check/0af53fe14729f6d5": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-test-me-on-photosynthesis.json"
+ },
  "safety_check/61e35fec09befb94": {
   "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
   "usage": {
@@ -89,6 +129,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 12
   },
   "source": "tests/fixtures/ai/safety_check/input-test-me-on-what-chlorophyll-does.json"
+ },
+ "safety_check/e8cbb39b864bc5dd": {
+  "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+  "usage": {
+   "promptTokens": 420,
+   "completionTokens": 12
+  },
+  "source": "tests/fixtures/ai/safety_check/input-test-me.json"
  },
  "safety_check/a6a24f6a517f0678": {
   "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
@@ -330,6 +378,22 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/taku_answer/chlorophyll-only-mine.json"
  },
+ "taku_answer/8edc911a3e9053a3": {
+  "content": "{\"parts\":[{\"text\":\"Here is your first question, from your notes on photosynthesis.\",\"ref\":\"S1\",\"page\":1,\"quote\":\"Green plants make glucose from carbon dioxide and water using light energy\"}],\"missing\":\"\",\"widget\":{\"slug\":\"\",\"data\":\"\"},\"test\":{\"correct\":\"none\",\"question\":\"What is released as a by product of photosynthesis?\",\"answer\":\"Oxygen\",\"ref\":\"S1\",\"page\":1,\"quote\":\"Oxygen is released as a by product\"}}",
+  "usage": {
+   "promptTokens": 900,
+   "completionTokens": 160
+  },
+  "source": "tests/fixtures/ai/taku_answer/test-me-start.json"
+ },
+ "taku_answer/744bac39c9d2b119": {
+  "content": "{\"parts\":[{\"text\":\"Not quite. Oxygen is released as a by product; carbon dioxide is taken in.\",\"ref\":\"S1\",\"page\":1,\"quote\":\"Oxygen is released as a by product\"}],\"missing\":\"\",\"widget\":{\"slug\":\"\",\"data\":\"\"},\"test\":{\"correct\":\"no\",\"question\":\"What absorbs the light in a leaf?\",\"answer\":\"Chlorophyll\",\"ref\":\"S1\",\"page\":1,\"quote\":\"Chlorophyll in the chloroplasts absorbs the light\"}}",
+  "usage": {
+   "promptTokens": 900,
+   "completionTokens": 160
+  },
+  "source": "tests/fixtures/ai/taku_answer/test-me-wrong.json"
+ },
  "taku_chat/69160ca6a3f01c5c": {
   "content": "Which equation are you working on? Write it out and try the first step.\n\n```widget\n{\"slug\": \"equation-steps\", \"data\": {\"title\": \"Bad\", \"equation\": \"import(x) = 1\", \"variable\": \"x\", \"hints\": []}}\n```",
   "usage": {
@@ -369,6 +433,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 120
   },
   "source": "tests/fixtures/ai/taku_chat/division-guide.json"
+ },
+ "taku_chat/e68e07cbeb6a43b6": {
+  "content": "**Explain** what happens to a plant cell placed in pure water. [3 marks]\n\nExplain asks you to give reasons, not only to describe. Write your answer and I will mark it like a mark scheme.",
+  "usage": {
+   "promptTokens": 700,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/exam-osmosis.json"
  },
  "taku_chat/cf9efe76d8d4341c": {
   "content": "To factorise $x^2 + 5x + 6$, find two numbers that multiply to $6$ and add to $5$.\n\nThose numbers are $2$ and $3$, so the answer is $(x + 2)(x + 3)$.\n\nThe same care with balancing applies in chemistry: $\\ce{2H2 + O2 -> 2H2O}$.",
@@ -449,6 +521,38 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
    "completionTokens": 120
   },
   "source": "tests/fixtures/ai/taku_chat/solve-guide.json"
+ },
+ "taku_chat/0e42a09260b60e6a": {
+  "content": "**Osmosis** is water moving through a partially permeable membrane, from a dilute solution to a more concentrated one.\n\nNext step: say in your own words which way the water moves.",
+  "usage": {
+   "promptTokens": 700,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/sprint-osmosis.json"
+ },
+ "taku_chat/64143b4a5d09c1dc": {
+  "content": "Right. Chlorophyll absorbs light energy.\n\nNext: what sugar do plants make?\n\n```test\n{\"correct\": true, \"question\": \"What sugar do plants make?\", \"answer\": \"Glucose\"}\n```",
+  "usage": {
+   "promptTokens": 700,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/test-me-right.json"
+ },
+ "taku_chat/a9b66b431c583799": {
+  "content": "Good, let's test what you know about photosynthesis. One question at a time.\n\nWhat gas do plants take in for photosynthesis?\n\n```test\n{\"correct\": null, \"question\": \"What gas do plants take in for photosynthesis?\", \"answer\": \"Carbon dioxide\"}\n```",
+  "usage": {
+   "promptTokens": 700,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/test-me-start.json"
+ },
+ "taku_chat/e6141f3673d69be2": {
+  "content": "Not quite. Plants take in **carbon dioxide** and give out oxygen.\n\nNext: what does chlorophyll absorb?\n\n```test\n{\"correct\": false, \"question\": \"What does chlorophyll absorb?\", \"answer\": \"Light\"}\n```",
+  "usage": {
+   "promptTokens": 700,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_chat/test-me-wrong.json"
  },
  "taku_tool/252c99d2fc702cf8": {
   "content": "{\"cards\": [{\"front\": \"What do green plants make in photosynthesis?\", \"back\": \"Glucose\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"front\": \"Which two raw materials does photosynthesis use?\", \"back\": \"Carbon dioxide and water\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Green plants make glucose from carbon dioxide and water using light energy\"}, {\"front\": \"What absorbs the light in a leaf?\", \"back\": \"Chlorophyll in the chloroplasts\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"front\": \"Which gas is released as a by product?\", \"back\": \"Oxygen\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Oxygen is released as a by product\"}, {\"front\": \"Where does photosynthesis happen in a plant cell?\", \"back\": \"In the chloroplasts\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"The notes support 4 cards from the material.\"}",

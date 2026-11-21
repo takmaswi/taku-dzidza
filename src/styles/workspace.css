@@ -164,14 +164,19 @@
 .composer-bar { display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
 .chip-menu .chip { padding: 0.28rem 0.65rem; font-size: 0.82rem; background: var(--sunken); white-space: nowrap; }
 .chip-short { display: none; }
-/* Phones: both chips and send on one row, with short labels. The menu and the button name keep the full text. */
+/* Phones: the chips and send on one row, with short labels. The menu and the button name keep the full text. */
 @media (max-width: 520px) {
   .composer-bar { flex-wrap: nowrap; gap: 0.3rem; }
   .chip-menu .chip { padding: 0.28rem 0.55rem; gap: 0.3rem; }
   .chip-full { display: none; }
   .chip-short { display: inline; }
 }
-@media (max-width: 400px) { .chip-menu .chip > svg:first-child { display: none; } }
+/* Small phones: no icons or arrows on the chips, so three chips and send still fit one row at 360 wide. */
+@media (max-width: 400px) {
+  .composer-bar { gap: 0.25rem; }
+  .chip-menu .chip { padding: 0.28rem 0.5rem; }
+  .chip-menu .chip > svg { display: none; }
+}
 .send {
   display: inline-flex; align-items: center; gap: 0.35rem; min-height: 40px; min-width: 40px; padding: 0 0.85rem; border: 0; border-radius: 999px;
   background: var(--primary); color: var(--on-primary); font: inherit; font-weight: 600; font-size: 0.9rem; cursor: pointer;
@@ -260,3 +265,15 @@
 .tool-scope { border: 0; padding: 0; margin: 0 0 0.6rem; display: grid; gap: 0.35rem; min-width: 0; }
 .tool-scope legend { font-weight: 600; padding: 0; margin-bottom: 0.2rem; }
 .thread-intro .chips { margin-top: 1rem; }
+
+/* ---------- Study modes above the question box (src/components/StudyBar.tsx) ---------- */
+.study-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; border-radius: var(--radius-sm); border: 1.5px solid var(--line); background: var(--panel-fill); font-size: 0.9rem; }
+.study-bar.done { background: var(--pick); border-color: var(--pick-line); }
+.study-bar .sb-text { flex: 1 1 14rem; }
+.sprint-progress { flex: 1 1 8rem; height: 8px; border-radius: 999px; background: var(--muted-line); overflow: hidden; }
+.sprint-progress > span { display: block; height: 100%; background: var(--text); border-radius: inherit; transition: width 1s linear; }
+.test-mark { display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 600; margin: 0 0 0.4rem; padding: 0.15rem 0.6rem; border-radius: 999px; border: 1.5px solid currentColor; }
+.test-mark.right { color: var(--ok); }
+.test-mark.wrong { color: var(--danger); }
+.test-question { margin: 0.6rem 0 0; padding: 0.6rem 0.8rem; border-left: 4px solid var(--pick-line); background: var(--pick); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.paper-clock { font-weight: 600; margin: 0.5rem 0 0; }

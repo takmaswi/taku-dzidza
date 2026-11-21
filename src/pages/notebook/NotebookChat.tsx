@@ -11,6 +11,9 @@ import { MathText } from "../../components/MathText";
 import { CopyAndRead, InfoNote, LearnerBubble, Stages, TakuMessage, Thread } from "../../components/Thread";
 import { copy } from "../../copy/en";
 import { WidgetHost } from "../../widgets/WidgetHost";
+import { calmTests, type StudyMode } from "../../../convex/accounts/voices";
+import { testScore } from "../../../convex/chat/testTurns";
+import { StudyBar, TestMark, TestQuestion } from "../../components/StudyBar";
 
 type Origin = { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added"; unchecked?: boolean };
 export type Citation = { sourceId: Id<"sources">; page: number; quote: string };
@@ -24,15 +27,22 @@ export function NotebookChat({
   messages,
   titles,
   onCite,
+  studyMode,
+  onStudyMode,
 }: {
   notebook: Doc<"notebooks">;
   profile: Doc<"profiles">;
   messages: Doc<"messages">[];
   titles: Map<string, string>;
   onCite: (c: Citation) => void;
+  studyMode: StudyMode;
+  onStudyMode: (mode: StudyMode) => void;
 }) {
   const t = copy.notebook;
   const ask = useAction(api.notebooks.ask.ask);
+  const generate = useAction(api.study.tools.generate);
+  const navigate = useNavigate();
+  const [paperBusy, setPaperBusy] = useState(false);
   const setSourceMode = useMutation(api.notebooks.notebooks.setSourceMode);
   const setAnswerMode = useMutation(api.accounts.profiles.setAnswerMode);
   const track = useTrack();
@@ -50,12 +60,28 @@ export function NotebookChat({
     track("question_asked");
     setQuestion("");
     try {
-      await ask({ notebookId: notebook._id, question: text });
+      await ask({ notebookId: notebook._id, question: text, studyMode });
     } catch (e) {
       setQuestion(text);
       setError(errorText(e, copy.errors.generic));
     } finally {
       setBusy(false);
+    }
+  };
+
+  // Exam prep: a practice paper from these notes, opened with a countdown.
+  const timedPaper = async () => {
+    setPaperBusy(true);
+    setError(null);
+    try {
+      const result = await generate({ notebookId: notebook._id, mode: "quiz", options: { count: 4, difficulty: "medium", minutes: 15 } });
+      if (!result.ok) return setError(result.message);
+      track("tool_made");
+      navigate(`/n/${notebook._id}/o/${result.outputId}?timed=1`);
+    } catch (e) {
+      setError(errorText(e, copy.errors.generic));
+    } finally {
+      setPaperBusy(false);
     }
   };
 
@@ -88,6 +114,7 @@ export function NotebookChat({
         )}
       </Thread>
       <div className="dock">
+        <StudyBar mode={studyMode} onMode={onStudyMode} score={testScore(messages)} calm={calmTests(profile)} onTimedPaper={() => void timedPaper()} paperBusy={paperBusy} />
         <Composer
           id="question"
           label={t.askLabel}
@@ -101,6 +128,8 @@ export function NotebookChat({
           onAnswerMode={(answerMode) => void setAnswerMode({ answerMode })}
           sourceMode={notebook.sourceMode}
           onSourceMode={(sourceMode) => void setSourceMode({ notebookId: notebook._id, sourceMode })}
+          studyMode={studyMode}
+          onStudyMode={onStudyMode}
         />
         {error !== null && (
           <p className="error" role="alert">
@@ -148,6 +177,7 @@ function Answer({
   return (
     <TakuMessage testId="message-taku" latest={latest}>
       {m.stage !== undefined && <Stages stage={m.stage} stuck={stuck} />}
+      {m.test?.correct !== undefined && <TestMark correct={m.test.correct} />}
       {m.text !== "" && <p>{m.text}</p>}
       {(m.parts?.length ?? 0) > 0 && (
         <div className="answer-text">
@@ -173,6 +203,7 @@ function Answer({
           })}
         </div>
       )}
+      {m.test !== undefined && m.test.question !== "" && <TestQuestion text={m.test.question} />}
       {m.widget !== undefined && <WidgetHost widget={m.widget} titles={titleRecord} />}
       {m.kind === "help" && (
         <Link to="/help" className="pill small">

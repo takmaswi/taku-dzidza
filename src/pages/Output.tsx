@@ -1,7 +1,8 @@
 import { useMutation, useQuery } from "convex/react";
 import { ArrowLeft, Printer } from "lucide-react";
-import { useMemo, useState } from "react";
-import { Link, useParams } from "react-router";
+import { useEffect, useMemo, useState } from "react";
+import { Link, useParams, useSearchParams } from "react-router";
+import { calmTests } from "../../convex/accounts/voices";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import type { MindmapContent, QuizContent, ScrollContent, SummaryContent } from "../../convex/study/shapes";
@@ -22,6 +23,9 @@ type Origin = { kind: "source"; sourceId: string; page: number; quote: string } 
 export default function Output({ profile }: { profile: Doc<"profiles"> }) {
   const { id = "", outputId = "" } = useParams();
   const data = useQuery(api.study.tools.get, { outputId: outputId as Id<"outputs"> });
+  const [params] = useSearchParams();
+  // Exam prep opens a paper timed, unless the learner said tests make them anxious.
+  const timed = params.get("timed") === "1" && !calmTests(profile);
   const t = copy.tools;
   const back = `/n/${id}`;
   if (data === undefined) {
@@ -43,7 +47,7 @@ export default function Output({ profile }: { profile: Doc<"profiles"> }) {
     return (
       <FocusShell exitTo={back} title={output.title}>
         <div className="paper-wrap">
-          <QuizPaper output={output} content={output.content as QuizContent} />
+          <QuizPaper output={output} content={output.content as QuizContent} timed={timed} />
           <CoverageLine output={output} />
           {output.note !== undefined && <p className="soft small-text">{output.note}</p>}
         </div>
@@ -138,8 +142,26 @@ function Summary({ content, titles, readAloud }: { content: SummaryContent; titl
   );
 }
 
+/** The time left on a timed paper, from when it was opened. */
+function PaperClock({ minutes }: { minutes: number }) {
+  const [startedAt] = useState(() => Date.now());
+  const [now, setNow] = useState(startedAt);
+  const left = Math.max(0, startedAt + minutes * 60_000 - now);
+  const over = left === 0;
+  useEffect(() => {
+    if (over) return;
+    const timer = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, [over]);
+  return (
+    <p className="paper-clock no-print" role="timer" data-testid="paper-clock">
+      {left === 0 ? copy.study.timeUp : copy.study.timeLeft(Math.ceil(left / 60_000))}
+    </p>
+  );
+}
+
 /** An exam board style paper: numbered questions, marks in brackets, then a separate marking scheme. */
-function QuizPaper({ output, content }: { output: Doc<"outputs">; content: QuizContent }) {
+function QuizPaper({ output, content, timed = false }: { output: Doc<"outputs">; content: QuizContent; timed?: boolean }) {
   const t = copy.tools;
   const submit = useMutation(api.study.quizzes.submit);
   const [answers, setAnswers] = useState<Record<number, string>>({});
@@ -163,6 +185,7 @@ function QuizPaper({ output, content }: { output: Doc<"outputs">; content: QuizC
           <span>{t.quizTotal(content.totalMarks)}</span>
         </div>
         <p className="paper-instructions">{t.quizInstructions}</p>
+        {timed && !marking && <PaperClock minutes={content.minutes} />}
         {content.schemeChecked === false && <p className="notice no-print">{t.schemeUnchecked}</p>}
         <button type="button" className="pill ghost small no-print" onClick={() => window.print()}>
           <Printer size={16} aria-hidden="true" /> {t.print}

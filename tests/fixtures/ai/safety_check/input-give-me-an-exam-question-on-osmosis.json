@@ -1,0 +1,13 @@
+{
+  "keyMaterial": {
+    "kind": "input_check",
+    "question": "Give me an exam question on osmosis"
+  },
+  "response": {
+    "content": "{\"verdict\": \"allow\", \"reason\": \"study question\"}",
+    "usage": {
+      "promptTokens": 420,
+      "completionTokens": 12
+    }
+  }
+}

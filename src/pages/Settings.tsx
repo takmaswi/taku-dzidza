@@ -6,10 +6,11 @@ import { Link } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { ADULT_AGE, ageOn } from "../../convex/accounts/age";
+import { supportSettings, VOICES, voiceOf, type SupportNeed } from "../../convex/accounts/voices";
 import { errorText } from "../access";
 import { AppShell } from "../components/Layout";
 import { SettingsClasses } from "../classes/SettingsClasses";
-import { StylePicker } from "../components/StylePicker";
+import { SupportPicker } from "../components/SupportPicker";
 import { Switch } from "../components/Switch";
 import { ThemePicker } from "../components/ThemePicker";
 import { copy } from "../copy/en";
@@ -20,7 +21,8 @@ const ACCESS_KEYS: (keyof Access)[] = ["dyslexia", "largeText", "readAloud", "sh
 
 export default function Settings({ profile, email }: { profile: Doc<"profiles">; email: string }) {
   const t = copy.settings;
-  const setStyle = useMutation(api.accounts.profiles.setStyle);
+  const setVoice = useMutation(api.accounts.profiles.setVoice);
+  const saveSupport = useMutation(api.accounts.profiles.setSupport);
   const setAnswerMode = useMutation(api.accounts.profiles.setAnswerMode);
   const setAccessibility = useMutation(api.accounts.profiles.setAccessibility);
   const setDisplayName = useMutation(api.accounts.profiles.setDisplayName);
@@ -34,6 +36,8 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
   // Switches move at once; the server copy follows (and the theme with it).
   const [access, setAccess] = useState<Access>(profile.accessibility);
   const [analytics, setAnalyticsOn] = useState(profile.analyticsConsent === true);
+  const [support, setSupport] = useState<SupportNeed[]>(profile.support ?? []);
+  const voice = voiceOf(profile);
   const adult = ageOn(profile.birthYear, profile.birthMonth, new Date()) >= ADULT_AGE;
 
   return (
@@ -60,8 +64,19 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
         </section>
 
         <section className="panel">
-          <h2>{t.styleTitle}</h2>
-          <StylePicker compact value={profile.studyStyle} onPick={(s) => void setStyle({ studyStyle: s })} />
+          <h2>{t.voiceTitle}</h2>
+          <p className="soft small-text">{t.voiceLine}</p>
+          <div className="choices three" role="radiogroup" aria-label={t.voiceTitle}>
+            {VOICES.map((v) => (
+              <button key={v} type="button" role="radio" aria-checked={voice === v} className="choice" onClick={() => void setVoice({ voice: v })}>
+                <b>{copy.voices[v].name}</b>
+                <span>{copy.voices[v].line}</span>
+                <span className="ct-tick">
+                  <Check size={14} aria-hidden="true" />
+                </span>
+              </button>
+            ))}
+          </div>
         </section>
 
         <section className="panel">
@@ -92,6 +107,22 @@ export default function Settings({ profile, email }: { profile: Doc<"profiles">;
           <h2>{copy.theme.appearance}</h2>
           <p className="soft small-text">{copy.theme.appearanceLine}</p>
           <ThemePicker access={access} onAccess={setAccess} />
+        </section>
+
+        <section className="panel">
+          <h2>{copy.support.settingsTitle}</h2>
+          <p className="soft small-text">{copy.support.settingsLine}</p>
+          <SupportPicker
+            value={support}
+            label={copy.support.settingsTitle}
+            onChange={(next) => {
+              // The same switches the server turns on, so the accessibility list below moves at once.
+              const added = next.filter((n) => !support.includes(n));
+              setAccess(supportSettings(added, { accessibility: access, voice }).accessibility);
+              setSupport(next);
+              void saveSupport({ support: next });
+            }}
+          />
         </section>
 
         <section className="panel">

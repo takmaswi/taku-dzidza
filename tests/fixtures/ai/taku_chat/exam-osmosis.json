@@ -1,0 +1,16 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "Give me an exam question on osmosis",
+    "answerMode": "answer",
+    "studyMode": "exam",
+    "asked": ""
+  },
+  "response": {
+    "content": "**Explain** what happens to a plant cell placed in pure water. [3 marks]\n\nExplain asks you to give reasons, not only to describe. Write your answer and I will mark it like a mark scheme.",
+    "usage": {
+      "promptTokens": 700,
+      "completionTokens": 120
+    }
+  }
+}

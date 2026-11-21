@@ -54,7 +54,7 @@ export default function Setup() {
     <AppShell>
       <div className="split-page">
       <div className="panel rise auth-card">
-        <span className="eyebrow">{copy.quiz.stepLabel(1, 2)}</span>
+        <span className="eyebrow">{copy.onboarding.stepLabel(1, 2)}</span>
         <h1>{t.title}</h1>
         <form onSubmit={submit}>
           <div className="field">

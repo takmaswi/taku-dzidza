@@ -11,6 +11,7 @@ import { HomeClasses } from "../classes/HomeClasses";
 import { AppShell } from "../components/Layout";
 import { ObjectArt } from "../components/ObjectArt";
 import { skyFor } from "../components/sky";
+import { useStudyMode } from "../components/studySession";
 import { prettyPlain } from "../components/math";
 import { copy } from "../copy/en";
 
@@ -31,6 +32,7 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
   const firstRun = useQuery(api.accounts.progress.firstRun);
   const track = useTrack();
   const setAnswerMode = useMutation(api.accounts.profiles.setAnswerMode);
+  const [studyMode, setStudyMode] = useStudyMode(profile);
   const createNotebook = useMutation(api.notebooks.notebooks.create);
   const createSample = useMutation(api.notebooks.sample.create);
   const notebooks = useQuery(api.notebooks.notebooks.list);
@@ -56,7 +58,7 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
       track("chat_sent");
       // Open the chat straight away and let the reply arrive there.
       const chatId = await start({ message: text });
-      void send({ chatId, message: text }).catch(() => undefined);
+      void send({ chatId, message: text, studyMode }).catch(() => undefined);
       navigate(`/chat/${chatId}`);
     } catch (e) {
       setError(errorText(e, copy.errors.generic));
@@ -104,6 +106,8 @@ export default function Home({ profile }: { profile: Doc<"profiles"> }) {
               sendLabel={t.send}
               answerMode={profile.answerMode}
               onAnswerMode={(answerMode) => void setAnswerMode({ answerMode })}
+              studyMode={studyMode}
+              onStudyMode={setStudyMode}
               extra={
                 <button type="button" className="icon-button" onClick={() => setNewOpen(true)}>
                   <FileUp size={16} aria-hidden="true" /> <span className="hide-narrow">{t.attach}</span>

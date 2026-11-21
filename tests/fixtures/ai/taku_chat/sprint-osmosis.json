@@ -1,0 +1,16 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "Explain osmosis simply",
+    "answerMode": "answer",
+    "studyMode": "sprint",
+    "asked": ""
+  },
+  "response": {
+    "content": "**Osmosis** is water moving through a partially permeable membrane, from a dilute solution to a more concentrated one.\n\nNext step: say in your own words which way the water moves.",
+    "usage": {
+      "promptTokens": 700,
+      "completionTokens": 120
+    }
+  }
+}

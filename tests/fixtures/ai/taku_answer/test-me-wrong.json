@@ -1,0 +1,17 @@
+{
+  "keyMaterial": {
+    "kind": "answer",
+    "question": "Carbon dioxide",
+    "sourceMode": "mine_plus",
+    "answerMode": "answer",
+    "studyMode": "test",
+    "asked": "What is released as a by product of photosynthesis?"
+  },
+  "response": {
+    "content": "{\"parts\":[{\"text\":\"Not quite. Oxygen is released as a by product; carbon dioxide is taken in.\",\"ref\":\"S1\",\"page\":1,\"quote\":\"Oxygen is released as a by product\"}],\"missing\":\"\",\"widget\":{\"slug\":\"\",\"data\":\"\"},\"test\":{\"correct\":\"no\",\"question\":\"What absorbs the light in a leaf?\",\"answer\":\"Chlorophyll\",\"ref\":\"S1\",\"page\":1,\"quote\":\"Chlorophyll in the chloroplasts absorbs the light\"}}",
+    "usage": {
+      "promptTokens": 900,
+      "completionTokens": 160
+    }
+  }
+}

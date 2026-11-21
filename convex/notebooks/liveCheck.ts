@@ -36,7 +36,7 @@ export const run = internalAction({
         tier: "main",
         purpose: "taku_tool",
         messages: [
-          { role: "system", content: toolPrompt("quiz", { sourceMode: "only_mine", studyStyle: "locked_in" }, options) },
+          { role: "system", content: toolPrompt("quiz", { sourceMode: "only_mine", voice: "direct" }, options) },
           { role: "user", content: `<source ref="S1" title="Biology notes" page="1">\n${NOTE}\n</source>` },
         ],
         jsonSchema: { name: "taku_quiz", strict: true, schema: JSON_SCHEMAS.quiz },
@@ -54,7 +54,7 @@ export const run = internalAction({
     // 1. A cited answer.
     const answerWorst = worst(4000, 1200);
     if (spent + answerWorst > args.capUsd) throw new ConvexError("The cap is too small for the answer check.");
-    const c = { sourceMode: "only_mine" as const, answerMode: "answer" as const, studyStyle: "calm" as const, shortChunks: false };
+    const c = { sourceMode: "only_mine" as const, answerMode: "answer" as const, voice: "gentle" as const, shortChunks: false, simpleEnglish: false, studyingFor: undefined };
     const answer = await ctx.runAction(internal.ai.router.call, {
       tier: "main",
       purpose: "taku_answer",

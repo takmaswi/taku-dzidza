@@ -79,7 +79,7 @@ export const run = internalAction({
           tier: "main",
           purpose: "taku_chat",
           messages: [
-            { role: "system", content: chatPrompt({ answerMode: c.answerMode, studyStyle: "calm", shortChunks: false }) },
+            { role: "system", content: chatPrompt({ answerMode: c.answerMode, voice: "gentle", shortChunks: false, simpleEnglish: false, studyingFor: undefined }) },
             { role: "user", content: `<question>${asData(c.input)}</question>` },
           ],
           maxTokens: 800,

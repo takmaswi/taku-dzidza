@@ -7,6 +7,7 @@ import type { Doc, Id } from "../../convex/_generated/dataModel";
 import { BrandMark } from "../components/BrandMark";
 import { AppShell } from "../components/Layout";
 import { useMedia, useStored, WIDE, XWIDE } from "../components/hooks";
+import { useSprinting, useStudyMode } from "../components/studySession";
 import { Menu, Sheet } from "../components/ui";
 import { copy } from "../copy/en";
 import { EmptyNotebook } from "./notebook/EmptyNotebook";
@@ -38,6 +39,8 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
   // With no source yet the tools have nothing to work on, so the panel stays folded unless opened here.
   const [toolsWhileEmpty, setToolsWhileEmpty] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const [studyMode, setStudyMode] = useStudyMode(profile);
+  const sprinting = useSprinting(studyMode);
   // Read once: the address is cleared after the tools open.
   const [initialTool] = useState(() => toolFromParam(params.get("tool")));
   const askedForTools = params.get("tab") === "tools";
@@ -66,9 +69,10 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
   const titles = new Map(data.sources.map((s) => [s._id as string, s.title]));
   const empty = data.sources.length === 0 && messages.length === 0;
   // Open while there are no answers yet, folded once the learner is chatting, unless they chose.
-  const railOpen = railPref === null ? messages.length === 0 : railPref === "open";
+  // A sprint folds both side panels, without changing what the learner chose for them.
+  const railOpen = !sprinting && (railPref === null ? messages.length === 0 : railPref === "open");
   const hasSources = data.sources.length > 0;
-  const toolsOpen = xwide ? (hasSources ? toolsPref !== "closed" : toolsWhileEmpty) : toolsOverlay;
+  const toolsOpen = !sprinting && (xwide ? (hasSources ? toolsPref !== "closed" : toolsWhileEmpty) : toolsOverlay);
 
   const cite = (c: Citation) => {
     setCitation(c);
@@ -138,7 +142,7 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
           </aside>
         )}
 
-        <section className="ws-center">{empty ? <EmptyNotebook sources={sources} /> : <NotebookChat notebook={notebook} profile={profile} messages={messages} titles={titles} onCite={cite} />}</section>
+        <section className="ws-center">{empty ? <EmptyNotebook sources={sources} /> : <NotebookChat notebook={notebook} profile={profile} messages={messages} titles={titles} onCite={cite} studyMode={studyMode} onStudyMode={setStudyMode} />}</section>
 
         {wide && toolsOpen && (
           <>

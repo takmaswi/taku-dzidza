@@ -1,0 +1,16 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "Oxygen",
+    "answerMode": "answer",
+    "studyMode": "test",
+    "asked": "What gas do plants take in for photosynthesis?"
+  },
+  "response": {
+    "content": "Not quite. Plants take in **carbon dioxide** and give out oxygen.\n\nNext: what does chlorophyll absorb?\n\n```test\n{\"correct\": false, \"question\": \"What does chlorophyll absorb?\", \"answer\": \"Light\"}\n```",
+    "usage": {
+      "promptTokens": 700,
+      "completionTokens": 120
+    }
+  }
+}

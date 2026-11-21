@@ -8,7 +8,11 @@ import { v } from "convex/values";
  * notebooks, their sources (pages and search chunks) and each notebook's chat. Retention limits are in convex/privacy/retention.ts.
  */
 
+/** The study styles before 21 November 2026. Kept optional on profiles until every row has a voice (convex/accounts/migrations.ts), then removed. */
 export const studyStyleValidator = v.union(v.literal("locked_in"), v.literal("cook"), v.literal("calm"));
+export const voiceValidator = v.union(v.literal("gentle"), v.literal("direct"), v.literal("upbeat"));
+export const studyModeValidator = v.union(v.literal("learn"), v.literal("test"), v.literal("sprint"), v.literal("exam"));
+export const supportNeedValidator = v.union(v.literal("focus"), v.literal("reading"), v.literal("anxious"), v.literal("english"), v.literal("clearer"));
 export const studyingForValidator = v.union(v.literal("olevel"), v.literal("alevel"), v.literal("university"), v.literal("professional"), v.literal("learning"));
 export const answerModeValidator = v.union(v.literal("answer"), v.literal("guide"));
 export const consentStateValidator = v.union(v.literal("not_needed"), v.literal("pending"), v.literal("given"), v.literal("withdrawn"));
@@ -39,6 +43,8 @@ export const originValidator = v.union(
 export const widgetValidator = v.object({ slug: v.string(), data: v.any() });
 /** Roles an adult account can add (Stage 2). Every account is a learner. */
 export const roleValidator = v.union(v.literal("teacher"), v.literal("guardian"), v.literal("school_admin"));
+/** A Test me turn on Taku's reply: the question it asked (the answer is never sent to the browser) and the mark for the learner's last answer. */
+export const testTurnValidator = v.object({ question: v.string(), answer: v.string(), origin: v.optional(originValidator), correct: v.optional(v.boolean()) });
 export const perQuestionValidator = v.array(v.object({ number: v.number(), got: v.number(), marks: v.number() }));
 
 export default defineSchema({
@@ -50,8 +56,13 @@ export default defineSchema({
     displayName: v.string(),
     birthYear: v.number(),
     birthMonth: v.number(),
-    studyStyle: studyStyleValidator,
-    /** True once the learner took the style quiz or skipped it. */
+    /** Legacy (see studyStyleValidator). New profiles have voice instead. */
+    studyStyle: v.optional(studyStyleValidator),
+    /** How Taku talks: gentle, direct or upbeat (convex/accounts/voices.ts). Unset on profiles from before the migration. */
+    voice: v.optional(voiceValidator),
+    /** What the learner said gets in the way when they study. Preferences, never a diagnosis; never sent to analytics. */
+    support: v.optional(v.array(supportNeedValidator)),
+    /** True once the learner finished or skipped onboarding (the name is from the old style quiz). */
     styleChosen: v.boolean(),
     accessibility: accessibilityValidator,
     answerMode: answerModeValidator,
@@ -121,6 +132,8 @@ export default defineSchema({
     updatedAt: v.number(),
     /** Set when deletion starts: hidden at once, emptied in batches. */
     deletingAt: v.optional(v.number()),
+    /** The one notebook that holds review cards from Test me in Ask Taku chats. */
+    testReview: v.optional(v.boolean()),
   }).index("by_profile", ["profileId", "updatedAt"]),
 
   sources: defineTable({
@@ -191,6 +204,8 @@ export default defineSchema({
     /** Set while Taku is still working on this answer; what the learner sees meanwhile. */
     stage: v.optional(v.union(v.literal("reading"), v.literal("writing"), v.literal("checking"))),
     widget: v.optional(widgetValidator),
+    studyMode: v.optional(studyModeValidator),
+    test: v.optional(testTurnValidator),
     createdAt: v.number(),
   }).index("by_notebook", ["notebookId", "createdAt"]),
 
@@ -204,6 +219,8 @@ export default defineSchema({
     /** True while the reply is still arriving. */
     streaming: v.optional(v.boolean()),
     widget: v.optional(widgetValidator),
+    studyMode: v.optional(studyModeValidator),
+    test: v.optional(testTurnValidator),
     createdAt: v.number(),
   }).index("by_chat", ["chatId", "createdAt"]),
 

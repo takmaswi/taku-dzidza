@@ -43,21 +43,23 @@ async function box(l: Locator) {
   return b;
 }
 
-test("phone notebook: both chips on one row, no tab bar, and the chat takes most of the screen", async ({ page }, info) => {
+test("phone notebook: all three chips on one row, no tab bar, and the chat takes most of the screen", async ({ page }, info) => {
   await chatting(page, info, PHONE, 1);
   await expect(page.locator("nav.tabbar")).toHaveCount(0);
 
   for (const size of [PHONE, NARROW]) {
     await page.setViewportSize(size);
     const chips = page.locator(".composer .chip-menu");
-    await expect(chips).toHaveCount(2);
-    const [a, b, send] = [await box(chips.nth(0)), await box(chips.nth(1)), await box(page.locator(".composer .send"))];
+    await expect(chips).toHaveCount(3);
+    const [a, b, c, send] = [await box(chips.nth(0)), await box(chips.nth(1)), await box(chips.nth(2)), await box(page.locator(".composer .send"))];
     expect(Math.abs(a.y - b.y), `chips on one row at ${size.width}`).toBeLessThan(4);
+    expect(Math.abs(a.y - c.y), `study mode chip on the same row at ${size.width}`).toBeLessThan(4);
     expect(Math.abs(a.y + a.height / 2 - (send.y + send.height / 2))).toBeLessThan(6);
     expect(send.x + send.width).toBeLessThanOrEqual(size.width);
     // Short labels on the chips; the full text stays in the button name and the menu.
     await expect(page.getByRole("button", { name: "Taku uses: My notes plus Taku's ideas" })).toContainText("Notes plus ideas");
     await expect(page.getByRole("button", { name: "How Taku answers: Show me the answer" })).toContainText("Answer");
+    await expect(page.getByRole("button", { name: "Study mode: Learn" })).toContainText("Learn");
   }
 
   await page.setViewportSize(PHONE);

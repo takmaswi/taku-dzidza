@@ -1,9 +1,10 @@
 import { ConvexError, v } from "convex/values";
 import { internal } from "../_generated/api";
-import type { Doc, Id } from "../_generated/dataModel";
+import type { Id } from "../_generated/dataModel";
 import { action, internalMutation, internalQuery, mutation, query, type ActionCtx } from "../_generated/server";
 import { createEmptyCard } from "ts-fsrs";
 import { ADULT_AGE, ageOn } from "../accounts/age";
+import { needs, voiceOf, type Voice } from "../accounts/voices";
 import { secondOpinion } from "../ai/secondOpinion";
 import { MODES, PROMPTS } from "../data/generated";
 import { requireLearner, requireLearnerInAction } from "../lib/access";
@@ -54,17 +55,19 @@ const SOURCE_TEXT: Record<SourceMode, string> = {
   mine_plus: "SOURCE MODE: THE LEARNER'S MATERIAL PLUS YOUR IDEAS. Build on the material first and cite it. You may add items of your own where they help; those have ref \"\", page 0 and quote \"\" and are marked as yours.",
 };
 
-const STYLE_TEXT: Record<Doc<"profiles">["studyStyle"], string> = {
-  locked_in: "STYLE: LOCKED IN. Formal, dense and exact.",
-  cook: "STYLE: COOK MODE. Lively and punchy, still accurate, never rude.",
-  calm: "STYLE: CALM. Clear and patient.",
+const VOICE_TEXT: Record<Voice, string> = {
+  gentle: "VOICE: GENTLE. Clear, patient and warm.",
+  direct: "VOICE: DIRECT. Formal, dense and exact.",
+  upbeat: "VOICE: UPBEAT. Lively and punchy, still accurate, never rude.",
 };
 
-export function toolPrompt(slug: string, c: { sourceMode: SourceMode; studyStyle: Doc<"profiles">["studyStyle"] }, options: ToolOptions): string {
+const SIMPLE_ENGLISH_TOOL = "LANGUAGE: English is not the learner's first language. Use short sentences and common words, and explain a subject word the first time you use it.";
+
+export function toolPrompt(slug: string, c: { sourceMode: SourceMode; voice: Voice; simpleEnglish?: boolean }, options: ToolOptions): string {
   const mode = MODES[slug];
   return PROMPTS["taku-tool"]
     .replace("{{SOURCE_MODE}}", SOURCE_TEXT[c.sourceMode])
-    .replace("{{STYLE}}", STYLE_TEXT[c.studyStyle])
+    .replace("{{VOICE}}", VOICE_TEXT[c.voice] + (c.simpleEnglish === true ? `\n\n${SIMPLE_ENGLISH_TOOL}` : ""))
     .replace("{{MODE_NAME}}", mode.frontmatter.name.toUpperCase())
     .replace("{{MODE_BODY}}", mode.body)
     .replace("{{OPTIONS}}", optionsText(options));
@@ -87,7 +90,7 @@ export const toolContext = internalQuery({
         chars += row.text.length;
       }
     }
-    return { profileId: profile._id, studyStyle: profile.studyStyle, sourceMode: notebook.sourceMode, pages };
+    return { profileId: profile._id, voice: voiceOf(profile), simpleEnglish: needs(profile, "english"), sourceMode: notebook.sourceMode, pages };
   },
 });
 
@@ -95,7 +98,7 @@ export const toolContext = internalQuery({
 export const scopeValidator = v.array(v.object({ sourceId: v.id("sources"), fromPage: v.optional(v.number()), toPage: v.optional(v.number()) }));
 export type ToolScope = { sourceId: Id<"sources">; fromPage?: number; toPage?: number }[];
 type Range = { ref: string; sourceId: Id<"sources">; title: string; fromPage: number; toPage: number };
-type Plan = { profileId: Id<"profiles">; studyStyle: Doc<"profiles">["studyStyle"]; sourceMode: SourceMode; minor: boolean; ranges: Range[] };
+type Plan = { profileId: Id<"profiles">; voice: Voice; simpleEnglish: boolean; sourceMode: SourceMode; minor: boolean; ranges: Range[] };
 
 /** The page ranges a tool will read, checked against the learner's own notebook. */
 export const toolPlan = internalQuery({
@@ -114,7 +117,7 @@ export const toolPlan = internalQuery({
       const toPage = Math.min(found.source.pageCount, Math.max(fromPage, Math.round(pick.toPage ?? found.source.pageCount)));
       ranges.push({ ref: found.ref, sourceId: found.source._id, title: found.source.title, fromPage, toPage });
     }
-    return { profileId: profile._id, studyStyle: profile.studyStyle, sourceMode: notebook.sourceMode, minor: ageOn(profile.birthYear, profile.birthMonth, new Date()) < ADULT_AGE, ranges };
+    return { profileId: profile._id, voice: voiceOf(profile), simpleEnglish: needs(profile, "english"), sourceMode: notebook.sourceMode, minor: ageOn(profile.birthYear, profile.birthMonth, new Date()) < ADULT_AGE, ranges };
   },
 });
 

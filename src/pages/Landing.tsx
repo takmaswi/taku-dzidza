@@ -1,15 +1,16 @@
-import { ArrowRight, BookOpen, Check, Layers, ListChecks, Network, ScrollText, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, Check, FileClock, GraduationCap, Layers, ListChecks, Network, ScrollText, Sparkles, Timer } from "lucide-react";
+import { STUDY_MODES } from "../../convex/accounts/voices";
 import { useLayoutEffect } from "react";
 import { Link } from "react-router";
 import { Cutout, DecorLine, Scene } from "../components/Art";
 import { BrandMark } from "../components/BrandMark";
 import { Layout } from "../components/Layout";
-import { STYLE_ART } from "../components/styleArt";
 import { useReveal } from "../components/useReveal";
 import { copy } from "../copy/en";
 
 const RING_COLOURS = ["var(--butter)", "var(--tint)", "var(--cream)", "var(--butter-pick)", "var(--white)", "var(--paper)"];
 const RING_ICONS = [Layers, ListChecks, ScrollText, Sparkles, Network, BookOpen];
+const MODE_ICONS = { learn: GraduationCap, test: ListChecks, sprint: Timer, exam: FileClock } as const;
 
 /**
  * The public front door. The hero is the landing scene, people stand on the
@@ -142,20 +143,22 @@ export default function Landing() {
       </section>
 
       <section className="l-styles reveal">
-        <span className="eyebrow">{t.stylesEyebrow}</span>
-        <h2 className="l-h2">{t.stylesTitle}</h2>
-        <p className="lead">{t.stylesBody}</p>
-        <div className="style-cards">
-          {(["locked_in", "cook", "calm"] as const).map((s) => (
-            <div key={s} className={`style-card ${STYLE_ART[s].cls}`}>
-              <Cutout slug={STYLE_ART[s].slug} alt={STYLE_ART[s].alt} sizes="(min-width: 760px) 300px, 80vw" />
-              <span className="sc-body">
-                <span className="tag">{copy.styles[s].tag}</span>
-                <b>{copy.styles[s].name}</b>
-                <span>{copy.styles[s].line}</span>
-              </span>
-            </div>
-          ))}
+        <span className="eyebrow">{t.modesEyebrow}</span>
+        <h2 className="l-h2">{t.modesTitle}</h2>
+        <p className="lead">{t.modesBody}</p>
+        <div className="mode-cards">
+          {STUDY_MODES.map((m) => {
+            const Icon = MODE_ICONS[m];
+            return (
+              <div key={m} className="mode-card">
+                <span className="ct-icon">
+                  <Icon size={22} aria-hidden="true" />
+                </span>
+                <b>{copy.study.modes[m].name}</b>
+                <span>{copy.study.modes[m].line}</span>
+              </div>
+            );
+          })}
         </div>
       </section>
 

@@ -76,10 +76,10 @@ test.describe("accounts", () => {
     await expect(counts).not.toBeChecked();
     await counts.check();
     await expect(counts).toBeChecked();
-    // The compact style picker: all three, no photos.
-    const styles = page.getByRole("radiogroup", { name: "Your study style" });
-    await expect(styles.getByRole("radio")).toHaveCount(3);
-    await expect(styles.locator("img")).toHaveCount(0);
+    // Taku's voice: all three, plain choice cards.
+    const voices = page.getByRole("radiogroup", { name: "Taku's voice" });
+    await expect(voices.getByRole("radio")).toHaveCount(3);
+    await expect(voices.getByRole("radio", { name: /Gentle/ })).toHaveAttribute("aria-checked", "true");
   });
 
   test("the privacy notice and terms are public and marked as drafts", async ({ page }) => {

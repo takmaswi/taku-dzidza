@@ -8,7 +8,7 @@ Citations: every item you make carries a ref, a page and a short exact quote (5 
 
 {{SOURCE_MODE}}
 
-{{STYLE}}
+{{VOICE}}
 
 THE TOOL TO MAKE: {{MODE_NAME}}
 {{MODE_BODY}}

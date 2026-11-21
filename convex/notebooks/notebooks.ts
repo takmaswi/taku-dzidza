@@ -49,7 +49,8 @@ export const get = query({
     const { notebook } = await ownNotebook(ctx, args.notebookId);
     const sources = (await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect()).filter((s) => s.deletingAt === undefined);
     const messages = await ctx.db.query("messages").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).order("desc").take(100);
-    return { notebook, sources, messages: messages.reverse() };
+    // A Test me answer stays on the server: the learner sees the question and the mark only.
+    return { notebook, sources, messages: messages.reverse().map((m) => (m.test === undefined ? m : { ...m, test: { ...m.test, answer: "", origin: undefined } })) };
   },
 });
 

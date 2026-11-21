@@ -1,0 +1,16 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "Light energy",
+    "answerMode": "answer",
+    "studyMode": "test",
+    "asked": "What does chlorophyll absorb?"
+  },
+  "response": {
+    "content": "Right. Chlorophyll absorbs light energy.\n\nNext: what sugar do plants make?\n\n```test\n{\"correct\": true, \"question\": \"What sugar do plants make?\", \"answer\": \"Glucose\"}\n```",
+    "usage": {
+      "promptTokens": 700,
+      "completionTokens": 120
+    }
+  }
+}

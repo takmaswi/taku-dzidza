@@ -7,21 +7,21 @@ import { CODE_MAX_ATTEMPTS, CODE_MAX_SENDS_PER_DAY } from "../../convex/accounts
 import { addConsent, birthForAge, GUARDIAN_PHONE, lastCode, makeLearner, makeT, makeUser, settle } from "./people";
 
 describe("sign up and profiles", () => {
-  test("an adult needs no consent and starts in Calm", async () => {
+  test("an adult needs no consent and starts with the gentle voice", async () => {
     const t = makeT();
     const p = await makeLearner(t, 25);
     const me = await p.as.query(api.accounts.profiles.me, {});
     expect(me?.profile?.consentState).toBe("not_needed");
-    expect(me?.profile?.studyStyle).toBe("calm");
+    expect(me?.profile?.voice).toBe("gentle");
     expect(me?.profile?.answerMode).toBe("answer");
   });
 
-  test("a 15 year old needs consent and starts in Cook Mode", async () => {
+  test("a 15 year old needs consent and starts with the upbeat voice", async () => {
     const t = makeT();
     const p = await makeLearner(t, 15);
     const me = await p.as.query(api.accounts.profiles.me, {});
     expect(me?.profile?.consentState).toBe("pending");
-    expect(me?.profile?.studyStyle).toBe("cook");
+    expect(me?.profile?.voice).toBe("upbeat");
   });
 
   test("under 12 is refused with TOO_YOUNG and no profile is made", async () => {
@@ -35,14 +35,15 @@ describe("sign up and profiles", () => {
     const t = makeT();
     const a = await makeLearner(t, 20);
     const b = await makeLearner(t, 30);
-    await a.as.mutation(api.accounts.profiles.setStyle, { studyStyle: "locked_in" });
+    await a.as.mutation(api.accounts.profiles.setVoice, { voice: "direct" });
+    await a.as.mutation(api.accounts.profiles.skipOnboarding, {});
     await a.as.mutation(api.accounts.profiles.setAnswerMode, { answerMode: "guide" });
     const access = { dyslexia: true, largeText: false, readAloud: true, shortChunks: false, highContrast: false, reducedMotion: true };
     await a.as.mutation(api.accounts.profiles.setAccessibility, { accessibility: access });
     const pa = (await a.as.query(api.accounts.profiles.me, {}))?.profile;
     const pb = (await b.as.query(api.accounts.profiles.me, {}))?.profile;
-    expect(pa).toMatchObject({ studyStyle: "locked_in", styleChosen: true, answerMode: "guide", accessibility: access });
-    expect(pb).toMatchObject({ studyStyle: "calm", styleChosen: false, answerMode: "answer" });
+    expect(pa).toMatchObject({ voice: "direct", styleChosen: true, answerMode: "guide", accessibility: access });
+    expect(pb).toMatchObject({ voice: "gentle", styleChosen: false, answerMode: "answer" });
   });
 
   test("signed out callers get null from me and are refused elsewhere", async () => {

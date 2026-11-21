@@ -13,7 +13,7 @@ const Landing = lazy(() => import("./pages/Landing"));
 const SignIn = lazy(() => import("./pages/SignIn"));
 const Setup = lazy(() => import("./pages/Setup"));
 const Guardian = lazy(() => import("./pages/Guardian"));
-const StyleQuiz = lazy(() => import("./pages/StyleQuiz"));
+const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Home = lazy(() => import("./pages/Home"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Notebook = lazy(() => import("./pages/Notebook"));
@@ -37,7 +37,7 @@ const Family = lazy(() => import("./pages/classes/Family"));
 /**
  * Takudzidza routes. Public: "/", "/signin", "/help", "/privacy", "/terms" and
  * "/consent/:token" (a guardian's page, opened on their own phone). Signed in learners move
- * through setup, guardian consent (under 18), the optional style quiz, then
+ * through setup, guardian consent (under 18), the optional onboarding, then
  * the app.
  */
 export default function App() {
@@ -90,7 +90,7 @@ function SignedIn() {
   if (me === undefined || me === null) return <p className="app-loading">{copy.loading}</p>;
   if (profile === null) return <Setup />;
   if (!canStudyState(profile.consentState)) return <Guardian state={profile.consentState} />;
-  if (!profile.styleChosen) return <StyleQuiz profile={profile} />;
+  if (!profile.styleChosen) return <Onboarding profile={profile} />;
   return <AppRoutes profile={profile} email={me.email} />;
 }
 

@@ -1,4 +1,4 @@
-import { ConvexError, v } from "convex/values";
+import { ConvexError, v, type Infer } from "convex/values";
 import { internal } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
 import { action, internalAction, internalMutation, internalQuery, type ActionCtx } from "../_generated/server";
@@ -11,7 +11,9 @@ import { embeddingsOn } from "../lib/env";
 import { BLOCKED_REPLY, inputCheck, outputAllowed } from "../safety/checks";
 import { prefilter, type Audience } from "../safety/prefilter";
 import { settleParts, type RawPart, type SourceMode } from "../sources/modes";
-import { originValidator, widgetValidator } from "../schema";
+import { needs, voiceOf, type StudyMode, type Voice } from "../accounts/voices";
+import { examFor, EXAM_TEXT, SIMPLE_ENGLISH } from "../ai/promptLines";
+import { originValidator, studyModeValidator, testTurnValidator, widgetValidator } from "../schema";
 import { widgetFromText, type StoredWidget } from "../widgets/inline";
 
 /**
@@ -59,10 +61,14 @@ export type AskContext = {
   profileId: Id<"profiles">;
   audience: Audience;
   answerMode: Doc<"profiles">["answerMode"];
-  studyStyle: Doc<"profiles">["studyStyle"];
+  voice: Voice;
   shortChunks: boolean;
+  simpleEnglish: boolean;
+  studyingFor: Doc<"profiles">["studyingFor"];
   sourceMode: SourceMode;
   readySources: number;
+  /** The question Taku asked last in Test me, if the learner has not answered it yet. */
+  asked: { question: string; answer: string; origin?: Infer<typeof originValidator> } | null;
 };
 
 export const context = internalQuery({
@@ -72,14 +78,18 @@ export const context = internalQuery({
     const notebook = await ctx.db.get(args.notebookId);
     if (notebook === null || notebook.profileId !== profile._id) throw new ConvexError("Notebook not found.");
     const sources = (await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect()).filter((s) => s.deletingAt === undefined);
+    const last = await ctx.db.query("messages").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).order("desc").first();
     return {
       profileId: profile._id,
       audience: ageOn(profile.birthYear, profile.birthMonth, new Date()) < ADULT_AGE ? "minor" : "adult",
       answerMode: profile.answerMode,
-      studyStyle: profile.studyStyle,
+      voice: voiceOf(profile),
       shortChunks: profile.accessibility.shortChunks,
+      simpleEnglish: needs(profile, "english"),
+      studyingFor: profile.studyingFor,
       sourceMode: notebook.sourceMode,
       readySources: sources.filter((s) => s.status === "ready").length,
+      asked: last?.role === "taku" && last.test !== undefined && last.test.question !== "" ? { question: last.test.question, answer: last.test.answer, ...(last.test.origin === undefined ? {} : { origin: last.test.origin }) } : null,
     };
   },
 });
@@ -153,12 +163,12 @@ const partValidator = v.object({ text: v.string(), origin: originValidator });
 
 /** The question, and an unfinished answer that shows the first stage. */
 export const begin = internalMutation({
-  args: { notebookId: v.id("notebooks"), question: v.string(), sourceMode: v.union(v.literal("only_mine"), v.literal("mine_plus")), answerMode: v.union(v.literal("answer"), v.literal("guide")) },
+  args: { notebookId: v.id("notebooks"), question: v.string(), sourceMode: v.union(v.literal("only_mine"), v.literal("mine_plus")), answerMode: v.union(v.literal("answer"), v.literal("guide")), studyMode: studyModeValidator },
   handler: async (ctx, args): Promise<Id<"messages">> => {
     const now = Date.now();
     await ctx.db.insert("messages", { notebookId: args.notebookId, role: "learner", kind: "question", text: args.question, createdAt: now });
     await ctx.db.patch(args.notebookId, { updatedAt: now });
-    return await ctx.db.insert("messages", { notebookId: args.notebookId, role: "taku", kind: "answer", text: "", stage: "reading", sourceMode: args.sourceMode, answerMode: args.answerMode, createdAt: now + 1 });
+    return await ctx.db.insert("messages", { notebookId: args.notebookId, role: "taku", kind: "answer", text: "", stage: "reading", sourceMode: args.sourceMode, answerMode: args.answerMode, studyMode: args.studyMode, createdAt: now + 1 });
   },
 });
 
@@ -178,6 +188,7 @@ export const finish = internalMutation({
       parts: v.optional(v.array(partValidator)),
       note: v.optional(v.string()),
       widget: v.optional(widgetValidator),
+      test: v.optional(testTurnValidator),
     }),
   },
   handler: async (ctx, args) => {
@@ -187,7 +198,7 @@ export const finish = internalMutation({
 
 /** Data goes inside tags; text cannot close a tag and talk to the model. */
 export function asData(text: string): string {
-  return text.replace(/<\/?\s*(text|source|question)\b[^>]*>/gi, " ");
+  return text.replace(/<\/?\s*(text|source|question|asked|expected)\b[^>]*>/gi, " ");
 }
 
 /** Em and en dashes become commas (copy rule); the model is also told not to use them. */
@@ -212,17 +223,23 @@ WIDGETS IN GUIDE ME. When it helps the learner practise, set widget to one of th
 - slug "fill-blanks" to recall facts from the pages. data: {"title": "...", "items": [{"before": "words before the gap", "answer": "the missing word", "after": "words after the gap", "alternatives": [], "hint": "...", "ref": "S1", "page": 1, "quote": "exact words from that page that include the answer"}]}`,
 };
 
-const STYLE_TEXT: Record<Doc<"profiles">["studyStyle"], string> = {
-  locked_in: "STYLE: LOCKED IN. Formal and dense, like a good exam board mark scheme. No small talk, no slang.",
-  cook: "STYLE: COOK MODE. Upbeat and punchy, short sentences, a little everyday lingo is fine (like \"lock in\"), but stay accurate and never rude.",
-  calm: "STYLE: CALM. Patient and clear, steady pace, gentle tone.",
+const VOICE_TEXT: Record<Voice, string> = {
+  gentle: "VOICE: GENTLE. Patient and clear, steady pace, warm and calm.",
+  direct: "VOICE: DIRECT. Plain and exact, like a good exam board mark scheme. No small talk, no slang.",
+  upbeat: "VOICE: UPBEAT. Lively and encouraging, short sentences, a little everyday lingo is fine (like \"lock in\"), but stay accurate and never rude.",
 };
 
-export function systemPrompt(c: Pick<AskContext, "sourceMode" | "answerMode" | "studyStyle" | "shortChunks">): string {
-  const style = STYLE_TEXT[c.studyStyle] + (c.shortChunks ? " Keep the whole answer short: at most 5 parts." : "");
-  return PROMPTS["taku-answer"].replace("{{SOURCE_MODE}}", SOURCE_MODE_TEXT[c.sourceMode]).replace("{{ANSWER_MODE}}", ANSWER_MODE_TEXT[c.answerMode]).replace("{{STYLE}}", style);
-}
+const MODE_TEXT: Record<Exclude<StudyMode, "exam">, string> = {
+  learn: "STUDY MODE: LEARN. Explain the idea clearly, then give one worked example, then make the last part one short check question for the learner to answer before moving on. When the learner answers a check question, say whether they are right first.",
+  test: `STUDY MODE: TEST ME. Test the learner on their material, one question at a time. When the learner answers the asked question, mark it at once against the expected answer, accepting other correct wording: in parts, say plainly whether it is right, and if it is not, give the right answer, cited to its page. Set test.correct to "yes" or "no", or "none" when there was nothing to mark. Then set test.question to the next question, on something the pages say, and test.answer to its right answer in a few words, with test.ref, test.page and test.quote (5 to 25 words copied from the page that holds the answer). Never put the new question's answer in parts.`,
+  sprint: "STUDY MODE: SPRINT. The learner is in a short timed study sprint. Keep the whole answer under 120 words, in at most 3 parts. One idea only. End with the next small step.",
+};
 
+export function systemPrompt(c: Pick<AskContext, "sourceMode" | "answerMode" | "voice" | "shortChunks" | "simpleEnglish" | "studyingFor">, mode: StudyMode = "learn"): string {
+  const voice = VOICE_TEXT[c.voice] + (c.shortChunks && mode !== "sprint" ? " Keep the whole answer short: at most 5 parts." : "") + (c.simpleEnglish ? `\n\n${SIMPLE_ENGLISH} Put the key words in the last part.` : "");
+  const study = mode === "exam" ? EXAM_TEXT(examFor(c.studyingFor)) : MODE_TEXT[mode];
+  return PROMPTS["taku-answer"].replace("{{SOURCE_MODE}}", SOURCE_MODE_TEXT[c.sourceMode]).replace("{{ANSWER_MODE}}", ANSWER_MODE_TEXT[c.answerMode]).replace("{{VOICE}}", voice).replace("{{STUDY_MODE}}", study);
+}
 export const ANSWER_SCHEMA = {
   name: "taku_answer",
   strict: true,
@@ -251,6 +268,39 @@ export const ANSWER_SCHEMA = {
   },
 };
 
+/** Test me answers also carry the mark and the next question, with its answer cited to a page. */
+export const TEST_SCHEMA = {
+  name: "taku_test",
+  strict: true,
+  schema: {
+    ...ANSWER_SCHEMA.schema,
+    properties: {
+      ...ANSWER_SCHEMA.schema.properties,
+      test: {
+        type: "object",
+        properties: { correct: { type: "string", enum: ["yes", "no", "none"] }, question: { type: "string" }, answer: { type: "string" }, ref: { type: "string" }, page: { type: "integer" }, quote: { type: "string" } },
+        required: ["correct", "question", "answer", "ref", "page", "quote"],
+        additionalProperties: false,
+      },
+    },
+    required: [...ANSWER_SCHEMA.schema.required, "test"],
+  },
+};
+
+export type RawTest = { correct: "yes" | "no" | "none"; question: string; answer: string; ref: string; page: number; quote: string };
+
+export function parseTest(content: string): RawTest | null {
+  try {
+    const trimmed = content.trim();
+    const t = (JSON.parse(trimmed.slice(trimmed.indexOf("{"), trimmed.lastIndexOf("}") + 1)) as { test?: Record<string, unknown> }).test;
+    if (t === undefined || typeof t.question !== "string" || typeof t.answer !== "string") return null;
+    const correct = t.correct === "yes" || t.correct === "no" ? t.correct : "none";
+    return { correct, question: t.question.trim().slice(0, 600), answer: t.answer.trim().slice(0, 600), ref: typeof t.ref === "string" ? t.ref : "", page: typeof t.page === "number" ? t.page : 0, quote: typeof t.quote === "string" ? t.quote : "" };
+  } catch {
+    return null;
+  }
+}
+
 export function parseAnswer(content: string): { parts: RawPart[]; missing: string; widget: { slug: string; data: string } | null } | null {
   try {
     const trimmed = content.trim();
@@ -269,16 +319,38 @@ export function parseAnswer(content: string): { parts: RawPart[]; missing: strin
   }
 }
 
-type AskReply = { kind: "answer" | "help" | "redirect" | "error"; text: string; parts?: { text: string; origin: { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added"; unchecked?: boolean } }[]; note?: string; widget?: StoredWidget };
+type AskReply = { kind: "answer" | "help" | "redirect" | "error"; text: string; parts?: { text: string; origin: { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added"; unchecked?: boolean } }[]; note?: string; widget?: StoredWidget; test?: Infer<typeof testTurnValidator> };
+
+/**
+ * Test me in a notebook. A wrong answer to the asked question becomes a
+ * review card with the expected answer and its citation. The next question's
+ * answer is quote checked like any part: in Only my material a question whose
+ * answer is not found on the page is not asked.
+ */
+async function settleNotebookTest(
+  ctx: ActionCtx,
+  a: { profileId: Id<"profiles">; notebookId: Id<"notebooks">; sourceMode: SourceMode; asked: AskContext["asked"]; raw: RawTest | null; lookup: (ref: string, page: number) => { sourceId: string; text: string } | null; notes: string[] },
+): Promise<Infer<typeof testTurnValidator> | undefined> {
+  if (a.raw === null) return undefined;
+  const correct = a.asked === null || a.raw.correct === "none" ? undefined : a.raw.correct === "yes";
+  if (correct === false && a.asked !== null) await ctx.runMutation(internal.study.testCards.add, { profileId: a.profileId, notebookId: a.notebookId, front: a.asked.question, back: a.asked.answer, ...(a.asked.origin === undefined ? {} : { origin: a.asked.origin }) });
+  const settled = a.raw.question === "" ? { kept: [], dropped: 0 } : settleParts([{ text: a.raw.answer, ref: a.raw.ref, page: a.raw.page, quote: a.raw.quote }], a.sourceMode, a.lookup);
+  const next = settled.kept[0];
+  if (a.raw.question !== "" && next === undefined) a.notes.push("Taku could not find the answer to its next question in your material, so it did not ask one. Send any message to try another.");
+  if (next === undefined) return correct === undefined ? undefined : { question: "", answer: "", correct };
+  return { question: cleanDashes(a.raw.question), answer: cleanDashes(next.text), origin: next.origin, ...(correct === undefined ? {} : { correct }) };
+}
 
 export const ask = action({
-  args: { notebookId: v.id("notebooks"), question: v.string() },
+  args: { notebookId: v.id("notebooks"), question: v.string(), studyMode: v.optional(studyModeValidator) },
   handler: async (ctx, args): Promise<{ kind: string }> => {
     await requireLearnerInAction(ctx);
     const c: AskContext = await ctx.runQuery(internal.notebooks.ask.context, { notebookId: args.notebookId });
+    const mode: StudyMode = args.studyMode ?? "learn";
+    const asked = mode === "test" ? c.asked : null;
     const question = args.question.trim().slice(0, MAX_QUESTION);
     if (question.length === 0) throw new ConvexError("Type a question first.");
-    const messageId: Id<"messages"> = await ctx.runMutation(internal.notebooks.ask.begin, { notebookId: args.notebookId, question, sourceMode: c.sourceMode, answerMode: c.answerMode });
+    const messageId: Id<"messages"> = await ctx.runMutation(internal.notebooks.ask.begin, { notebookId: args.notebookId, question, sourceMode: c.sourceMode, answerMode: c.answerMode, studyMode: mode });
     const reply = async (r: AskReply) => {
       await ctx.runMutation(internal.notebooks.ask.finish, { messageId, reply: r });
       return { kind: r.kind };
@@ -311,7 +383,8 @@ export const ask = action({
       if (verdict !== "allow") return await reply({ kind: "error", text: REPLIES.failed });
 
       if (c.readySources === 0) return await reply({ kind: "redirect", text: REPLIES.noSources });
-      const pages: Retrieved[] = await retrievePages(ctx, { notebookId: args.notebookId, profileId: c.profileId, question });
+      // In Test me the learner's answer alone may share few words with the notes; the asked question finds its page.
+      const pages: Retrieved[] = await retrievePages(ctx, { notebookId: args.notebookId, profileId: c.profileId, question: asked === null ? question : `${asked.question} ${question}` });
       if (pages.length === 0) return await reply({ kind: "answer", text: REPLIES.nothingFound, parts: [], note: "Try other words, or add material that covers this." });
 
       await ctx.runMutation(internal.notebooks.ask.setStage, { messageId, stage: "writing" });
@@ -320,13 +393,14 @@ export const ask = action({
         tier: "main",
         purpose: "taku_answer",
         messages: [
-          { role: "system", content: systemPrompt(c) },
-          { role: "user", content: `${sourceBlock}\n<question>${asData(question)}</question>` },
+          { role: "system", content: systemPrompt(c, mode) },
+          { role: "user", content: `${sourceBlock}\n${asked === null ? "" : `<asked>${asData(asked.question)}</asked>\n<expected>${asData(asked.answer)}</expected>\nThe learner's message is their answer to the asked question.\n`}<question>${asData(question)}</question>` },
         ],
-        jsonSchema: ANSWER_SCHEMA,
-        maxTokens: 2400,
+        jsonSchema: mode === "test" ? TEST_SCHEMA : ANSWER_SCHEMA,
+        maxTokens: mode === "sprint" ? 900 : 2400,
         stablePrefixCount: 1,
-        fixtureKey: { kind: "answer", question, sourceMode: c.sourceMode, answerMode: c.answerMode },
+        // Learn keeps the key it had before study modes, so existing fixtures still match.
+        fixtureKey: mode === "learn" ? { kind: "answer", question, sourceMode: c.sourceMode, answerMode: c.answerMode } : { kind: "answer", question, sourceMode: c.sourceMode, answerMode: c.answerMode, studyMode: mode, asked: asked?.question ?? "" },
       });
       await count("answer", result);
       const parsed = result.ok ? parseAnswer(result.content) : null;
@@ -353,7 +427,9 @@ export const ask = action({
       if (dropped > 0) notes.push(`${dropped} ${dropped === 1 ? "point was" : "points were"} left out because ${dropped === 1 ? "it" : "they"} could not be found in your material.`);
       if (opinion.rejected.size > 0) notes.push(`${opinion.rejected.size} of Taku's ideas ${opinion.rejected.size === 1 ? "was" : "were"} left out because a second check did not agree.`);
       const widget = c.answerMode === "guide" && parsed.widget !== null ? widgetFromText(JSON.stringify(parsed.widget), ["equation-steps", "fill-blanks", "long-division"], lookup) : null;
-      return await checkedReply({ kind: "answer", text: final.length === 0 ? REPLIES.nothingFound : "", parts: final, note: notes.length > 0 ? notes.join(" ") : undefined, ...(widget === null ? {} : { widget }) });
+      const test = mode === "test" ? await settleNotebookTest(ctx, { profileId: c.profileId, notebookId: args.notebookId, sourceMode: c.sourceMode, asked, raw: parseTest(result.content), lookup, notes }) : undefined;
+      const empty = final.length === 0 && test === undefined;
+      return await checkedReply({ kind: "answer", text: empty ? REPLIES.nothingFound : "", parts: final, note: notes.length > 0 ? notes.join(" ") : undefined, ...(widget === null ? {} : { widget }), ...(test === undefined ? {} : { test }) });
     } catch (error) {
       // Never leave an answer stuck on its progress line.
       await ctx.runMutation(internal.notebooks.ask.finish, { messageId, reply: { kind: "error", text: REPLIES.failed } });

@@ -45,9 +45,9 @@ export const copy = {
       { name: "Mind maps", line: "A whole topic on one screen" },
       { name: "Study guides", line: "Key terms and common mistakes" },
     ],
-    stylesEyebrow: "Your style",
-    stylesTitle: "Study the way you actually study.",
-    stylesBody: "Pick Locked In, Cook Mode or Calm. Taku changes how it talks and how the app looks. The facts stay the same.",
+    modesEyebrow: "Four ways to study",
+    modesTitle: "Study the way the day needs.",
+    modesBody: "Learn when it is new, Test me when you think you know it, Sprint when time is short and Exam prep when the paper is close. Pick one beside the question box.",
     safeEyebrow: "Built for Zimbabwe",
     safeTitle: "Safe for learners. Light on data.",
     safePoints: [
@@ -159,13 +159,10 @@ export const copy = {
     expired: "This link has expired or is not valid. Ask the learner for a new one.",
   },
 
-  quiz: {
-    title: "How do you like to study?",
+  onboarding: {
     lead: "A few quick taps so Taku fits you. You can change any of this later.",
     skip: "Skip",
-    next: "Next",
     back: "Back",
-    done: "See my style",
     start: "Let's go",
     stepLabel: (n: number, total: number) => `Step ${n} of ${total}`,
     forTitle: "What are you studying for?",
@@ -176,41 +173,69 @@ export const copy = {
       { value: "professional", label: "A professional exam", line: "ACCA, CTA and others" },
       { value: "learning", label: "Just learning", line: "Something I am curious about" },
     ],
-    questions: [
-      {
-        question: "You open your notes. What do you want to see?",
-        options: [
-          { style: "locked_in", label: "Straight to the point", line: "No extras, just the work" },
-          { style: "cook", label: "Something bright and quick", line: "Keep me awake" },
-          { style: "calm", label: "Clean and quiet", line: "Nothing shouting at me" },
-        ],
-      },
-      {
-        question: "What helps you remember?",
-        options: [
-          { style: "locked_in", label: "Dense summaries", line: "I read fast" },
-          { style: "cook", label: "Swiping through cards", line: "Quick hits, lots of them" },
-          { style: "calm", label: "Going step by step", line: "Slow and steady" },
-        ],
-      },
-      {
-        question: "How should Taku talk to you?",
-        options: [
-          { style: "locked_in", label: "Like an examiner", line: "Clear and formal" },
-          { style: "cook", label: "Like a friend who keeps it real", line: "Bit of lingo is fine" },
-          { style: "calm", label: "Like a patient teacher", line: "Gentle, no rush" },
-        ],
-      },
-    ],
-    resultEyebrow: "Your study style",
   },
 
-  styles: {
-    locked_in: { name: "Locked In", line: "All business, no faff. Plain screens, dense summaries, exam board tone.", tag: "Focus" },
-    cook: { name: "Cook Mode", line: "Bright, loud and quick. Short cards, quizzes and a bit of lingo to keep you going.", tag: "Energy" },
-    calm: { name: "Calm", line: "Quiet screens and a patient tutor. Work through it at your own pace.", tag: "Steady" },
+  support: {
+    title: "What gets in the way when you study?",
+    lead: "Tick any that fit, or skip. This only changes how the app works for you.",
+    settingsTitle: "What gets in the way",
+    settingsLine: "Ticking one switches on the settings that help with it, and you can switch each of those off again. These are your preferences, not a diagnosis, and they are never shared.",
+    needs: {
+      focus: "I lose focus easily",
+      reading: "Reading takes me a long time",
+      anxious: "Tests make me anxious",
+      english: "English is not my first language",
+      clearer: "I need things clearer to see",
+    },
+    /** What onboarding switches on, as a phrase that completes "We will start you with ...". */
+    gives: {
+      focus: "Sprint mode with short answers and break reminders",
+      reading: "spaced out, larger text and read aloud",
+      anxious: "a gentle voice, no timers and scores only at the end",
+      english: "simpler English with key words explained",
+      clearer: "high contrast and larger text",
+    },
+    recommend: (...parts: string[]) => {
+      if (parts.length === 0) return "Nothing changes for now. You can set this up any time in Settings.";
+      const list = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
+      return `We will start you with ${list}. You can change any of it in Settings.`;
+    },
   },
 
+  voices: {
+    gentle: { name: "Gentle", line: "Patient and calm. Never hurries you." },
+    direct: { name: "Direct", line: "Plain and to the point. No small talk." },
+    upbeat: { name: "Upbeat", line: "Lively and encouraging, with a bit of lingo." },
+  },
+
+  study: {
+    label: "Study mode",
+    modes: {
+      learn: { name: "Learn", line: "Taku explains, shows one worked example, then checks you got it." },
+      test: { name: "Test me", line: "One question at a time. Taku marks each answer at once." },
+      sprint: { name: "Sprint", line: "10 or 15 minutes. Short answers, one idea at a time." },
+      exam: { name: "Exam prep", line: "Exam board wording, mark scheme marking and timed papers." },
+    },
+    sprintHow: "How long is this sprint?",
+    minutes: (n: number) => `${n} minutes`,
+    left: (m: number) => (m <= 1 ? "Under a minute left" : `${m} minutes left`),
+    sprintOn: "Sprint under way",
+    progress: "Sprint progress",
+    end: "End sprint",
+    doneTitle: "Sprint done. Time for a short break.",
+    doneBody: "Stand up, stretch and drink some water. Five minutes away from the screen helps the work stick.",
+    again: "Another sprint",
+    backToLearn: "Back to Learn",
+    score: (right: number, marked: number) => `Score: ${right} out of ${marked}`,
+    finish: "Finish test",
+    final: (right: number, marked: number) => (marked === 0 ? "No answers marked yet." : `You got ${right} out of ${marked}. Questions you missed are waiting in your review cards.`),
+    right: "Right",
+    wrong: "Not quite",
+    question: "Question",
+    timedPaper: "Timed practice paper",
+    timeLeft: (m: number) => (m <= 1 ? "Under a minute left" : `${m} minutes left`),
+    timeUp: "Time is up. Finish the question you are on, then hand in.",
+  },
   home: {
     title: "Home",
     greeting: (name: string) => `What are we studying today, ${name}?`,
@@ -250,7 +275,6 @@ export const copy = {
     chatsTitle: "Recent chats",
     seeAll: "See all",
     noChats: "Your chats with Taku will show up here.",
-    styleTitle: "Your study style",
     change: "Change",
     pickNotebook: "Which notebook?",
     needNotes: "Add some notes first. Taku makes this from them.",
@@ -481,7 +505,8 @@ export const copy = {
     name: "Your name",
     save: "Save",
     saved: "Saved",
-    styleTitle: "Study style",
+    voiceTitle: "Taku's voice",
+    voiceLine: "How Taku talks to you. The facts and checks are the same in every voice.",
     answersTitle: "How Taku answers",
     answer: { name: "Show me the answer", line: "The answer with full working, step by step." },
     guide: { name: "Guide me", line: "Hints and questions first, so you work it out yourself. Learners who work it out remember more." },

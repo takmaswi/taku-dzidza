@@ -135,6 +135,8 @@ These are diagrams and interactive tools, not generated photos.
 - Price proposal (decision D2) is in section 9 with its evidence. No billing code until D2 is signed.
 
 ### 3.10 Study styles and personalisation
+
+Superseded on 21 November 2026: the three styles became Taku's voice (Gentle, Direct, Upbeat) and per session study modes (Learn, Test me, Sprint, Exam prep), and the style quiz became one optional support question. See DECISIONS.md, Study modes and Taku's voice.
 - At sign up the learner gives a birth year (needed for consent anyway) and may take an **optional 3 or 4 tap quiz** ("How do you like to study?"); skipping gives the age based default. Changeable any time in Settings.
 - Styles (decided names):
 

@@ -18,6 +18,10 @@ import { prettyPlain } from "../components/math";
 import { Menu, Sheet } from "../components/ui";
 import { copy } from "../copy/en";
 import { WidgetHost } from "../widgets/WidgetHost";
+import { calmTests } from "../../convex/accounts/voices";
+import { testScore } from "../../convex/chat/testTurns";
+import { StudyBar, TestMark, TestQuestion } from "../components/StudyBar";
+import { useSprinting, useStudyMode } from "../components/studySession";
 
 /** Replies this old that never finished have lost their server, so the dots stop. */
 const STUCK_MS = 3 * 60 * 1000;
@@ -46,7 +50,10 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
   const [now] = useState(() => Date.now());
   // The past chats panel: open by default on wide screens, folded away when the learner wants the whole width. Kept on this device.
   const [listPref, setListPref] = useStored("takudzidza-chat-list");
-  const listOpen = listPref !== "closed";
+  const [studyMode, setStudyMode] = useStudyMode(profile);
+  // A sprint folds the side panel away without changing the learner's own choice.
+  const sprinting = useSprinting(studyMode);
+  const listOpen = listPref !== "closed" && !sprinting;
   const toggleList = () => setListPref(listOpen ? "closed" : "open");
   const [sheet, setSheet] = useState(false);
   useEffect(() => {
@@ -79,7 +86,7 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
       // A new chat exists first, so the reply can be watched as it arrives.
       const newId = id ?? (await start({ message: q }));
       if (id === undefined) navigate(`/chat/${newId}`, { replace: true });
-      await send({ chatId: newId, message: q });
+      await send({ chatId: newId, message: q, studyMode });
     } catch (e) {
       setError(errorText(e, copy.errors.generic));
       setMessage(q);
@@ -175,7 +182,9 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
                 return (
                   <TakuMessage key={m._id} testId="chat-taku" streaming={live} latest={i === latestTaku}>
                     {live && m.text === "" && <Typing />}
+                    {m.test?.correct !== undefined && <TestMark correct={m.test.correct} />}
                     <Markdown text={stuck && m.text === "" ? copy.notebook.stuck : m.text} />
+                    {m.test !== undefined && m.test.question !== "" && <TestQuestion text={m.test.question} />}
                     {m.widget !== undefined && <WidgetHost widget={m.widget} />}
                     {m.kind === "help" && (
                       <Link to="/help" className="pill small">
@@ -206,6 +215,7 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
               )}
             </Thread>
             <div className="dock">
+              <StudyBar mode={studyMode} onMode={setStudyMode} score={testScore(messages)} calm={calmTests(profile)} />
               <Composer
                 id="chat-input"
                 label={t.placeholder}
@@ -217,6 +227,8 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
                 sendLabel={t.send}
                 answerMode={profile.answerMode}
                 onAnswerMode={(answerMode) => void setAnswerMode({ answerMode })}
+                studyMode={studyMode}
+                onStudyMode={setStudyMode}
               />
               {error !== null && (
                 <p className="error" role="alert">

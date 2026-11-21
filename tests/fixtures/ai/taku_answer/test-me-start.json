@@ -1,0 +1,17 @@
+{
+  "keyMaterial": {
+    "kind": "answer",
+    "question": "Test me",
+    "sourceMode": "mine_plus",
+    "answerMode": "answer",
+    "studyMode": "test",
+    "asked": ""
+  },
+  "response": {
+    "content": "{\"parts\":[{\"text\":\"Here is your first question, from your notes on photosynthesis.\",\"ref\":\"S1\",\"page\":1,\"quote\":\"Green plants make glucose from carbon dioxide and water using light energy\"}],\"missing\":\"\",\"widget\":{\"slug\":\"\",\"data\":\"\"},\"test\":{\"correct\":\"none\",\"question\":\"What is released as a by product of photosynthesis?\",\"answer\":\"Oxygen\",\"ref\":\"S1\",\"page\":1,\"quote\":\"Oxygen is released as a by product\"}}",
+    "usage": {
+      "promptTokens": 900,
+      "completionTokens": 160
+    }
+  }
+}

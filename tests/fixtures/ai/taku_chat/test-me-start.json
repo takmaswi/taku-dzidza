@@ -1,0 +1,16 @@
+{
+  "keyMaterial": {
+    "kind": "chat",
+    "question": "Test me on photosynthesis",
+    "answerMode": "answer",
+    "studyMode": "test",
+    "asked": ""
+  },
+  "response": {
+    "content": "Good, let's test what you know about photosynthesis. One question at a time.\n\nWhat gas do plants take in for photosynthesis?\n\n```test\n{\"correct\": null, \"question\": \"What gas do plants take in for photosynthesis?\", \"answer\": \"Carbon dioxide\"}\n```",
+    "usage": {
+      "promptTokens": 700,
+      "completionTokens": 120
+    }
+  }
+}

@@ -159,22 +159,6 @@
   --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.3), 0 22px 46px rgb(0 0 0 / 0.38);
 }
 
-/* Locked In: all business. Tighter corners, flatter surfaces, no flourishes. */
-:root[data-style="locked_in"] {
-  --radius: 12px;
-  --radius-sm: 10px;
-  --shadow-panel: 0 1px 2px rgb(40 30 0 / 0.06);
-  --shadow-lift: 0 0 0 2px var(--ink);
-}
-
-/* Cook Mode: the same palette, turned up. Honey takes the selected states. */
-:root[data-style="cook"] {
-  --pick: var(--butter);
-  --radius: 24px;
-}
-
-/* Calm is the base above. */
-
 :root[data-dyslexia="true"] {
   --letter: 0.05em;
   --word: 0.12em;

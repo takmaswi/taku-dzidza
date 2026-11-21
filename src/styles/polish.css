@@ -13,7 +13,7 @@
 .oa-moon .oa-float { animation: oa-float 8s ease-in-out infinite alternate; }
 @keyframes oa-float { from { transform: translateY(1.5px); } to { transform: translateY(-1.5px); } }
 .oa-twinkle { transform-origin: 58px 58px; }
-:is(.object-art, .style-card, button):hover .oa-twinkle { animation: oa-twinkle calc(0.7s * var(--speed) + 0.001s) var(--ease) 1; }
+:is(.object-art, button):hover .oa-twinkle { animation: oa-twinkle calc(0.7s * var(--speed) + 0.001s) var(--ease) 1; }
 @keyframes oa-twinkle { 40% { transform: scale(1.12) rotate(12deg); } }
 .oa-glow { opacity: 0.45; }
 :root[data-theme="dark"][data-shell="app"]:not([data-contrast="true"]) .oa-glow { opacity: 0.12; }
@@ -56,14 +56,6 @@
 .due-today .object-art, .due-card .object-art { transform: rotate(-4deg); }
 @media (max-width: 520px) { .due-today { grid-template-columns: 56px 1fr; gap: 0.75rem; } .due-today .object-art { width: 56px; height: 56px; } }
 .making { display: flex; align-items: center; gap: 0.6rem; }
-/* Cards with an object line up top down, so the objects and the names sit level across the row. */
-.style-card:has(> .object-art) { align-content: start; }
-.style-card .object-art { justify-self: center; margin: 0.25rem 0 0.75rem; }
-/* Phones: the object beside the words, so three cards fit without a long scroll. */
-@media (max-width: 759px) {
-  .style-card:has(> .object-art) { grid-template-columns: 84px minmax(0, 1fr); align-items: center; column-gap: 1rem; padding: 1rem 2.75rem 1rem 0.9rem; }
-  .style-card .object-art { width: 84px; height: 84px; margin: 0; }
-}
 .guardian-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .guardian-head h1 { margin: 0; }
 .guardian > .link { display: block; justify-self: start; }

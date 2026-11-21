@@ -2,9 +2,9 @@ import { ConvexError, v } from "convex/values";
 import { mutation, query } from "../_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { profileOf, requireProfile, requireUser } from "../lib/access";
-import { accessibilityValidator, answerModeValidator, studyingForValidator, studyStyleValidator } from "../schema";
+import { accessibilityValidator, answerModeValidator, studyingForValidator, supportNeedValidator, voiceValidator } from "../schema";
 import { checkBirth } from "./age";
-import { defaultStyle } from "./styles";
+import { cleanNeeds, defaultVoice, supportSettings, voiceOf } from "./voices";
 
 /** The learner's own profile and settings (SPEC.md 3.10). */
 
@@ -49,7 +49,7 @@ export const create = mutation({
       displayName,
       birthYear: args.birthYear,
       birthMonth: args.birthMonth,
-      studyStyle: defaultStyle(verdict.age),
+      voice: defaultVoice(verdict.age),
       styleChosen: false,
       accessibility: { ...NO_ACCESSIBILITY },
       answerMode: "answer",
@@ -61,20 +61,47 @@ export const create = mutation({
   },
 });
 
-export const setStyle = mutation({
-  args: { studyStyle: studyStyleValidator },
+export const setVoice = mutation({
+  args: { voice: voiceValidator },
   handler: async (ctx, args) => {
     const { profile } = await requireProfile(ctx);
-    await ctx.db.patch(profile._id, { studyStyle: args.studyStyle, styleChosen: true });
+    await ctx.db.patch(profile._id, { voice: args.voice });
   },
 });
 
-/** Skipping the quiz keeps the age based default. */
-export const skipStyleQuiz = mutation({
+/**
+ * The end of onboarding. The needs ticked are stored as support preferences,
+ * and the settings they recommend are switched on once (convex/accounts/voices.ts).
+ * Ticking nothing, or skipping, changes no setting.
+ */
+export const finishOnboarding = mutation({
+  args: { support: v.array(supportNeedValidator) },
+  handler: async (ctx, args) => {
+    const { profile } = await requireProfile(ctx);
+    const support = cleanNeeds(args.support);
+    const next = supportSettings(support, { accessibility: profile.accessibility, voice: voiceOf(profile) });
+    await ctx.db.patch(profile._id, { support, accessibility: next.accessibility, voice: next.voice, styleChosen: true });
+  },
+});
+
+/** Skipping onboarding keeps the age based defaults. */
+export const skipOnboarding = mutation({
   args: {},
   handler: async (ctx) => {
     const { profile } = await requireProfile(ctx);
     await ctx.db.patch(profile._id, { styleChosen: true });
+  },
+});
+
+/** From Settings. A need ticked now switches on its settings, as in onboarding; unticking one switches nothing off. */
+export const setSupport = mutation({
+  args: { support: v.array(supportNeedValidator) },
+  handler: async (ctx, args) => {
+    const { profile } = await requireProfile(ctx);
+    const support = cleanNeeds(args.support);
+    const added = support.filter((n) => !(profile.support ?? []).includes(n));
+    const next = supportSettings(added, { accessibility: profile.accessibility, voice: voiceOf(profile) });
+    await ctx.db.patch(profile._id, { support, accessibility: next.accessibility, voice: next.voice });
   },
 });
 

@@ -86,26 +86,19 @@
 .step-in { animation: stepin calc(0.45s * var(--speed)) var(--ease) both; }
 @keyframes stepin { from { opacity: 0; transform: translateX(calc(24px * var(--speed))); } to { opacity: 1; transform: none; } }
 
-/* Study style cards: the person stands on the card, no photo frame. */
-.style-cards { display: grid; gap: 1rem; }
-@media (min-width: 760px) { .style-cards { grid-template-columns: repeat(3, 1fr); } }
-.style-card {
-  position: relative; display: grid; align-content: end; text-align: left; padding: 1.25rem 1.1rem 1.1rem; border-radius: var(--radius); border: 1.5px solid var(--line);
-  background: var(--panel-fill); color: var(--text); font: inherit; box-shadow: var(--card-edge), var(--shadow-panel); cursor: pointer;
-  transition: transform calc(0.3s * var(--speed)) var(--ease), box-shadow 0.3s, border-color 0.2s, background 0.2s;
-}
-div.style-card { cursor: default; }
-button.style-card:hover { transform: translateY(calc(-4px * var(--speed))); box-shadow: var(--shadow-lift); }
-.style-card .cutout { width: 72%; max-width: 230px; justify-self: center; margin-bottom: 0.6rem; }
-.style-card .sc-body { display: grid; gap: 0.3rem; }
-.style-card .sc-body .tag { justify-self: start; }
-.style-card .sc-body b { font-size: 1.15rem; }
-.style-card .sc-body > span:last-child { color: var(--text-soft); font-size: 0.9rem; }
-.style-card .ct-tick { position: absolute; top: 0.9rem; right: 0.9rem; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--dark-fill); color: var(--on-dark); transform: scale(0); transition: transform calc(0.3s * var(--speed)) cubic-bezier(0.3, 1.6, 0.5, 1); }
-.style-card[aria-checked="true"] { background: var(--pick-fill); border-color: var(--pick-line); }
-.style-card[aria-checked="true"] .sc-body > span:last-child { color: var(--pick-soft); }
-.style-card[aria-checked="true"] .ct-tick { transform: scale(1); }
+/* Study modes on the landing page: four plain cards, an icon and two lines each. */
+.mode-cards { display: grid; gap: 1rem; margin-top: 1.5rem; }
+@media (min-width: 640px) { .mode-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .mode-cards { grid-template-columns: repeat(4, 1fr); } }
+.mode-card { display: grid; gap: 0.35rem; align-content: start; padding: 1.2rem 1.1rem; border-radius: var(--radius); border: 1.5px solid var(--line); background: var(--panel-fill); box-shadow: var(--card-edge), var(--shadow-panel); }
+.mode-card .ct-icon { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--tint); color: var(--on-tint); margin-bottom: 0.3rem; }
+.mode-card b { font-size: 1.1rem; }
+.mode-card > span:last-child { color: var(--text-soft); font-size: 0.9rem; }
 
+/* Onboarding and Settings: what gets in the way. */
+.support-picker { border: 0; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.support-row { padding: 0.75rem 0.9rem; border-radius: var(--radius-sm); border: 1.5px solid var(--line); background: var(--panel-fill); }
+.support-row:has(input:checked) { background: var(--pick); border-color: var(--pick-line); }
 /* ---------- Review (focus mode) ---------- */
 .review { padding-top: 1rem; }
 .review h1 { font-size: 1.5rem; }
@@ -186,7 +179,6 @@ button.style-card:hover { transform: translateY(calc(-4px * var(--speed))); box-
 :root[data-motion="off"] .tool-ring .ring { animation: none; transform: rotateX(-12deg); }
 @media (prefers-reduced-motion: reduce) { .tool-ring .ring { animation: none; transform: rotateX(-12deg); } }
 .l-styles { padding: 3rem 0; }
-.l-styles .style-cards { margin-top: 1.5rem; }
 .l-checks { list-style: none; padding: 0; margin: 1.25rem 0 0; display: grid; gap: 0.9rem; }
 .l-checks li { display: flex; gap: 0.7rem; align-items: flex-start; }
 .l-check { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--butter); color: var(--on-tint); }

@@ -6,7 +6,7 @@ import { freshEmail, freshPhone, outboxCode, setUp, signUp } from "./helpers";
  * (scripts/e2e.mjs).
  */
 
-test("an adult signs up, takes the style quiz, changes settings and deletes the account", async ({ page }, info) => {
+test("an adult signs up, says what gets in the way, changes settings and deletes the account", async ({ page }, info) => {
   const email = freshEmail(info.project.name);
   const year = new Date().getFullYear();
   await signUp(page, email);
@@ -14,23 +14,30 @@ test("an adult signs up, takes the style quiz, changes settings and deletes the 
 
   await expect(page.getByRole("heading", { name: "What are you studying for?" })).toBeVisible();
   await page.getByRole("button", { name: /A professional exam/ }).click();
-  await page.getByRole("button", { name: /Straight to the point/ }).click();
-  await page.getByRole("button", { name: /Dense summaries/ }).click();
-  await page.getByRole("button", { name: /Like a patient teacher/ }).click();
-  await expect(page.getByRole("heading", { name: "Locked In", level: 1 })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "What gets in the way when you study?" })).toBeVisible();
+  await expect(page.getByTestId("support-sentence")).toContainText("Nothing changes for now");
+  await page.getByLabel("Reading takes me a long time").check();
+  await expect(page.getByTestId("support-sentence")).toHaveText("We will start you with spaced out, larger text and read aloud. You can change any of it in Settings.");
   await page.getByRole("button", { name: "Let's go" }).click();
 
   await expect(page.getByRole("heading", { name: "What are we studying today, Chipo?" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Explain IAS 16 in plain words" })).toBeVisible();
-  await expect(page.locator("html")).toHaveAttribute("data-style", "locked_in");
+  // Reading support switched on the spacing and the larger text; the old study style attribute is gone.
+  await expect(page.locator("html")).toHaveAttribute("data-dyslexia", "true");
+  await expect(page.locator("html")).toHaveAttribute("data-large", "true");
+  await expect(page.locator("html")).not.toHaveAttribute("data-style", /.*/);
 
   await page.getByRole("link", { name: "Get help" }).first().click();
   await expect(page.getByText("Childline Zimbabwe: call 116")).toBeVisible();
   await page.goBack();
 
   await page.getByRole("link", { name: "Settings" }).first().click();
-  await page.getByRole("switch", { name: "Dyslexia friendly" }).check();
-  await expect(page.locator("html")).toHaveAttribute("data-dyslexia", "true");
+  await expect(page.getByLabel("Reading takes me a long time")).toBeChecked();
+  await page.getByRole("switch", { name: "Dyslexia friendly" }).uncheck();
+  await expect(page.locator("html")).toHaveAttribute("data-dyslexia", "false");
+  const voices = page.getByRole("radiogroup", { name: "Taku's voice" });
+  await voices.getByRole("radio", { name: /Direct/ }).click();
+  await expect(voices.getByRole("radio", { name: /Direct/ })).toHaveAttribute("aria-checked", "true");
   await page.getByRole("button", { name: /Guide me/ }).click();
   await expect(page.getByRole("button", { name: /Guide me/ })).toHaveAttribute("aria-pressed", "true");
 
@@ -77,7 +84,6 @@ test("a 14 year old waits for a guardian, who consents from the link with a phon
   await expect(page.getByRole("heading", { name: "What are you studying for?" })).toBeVisible();
   await page.getByRole("button", { name: "Skip" }).click();
   await expect(page.getByRole("heading", { name: "What are we studying today, Tafara?" })).toBeVisible();
-  await expect(page.locator("html")).toHaveAttribute("data-style", "cook");
 });
 
 test("under 12 is pointed to Amai Learn", async ({ page }, info) => {

@@ -1,4 +1,5 @@
-import { ArrowUp, BookOpen, ChevronDown, Lightbulb } from "lucide-react";
+import { ArrowUp, BookOpen, ChevronDown, Lightbulb, Target } from "lucide-react";
+import { STUDY_MODES, type StudyMode } from "../../convex/accounts/voices";
 import { useRef, type FormEvent, type KeyboardEvent, type ReactNode } from "react";
 import { copy } from "../copy/en";
 import { Menu, MenuChoice } from "./ui";
@@ -19,10 +20,11 @@ function ChipText({ full, short }: { full: string; short: string }) {
 }
 
 /**
- * The question box: a textarea and two chips. "Only my notes" or "My notes
- * plus Taku's ideas" (notebooks only), and "Show me the answer" or "Guide
- * me". Each chip opens a small menu with a one line explanation and the full
- * name. Enter sends, Shift and Enter makes a new line.
+ * The question box: a textarea and three chips. "Only my notes" or "My notes
+ * plus Taku's ideas" (notebooks only), "Show me the answer" or "Guide me",
+ * and the study mode (Learn, Test me, Sprint, Exam prep). Each chip opens a
+ * small menu with a one line explanation and the full name. Enter sends,
+ * Shift and Enter makes a new line.
  */
 export function Composer({
   id,
@@ -37,6 +39,8 @@ export function Composer({
   onAnswerMode,
   sourceMode,
   onSourceMode,
+  studyMode,
+  onStudyMode,
   extra,
 }: {
   id: string;
@@ -51,6 +55,8 @@ export function Composer({
   onAnswerMode: (mode: AnswerMode) => void;
   sourceMode?: SourceMode;
   onSourceMode?: (mode: SourceMode) => void;
+  studyMode: StudyMode;
+  onStudyMode: (mode: StudyMode) => void;
   extra?: ReactNode;
 }) {
   const t = copy.composer;
@@ -120,6 +126,22 @@ export function Composer({
           {(close) =>
             (["answer", "guide"] as const).map((m) => (
               <MenuChoice key={m} checked={answerMode === m} name={t.answer[m].name} line={t.answer[m].line} onPick={() => (onAnswerMode(m), close(), area.current?.focus())} />
+            ))
+          }
+        </Menu>
+        <Menu
+          className="chip-menu"
+          up
+          label={`${copy.study.label}: ${copy.study.modes[studyMode].name}`}
+          button={
+            <span className="chip" data-testid="study-mode-chip">
+              <Target size={15} aria-hidden="true" /> <ChipText full={copy.study.modes[studyMode].name} short={copy.study.modes[studyMode].name} /> <ChevronDown size={14} aria-hidden="true" />
+            </span>
+          }
+        >
+          {(close) =>
+            STUDY_MODES.map((m) => (
+              <MenuChoice key={m} checked={studyMode === m} name={copy.study.modes[m].name} line={copy.study.modes[m].line} onPick={() => (onStudyMode(m), close(), area.current?.focus())} />
             ))
           }
         </Menu>

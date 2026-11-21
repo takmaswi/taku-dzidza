@@ -1,7 +1,8 @@
 import { ConvexError, v } from "convex/values";
 import { internal } from "../_generated/api";
-import type { Doc, Id } from "../_generated/dataModel";
+import type { Id } from "../_generated/dataModel";
 import { action, query } from "../_generated/server";
+import type { Voice } from "../accounts/voices";
 import { WIDGETS, PROMPTS } from "../data/generated";
 import { requireLearner, requireLearnerInAction } from "../lib/access";
 import type { SourceMode } from "../sources/modes";
@@ -35,7 +36,7 @@ export const generate = action({
     await requireLearnerInAction(ctx);
     const widget = WIDGETS[args.slug];
     if (widget === undefined) throw new ConvexError("That study tool does not exist.");
-    const c: { profileId: Id<"profiles">; studyStyle: Doc<"profiles">["studyStyle"]; sourceMode: SourceMode; pages: Page[] } = await ctx.runQuery(internal.study.tools.toolContext, { notebookId: args.notebookId });
+    const c: { profileId: Id<"profiles">; voice: Voice; sourceMode: SourceMode; pages: Page[] } = await ctx.runQuery(internal.study.tools.toolContext, { notebookId: args.notebookId });
     if (c.pages.length === 0) return { ok: false, message: TOOL_MESSAGES.noSources };
     const room = await ctx.runMutation(internal.ai.usage.admit, { profileId: c.profileId, kind: "ask" });
     if (!room.allowed) return { ok: false, message: capMessage(room.reason) };
