@@ -30,6 +30,7 @@ import type * as ai_usage from "../ai/usage.js";
 import type * as analytics from "../analytics.js";
 import type * as auth from "../auth.js";
 import type * as chat_chats from "../chat/chats.js";
+import type * as chat_fromNotebooks from "../chat/fromNotebooks.js";
 import type * as chat_testTurns from "../chat/testTurns.js";
 import type * as classes_access from "../classes/access.js";
 import type * as classes_accessQueries from "../classes/accessQueries.js";
@@ -126,6 +127,7 @@ declare const fullApi: ApiFromModules<{
   analytics: typeof analytics;
   auth: typeof auth;
   "chat/chats": typeof chat_chats;
+  "chat/fromNotebooks": typeof chat_fromNotebooks;
   "chat/testTurns": typeof chat_testTurns;
   "classes/access": typeof classes_access;
   "classes/accessQueries": typeof classes_accessQueries;

@@ -319,3 +319,25 @@ describe("the under 18 check at publish", () => {
     expect(await t.run(async (ctx) => (await ctx.db.get(copy))?.minorCheck)).toBe("allowed");
   });
 });
+
+describe("a pack in Ask Taku", () => {
+  test("a learner picks their linked pack notebook in a chat, and Taku cites the pack's page", async () => {
+    const t = makeT();
+    const { teacher, organisationId, packId } = await draftPack(t);
+    await teacher.as.action(api.packs.publish.publish, { packId, confirmRights: true });
+    await t.run(async (ctx) => await ctx.db.patch(organisationId, { status: "listed" }));
+    const learner = await makeLearner(t, 19, "Kuda Banda");
+    const linked = await learner.as.mutation(api.packs.packs.add, { packId });
+    const chemistry = await learner.as.mutation(api.notebooks.notebooks.create, { title: "Chemistry" });
+    await learner.as.mutation(api.notebooks.sources.addText, { notebookId: chemistry, title: "Acid notes", text: "Acids and bases\nAn acid turns blue litmus paper red.\nA base turns red litmus paper blue." });
+    await settle(t);
+    expect(await learner.as.query(api.chat.fromNotebooks.pickable, {})).toEqual(expect.arrayContaining([expect.objectContaining({ notebookId: linked, title: "Form 3 Biology", kind: "pack" })]));
+    const chatId = await learner.as.mutation(api.chat.chats.start, { message: "What does chlorophyll do?", notebookIds: [linked, chemistry] });
+    await learner.as.action(api.chat.chats.send, { chatId, message: "What does chlorophyll do?" });
+    const data = await learner.as.query(api.chat.chats.get, { chatId });
+    const first = data.messages[1].parts![0].origin;
+    expect(first).toMatchObject({ kind: "source", sourceId: await packSource(t, packId) });
+    // The cited pack page opens for the learner.
+    expect(await learner.as.query(api.notebooks.sources.page, { sourceId: await packSource(t, packId), page: 1 })).toMatchObject({ text: expect.stringContaining("Chlorophyll") });
+  });
+});

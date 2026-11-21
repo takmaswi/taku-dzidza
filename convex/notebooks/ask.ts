@@ -344,7 +344,7 @@ export function parseAnswer(content: string): { parts: RawPart[]; missing: strin
   }
 }
 
-type AskReply = { kind: "answer" | "help" | "redirect" | "error"; text: string; parts?: { text: string; origin: { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added"; unchecked?: boolean } }[]; note?: string; widget?: StoredWidget; test?: Infer<typeof testTurnValidator> };
+export type AskReply = { kind: "answer" | "help" | "redirect" | "error"; text: string; parts?: { text: string; origin: { kind: "source"; sourceId: string; page: number; quote: string } | { kind: "added"; unchecked?: boolean } }[]; note?: string; widget?: StoredWidget; test?: Infer<typeof testTurnValidator> };
 
 /**
  * Test me in a notebook. A wrong answer to the asked question becomes a
@@ -354,7 +354,7 @@ type AskReply = { kind: "answer" | "help" | "redirect" | "error"; text: string; 
  */
 async function settleNotebookTest(
   ctx: ActionCtx,
-  a: { profileId: Id<"profiles">; notebookId: Id<"notebooks">; sourceMode: SourceMode; asked: AskContext["asked"]; raw: RawTest | null; lookup: (ref: string, page: number) => { sourceId: string; text: string } | null; notes: string[] },
+  a: { profileId: Id<"profiles">; notebookId?: Id<"notebooks">; sourceMode: SourceMode; asked: AskContext["asked"]; raw: RawTest | null; lookup: (ref: string, page: number) => { sourceId: string; text: string } | null; notes: string[] },
 ): Promise<Infer<typeof testTurnValidator> | undefined> {
   if (a.raw === null) return undefined;
   const correct = a.asked === null || a.raw.correct === "none" ? undefined : a.raw.correct === "yes";
@@ -364,6 +364,71 @@ async function settleNotebookTest(
   if (a.raw.question !== "" && next === undefined) a.notes.push("Taku could not find the answer to its next question in your material, so it did not ask one. Send any message to try another.");
   if (next === undefined) return correct === undefined ? undefined : { question: "", answer: "", correct };
   return { question: cleanDashes(a.raw.question), answer: cleanDashes(next.text), origin: next.origin, ...(correct === undefined ? {} : { correct }) };
+}
+
+type AnswerContext = Pick<AskContext, "profileId" | "audience" | "answerMode" | "voice" | "shortChunks" | "simpleEnglish" | "studyingFor" | "sourceMode">;
+
+/** Under 18s: the finished answer is checked before it is saved, so it is never on screen unchecked. */
+async function checkedAnswer(ctx: ActionCtx, c: AnswerContext, question: string, r: AskReply): Promise<AskReply> {
+  const shown = [r.text, ...(r.parts ?? []).map((p) => p.text), r.note ?? "", r.widget === undefined ? "" : JSON.stringify(r.widget.data)].join("\n");
+  if (c.audience === "minor" && !(await outputAllowed(ctx, { profileId: c.profileId, text: shown, key: { question } }))) return { kind: "error", text: BLOCKED_REPLY };
+  return r;
+}
+
+/**
+ * Steps 5 to 8 above, once the pages are found: Taku answers from them, every
+ * quote is checked on its page, Taku's own ideas get a second opinion, and an
+ * under 18's answer passes the output check. Shared by notebook questions and
+ * by Ask Taku with notebooks picked (convex/chat/fromNotebooks.ts).
+ */
+export async function answerFromPages(
+  ctx: ActionCtx,
+  a: { c: AnswerContext; question: string; mode: StudyMode; asked: AskContext["asked"]; pages: Retrieved[]; cardNotebookId?: Id<"notebooks">; onStage?: (stage: "writing" | "checking") => Promise<void>; fixtureExtra?: Record<string, string> },
+): Promise<AskReply> {
+  const { c, question, mode, asked, pages } = a;
+  await a.onStage?.("writing");
+  const sourceBlock = pages.map((p) => `<source ref="${p.ref}" title="${asData(p.title).replace(/"/g, "'")}" page="${p.page}">\n${asData(p.text)}\n</source>`).join("\n");
+  const result = await ctx.runAction(internal.ai.router.call, {
+    tier: "main",
+    purpose: "taku_answer",
+    messages: [
+      { role: "system", content: systemPrompt(c, mode) },
+      { role: "user", content: `${sourceBlock}\n${asked === null ? "" : `<asked>${asData(asked.question)}</asked>\n<expected>${asData(asked.answer)}</expected>\nThe learner's message is their answer to the asked question.\n`}<question>${asData(question)}</question>` },
+    ],
+    jsonSchema: mode === "test" ? TEST_SCHEMA : ANSWER_SCHEMA,
+    maxTokens: mode === "sprint" ? 900 : 2400,
+    stablePrefixCount: 1,
+    // Learn keeps the key it had before study modes, so existing fixtures still match.
+    fixtureKey: { ...(mode === "learn" ? { kind: "answer", question, sourceMode: c.sourceMode, answerMode: c.answerMode } : { kind: "answer", question, sourceMode: c.sourceMode, answerMode: c.answerMode, studyMode: mode, asked: asked?.question ?? "" }), ...a.fixtureExtra },
+  });
+  await ctx.runMutation(internal.ai.usage.record, { profileId: c.profileId, tool: "answer", costUsd: result.costUsd });
+  const parsed = result.ok ? parseAnswer(result.content) : null;
+  if (parsed === null) return { kind: "error", text: REPLIES.failed };
+
+  await a.onStage?.("checking");
+  const byRefPage = new Map(pages.map((p) => [`${p.ref}:${p.page}`, p]));
+  const lookup = (ref: string, page: number) => {
+    const found = byRefPage.get(`${ref}:${page}`);
+    return found === undefined ? null : { sourceId: found.sourceId as string, text: found.text };
+  };
+  const { kept, dropped } = settleParts(parsed.parts.map((p) => ({ ...p, text: cleanDashes(p.text) })), c.sourceMode, lookup);
+
+  // A hint in Guide me is a question, not a claim, so only full answers get a second opinion.
+  const ideas = c.answerMode === "answer" ? kept.flatMap((p, i) => (p.origin.kind === "added" ? [{ id: String(i), text: p.text }] : [])) : [];
+  const opinion = await secondOpinion(ctx, { profileId: c.profileId, check: "ideas", items: ideas });
+  const final = kept.flatMap((p, i) => {
+    if (opinion.rejected.has(String(i))) return [];
+    return opinion.unchecked.has(String(i)) ? [{ text: p.text, origin: { kind: "added" as const, unchecked: true } }] : [p];
+  });
+
+  const notes: string[] = [];
+  if (parsed.missing.trim().length > 0) notes.push(cleanDashes(parsed.missing.trim()));
+  if (dropped > 0) notes.push(`${dropped} ${dropped === 1 ? "point was" : "points were"} left out because ${dropped === 1 ? "it" : "they"} could not be found in your material.`);
+  if (opinion.rejected.size > 0) notes.push(`${opinion.rejected.size} of Taku's ideas ${opinion.rejected.size === 1 ? "was" : "were"} left out because a second check did not agree.`);
+  const widget = c.answerMode === "guide" && parsed.widget !== null ? widgetFromText(JSON.stringify(parsed.widget), ["equation-steps", "fill-blanks", "long-division"], lookup) : null;
+  const test = mode === "test" ? await settleNotebookTest(ctx, { profileId: c.profileId, notebookId: a.cardNotebookId, sourceMode: c.sourceMode, asked, raw: parseTest(result.content), lookup, notes }) : undefined;
+  const empty = final.length === 0 && test === undefined;
+  return await checkedAnswer(ctx, c, question, { kind: "answer", text: empty ? REPLIES.nothingFound : "", parts: final, note: notes.length > 0 ? notes.join(" ") : undefined, ...(widget === null ? {} : { widget }), ...(test === undefined ? {} : { test }) });
 }
 
 export const ask = action({
@@ -379,15 +444,6 @@ export const ask = action({
     const reply = async (r: AskReply) => {
       await ctx.runMutation(internal.notebooks.ask.finish, { messageId, reply: r });
       return { kind: r.kind };
-    };
-    const count = async (tool: string, r: { costUsd: number }) => {
-      await ctx.runMutation(internal.ai.usage.record, { profileId: c.profileId, tool, costUsd: r.costUsd });
-    };
-    // Under 18s: the finished answer is checked before it is saved, so it is never on screen unchecked.
-    const checkedReply = async (r: AskReply) => {
-      const shown = [r.text, ...(r.parts ?? []).map((p) => p.text), r.note ?? "", r.widget === undefined ? "" : JSON.stringify(r.widget.data)].join("\n");
-      if (c.audience === "minor" && !(await outputAllowed(ctx, { profileId: c.profileId, text: shown, key: { question } }))) return await reply({ kind: "error", text: BLOCKED_REPLY });
-      return await reply(r);
     };
 
     try {
@@ -412,49 +468,10 @@ export const ask = action({
       const pages: Retrieved[] = await retrievePages(ctx, { notebookId: args.notebookId, profileId: c.profileId, question: asked === null ? question : `${asked.question} ${question}` });
       if (pages.length === 0) return await reply({ kind: "answer", text: REPLIES.nothingFound, parts: [], note: "Try other words, or add material that covers this." });
 
-      await ctx.runMutation(internal.notebooks.ask.setStage, { messageId, stage: "writing" });
-      const sourceBlock = pages.map((p) => `<source ref="${p.ref}" title="${asData(p.title).replace(/"/g, "'")}" page="${p.page}">\n${asData(p.text)}\n</source>`).join("\n");
-      const result = await ctx.runAction(internal.ai.router.call, {
-        tier: "main",
-        purpose: "taku_answer",
-        messages: [
-          { role: "system", content: systemPrompt(c, mode) },
-          { role: "user", content: `${sourceBlock}\n${asked === null ? "" : `<asked>${asData(asked.question)}</asked>\n<expected>${asData(asked.answer)}</expected>\nThe learner's message is their answer to the asked question.\n`}<question>${asData(question)}</question>` },
-        ],
-        jsonSchema: mode === "test" ? TEST_SCHEMA : ANSWER_SCHEMA,
-        maxTokens: mode === "sprint" ? 900 : 2400,
-        stablePrefixCount: 1,
-        // Learn keeps the key it had before study modes, so existing fixtures still match.
-        fixtureKey: mode === "learn" ? { kind: "answer", question, sourceMode: c.sourceMode, answerMode: c.answerMode } : { kind: "answer", question, sourceMode: c.sourceMode, answerMode: c.answerMode, studyMode: mode, asked: asked?.question ?? "" },
-      });
-      await count("answer", result);
-      const parsed = result.ok ? parseAnswer(result.content) : null;
-      if (parsed === null) return await reply({ kind: "error", text: REPLIES.failed });
-
-      await ctx.runMutation(internal.notebooks.ask.setStage, { messageId, stage: "checking" });
-      const byRefPage = new Map(pages.map((p) => [`${p.ref}:${p.page}`, p]));
-      const lookup = (ref: string, page: number) => {
-        const found = byRefPage.get(`${ref}:${page}`);
-        return found === undefined ? null : { sourceId: found.sourceId as string, text: found.text };
-      };
-      const { kept, dropped } = settleParts(parsed.parts.map((p) => ({ ...p, text: cleanDashes(p.text) })), c.sourceMode, lookup);
-
-      // A hint in Guide me is a question, not a claim, so only full answers get a second opinion.
-      const ideas = c.answerMode === "answer" ? kept.flatMap((p, i) => (p.origin.kind === "added" ? [{ id: String(i), text: p.text }] : [])) : [];
-      const opinion = await secondOpinion(ctx, { profileId: c.profileId, check: "ideas", items: ideas });
-      const final = kept.flatMap((p, i) => {
-        if (opinion.rejected.has(String(i))) return [];
-        return opinion.unchecked.has(String(i)) ? [{ text: p.text, origin: { kind: "added" as const, unchecked: true } }] : [p];
-      });
-
-      const notes: string[] = [];
-      if (parsed.missing.trim().length > 0) notes.push(cleanDashes(parsed.missing.trim()));
-      if (dropped > 0) notes.push(`${dropped} ${dropped === 1 ? "point was" : "points were"} left out because ${dropped === 1 ? "it" : "they"} could not be found in your material.`);
-      if (opinion.rejected.size > 0) notes.push(`${opinion.rejected.size} of Taku's ideas ${opinion.rejected.size === 1 ? "was" : "were"} left out because a second check did not agree.`);
-      const widget = c.answerMode === "guide" && parsed.widget !== null ? widgetFromText(JSON.stringify(parsed.widget), ["equation-steps", "fill-blanks", "long-division"], lookup) : null;
-      const test = mode === "test" ? await settleNotebookTest(ctx, { profileId: c.profileId, notebookId: args.notebookId, sourceMode: c.sourceMode, asked, raw: parseTest(result.content), lookup, notes }) : undefined;
-      const empty = final.length === 0 && test === undefined;
-      return await checkedReply({ kind: "answer", text: empty ? REPLIES.nothingFound : "", parts: final, note: notes.length > 0 ? notes.join(" ") : undefined, ...(widget === null ? {} : { widget }), ...(test === undefined ? {} : { test }) });
+      return await reply(await answerFromPages(ctx, { c, question, mode, asked, pages, cardNotebookId: args.notebookId, onStage: async (stage) => {
+            await ctx.runMutation(internal.notebooks.ask.setStage, { messageId, stage });
+          },
+        }));
     } catch (error) {
       // Never leave an answer stuck on its progress line.
       await ctx.runMutation(internal.notebooks.ask.finish, { messageId, reply: { kind: "error", text: REPLIES.failed } });

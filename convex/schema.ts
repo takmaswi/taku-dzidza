@@ -230,7 +230,14 @@ export default defineSchema({
   }).index("by_notebook", ["notebookId", "createdAt"]),
 
   /** A general chat with Taku, not tied to a notebook. It belongs to the learner. */
-  chats: defineTable({ profileId: v.id("profiles"), title: v.string(), createdAt: v.number(), updatedAt: v.number() }).index("by_profile", ["profileId", "updatedAt"]),
+  chats: defineTable({
+    profileId: v.id("profiles"),
+    title: v.string(),
+    /** Up to 5 of the learner's notebooks Taku answers from in this chat, with citations. Unset or empty: general knowledge. */
+    notebookIds: v.optional(v.array(v.id("notebooks"))),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }).index("by_profile", ["profileId", "updatedAt"]),
   chatMessages: defineTable({
     chatId: v.id("chats"),
     role: v.union(v.literal("learner"), v.literal("taku")),
@@ -241,6 +248,9 @@ export default defineSchema({
     widget: v.optional(widgetValidator),
     studyMode: v.optional(studyModeValidator),
     test: v.optional(testTurnValidator),
+    /** An answer from the chat's notebooks: each part cited to a page, as in a notebook. */
+    parts: v.optional(v.array(v.object({ text: v.string(), origin: originValidator }))),
+    note: v.optional(v.string()),
     createdAt: v.number(),
   }).index("by_chat", ["chatId", "createdAt"]),
 

@@ -1,0 +1,16 @@
+{
+  "keyMaterial": {
+    "kind": "answer",
+    "question": "What does chlorophyll do?",
+    "sourceMode": "mine_plus",
+    "answerMode": "answer",
+    "from": "chat"
+  },
+  "response": {
+    "content": "{\"parts\": [{\"text\": \"Chlorophyll absorbs the light that plants use to make glucose.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"text\": \"Your chemistry notes are about colour too: an acid turns blue litmus paper red.\", \"ref\": \"S2\", \"page\": 1, \"quote\": \"An acid turns blue litmus paper red\"}], \"missing\": \"\", \"widget\": {\"slug\": \"\", \"data\": \"\"}}",
+    "usage": {
+      "promptTokens": 1100,
+      "completionTokens": 120
+    }
+  }
+}

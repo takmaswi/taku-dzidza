@@ -22,7 +22,8 @@ function ChipText({ full, short }: { full: string; short: string }) {
 /**
  * The question box: a textarea and three chips. "Only my notes" or "My notes
  * plus Taku's ideas" (notebooks only), "Show me the answer" or "Guide me",
- * and the study mode (Learn, Test me, Sprint, Exam prep). Each chip opens a
+ * the study mode (Learn, Test me, Sprint, Exam prep), and in Ask Taku the
+ * notebooks Taku answers from (`notebooks`). Each chip opens a
  * small menu with a one line explanation and the full name. Enter sends,
  * Shift and Enter makes a new line.
  */
@@ -41,6 +42,7 @@ export function Composer({
   onSourceMode,
   studyMode,
   onStudyMode,
+  notebooks,
   extra,
 }: {
   id: string;
@@ -57,6 +59,8 @@ export function Composer({
   onSourceMode?: (mode: SourceMode) => void;
   studyMode: StudyMode;
   onStudyMode: (mode: StudyMode) => void;
+  /** Ask Taku's "Use my notebooks" chip, beside the mode chips. */
+  notebooks?: ReactNode;
   extra?: ReactNode;
 }) {
   const t = copy.composer;
@@ -145,6 +149,7 @@ export function Composer({
             ))
           }
         </Menu>
+        {notebooks}
         <span className="spacer" />
         {extra}
         <button type="submit" className="send" aria-label={sendLabel} disabled={busy || empty}>

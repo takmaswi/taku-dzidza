@@ -1,15 +1,16 @@
 import { paginationOptsValidator } from "convex/server";
-import { ConvexError, v } from "convex/values";
+import { ConvexError, v, type Infer } from "convex/values";
 import { internal } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
 import { action, internalMutation, internalQuery, mutation, query, type ActionCtx, type QueryCtx } from "../_generated/server";
 import { ADULT_AGE, ageOn } from "../accounts/age";
 import { PROMPTS } from "../data/generated";
 import { requireLearner, requireLearnerInAction } from "../lib/access";
-import { asData, capReply, cleanDashes, REPLIES } from "../notebooks/ask";
+import { answerFromPages, asData, capReply, cleanDashes, REPLIES, type AskReply } from "../notebooks/ask";
 import { BLOCKED_REPLY, inputCheck, outputAllowed } from "../safety/checks";
 import { prefilter, type Audience } from "../safety/prefilter";
-import { studyModeValidator, widgetValidator } from "../schema";
+import { originValidator, studyModeValidator, testTurnValidator, widgetValidator } from "../schema";
+import { citedTitles, readableNotebooks, retrieveAcross, scopeOf, type NotebookScope } from "./fromNotebooks";
 import { needs, voiceOf, type StudyMode, type Voice } from "../accounts/voices";
 import { examFor, EXAM_TEXT, SIMPLE_ENGLISH } from "../ai/promptLines";
 import { extractTest, stripTestBlock, type TestTurn } from "./testTurns";
@@ -17,8 +18,10 @@ import { extractWidget, stripWidgetBlock, widgetFromText, type StoredWidget } fr
 
 /**
  * A normal chat with Taku from general knowledge (no notebook, no
- * citations). Same safety order as notebook questions: prefilter, spending
- * caps, the model input check for every learner, then Taku. An adult's reply
+ * citations), or, with notebooks picked for the chat, from those notebooks
+ * with citations (./fromNotebooks.ts). Same safety order as notebook
+ * questions: prefilter, spending caps, the model input check for every
+ * learner, then Taku. An adult's reply
  * is saved to its message as it arrives, and the app shows it growing. An
  * under 18's reply is not streamed: it is written whole, passes the output
  * check, and only then is shown (audit S6).
@@ -64,10 +67,11 @@ export const removeRest = internalMutation({
 export const get = query({
   args: { chatId: v.id("chats") },
   handler: async (ctx, args) => {
-    const { chat } = await ownChat(ctx, args.chatId);
-    const messages = await ctx.db.query("chatMessages").withIndex("by_chat", (q) => q.eq("chatId", chat._id)).order("desc").take(200);
+    const { profile, chat } = await ownChat(ctx, args.chatId);
+    const messages = (await ctx.db.query("chatMessages").withIndex("by_chat", (q) => q.eq("chatId", chat._id)).order("desc").take(200)).reverse();
+    const picked = (await scopeOf(ctx, await readableNotebooks(ctx, profile._id, chat.notebookIds ?? []))).picked;
     // A Test me answer stays on the server: the learner sees the question and the mark only.
-    return { chat, messages: messages.reverse().map((m) => (m.test === undefined ? m : { ...m, test: { ...m.test, answer: "" } })) };
+    return { chat, picked, titles: await citedTitles(ctx, messages), messages: messages.map((m) => (m.test === undefined ? m : { ...m, test: { ...m.test, answer: "" } })) };
   },
 });
 
@@ -85,11 +89,23 @@ export const remove = mutation({
 
 /** Makes the chat first, so the app can open it and watch the reply arrive. */
 export const start = mutation({
-  args: { message: v.string() },
+  args: { message: v.string(), notebookIds: v.optional(v.array(v.id("notebooks"))) },
   handler: async (ctx, args): Promise<Id<"chats">> => {
     const { profile } = await requireLearner(ctx);
     const now = Date.now();
-    return await ctx.db.insert("chats", { profileId: profile._id, title: titleFrom(args.message), createdAt: now, updatedAt: now });
+    const notebookIds = (await readableNotebooks(ctx, profile._id, args.notebookIds ?? [])).map((n) => n._id);
+    return await ctx.db.insert("chats", { profileId: profile._id, title: titleFrom(args.message), ...(notebookIds.length > 0 ? { notebookIds } : {}), createdAt: now, updatedAt: now });
+  },
+});
+
+/** The notebooks Taku answers from in this chat: none for general knowledge, or up to 5. */
+export const setNotebooks = mutation({
+  args: { chatId: v.id("chats"), notebookIds: v.array(v.id("notebooks")) },
+  handler: async (ctx, args) => {
+    const { profile, chat } = await ownChat(ctx, args.chatId);
+    const notebookIds = (await readableNotebooks(ctx, profile._id, args.notebookIds)).map((n) => n._id);
+    await ctx.db.patch(chat._id, { notebookIds: notebookIds.length > 0 ? notebookIds : undefined });
+    return null;
   },
 });
 
@@ -102,8 +118,10 @@ type ChatContext = {
   simpleEnglish: boolean;
   studyingFor: Doc<"profiles">["studyingFor"];
   history: { role: "learner" | "taku"; text: string }[];
-  /** The question Taku asked last in Test me, with its answer, if the learner has not answered it yet. */
-  asked: { question: string; answer: string } | null;
+  /** The question Taku asked last in Test me, with its answer (and its page, from notebooks), if the learner has not answered it yet. */
+  asked: { question: string; answer: string; origin?: Infer<typeof originValidator> } | null;
+  /** The notebooks picked for this chat, if any. */
+  notebooks: NotebookScope;
 };
 
 export const context = internalQuery({
@@ -112,14 +130,16 @@ export const context = internalQuery({
     const { profile } = await requireLearner(ctx);
     let history: ChatContext["history"] = [];
     let asked: ChatContext["asked"] = null;
+    let picked: Doc<"notebooks">[] = [];
     if (args.chatId !== undefined) {
       const chat = await ctx.db.get(args.chatId);
       if (chat === null || chat.profileId !== profile._id) throw new ConvexError("Chat not found.");
+      picked = await readableNotebooks(ctx, profile._id, chat.notebookIds ?? []);
       const rows = (await ctx.db.query("chatMessages").withIndex("by_chat", (q) => q.eq("chatId", chat._id)).order("desc").take(HISTORY)).reverse();
       history = rows.filter((m) => (m.kind === "question" || m.kind === "answer") && m.text !== "").map((m) => ({ role: m.role, text: m.text }));
       // The newest message is Taku's, so the learner's next message answers its question.
       const lastTurn = rows[rows.length - 1];
-      if (lastTurn?.role === "taku" && lastTurn.test !== undefined && lastTurn.test.question !== "") asked = { question: lastTurn.test.question, answer: lastTurn.test.answer };
+      if (lastTurn?.role === "taku" && lastTurn.test !== undefined && lastTurn.test.question !== "") asked = { question: lastTurn.test.question, answer: lastTurn.test.answer, ...(lastTurn.test.origin === undefined ? {} : { origin: lastTurn.test.origin }) };
     }
     return {
       profileId: profile._id,
@@ -131,6 +151,7 @@ export const context = internalQuery({
       studyingFor: profile.studyingFor,
       history,
       asked,
+      notebooks: await scopeOf(ctx, picked),
     };
   },
 });
@@ -164,10 +185,12 @@ export const finish = internalMutation({
     kind: v.union(v.literal("answer"), v.literal("help"), v.literal("redirect"), v.literal("error")),
     text: v.string(),
     widget: v.optional(widgetValidator),
-    test: v.optional(v.object({ question: v.string(), answer: v.string(), correct: v.optional(v.boolean()) })),
+    test: v.optional(testTurnValidator),
+    parts: v.optional(v.array(v.object({ text: v.string(), origin: originValidator }))),
+    note: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    await ctx.db.patch(args.messageId, { kind: args.kind, text: args.text, streaming: undefined, widget: args.widget, test: args.test });
+    await ctx.db.patch(args.messageId, { kind: args.kind, text: args.text, streaming: undefined, widget: args.widget, test: args.test, parts: args.parts, note: args.note });
   },
 });
 
@@ -212,6 +235,7 @@ export function askedBlock(asked: { question: string; answer: string } | null): 
   return `<asked>${asData(asked.question)}</asked>\n<expected>${asData(asked.answer)}</expected>\nThe learner's message is their answer to the asked question. Mark it against the expected answer, accepting other correct wording.\n`;
 }
 type ReplyKind = "answer" | "help" | "redirect" | "error";
+const NO_READY = "The notebooks you picked have no notes ready yet. Add some, wait for them to be read, or pick other notebooks.";
 
 /** A wrong answer to the last question becomes a review card; the new question is kept with its answer for the next mark. */
 async function settleTest(ctx: ActionCtx, c: ChatContext, turn: TestTurn | null): Promise<{ question: string; answer: string; correct?: boolean } | undefined> {
@@ -230,7 +254,7 @@ export const send = action({
     const question = args.message.trim().slice(0, MAX_MESSAGE);
     if (question.length === 0) throw new ConvexError("Type a message first.");
     const { chatId, messageId }: { chatId: Id<"chats">; messageId: Id<"chatMessages"> } = await ctx.runMutation(internal.chat.chats.begin, { chatId: args.chatId, profileId: c.profileId, question, studyMode: mode });
-    const reply = async (r: { kind: ReplyKind; text: string; widget?: StoredWidget; test?: { question: string; answer: string; correct?: boolean } }) => {
+    const reply = async (r: { kind: ReplyKind; text: string; widget?: StoredWidget; test?: AskReply["test"]; parts?: AskReply["parts"]; note?: string }) => {
       await ctx.runMutation(internal.chat.chats.finish, { messageId, ...r });
       return { chatId, kind: r.kind };
     };
@@ -249,6 +273,16 @@ export const send = action({
       if (verdict === "help") return await reply({ kind: "help", text: REPLIES.help });
       if (verdict === "redirect") return await reply({ kind: "redirect", text: REPLIES.redirect });
       if (verdict !== "allow") return await reply({ kind: "error", text: REPLIES.failed });
+
+      // Notebooks picked: answered from them with citations, exactly as in a notebook.
+      if (c.notebooks.picked.length > 0) {
+        if (c.notebooks.ready === 0) return await reply({ kind: "redirect", text: NO_READY });
+        const asked = mode === "test" ? c.asked : null;
+        const pages = await retrieveAcross(ctx, { profileId: c.profileId, question: asked === null ? question : `${asked.question} ${question}`, notebookIds: c.notebooks.picked.map((p) => p.notebookId) });
+        if (pages.length === 0) return await reply({ kind: "answer", text: REPLIES.nothingFound, parts: [], note: "Try other words, or pick notebooks that cover this." });
+        const answer = await answerFromPages(ctx, { c: { ...c, sourceMode: c.notebooks.sourceMode }, question, mode, asked, pages, fixtureExtra: { from: "chat" } });
+        return await reply(answer);
+      }
 
       const result = await ctx.runAction(internal.ai.router.call, {
         tier: "main",

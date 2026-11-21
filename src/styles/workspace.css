@@ -281,3 +281,12 @@
 /* Display maths: a long worked line scrolls inside the message, never past the screen. */
 .math-display { display: block; max-width: 100%; overflow-x: auto; overflow-y: hidden; }
 .math-display .katex-display { margin: 0.6em 0; }
+
+/* Ask Taku with notebooks picked (Step 8): the picked ones above the question box, each removable. */
+.chip-menu .chip.chip-on { background: var(--tint); color: var(--on-tint); }
+.picked-chips { list-style: none; margin: 0 0 0.4rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.picked-chip { display: inline-flex; align-items: center; gap: 0.3rem; max-width: 100%; padding: 0.15rem 0.2rem 0.15rem 0.6rem; border-radius: 999px; background: var(--tint); color: var(--on-tint); font-size: 0.82rem; font-weight: 600; }
+.picked-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 14rem; }
+.picked-x { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; min-height: 28px; border: 0; border-radius: 999px; background: transparent; color: inherit; cursor: pointer; }
+.picked-x:focus-visible { outline: 2px solid currentColor; outline-offset: 1px; }
+.picker-list { max-height: 50dvh; overflow-y: auto; }

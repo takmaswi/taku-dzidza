@@ -101,6 +101,6 @@ TEACHER_MODE and MARKETPLACE_MODE each take off, admins or on. "admins" shows th
 ## Progress
 
 - [x] Step 7
-- [ ] Step 8
+- [x] Step 8
 - [ ] Step 9
 - [ ] FINISH

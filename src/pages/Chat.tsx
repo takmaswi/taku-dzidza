@@ -22,6 +22,10 @@ import { calmTests } from "../../convex/accounts/voices";
 import { testScore } from "../../convex/chat/testTurns";
 import { StudyBar, TestMark, TestQuestion } from "../components/StudyBar";
 import { useSprinting, useStudyMode } from "../components/studySession";
+import { MathText } from "../components/MathText";
+import { NotebookPickerSheet, NotebooksChip, PickedChips } from "../components/NotebookPicker";
+import type { Citation } from "./notebook/NotebookChat";
+import { SourcePage } from "./notebook/SourcePage";
 
 /** Replies this old that never finished have lost their server, so the dots stop. */
 const STUCK_MS = 3 * 60 * 1000;
@@ -56,6 +60,18 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
   const listOpen = listPref !== "closed" && !sprinting;
   const toggleList = () => setListPref(listOpen ? "closed" : "open");
   const [sheet, setSheet] = useState(false);
+  // The notebooks Taku answers from: kept on the chat once it exists, and here until then.
+  const pickable = useQuery(api.chat.fromNotebooks.pickable);
+  const setNotebooks = useMutation(api.chat.chats.setNotebooks);
+  const [draftIds, setDraftIds] = useState<Id<"notebooks">[]>([]);
+  const [picking, setPicking] = useState(false);
+  const [citation, setCitation] = useState<Citation | null>(null);
+  const picked = id === undefined ? (pickable ?? []).filter((n) => draftIds.includes(n.notebookId)) : (data?.picked ?? []);
+  const pickedIds = picked.map((n) => n.notebookId);
+  const changePicked = (ids: Id<"notebooks">[]) => {
+    if (id === undefined) setDraftIds(ids);
+    else void setNotebooks({ chatId: id, notebookIds: ids }).catch((e: unknown) => setError(errorText(e, copy.errors.generic)));
+  };
   useEffect(() => {
     // Ctrl B or Cmd B folds and opens the panel, as in most editors.
     const onKey = (e: KeyboardEvent) => {
@@ -84,8 +100,11 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
     try {
       track("chat_sent");
       // A new chat exists first, so the reply can be watched as it arrives.
-      const newId = id ?? (await start({ message: q }));
-      if (id === undefined) navigate(`/chat/${newId}`, { replace: true });
+      const newId = id ?? (await start({ message: q, notebookIds: draftIds }));
+      if (id === undefined) {
+        setDraftIds([]);
+        navigate(`/chat/${newId}`, { replace: true });
+      }
       await send({ chatId: newId, message: q, studyMode });
     } catch (e) {
       setError(errorText(e, copy.errors.generic));
@@ -160,7 +179,7 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
         )}
         <section className="ws-center">
           <div className="chat-pane">
-            <Thread follow={`${messages.length}:${last?.text.length ?? 0}:${pending ?? ""}`} testId="chat-thread" pin={!empty}>
+            <Thread follow={`${messages.length}:${last?.text.length ?? 0}:${last?.parts?.length ?? 0}:${pending ?? ""}`} testId="chat-thread" pin={!empty}>
               {empty && (
                 <div className="chat-empty rise">
                   <ObjectArt name="speech-bubble" alt="" size={112} />
@@ -183,7 +202,8 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
                   <TakuMessage key={m._id} testId="chat-taku" streaming={live} latest={i === latestTaku}>
                     {live && m.text === "" && <Typing />}
                     {m.test?.correct !== undefined && <TestMark correct={m.test.correct} />}
-                    <Markdown text={stuck && m.text === "" ? copy.notebook.stuck : m.text} />
+                    {(m.text !== "" || m.parts === undefined) && <Markdown text={stuck && m.text === "" ? copy.notebook.stuck : m.text} />}
+                    {m.parts !== undefined && m.parts.length > 0 && <CitedParts parts={m.parts} titles={data?.titles ?? {}} onCite={setCitation} />}
                     {m.test !== undefined && m.test.question !== "" && <TestQuestion text={m.test.question} />}
                     {m.widget !== undefined && <WidgetHost widget={m.widget} />}
                     {m.kind === "help" && (
@@ -193,12 +213,12 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
                     )}
                     {m.kind === "answer" && m.streaming !== true && (
                       <div className="answer-actions">
-                        <span className="general-note">{t.general}</span>
+                        <span className="general-note">{m.parts !== undefined ? t.fromNotebooks : t.general}</span>
                         <button type="button" className="chip" onClick={() => void submit(copy.thread.simplerQuestion(previousQuestion(messages, m)))} disabled={pending !== null}>
                           <Sparkles size={15} aria-hidden="true" /> {copy.thread.simpler}
                         </button>
                         <span className="answer-tools">
-                          <CopyAndRead text={m.text} />
+                          <CopyAndRead text={[m.text, ...(m.parts ?? []).map((p) => p.text)].filter((x) => x !== "").join(" ")} />
                         </span>
                       </div>
                     )}
@@ -216,6 +236,7 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
             </Thread>
             <div className="dock">
               <StudyBar mode={studyMode} onMode={setStudyMode} score={testScore(messages)} calm={calmTests(profile)} />
+              <PickedChips picked={picked} onRemove={(nb) => changePicked(pickedIds.filter((p) => p !== nb))} />
               <Composer
                 id="chat-input"
                 label={t.placeholder}
@@ -229,6 +250,7 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
                 onAnswerMode={(answerMode) => void setAnswerMode({ answerMode })}
                 studyMode={studyMode}
                 onStudyMode={setStudyMode}
+                notebooks={<NotebooksChip count={picked.length} onOpen={() => setPicking(true)} />}
               />
               {error !== null && (
                 <p className="error" role="alert">
@@ -238,8 +260,50 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
             </div>
           </div>
         </section>
+        {picking && <NotebookPickerSheet picked={pickedIds} onChange={changePicked} onClose={() => setPicking(false)} />}
+        {citation !== null && (
+          <Sheet title={t.sourcePage} onClose={() => setCitation(null)} testId="chat-source">
+            <SourcePage citation={citation} />
+          </Sheet>
+        )}
       </div>
     </AppShell>
+  );
+}
+
+/** An answer from the chat's notebooks: each part with its numbered citation, as in a notebook. Taku's own ideas are marked. */
+function CitedParts({ parts, titles, onCite }: { parts: NonNullable<Doc<"chatMessages">["parts"]>; titles: Record<string, string>; onCite: (c: Citation) => void }) {
+  const t = copy.notebook;
+  const numbers = new Map<string, number>();
+  for (const p of parts) {
+    if (p.origin.kind === "source") {
+      const key = `${p.origin.sourceId}|${p.origin.page}|${p.origin.quote}`;
+      if (!numbers.has(key)) numbers.set(key, numbers.size + 1);
+    }
+  }
+  return (
+    <div className="answer-text">
+      {parts.map((part, i) => {
+        const o = part.origin;
+        if (o.kind === "added") {
+          return (
+            <p key={i} className="part added">
+              <MathText text={part.text} /> <span className="added-tag">{o.unchecked === true ? t.uncheckedByTaku : t.addedByTaku}</span>
+            </p>
+          );
+        }
+        const n = numbers.get(`${o.sourceId}|${o.page}|${o.quote}`) ?? 0;
+        const title = titles[o.sourceId] ?? "";
+        return (
+          <p key={i} className="part">
+            <MathText text={part.text} />
+            <button type="button" className="cite-mark" aria-label={t.citeLabel(n, title, o.page)} title={t.fromPage(title, o.page)} onClick={() => onCite({ sourceId: o.sourceId as Id<"sources">, page: o.page, quote: o.quote })}>
+              {n}
+            </button>
+          </p>
+        );
+      })}
+    </div>
   );
 }
 

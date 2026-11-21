@@ -442,6 +442,14 @@ export const AI_FIXTURES: Record<string, AiFixture> = {
   },
   "source": "tests/fixtures/ai/second_opinion/summary-ideas.json"
  },
+ "taku_answer/c4b170be4fee163e": {
+  "content": "{\"parts\": [{\"text\": \"Chlorophyll absorbs the light that plants use to make glucose.\", \"ref\": \"S1\", \"page\": 1, \"quote\": \"Chlorophyll in the chloroplasts absorbs the light\"}, {\"text\": \"Your chemistry notes are about colour too: an acid turns blue litmus paper red.\", \"ref\": \"S2\", \"page\": 1, \"quote\": \"An acid turns blue litmus paper red\"}], \"missing\": \"\", \"widget\": {\"slug\": \"\", \"data\": \"\"}}",
+  "usage": {
+   "promptTokens": 1100,
+   "completionTokens": 120
+  },
+  "source": "tests/fixtures/ai/taku_answer/chat-two-notebooks.json"
+ },
  "taku_answer/e393b97af4f9228f": {
   "content": "{\"parts\": [{\"text\": \"Try the gaps below, then look back at your notes.\", \"ref\": \"\", \"page\": 0, \"quote\": \"\"}], \"missing\": \"\", \"widget\": {\"slug\": \"fill-blanks\", \"data\": \"{\\\"title\\\": \\\"Photosynthesis words\\\", \\\"items\\\": [{\\\"before\\\": \\\"\\\", \\\"answer\\\": \\\"Chlorophyll\\\", \\\"after\\\": \\\"in the chloroplasts absorbs the light.\\\", \\\"alternatives\\\": [], \\\"hint\\\": \\\"The green pigment.\\\", \\\"ref\\\": \\\"S1\\\", \\\"page\\\": 1, \\\"quote\\\": \\\"Chlorophyll in the chloroplasts absorbs the light\\\"}, {\\\"before\\\": \\\"\\\", \\\"answer\\\": \\\"Oxygen\\\", \\\"after\\\": \\\"is released as a by product.\\\", \\\"alternatives\\\": [\\\"O2\\\"], \\\"hint\\\": \\\"The gas you breathe in.\\\", \\\"ref\\\": \\\"S1\\\", \\\"page\\\": 1, \\\"quote\\\": \\\"Oxygen is released as a by product\\\"}, {\\\"before\\\": \\\"Plants store chlorophyll in their\\\", \\\"answer\\\": \\\"roots\\\", \\\"after\\\": \\\"for winter.\\\", \\\"alternatives\\\": [], \\\"hint\\\": \\\"\\\", \\\"ref\\\": \\\"S1\\\", \\\"page\\\": 1, \\\"quote\\\": \\\"chlorophyll is stored in the roots for winter\\\"}]}\"}}",
   "usage": {

@@ -70,6 +70,12 @@ test("a teacher publishes a course pack; a learner adds it, reads its sources an
   await openTools(learner, info);
   await expect(learner.locator(".made-list").getByText("From the course pack", { exact: true })).toHaveCount(3);
 
+  // In Ask Taku the pack is one of the notebooks the learner can pick.
+  await learner.goto("/chat");
+  await learner.getByRole("button", { name: "Use my notebooks" }).click();
+  await expect(learner.getByTestId("notebook-picker").getByRole("listitem").filter({ hasText: "Form 3 Biology" })).toContainText("Course pack");
+  await learner.getByTestId("notebook-picker").getByRole("button", { name: "Done" }).click();
+
   // The teacher sees one learner, nothing about them.
   await page.goto(new URL(orgUrl).pathname);
   await expect(page.getByRole("listitem", { name: "Form 3 Biology" })).toContainText("Published, version 1. 1 learner");

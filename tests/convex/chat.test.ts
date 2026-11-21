@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { api } from "../../convex/_generated/api";
 import { REPLIES } from "../../convex/notebooks/ask";
-import { makeLearner, makeT } from "./people";
+import { addConsent, makeLearner, makeT, settle, type Person, type T } from "./people";
 
 describe("general chat with Taku", () => {
   test("a first message starts a chat titled from the question, and Taku answers", async () => {
@@ -76,5 +76,70 @@ describe("general chat with Taku", () => {
     expect(reply.widget).toBeUndefined();
     expect(reply.text).toMatch(/Which equation/);
     expect(reply.text).not.toContain("```");
+  });
+});
+
+describe("Ask Taku from my notebooks", () => {
+  const NOTES = "Photosynthesis\nGreen plants make glucose from carbon dioxide and water using light energy.\nChlorophyll in the chloroplasts absorbs the light.\nOxygen is released as a by product.";
+  const CHEMISTRY = "Acids and bases\nAn acid turns blue litmus paper red.\nA base turns red litmus paper blue.";
+
+  async function twoNotebooks(t: T, p: Person) {
+    const biology = await p.as.mutation(api.notebooks.notebooks.create, { title: "Biology" });
+    await p.as.mutation(api.notebooks.sources.addText, { notebookId: biology, title: "Plant notes", text: NOTES });
+    const chemistry = await p.as.mutation(api.notebooks.notebooks.create, { title: "Chemistry" });
+    await p.as.mutation(api.notebooks.sources.addText, { notebookId: chemistry, title: "Acid notes", text: CHEMISTRY });
+    await settle(t);
+    return { biology, chemistry };
+  }
+
+  test("with notebooks picked Taku answers from them with citations to each, and the choice stays with the chat", async () => {
+    const t = makeT();
+    const p = await makeLearner(t, 20);
+    const { biology, chemistry } = await twoNotebooks(t, p);
+    expect((await p.as.query(api.chat.fromNotebooks.pickable, {})).map((n) => n.title).sort()).toEqual(["Biology", "Chemistry"]);
+    const chatId = await p.as.mutation(api.chat.chats.start, { message: "What does chlorophyll do?", notebookIds: [biology, chemistry] });
+    const { kind } = await p.as.action(api.chat.chats.send, { chatId, message: "What does chlorophyll do?" });
+    expect(kind).toBe("answer");
+    const data = await p.as.query(api.chat.chats.get, { chatId });
+    expect(data.picked.map((n) => n.title)).toEqual(["Biology", "Chemistry"]);
+    const answer = data.messages[1];
+    expect(answer.parts).toHaveLength(2);
+    const cited = answer.parts!.map((part) => (part.origin.kind === "source" ? data.titles[part.origin.sourceId] : null));
+    expect(cited).toEqual(["Plant notes", "Acid notes"]);
+    // Removing every notebook goes back to general knowledge.
+    await p.as.mutation(api.chat.chats.setNotebooks, { chatId, notebookIds: [] });
+    expect((await p.as.query(api.chat.chats.get, { chatId })).picked).toEqual([]);
+    await p.as.action(api.chat.chats.send, { chatId, message: "Explain osmosis simply" });
+    expect((await p.as.query(api.chat.chats.get, { chatId })).messages[3].parts).toBeUndefined();
+  });
+
+  test("only the learner's own notebooks, up to 5, and empty ones say so", async () => {
+    const t = makeT();
+    const p = await makeLearner(t, 20);
+    const other = await makeLearner(t, 22);
+    const theirs = await other.as.mutation(api.notebooks.notebooks.create, { title: "Private" });
+    const empty = await p.as.mutation(api.notebooks.notebooks.create, { title: "Empty" });
+    // Someone else's notebook is never picked, even by id.
+    const chatId = await p.as.mutation(api.chat.chats.start, { message: "What does chlorophyll do?", notebookIds: [theirs, empty] });
+    expect((await p.as.query(api.chat.chats.get, { chatId })).picked.map((n) => n.title)).toEqual(["Empty"]);
+    await p.as.action(api.chat.chats.send, { chatId, message: "What does chlorophyll do?" });
+    expect((await p.as.query(api.chat.chats.get, { chatId })).messages[1]).toMatchObject({ kind: "redirect", text: expect.stringContaining("no notes ready") });
+    const six = [];
+    for (let i = 0; i < 6; i++) six.push(await p.as.mutation(api.notebooks.notebooks.create, { title: `N${i}` }));
+    await expect(p.as.mutation(api.chat.chats.setNotebooks, { chatId, notebookIds: six })).rejects.toThrow(/up to 5/);
+    await expect(other.as.mutation(api.chat.chats.setNotebooks, { chatId, notebookIds: [theirs] })).rejects.toThrow(/Chat not found/);
+  });
+
+  test("an under 18's answer from notebooks passes the output check before it is shown", async () => {
+    const t = makeT();
+    const p = await makeLearner(t, 15);
+    await addConsent(t, p);
+    const { biology, chemistry } = await twoNotebooks(t, p);
+    const chatId = await p.as.mutation(api.chat.chats.start, { message: "What does chlorophyll do?", notebookIds: [biology, chemistry] });
+    await p.as.action(api.chat.chats.send, { chatId, message: "What does chlorophyll do?" });
+    const answer = (await p.as.query(api.chat.chats.get, { chatId })).messages[1];
+    expect(answer.kind).toBe("answer");
+    expect(answer.parts).toHaveLength(2);
+    expect(answer.streaming).toBeUndefined();
   });
 });
