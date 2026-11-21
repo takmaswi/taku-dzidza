@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import { expect, test, type Browser, type Page, type TestInfo } from "@playwright/test";
-import { adultOnHome, newNotebook, openTools, pasteNotes, phone } from "./helpers";
+import { adultOnHome, adultSignedUp, newNotebook, openTools, pasteNotes, phone } from "./helpers";
 
 /**
  * Stage 2 (TEACHER_MODE on locally). The teacher's first run is counted:
@@ -60,7 +60,7 @@ test("a teacher sets up a class in under ten steps; a learner joins by link, doe
   const learner = await learnerPage(browser, info);
   await learner.goto(`/join/${code}`);
   await expect(learner.getByRole("heading", { name: "Join the class" })).toBeVisible();
-  await adultOnHome(learner, info, "e2e-join", "Kuda");
+  await adultSignedUp(learner, info, "e2e-join", "Kuda");
   await expect(learner.getByRole("heading", { name: "Join the class" })).toBeVisible();
   await learner.getByRole("button", { name: "Join", exact: true }).click();
   await expect(learner.getByText("You are in Form 3 Blue.")).toBeVisible();
@@ -70,11 +70,11 @@ test("a teacher sets up a class in under ten steps; a learner joins by link, doe
   await expect(learner.getByText("Biology")).toBeVisible();
   await learner.getByRole("link", { name: "Start" }).click();
   // No scheme before hand in.
-  await expect(learner.getByText("Accept:")).toHaveCount(0);
+  await expect(learner.getByText("Award a mark for")).toHaveCount(0);
   await learner.getByRole("radio", { name: /Oxygen/ }).check();
   await learner.getByLabel("Your answer 2").fill("carbon dioxide and water");
   await learner.getByRole("button", { name: "Hand in" }).click();
-  await expect(learner.getByText("Accept:").first()).toBeVisible();
+  await expect(learner.getByText("Award a mark for").first()).toBeVisible();
   await learner.getByRole("button", { name: "Save my marks" }).click();
   await expect(learner.getByText(/Your mark: \d out of 7/)).toBeVisible();
   await learner.context().close();

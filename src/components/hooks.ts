@@ -18,6 +18,23 @@ export function useMedia(query: string): boolean {
   return useSyncExternalStore(subscribe, () => window.matchMedia(query).matches, () => false);
 }
 
+/**
+ * A switch or box bound to server state. It shows the tapped value until the
+ * save settles: Convex resolves a mutation only once its queries reflect it,
+ * so the server copy takes over with no flicker, and a refused save falls back.
+ * Bound to the server copy alone, a controlled box snaps back on every tap.
+ */
+export function useSettling(server: boolean, save: (on: boolean) => Promise<unknown>): [boolean, (on: boolean) => void] {
+  const [pending, setPending] = useState<boolean | null>(null);
+  const set = (on: boolean) => {
+    setPending(on);
+    void save(on)
+      .catch(() => undefined)
+      .finally(() => setPending(null));
+  };
+  return [pending ?? server, set];
+}
+
 function readStored(key: string): string | null {
   try {
     return localStorage.getItem(key);

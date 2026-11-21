@@ -2,6 +2,7 @@ import { useMutation } from "convex/react";
 import { Link } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
+import { useSettling } from "../components/hooks";
 import { Switch } from "../components/Switch";
 import { copy } from "../copy/en";
 import { useFlags } from "./flags";
@@ -12,8 +13,8 @@ export function SettingsClasses({ profile, adult }: { profile: Doc<"profiles">; 
   const t = copy.classes;
   const flags = useFlags();
   const setTeaching = useMutation(api.classes.schools.setTeaching);
+  const [teaches, toggleTeaching] = useSettling((profile.roles ?? []).includes("teacher"), (on) => setTeaching({ on }));
   if (!flags.teacher) return null;
-  const teaches = (profile.roles ?? []).includes("teacher");
   return (
     <>
       <section className="panel stack" aria-labelledby="join-class">
@@ -31,7 +32,7 @@ export function SettingsClasses({ profile, adult }: { profile: Doc<"profiles">; 
                 {t.teachLine}
               </small>
             </label>
-            <Switch id="r-teach" label={t.teachSwitch} checked={teaches} onChange={(on) => void setTeaching({ on })} />
+            <Switch id="r-teach" label={t.teachSwitch} checked={teaches} onChange={toggleTeaching} />
           </div>
           {teaches && (
             <Link to="/teach" className="pill small">

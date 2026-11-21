@@ -50,12 +50,18 @@ export async function setUp(page: Page, name: string, birthYear: number) {
   await page.getByRole("button", { name: "Continue" }).click();
 }
 
-/** A signed up adult who skipped the quiz, on home. */
-export async function adultOnHome(page: Page, info: TestInfo, tag = "e2e", name = "Farai"): Promise<string> {
+/** A signed up adult who skipped the quiz. Where they land depends on where they came from (a join link brings them back to it). */
+export async function adultSignedUp(page: Page, info: TestInfo, tag = "e2e", name = "Farai"): Promise<string> {
   const email = freshEmail(info.project.name, tag);
   await signUp(page, email);
   await setUp(page, name, new Date().getFullYear() - 22);
   await page.getByRole("button", { name: "Skip" }).click();
+  return email;
+}
+
+/** A signed up adult who skipped the quiz, on home. */
+export async function adultOnHome(page: Page, info: TestInfo, tag = "e2e", name = "Farai"): Promise<string> {
+  const email = await adultSignedUp(page, info, tag, name);
   await expect(page.getByRole("heading", { name: new RegExp(`What are we studying today, ${name}`) })).toBeVisible();
   return email;
 }

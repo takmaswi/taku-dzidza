@@ -8,6 +8,7 @@ import { joinLink, shareText, whatsAppLink } from "../../../convex/classes/codes
 import { errorText } from "../../access";
 import { QrCode } from "../../classes/shared";
 import { AppShell } from "../../components/Layout";
+import { SavedCheckbox } from "../../components/Switch";
 import { copy } from "../../copy/en";
 
 /**
@@ -116,7 +117,7 @@ function MaterialBox({ classId }: { classId: Id<"classes"> }) {
           {picker.map((nb) => (
             <li key={nb.notebookId} className="stack-tight">
               <label className="check-row">
-                <input type="checkbox" checked={nb.shared} onChange={(e) => void share({ classId, notebookId: nb.notebookId, on: e.target.checked })} />
+                <SavedCheckbox checked={nb.shared} save={(on) => share({ classId, notebookId: nb.notebookId, on })} />
                 <span>{t.shareNotebook(nb.title)}</span>
               </label>
               {nb.shared && nb.sources.length > 0 && (
@@ -124,7 +125,7 @@ function MaterialBox({ classId }: { classId: Id<"classes"> }) {
                   {nb.sources.map((s) => (
                     <li key={s.sourceId}>
                       <label className="check-row small-text">
-                        <input type="checkbox" checked={s.thirdParty} onChange={(e) => void setThirdParty({ sourceId: s.sourceId, on: e.target.checked })} />
+                        <SavedCheckbox checked={s.thirdParty} save={(on) => setThirdParty({ sourceId: s.sourceId, on })} />
                         <span>
                           {s.title}: {t.publishedBook}
                         </span>
