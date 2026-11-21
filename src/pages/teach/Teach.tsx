@@ -7,7 +7,7 @@ import { FORM_LEVELS, SYLLABUSES } from "../../../convex/curriculum/catalogue";
 import { errorText } from "../../access";
 import { AppShell } from "../../components/Layout";
 import { copy } from "../../copy/en";
-import { SchoolPanel } from "./SchoolPanel";
+import { TeachOrgs } from "../../orgs/TeachOrgs";
 
 /**
  * A teacher's classes. With none yet, the first run: name the class, then the
@@ -69,7 +69,7 @@ export default function Teach() {
             <Plus size={16} aria-hidden="true" /> {t.newClass}
           </button>
         )}
-        {!first && <SchoolPanel />}
+        {!first && <TeachOrgs />}
       </div>
     </AppShell>
   );

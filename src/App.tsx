@@ -33,6 +33,8 @@ const ClassWork = lazy(() => import("./pages/classes/ClassWork"));
 const Join = lazy(() => import("./pages/classes/Join"));
 const JoinSignedOut = lazy(() => import("./pages/classes/Join").then((m) => ({ default: m.JoinSignedOut })));
 const Family = lazy(() => import("./pages/classes/Family"));
+const OrgPage = lazy(() => import("./orgs/OrgPage"));
+const OwnerOrgs = lazy(() => import("./orgs/OwnerOrgs"));
 
 /**
  * Takudzidza routes. Public: "/", "/signin", "/help", "/privacy", "/terms" and
@@ -118,6 +120,8 @@ function AppRoutes({ profile, email }: { profile: Doc<"profiles">; email: string
           <Route path="/class/:classId/a/:assignmentId" element={<ClassWork />} />
           <Route path="/join/:code" element={<Join />} />
           <Route path="/family" element={<Family />} />
+          <Route path="/org/:organisationId" element={<OrgPage />} />
+          <Route path="/owner/organisations" element={<OwnerOrgs />} />
         </>
       )}
       <Route path="*" element={<Navigate to="/" replace />} />

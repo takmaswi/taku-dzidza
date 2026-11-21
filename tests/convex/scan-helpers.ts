@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 
-export const ACCESS_HELPERS = ["requireUser(", "requireProfile(", "requireLearner(", "requireLearnerInAction(", "requireAdmin(", "ownNotebook(", "ownSource(", "ownChat(", "requireTeacher(", "ownClass(", "requireGuardian(", "requireClassMember(", "requireJoiningLearner(", "requireTeacherInAction("];
+export const ACCESS_HELPERS = ["requireUser(", "requireProfile(", "requireLearner(", "requireLearnerInAction(", "requireAdmin(", "ownNotebook(", "ownSource(", "ownChat(", "requireTeacher(", "ownClass(", "requireGuardian(", "requireClassMember(", "requireJoiningLearner(", "requireTeacherInAction(", "requireOrgsProfile(", "requireOrgMember(", "requireOrgAdmin("];
 
 export function walk(dir: string, predicate: (path: string) => boolean): string[] {
   const out: string[] = [];

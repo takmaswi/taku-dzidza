@@ -10,7 +10,7 @@ export async function pendingClassRequests(ctx: QueryCtx, learnerProfileId: Id<"
     const cls = await ctx.db.get(e.classId);
     if (cls === null) continue;
     const teacher = await ctx.db.get(cls.teacherProfileId);
-    const school = cls.schoolId === undefined ? null : await ctx.db.get(cls.schoolId);
+    const school = cls.organisationId === undefined ? null : await ctx.db.get(cls.organisationId);
     out.push({ enrolmentId: e._id, className: cls.name, subject: cls.subject, level: cls.level, teacher: teacher === null ? "" : firstName(teacher.displayName), school: school?.name ?? null });
   }
   return out;

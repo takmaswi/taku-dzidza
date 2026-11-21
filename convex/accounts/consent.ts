@@ -10,6 +10,7 @@ import { ADULT_AGE, ageOn } from "./age";
 import { beginAccountDeletion } from "../privacy/purge";
 import { randomDigits, randomToken, tokenHash } from "../lib/tokens";
 import { aiMode } from "../lib/env";
+import { enrolmentApproved } from "../organisations/members";
 import { CONSENT_POINTS, CONSENT_TEXT_VERSION } from "./consentText";
 import { normalisePhone, smsReady, smsSender } from "./sms";
 
@@ -284,6 +285,7 @@ export const decideClass = mutation({
     }
     await ctx.db.patch(row._id, { expiresAt: now, attempts: CODE_MAX_ATTEMPTS });
     await ctx.db.patch(enrolment._id, { status: args.approve ? "approved" : "declined", decidedAt: now, decidedBy: "guardian" });
+    if (args.approve) await enrolmentApproved(ctx, enrolment);
     return { state: "decided" };
   },
 });

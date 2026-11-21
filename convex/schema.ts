@@ -42,7 +42,10 @@ export const originValidator = v.union(
 /** An interactive widget attached to an answer or stored as a study tool (convex/widgets). */
 export const widgetValidator = v.object({ slug: v.string(), data: v.any() });
 /** Roles an adult account can add (Stage 2). Every account is a learner. */
-export const roleValidator = v.union(v.literal("teacher"), v.literal("guardian"), v.literal("school_admin"));
+export const roleValidator = v.union(v.literal("teacher"), v.literal("guardian"));
+/** Kinds of organisation. Exam boards are not organisations: they stay part of what a learner studies for and a syllabus id. */
+export const orgTypeValidator = v.union(v.literal("secondary_school"), v.literal("university"), v.literal("college"), v.literal("training_provider"), v.literal("company"), v.literal("other"));
+export const orgRoleValidator = v.union(v.literal("learner"), v.literal("teacher"), v.literal("admin"), v.literal("guardian"));
 /** A Test me turn on Taku's reply: the question it asked (the answer is never sent to the browser) and the mark for the learner's last answer. */
 export const testTurnValidator = v.object({ question: v.string(), answer: v.string(), origin: v.optional(originValidator), correct: v.optional(v.boolean()) });
 export const perQuestionValidator = v.array(v.object({ number: v.number(), got: v.number(), marks: v.number() }));
@@ -79,7 +82,7 @@ export default defineSchema({
     /** Set when deletion starts: the account is hidden and signed out, then emptied in batches (convex/privacy/purge.ts). */
     deletingAt: v.optional(v.number()),
     deletionReason: v.optional(deletionReasonValidator),
-    /** Teacher, guardian, school admin (convex/classes). Adults only. */
+    /** Teacher, guardian (convex/classes). Adults only. Roles in an organisation are on memberships. */
     roles: v.optional(v.array(roleValidator)),
     createdAt: v.number(),
   }).index("by_user", ["userId"]).index("by_consent_state", ["consentState", "createdAt"]).index("by_deleting", ["deletingAt"]),
@@ -298,20 +301,56 @@ export default defineSchema({
   /** Where a sweep that walks a whole table got to, so each run carries on (convex/privacy/retention.ts). */
   sweepCursors: defineTable({ name: v.string(), value: v.number() }).index("by_name", ["name"]),
 
-  // ---- Stage 2: teachers, classes and guardians (convex/classes) --------------
+  // ---- Stage 2: teachers, classes, guardians (convex/classes) and organisations (convex/organisations)
 
-  /** A school. The admin shares the staff code; teachers join with it. */
-  schools: defineTable({ name: v.string(), adminProfileId: v.id("profiles"), staffCode: v.string(), createdAt: v.number() })
-    .index("by_admin", ["adminProfileId"])
-    .index("by_staff_code", ["staffCode"]),
-  schoolStaff: defineTable({ schoolId: v.id("schools"), profileId: v.id("profiles"), role: v.union(v.literal("admin"), v.literal("teacher")), joinedAt: v.number() })
-    .index("by_school", ["schoolId"])
+  /**
+   * A school, university, college, training provider or company (convex/organisations).
+   * Added by people and pending until an owner lists or merges it; the list starts empty.
+   * joinCode is the learner code; staff join with an orgCodes code.
+   */
+  organisations: defineTable({
+    name: v.string(),
+    type: orgTypeValidator,
+    town: v.string(),
+    country: v.string(),
+    status: v.union(v.literal("pending"), v.literal("listed"), v.literal("verified")),
+    createdBy: v.id("profiles"),
+    joinCode: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_join_code", ["joinCode"])
+    .index("by_status", ["status"])
+    .index("by_created_by", ["createdBy"])
+    .searchIndex("search_name", { searchField: "name", filterFields: ["type", "status"] }),
+  memberships: defineTable({
+    organisationId: v.id("organisations"),
+    profileId: v.id("profiles"),
+    role: orgRoleValidator,
+    programme: v.optional(v.string()),
+    year: v.optional(v.string()),
+    joinedAt: v.number(),
+  })
+    .index("by_org_role", ["organisationId", "role"])
     .index("by_profile", ["profileId"]),
-
+  /** Following without a code: the public page and published course packs, nothing else. */
+  follows: defineTable({ organisationId: v.id("organisations"), profileId: v.id("profiles"), createdAt: v.number() })
+    .index("by_org", ["organisationId"])
+    .index("by_profile", ["profileId"]),
+  /** Staff join codes an admin makes and can revoke. */
+  orgCodes: defineTable({
+    organisationId: v.id("organisations"),
+    code: v.string(),
+    role: v.union(v.literal("teacher"), v.literal("admin")),
+    createdBy: v.id("profiles"),
+    createdAt: v.number(),
+    revokedAt: v.optional(v.number()),
+  })
+    .index("by_code", ["code"])
+    .index("by_org", ["organisationId"]),
   /** A teacher's class. Learners join with the code, a link or a QR code. */
   classes: defineTable({
     teacherProfileId: v.id("profiles"),
-    schoolId: v.optional(v.id("schools")),
+    organisationId: v.optional(v.id("organisations")),
     name: v.string(),
     subject: v.string(),
     level: v.string(),
@@ -322,7 +361,7 @@ export default defineSchema({
   })
     .index("by_teacher", ["teacherProfileId"])
     .index("by_code", ["code"])
-    .index("by_school", ["schoolId"]),
+    .index("by_organisation", ["organisationId"]),
 
   /** A learner in a class. An under 18 waits for a guardian (pending) before the teacher sees them as joined. */
   enrolments: defineTable({

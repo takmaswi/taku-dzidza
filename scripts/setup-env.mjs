@@ -84,6 +84,8 @@ if (mode === "mock") {
   values.EMBEDDINGS_MODE = "on";
   // New surfaces are on locally and in tests; production turns each on when its stage is done.
   values.TEACHER_MODE = "on";
+  // The e2e owner accounts (e2e/orgs.spec.ts), on local mock backends only.
+  if (!prod) values.ADMIN_EMAILS = [values.ADMIN_EMAILS, "e2e-owner-phone@example.com", "e2e-owner-desktop@example.com"].join(",");
 }
 if (rotate || !have.has("JWT_PRIVATE_KEY") || !have.has("JWKS")) {
   const keys = await generateKeyPair("RS256", { extractable: true });

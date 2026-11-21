@@ -19,3 +19,9 @@
 .marks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: 0.75rem; }
 .marks-grid .field.flagged { box-shadow: inset 3px 0 0 var(--danger); padding-left: 0.6rem; }
 .file-pick { position: relative; cursor: pointer; }
+
+/* Organisations (convex/organisations) */
+.org-row { display: flex; align-items: center; gap: 0.75rem; }
+.org-row .grow { display: flex; flex-direction: column; min-width: 0; }
+.org-row small { overflow-wrap: anywhere; }
+.owner-row { display: flex; flex-direction: column; gap: 0.5rem; border-top: 1px solid var(--line); padding-top: 0.75rem; }

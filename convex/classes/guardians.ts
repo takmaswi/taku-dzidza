@@ -8,7 +8,8 @@ import { tokenHash } from "../lib/tokens";
 import { isAdult, requireGuardian, TEACHER_OFF } from "./access";
 import { cryptoRandom, firstName, normaliseCode, randomCode, validCode, validFirstName } from "./codes";
 import { pendingClassRequests } from "./requests";
-import { withRole } from "./schools";
+import { enrolmentApproved } from "../organisations/members";
+import { withRole } from "./roles";
 
 /**
  * Guardians with their own account (Stage 2). A guardian adds a child: they
@@ -128,6 +129,7 @@ export const decide = mutation({
     const enrolment = await ctx.db.get(args.enrolmentId);
     if (enrolment === null || enrolment.status !== "pending" || !(await decidesFor(ctx, profile, enrolment.learnerProfileId))) throw new ConvexError("Request not found.");
     await ctx.db.patch(enrolment._id, { status: args.approve ? "approved" : "declined", decidedAt: Date.now(), decidedBy: "guardian" });
+    if (args.approve) await enrolmentApproved(ctx, enrolment, profile._id);
     return null;
   },
 });

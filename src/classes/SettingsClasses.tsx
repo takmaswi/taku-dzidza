@@ -6,22 +6,17 @@ import { useSettling } from "../components/hooks";
 import { Switch } from "../components/Switch";
 import { copy } from "../copy/en";
 import { useFlags } from "./flags";
-import { GuardianCodeForm, JoinForm } from "./shared";
+import { GuardianCodeForm } from "./shared";
 
-/** Settings while TEACHER_MODE is on: join a class; adults switch on teaching or open the family page; under 18s link a guardian's code. */
+/** Settings while TEACHER_MODE is on: adults switch on teaching or open the family page; under 18s link a guardian's code. Codes for classes go in the box under "Where you study" (src/orgs). */
 export function SettingsClasses({ profile, adult }: { profile: Doc<"profiles">; adult: boolean }) {
   const t = copy.classes;
   const flags = useFlags();
-  const setTeaching = useMutation(api.classes.schools.setTeaching);
+  const setTeaching = useMutation(api.classes.roles.setTeaching);
   const [teaches, toggleTeaching] = useSettling((profile.roles ?? []).includes("teacher"), (on) => setTeaching({ on }));
   if (!flags.teacher) return null;
   return (
     <>
-      <section className="panel stack" aria-labelledby="join-class">
-        <h2 id="join-class">{t.joinTitle}</h2>
-        <p className="soft">{t.joinLine}</p>
-        <JoinForm />
-      </section>
       {adult ? (
         <section className="panel stack" aria-labelledby="teaching">
           <h2 id="teaching">{t.teachTitle}</h2>

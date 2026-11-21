@@ -3,7 +3,7 @@ import { mutation, query } from "../_generated/server";
 import { syllabusById } from "../curriculum/catalogue";
 import { ownClass, requireTeacher } from "./access";
 import { firstName, validFirstName } from "./codes";
-import { uniqueCode } from "./schools";
+import { uniqueCode } from "./roles";
 
 /**
  * A teacher's classes. Ported from Amayi Learn (convex/classes/classes.ts at
@@ -28,15 +28,16 @@ export const createClass = mutation({
     if (args.syllabusId !== undefined && syllabusById(args.syllabusId) === undefined) throw new ConvexError("Pick a syllabus from the list.");
     const mine = await ctx.db.query("classes").withIndex("by_teacher", (q) => q.eq("teacherProfileId", profile._id)).take(MAX_CLASSES + 1);
     if (mine.length >= MAX_CLASSES) throw new ConvexError(`One teacher can have up to ${MAX_CLASSES} classes.`);
-    const staff = await ctx.db.query("schoolStaff").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).first();
+    // A new class belongs to the organisation the teacher teaches at, if any.
+    const staff = (await ctx.db.query("memberships").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).take(20)).find((m) => m.role === "teacher" || m.role === "admin");
     return await ctx.db.insert("classes", {
       teacherProfileId: profile._id,
-      schoolId: staff?.schoolId,
+      organisationId: staff?.organisationId,
       name,
       subject,
       level,
       syllabusId: args.syllabusId,
-      code: await uniqueCode(ctx, "classes"),
+      code: await uniqueCode(ctx),
       createdAt: Date.now(),
     });
   },

@@ -1,6 +1,7 @@
 import { ConvexError, v } from "convex/values";
 import type { Doc } from "../_generated/dataModel";
-import { mutation, query, type QueryCtx } from "../_generated/server";
+import { mutation, query, type MutationCtx, type QueryCtx } from "../_generated/server";
+import { joinedClassOrg } from "../organisations/members";
 import { requireClassMember, requireJoiningLearner, isAdult } from "./access";
 import { firstName, normaliseCode, validCode } from "./codes";
 
@@ -26,6 +27,25 @@ async function myEnrolments(ctx: QueryCtx, profile: Doc<"profiles">): Promise<Do
   return await ctx.db.query("enrolments").withIndex("by_learner", (q) => q.eq("learnerProfileId", profile._id)).take(MAX_JOINED + 1);
 }
 
+/** Join a class found by its code. Shared with the one code box for organisations (convex/organisations). */
+export async function requestJoinClass(ctx: MutationCtx, profile: Doc<"profiles">, cls: Doc<"classes">): Promise<JoinResult> {
+  if (cls.teacherProfileId === profile._id) return { ok: false, message: JOIN_ERRORS.own };
+  const mine = await myEnrolments(ctx, profile);
+  const existing = mine.find((e) => e.classId === cls._id);
+  const now = Date.now();
+  const adult = isAdult(profile);
+  const status = adult ? "approved" : "pending";
+  const decided = adult ? { decidedAt: now, decidedBy: "adult" as const } : {};
+  if (existing === undefined) {
+    if (mine.length >= MAX_JOINED) return { ok: false, message: JOIN_ERRORS.many };
+    await ctx.db.insert("enrolments", { classId: cls._id, learnerProfileId: profile._id, status, requestedAt: now, ...decided });
+  } else if (existing.status === "declined") {
+    await ctx.db.patch(existing._id, { status, requestedAt: now, decidedAt: adult ? now : undefined, decidedBy: adult ? "adult" : undefined });
+  } else return { ok: true, className: cls.name, status: existing.status };
+  if (adult) await joinedClassOrg(ctx, cls, profile._id);
+  return { ok: true, className: cls.name, status };
+}
+
 export const requestJoin = mutation({
   args: { code: v.string() },
   handler: async (ctx, args): Promise<JoinResult> => {
@@ -34,23 +54,7 @@ export const requestJoin = mutation({
     if (!validCode(code)) return { ok: false, message: JOIN_ERRORS.code };
     const cls = await ctx.db.query("classes").withIndex("by_code", (q) => q.eq("code", code)).unique();
     if (cls === null) return { ok: false, message: JOIN_ERRORS.unknown };
-    if (cls.teacherProfileId === profile._id) return { ok: false, message: JOIN_ERRORS.own };
-    const mine = await myEnrolments(ctx, profile);
-    const existing = mine.find((e) => e.classId === cls._id);
-    const now = Date.now();
-    const adult = isAdult(profile);
-    const status = adult ? "approved" : "pending";
-    const decided = adult ? { decidedAt: now, decidedBy: "adult" as const } : {};
-    if (existing === undefined) {
-      if (mine.length >= MAX_JOINED) return { ok: false, message: JOIN_ERRORS.many };
-      await ctx.db.insert("enrolments", { classId: cls._id, learnerProfileId: profile._id, status, requestedAt: now, ...decided });
-      return { ok: true, className: cls.name, status };
-    }
-    if (existing.status === "declined") {
-      await ctx.db.patch(existing._id, { status, requestedAt: now, decidedAt: adult ? now : undefined, decidedBy: adult ? "adult" : undefined });
-      return { ok: true, className: cls.name, status };
-    }
-    return { ok: true, className: cls.name, status: existing.status };
+    return await requestJoinClass(ctx, profile, cls);
   },
 });
 

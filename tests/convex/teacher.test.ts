@@ -17,7 +17,7 @@ const QUIZ = { count: 4, difficulty: "medium", minutes: 15 };
 
 async function makeTeacher(t: T, name = "Chipo Dube"): Promise<Person> {
   const p = await makeLearner(t, 34, name);
-  await p.as.mutation(api.classes.schools.setTeaching, { on: true });
+  await p.as.mutation(api.classes.roles.setTeaching, { on: true });
   return p;
 }
 
@@ -68,7 +68,7 @@ describe("TEACHER_MODE", () => {
     const p = await makeLearner(t, 34);
     await withMode(undefined, async () => {
       expect(await t.query(api.flags.get, {})).toEqual({ teacher: false, books: false });
-      await expect(p.as.mutation(api.classes.schools.setTeaching, { on: true })).rejects.toThrow(/not on yet/);
+      await expect(p.as.mutation(api.classes.roles.setTeaching, { on: true })).rejects.toThrow(/not on yet/);
       await expect(p.as.query(api.classes.classes.myClasses, {})).rejects.toThrow(/not on yet/);
       await expect(p.as.mutation(api.classes.joining.requestJoin, { code: "ABC23X" })).rejects.toThrow(/not on yet/);
       await expect(p.as.mutation(api.classes.guardians.createChildCode, { firstName: "Tari" })).rejects.toThrow(/not on yet/);
@@ -81,27 +81,9 @@ describe("TEACHER_MODE", () => {
     const adult = await makeLearner(t, 34);
     await expect(adult.as.query(api.classes.classes.myClasses, {})).rejects.toThrow(/Switch on teaching/);
     const minor = await makeLearner(t, 15);
-    await expect(minor.as.mutation(api.classes.schools.setTeaching, { on: true })).rejects.toThrow(/adults/);
-    await adult.as.mutation(api.classes.schools.setTeaching, { on: true });
+    await expect(minor.as.mutation(api.classes.roles.setTeaching, { on: true })).rejects.toThrow(/adults/);
+    await adult.as.mutation(api.classes.roles.setTeaching, { on: true });
     expect(await adult.as.query(api.classes.classes.myClasses, {})).toEqual([]);
-  });
-});
-
-describe("schools", () => {
-  test("an admin makes a school, a teacher joins with the staff code, and only the admin sees the code and the classes", async () => {
-    const t = makeT();
-    const head = await makeTeacher(t, "Nyasha Head");
-    await head.as.mutation(api.classes.classes.createClass, { name: "Form 1 Red", subject: "Mathematics", level: "Form 1" });
-    await head.as.mutation(api.classes.schools.createSchool, { name: "Mabvuku High" });
-    const school = (await head.as.query(api.classes.schools.mySchool, {}))!;
-    expect(school.isAdmin).toBe(true);
-    expect(school.classes).toEqual([expect.objectContaining({ name: "Form 1 Red", learners: 0 })]);
-    const teacher = await makeTeacher(t, "Farai Teacher");
-    await expect(teacher.as.mutation(api.classes.schools.joinSchool, { staffCode: "ZZZZZZ" })).rejects.toThrow(/No school/);
-    await teacher.as.mutation(api.classes.schools.joinSchool, { staffCode: school.staffCode! });
-    const seen = (await teacher.as.query(api.classes.schools.mySchool, {}))!;
-    expect(seen).toMatchObject({ name: "Mabvuku High", isAdmin: false, staffCode: null, classes: [] });
-    expect(seen.staff.map((s) => s.name).sort()).toEqual(["Farai", "Nyasha"]);
   });
 });
 

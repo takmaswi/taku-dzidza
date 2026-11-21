@@ -93,7 +93,7 @@ async function purgeClass(ctx: MutationCtx, cls: Doc<"classes">, budget: Budget)
   return true;
 }
 
-/** Classes taught, classes joined, guardian links and codes, and school places (Stage 2). */
+/** Classes taught, classes joined, guardian links and codes, and organisation places (Stage 2). */
 async function purgeClassData(ctx: MutationCtx, profile: Doc<"profiles">, budget: Budget): Promise<boolean> {
   for (;;) {
     const cls = await ctx.db.query("classes").withIndex("by_teacher", (q) => q.eq("teacherProfileId", profile._id)).first();
@@ -105,18 +105,21 @@ async function purgeClassData(ctx: MutationCtx, profile: Doc<"profiles">, budget
   if (!(await drain(ctx, budget, (n) => ctx.db.query("guardianLinks").withIndex("by_guardian", (q) => q.eq("guardianProfileId", profile._id)).take(n)))) return false;
   if (!(await drain(ctx, budget, (n) => ctx.db.query("guardianLinks").withIndex("by_child", (q) => q.eq("childProfileId", profile._id)).take(n)))) return false;
   if (!(await drain(ctx, budget, (n) => ctx.db.query("childCodes").withIndex("by_guardian", (q) => q.eq("guardianProfileId", profile._id)).take(n)))) return false;
-  if (!(await drain(ctx, budget, (n) => ctx.db.query("schoolStaff").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).take(n)))) return false;
-  for (;;) {
-    // A school goes with its admin: its staff list goes, and its classes stay with their teachers.
-    const school = await ctx.db.query("schools").withIndex("by_admin", (q) => q.eq("adminProfileId", profile._id)).first();
-    if (school === null) break;
-    if (!(await drain(ctx, budget, (n) => ctx.db.query("schoolStaff").withIndex("by_school", (q) => q.eq("schoolId", school._id)).take(n)))) return false;
-    for (const c of await ctx.db.query("classes").withIndex("by_school", (q) => q.eq("schoolId", school._id)).take(Math.max(0, budget.left))) {
-      await ctx.db.patch(c._id, { schoolId: undefined });
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("memberships").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).take(n)))) return false;
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("follows").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).take(n)))) return false;
+  // An organisation the account added that was never checked, and that nobody else belongs to, goes too.
+  // Listed and verified ones stay: other people use them.
+  for (const org of await ctx.db.query("organisations").withIndex("by_created_by", (q) => q.eq("createdBy", profile._id)).take(20)) {
+    if (org.status !== "pending") continue;
+    if ((await ctx.db.query("memberships").withIndex("by_org_role", (q) => q.eq("organisationId", org._id)).first()) !== null) continue;
+    if (!(await drain(ctx, budget, (n) => ctx.db.query("follows").withIndex("by_org", (q) => q.eq("organisationId", org._id)).take(n)))) return false;
+    if (!(await drain(ctx, budget, (n) => ctx.db.query("orgCodes").withIndex("by_org", (q) => q.eq("organisationId", org._id)).take(n)))) return false;
+    for (const c of await ctx.db.query("classes").withIndex("by_organisation", (q) => q.eq("organisationId", org._id)).take(Math.max(0, budget.left))) {
+      await ctx.db.patch(c._id, { organisationId: undefined });
       budget.left -= 1;
     }
     if (budget.left <= 0) return false;
-    await ctx.db.delete(school._id);
+    await ctx.db.delete(org._id);
     budget.left -= 1;
   }
   return true;
