@@ -4,6 +4,8 @@ import { mutation, query } from "../_generated/server";
 import { TEACHER_OFF } from "../classes/access";
 import { adminEmails, teacherModeOn } from "../lib/env";
 import { requireAdmin, requireUser } from "../lib/access";
+import { uniqueCode } from "../classes/roles";
+import { requireOrgsProfile } from "./access";
 import { ensureMembership } from "./members";
 
 /**
@@ -56,7 +58,7 @@ export const setStatus = mutation({
   },
 });
 
-/** A duplicate goes into the one that already exists: its members, followers, staff codes and classes move, then it is removed. */
+/** A duplicate goes into the one that already exists: its members, followers, staff codes, classes and course packs move, then it is removed. */
 export const merge = mutation({
   args: { fromId: v.id("organisations"), intoId: v.id("organisations") },
   handler: async (ctx, args) => {
@@ -77,7 +79,29 @@ export const merge = mutation({
     }
     for (const c of await ctx.db.query("orgCodes").withIndex("by_org", (q) => q.eq("organisationId", from._id)).take(500)) await ctx.db.patch(c._id, { organisationId: into._id });
     for (const c of await ctx.db.query("classes").withIndex("by_organisation", (q) => q.eq("organisationId", from._id)).take(2000)) await ctx.db.patch(c._id, { organisationId: into._id });
+    for (const p of await ctx.db.query("coursePacks").withIndex("by_org", (q) => q.eq("organisationId", from._id)).take(200)) await ctx.db.patch(p._id, { organisationId: into._id });
     await ctx.db.delete(from._id);
     return into._id as Id<"organisations">;
+  },
+});
+
+export const TAKUDZIDZA = { name: "Takudzidza", type: "other", town: "Harare", country: "Zimbabwe" } as const;
+
+/**
+ * The owner's own organisation, for course packs built from material the
+ * owner uploads. Made once, checked, with the owner as admin; another owner
+ * account opening it becomes an admin too.
+ */
+export const takudzidza = mutation({
+  args: {},
+  handler: async (ctx): Promise<Id<"organisations">> => {
+    requireMode();
+    await requireAdmin(ctx);
+    const { profile } = await requireOrgsProfile(ctx);
+    const rows = await ctx.db.query("organisations").withIndex("by_status", (q) => q.eq("status", "verified")).take(500);
+    const found = rows.find((o) => o.name === TAKUDZIDZA.name && o.type === TAKUDZIDZA.type);
+    const organisationId = found?._id ?? (await ctx.db.insert("organisations", { ...TAKUDZIDZA, status: "verified", createdBy: profile._id, joinCode: await uniqueCode(ctx), createdAt: Date.now() }));
+    await ensureMembership(ctx, organisationId, profile._id, "admin");
+    return organisationId;
   },
 });

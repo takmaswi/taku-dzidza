@@ -14,7 +14,7 @@ The five consent functions are the guardian's page, opened from the learner's li
 | `requireProfile` | a user who finished sign up | settings, study style, making a guardian link |
 | `requireLearner` | an adult, or an under 18 whose guardian consented | every study feature (Phase 2 onward) |
 | `requireLearnerInAction` | the same, from an action | asking Taku |
-| `ownNotebook`, `ownSource`, `ownChat` | `requireLearner` plus: the notebook, source or chat belongs to this learner, and is not being deleted | every notebook, source and chat function |
+| `ownNotebook`, `ownSource`, `ownChat` | `requireLearner` plus: the notebook, source or chat belongs to this learner, and is not being deleted | every notebook, source and chat function. A course pack's sources and tools are read through the learner's own linked notebook, or, for one source page or one tool, only if the learner has added a published pack that holds it (`convex/packs/scope.ts`) |
 | `requireAdmin` | the owner: an address on `ADMIN_EMAILS` that has been verified | owner screens (Phase 7), listing, checking and merging organisations people added |
 | `requireTeacher` | TEACHER_MODE on, an adult with the teacher role switched on | creating classes, marking photographed scripts, marking a source as a published book |
 | `ownClass` | `requireTeacher` plus: the class is theirs | everything on a class page: roster, names, shares, papers, marks, results |
@@ -22,8 +22,8 @@ The five consent functions are the guardian's page, opened from the learner's li
 | `requireGuardian` | TEACHER_MODE on, an adult | adding a child, the family page, answering class requests (only for a child whose standing consent this account gave) |
 | `requireClassMember` | TEACHER_MODE on, `requireLearner`, approved in the class | shared material, the papers set, handing in, marking written answers, leaving |
 | `requireJoiningLearner` | TEACHER_MODE on, `requireLearner` | joining by code, the learner's class list, cancelling a request |
-| `requireOrgsProfile` | TEACHER_MODE on, `requireLearner` | searching organisations (listed and checked only), following, adding a missing one, the one code box, an organisation's public page |
-| `requireOrgMember` | `requireOrgsProfile` plus: a member of the organisation in one of the given roles; a staff or guardian role only counts for an adult | leaving an organisation |
+| `requireOrgsProfile` | TEACHER_MODE on, `requireLearner` | searching organisations (listed and checked only), following, adding a missing one, the one code box, an organisation's public page and its published course packs, adding a pack |
+| `requireOrgMember` | `requireOrgsProfile` plus: a member of the organisation in one of the given roles; a staff or guardian role only counts for an adult | leaving an organisation; teachers and admins making, listing and publishing course packs (publishing also needs the pack to be their own) |
 | `requireOrgAdmin` | `requireOrgMember` as an admin | join codes (make, revoke, new learner code) |
 
 Teachers see a learner's first name only (the first word of their display name), never an email, birth date or anything they study on their own. Results by topic are counts and percentages with no names.

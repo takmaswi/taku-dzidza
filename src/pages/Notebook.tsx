@@ -27,6 +27,12 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
   const { id = "" } = useParams();
   const notebookId = id as Id<"notebooks">;
   const data = useQuery(api.notebooks.notebooks.get, { notebookId });
+  // A course pack copy brings its review cards up to a newer version when it opens.
+  const syncPack = useMutation(api.packs.packs.sync);
+  const stale = data?.pack?.stale === true;
+  useEffect(() => {
+    if (stale) void syncPack({ notebookId });
+  }, [stale, notebookId, syncPack]);
   const sources = useSources(notebookId);
   const wide = useMedia(WIDE);
   const xwide = useMedia(XWIDE);
@@ -92,8 +98,13 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
     void sources.uploadAll([...(e.dataTransfer.files ?? [])]);
   };
 
+  const packLine = data.pack === null ? undefined : (
+    <p className="pack-line" data-testid="pack-line">
+      {copy.packs.fromPack(data.pack.organisation, data.pack.title)}
+    </p>
+  );
   const sourceList = (
-    <SourceList notebookId={notebookId} list={data.sources} sources={sources} />
+    <SourceList notebookId={notebookId} list={data.sources} sources={sources} header={packLine} />
   );
   const studyPanel = <StudyPanel notebookId={notebookId} sources={data.sources} readAloud={profile.accessibility.readAloud} initialTool={initialTool} />;
 
@@ -128,7 +139,7 @@ export default function Notebook({ profile }: { profile: Doc<"profiles"> }) {
                       <SourcePage citation={citation} />
                     </>
                   ) : (
-                    <SourceList notebookId={notebookId} list={data.sources} sources={sources} forms={!empty} />
+                    <SourceList notebookId={notebookId} list={data.sources} sources={sources} forms={!empty} header={packLine} />
                   )}
                 </div>
               </>

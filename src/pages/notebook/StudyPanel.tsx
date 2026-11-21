@@ -156,13 +156,15 @@ export function StudyPanel({ notebookId, sources, readAloud, initialTool }: { no
                     <Icon size={16} aria-hidden="true" />
                     <span>
                       <b>{o.title}</b>
-                      <small className="soft">{new Date(o.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "long" })}</small>
+                      <small className="soft">{o.fromPack ? copy.packs.packTag : new Date(o.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "long" })}</small>
                     </span>
                     <ChevronRight size={16} aria-hidden="true" />
                   </button>
-                  <button type="button" className="icon-button" aria-label={`${t.remove} ${o.title}`} onClick={() => void remove({ outputId: o._id })}>
-                    <Trash2 size={15} aria-hidden="true" />
-                  </button>
+                  {!o.fromPack && (
+                    <button type="button" className="icon-button" aria-label={`${t.remove} ${o.title}`} onClick={() => void remove({ outputId: o._id })}>
+                      <Trash2 size={15} aria-hidden="true" />
+                    </button>
+                  )}
                 </li>
               );
             })}

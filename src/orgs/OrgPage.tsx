@@ -6,9 +6,10 @@ import type { Id } from "../../convex/_generated/dataModel";
 import { errorText } from "../access";
 import { AppShell } from "../components/Layout";
 import { copy } from "../copy/en";
+import { PublishedPacks, StaffPacks } from "../packs/OrgPacks";
 import { OrgCodes } from "./OrgCodes";
 
-/** An organisation's public page: who it is, follow or stop following, and, for its admins, the join codes. */
+/** An organisation's public page: who it is, follow or stop following, its published course packs, and, for its teachers and admins, making packs and the join codes. */
 export default function OrgPage() {
   const { organisationId } = useParams();
   const t = copy.orgs;
@@ -67,6 +68,8 @@ function OrgDetail({ organisationId }: { organisationId: Id<"organisations"> }) 
           {error}
         </p>
       )}
+      <PublishedPacks organisationId={organisationId} />
+      {(org.role === "teacher" || org.role === "admin") && <StaffPacks organisationId={organisationId} />}
       {org.role === "admin" && <OrgCodes organisationId={organisationId} />}
     </>
   );

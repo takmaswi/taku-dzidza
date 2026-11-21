@@ -7,6 +7,7 @@ import { fileKind, SOURCE_LIMITS } from "../sources/limits";
 import { linkProblem, splitPages } from "../sources/text";
 import { ADULT_AGE, ageOn } from "../accounts/age";
 import { startPurge } from "../privacy/purge";
+import { packSourceReadable } from "../packs/scope";
 import { ownNotebook } from "./notebooks";
 import { writePages } from "./read";
 import { claimUpload, dropUpload, issueUpload } from "./uploads";
@@ -132,11 +133,15 @@ export const remove = mutation({
   },
 });
 
-/** One page of a source, for the citation viewer. */
+/** One page of a source, for the citation viewer: the learner's own, or one in a course pack they added. */
 export const page = query({
   args: { sourceId: v.id("sources"), page: v.number() },
   handler: async (ctx, args) => {
-    const { source } = await ownSource(ctx, args.sourceId);
+    const { profile } = await requireLearner(ctx);
+    const found = await ctx.db.get(args.sourceId);
+    const readable = found !== null && found.deletingAt === undefined && (found.profileId === profile._id || (await packSourceReadable(ctx, found, profile._id)));
+    if (!readable) throw new ConvexError("Source not found.");
+    const source = found;
     const row = await ctx.db.query("pages").withIndex("by_source_page", (q) => q.eq("sourceId", source._id).eq("page", args.page)).unique();
     return { title: source.title, kind: source.kind, url: source.url ?? null, page: args.page, pageCount: source.pageCount, text: row?.text ?? null };
   },

@@ -65,6 +65,9 @@ async function purgeNotebook(ctx: MutationCtx, notebook: Doc<"notebooks">, budge
   }
   if (!(await drain(ctx, budget, (n) => ctx.db.query("messages").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).take(n)))) return false;
   if (!(await drain(ctx, budget, (n) => ctx.db.query("classShares").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).take(n)))) return false;
+  // A course pack copy: the learner's own review cards and paper attempts on the pack's tools.
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("cards").withIndex("by_notebook_due", (q) => q.eq("notebookId", notebook._id)).take(n)))) return false;
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("quizAttempts").withIndex("by_profile", (q) => q.eq("profileId", notebook.profileId)).filter((q) => q.eq(q.field("notebookId"), notebook._id)).take(n)))) return false;
   for (;;) {
     const output = await ctx.db.query("outputs").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).first();
     if (output === null) break;
@@ -135,6 +138,8 @@ async function purgeProfile(ctx: MutationCtx, profile: Doc<"profiles">, budget: 
     await ctx.db.delete(chat._id);
     budget.left -= 1;
   }
+  // Course packs made from this account's notebooks go with them; linked copies then show the learner's own work only.
+  if (!(await drain(ctx, budget, (n) => ctx.db.query("coursePacks").withIndex("by_created_by", (q) => q.eq("createdBy", profile._id)).take(n)))) return false;
   for (;;) {
     const notebook = await ctx.db.query("notebooks").withIndex("by_profile", (q) => q.eq("profileId", profile._id)).first();
     if (notebook === null) break;

@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "convex/react";
 import { useState } from "react";
-import { Navigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { errorText } from "../access";
@@ -18,6 +18,7 @@ export default function OwnerOrgs() {
       <div className="page-narrow stack">
         <h1>{t.ownerTitle}</h1>
         <p className="soft">{t.ownerLine}</p>
+        {owner === true && <TakudzidzaLink />}
         {owner === true ? <PendingList /> : <p className="app-loading">{copy.loading}</p>}
       </div>
     </AppShell>
@@ -93,5 +94,24 @@ function PendingRow({ org, onMerged }: { org: Pending; onMerged: (name: string) 
         </p>
       )}
     </li>
+  );
+}
+
+/** The owner's own organisation, for course packs from material the owner uploads. */
+function TakudzidzaLink() {
+  const open = useMutation(api.organisations.owner.takudzidza);
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+  return (
+    <div className="stack">
+      <button type="button" className="pill small ghost" onClick={() => void open({}).then((id) => navigate(`/org/${id}`)).catch((err: unknown) => setError(errorText(err, copy.errors.generic)))}>
+        {copy.packs.ownerOpen}
+      </button>
+      {error !== null && (
+        <p className="error" role="alert">
+          {error}
+        </p>
+      )}
+    </div>
   );
 }

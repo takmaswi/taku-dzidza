@@ -137,7 +137,13 @@ export default defineSchema({
     deletingAt: v.optional(v.number()),
     /** The one notebook that holds review cards from Test me in Ask Taku chats. */
     testReview: v.optional(v.boolean()),
-  }).index("by_profile", ["profileId", "updatedAt"]),
+    /** A learner's copy of a course pack: the pack's sources and tools are read from the pack, never copied (convex/packs). */
+    packId: v.optional(v.id("coursePacks")),
+    /** The pack version this copy's review cards were last brought up to. */
+    packVersion: v.optional(v.number()),
+  })
+    .index("by_profile", ["profileId", "updatedAt"])
+    .index("by_pack", ["packId", "profileId"]),
 
   sources: defineTable({
     notebookId: v.id("notebooks"),
@@ -347,6 +353,34 @@ export default defineSchema({
   })
     .index("by_code", ["code"])
     .index("by_org", ["organisationId"]),
+  /**
+   * A course pack: notes an organisation's teacher or admin publishes from one
+   * of their own notebooks. Publishing makes the summary, flashcards and
+   * practice paper once; every learner who adds the pack reads them, and the
+   * sources, from here. sourceIds and outputIds are the published version.
+   */
+  coursePacks: defineTable({
+    organisationId: v.id("organisations"),
+    title: v.string(),
+    subject: v.string(),
+    level: v.string(),
+    syllabusId: v.optional(v.string()),
+    masterNotebookId: v.id("notebooks"),
+    createdBy: v.id("profiles"),
+    version: v.number(),
+    status: v.union(v.literal("draft"), v.literal("published")),
+    publishedAt: v.optional(v.number()),
+    /** The publisher confirmed they own the notes or are licensed to share them. */
+    rightsConfirmedAt: v.optional(v.number()),
+    sourceIds: v.array(v.id("sources")),
+    outputIds: v.array(v.id("outputs")),
+    /** Set while a publish is running, so two cannot run at once. */
+    publishingSince: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_org", ["organisationId", "createdAt"])
+    .index("by_master", ["masterNotebookId"])
+    .index("by_created_by", ["createdBy"]),
   /** A teacher's class. Learners join with the code, a link or a QR code. */
   classes: defineTable({
     teacherProfileId: v.id("profiles"),

@@ -100,7 +100,7 @@ export function AddSourceMenu({ sources }: { sources: Sources }) {
 
 /** The list of sources with search, removal and the add menu. Used in the rail and in the phone sheet. */
 /** `forms` is false while the empty notebook centre shows the same add forms, so they never appear twice. */
-export function SourceList({ notebookId, list, sources, header, forms = true }: { notebookId: Id<"notebooks">; list: Doc<"sources">[]; sources: Sources; header?: ReactNode; forms?: boolean }) {
+export function SourceList({ notebookId, list, sources, header, forms = true }: { notebookId: Id<"notebooks">; list: (Doc<"sources"> & { fromPack?: boolean })[]; sources: Sources; header?: ReactNode; forms?: boolean }) {
   const t = copy.notebook;
   const remove = useMutation(api.notebooks.sources.remove);
   const [query, setQuery] = useState("");
@@ -124,11 +124,16 @@ export function SourceList({ notebookId, list, sources, header, forms = true }: 
               <span className="source-icon">{s.kind === "link" ? <Link2 size={16} aria-hidden="true" /> : <FileText size={16} aria-hidden="true" />}</span>
               <span className="source-text">
                 <b>{s.title}</b>
-                <small className={s.status === "failed" ? "error" : "soft"}>{s.status === "reading" ? t.reading : s.status === "failed" ? (s.error ?? t.failed) : t.ready(s.pageCount)}</small>
+                <small className={s.status === "failed" ? "error" : "soft"}>
+                  {s.status === "reading" ? t.reading : s.status === "failed" ? (s.error ?? t.failed) : t.ready(s.pageCount)}
+                  {s.fromPack === true ? `. ${copy.packs.packTag}` : ""}
+                </small>
               </span>
-              <button type="button" className="icon-button" aria-label={`${t.removeSource} ${s.title}`} onClick={() => void remove({ sourceId: s._id })}>
-                <Trash2 size={16} aria-hidden="true" />
-              </button>
+              {s.fromPack !== true && (
+                <button type="button" className="icon-button" aria-label={`${t.removeSource} ${s.title}`} onClick={() => void remove({ sourceId: s._id })}>
+                  <Trash2 size={16} aria-hidden="true" />
+                </button>
+              )}
             </li>
           ))}
         </ul>

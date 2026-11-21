@@ -1,7 +1,7 @@
 import { ConvexError, v, type Infer } from "convex/values";
 import { internal } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
-import { action, internalAction, internalMutation, internalQuery, type ActionCtx } from "../_generated/server";
+import { action, internalAction, internalMutation, internalQuery, type ActionCtx, type QueryCtx } from "../_generated/server";
 import { ADULT_AGE, ageOn } from "../accounts/age";
 import { fuse } from "../ai/embeddings";
 import { secondOpinion } from "../ai/secondOpinion";
@@ -12,6 +12,7 @@ import { BLOCKED_REPLY, inputCheck, outputAllowed } from "../safety/checks";
 import { prefilter, type Audience } from "../safety/prefilter";
 import { settleParts, type RawPart, type SourceMode } from "../sources/modes";
 import { needs, voiceOf, type StudyMode, type Voice } from "../accounts/voices";
+import { notebookSources, packScope } from "../packs/scope";
 import { examFor, EXAM_TEXT, SIMPLE_ENGLISH } from "../ai/promptLines";
 import { originValidator, studyModeValidator, testTurnValidator, widgetValidator } from "../schema";
 import { widgetFromText, type StoredWidget } from "../widgets/inline";
@@ -77,7 +78,7 @@ export const context = internalQuery({
     const { profile } = await requireLearner(ctx);
     const notebook = await ctx.db.get(args.notebookId);
     if (notebook === null || notebook.profileId !== profile._id) throw new ConvexError("Notebook not found.");
-    const sources = (await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect()).filter((s) => s.deletingAt === undefined);
+    const sources = await notebookSources(ctx, notebook);
     const last = await ctx.db.query("messages").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).order("desc").first();
     return {
       profileId: profile._id,
@@ -96,14 +97,35 @@ export const context = internalQuery({
 
 export type Retrieved = { ref: string; sourceId: Id<"sources">; title: string; page: number; text: string };
 
+/** Where a notebook's chunks live: its own, and for a linked notebook the course pack's notebook, limited to the published sources. */
+async function chunkScope(ctx: QueryCtx, notebookId: Id<"notebooks">): Promise<{ notebookIds: Id<"notebooks">[]; packSources: Set<string> | null }> {
+  const notebook = await ctx.db.get(notebookId);
+  const scope = notebook === null ? null : await packScope(ctx, notebook);
+  if (scope === null) return { notebookIds: [notebookId], packSources: null };
+  return { notebookIds: [notebookId, scope.pack.masterNotebookId], packSources: new Set(scope.sources.map((s) => s._id as string)) };
+}
+
+function inScope(chunk: Doc<"chunks">, notebookId: Id<"notebooks">, s: { notebookIds: Id<"notebooks">[]; packSources: Set<string> | null }): boolean {
+  if (chunk.notebookId === notebookId) return true;
+  return s.packSources !== null && s.notebookIds.includes(chunk.notebookId) && s.packSources.has(chunk.sourceId);
+}
+
 /** Chunks that match the question's words, best first. `small` means the notebook is small enough to send whole. */
 export const keywordHits = internalQuery({
   args: { notebookId: v.id("notebooks"), question: v.string() },
-  handler: async (ctx, args): Promise<{ small: boolean; chunkIds: Id<"chunks">[] }> => {
-    const all = await ctx.db.query("chunks").withIndex("by_notebook", (q) => q.eq("notebookId", args.notebookId)).take(SMALL_NOTEBOOK + 1);
-    if (all.length <= SMALL_NOTEBOOK) return { small: true, chunkIds: all.map((c) => c._id) };
-    const hits = await ctx.db.query("chunks").withSearchIndex("search_text", (q) => q.search("text", args.question).eq("notebookId", args.notebookId)).take(SEARCH_EACH);
-    return { small: false, chunkIds: hits.map((c) => c._id) };
+  handler: async (ctx, args): Promise<{ small: boolean; chunkIds: Id<"chunks">[]; notebookIds: Id<"notebooks">[] }> => {
+    const s = await chunkScope(ctx, args.notebookId);
+    const all: Doc<"chunks">[] = [];
+    for (const id of s.notebookIds) {
+      for (const c of await ctx.db.query("chunks").withIndex("by_notebook", (q) => q.eq("notebookId", id)).take(SMALL_NOTEBOOK + 1)) if (inScope(c, args.notebookId, s)) all.push(c);
+    }
+    if (all.length <= SMALL_NOTEBOOK) return { small: true, chunkIds: all.map((c) => c._id), notebookIds: s.notebookIds };
+    const lists: string[][] = [];
+    for (const id of s.notebookIds) {
+      const hits = await ctx.db.query("chunks").withSearchIndex("search_text", (q) => q.search("text", args.question).eq("notebookId", id)).take(SEARCH_EACH);
+      lists.push(hits.filter((c) => inScope(c, args.notebookId, s)).map((c) => c._id as string));
+    }
+    return { small: false, chunkIds: (lists.length === 1 ? lists[0] : fuse(lists)) as Id<"chunks">[], notebookIds: s.notebookIds };
   },
 });
 
@@ -111,11 +133,12 @@ export const keywordHits = internalQuery({
 export const pagesFor = internalQuery({
   args: { notebookId: v.id("notebooks"), chunkIds: v.array(v.id("chunks")) },
   handler: async (ctx, args): Promise<Retrieved[]> => {
+    const s = await chunkScope(ctx, args.notebookId);
     const wanted = new Map<string, { sourceId: Id<"sources">; page: number }>();
     for (const id of args.chunkIds) {
       const chunk = await ctx.db.get(id);
       // The notebook is checked again here: a vector match must never bring in another notebook's page.
-      if (chunk === null || chunk.notebookId !== args.notebookId) continue;
+      if (chunk === null || !inScope(chunk, args.notebookId, s)) continue;
       wanted.set(`${chunk.sourceId}:${chunk.page}`, { sourceId: chunk.sourceId, page: chunk.page });
     }
     const sourceRefs = new Map<string, string>();
@@ -139,13 +162,15 @@ export const pagesFor = internalQuery({
  * embedding cannot be made, the word search alone is used.
  */
 export async function retrievePages(ctx: ActionCtx, args: { notebookId: Id<"notebooks">; profileId: Id<"profiles">; question: string }): Promise<Retrieved[]> {
-  const words: { small: boolean; chunkIds: Id<"chunks">[] } = await ctx.runQuery(internal.notebooks.ask.keywordHits, { notebookId: args.notebookId, question: args.question });
+  const words: { small: boolean; chunkIds: Id<"chunks">[]; notebookIds: Id<"notebooks">[] } = await ctx.runQuery(internal.notebooks.ask.keywordHits, { notebookId: args.notebookId, question: args.question });
   let ranked: string[] = words.chunkIds;
   if (!words.small && embeddingsOn()) {
     const embedded: { ok: boolean; vectors: number[][]; costUsd: number } = await ctx.runAction(internal.ai.router.embed, { inputs: [args.question] });
     await ctx.runMutation(internal.ai.usage.record, { profileId: args.profileId, tool: "embed", costUsd: embedded.costUsd });
     if (embedded.ok && embedded.vectors.length === 1) {
-      const near = await ctx.vectorSearch("chunks", "by_embedding", { vector: embedded.vectors[0], limit: SEARCH_EACH, filter: (q) => q.eq("notebookId", args.notebookId) });
+      const [first, second] = words.notebookIds;
+      // A linked notebook also searches its course pack; pagesFor keeps only the pack's published sources.
+      const near = await ctx.vectorSearch("chunks", "by_embedding", { vector: embedded.vectors[0], limit: SEARCH_EACH, filter: (q) => (second === undefined ? q.eq("notebookId", first) : q.or(q.eq("notebookId", first), q.eq("notebookId", second))) });
       ranked = fuse([words.chunkIds, near.map((n) => n._id as string)]);
     }
   }

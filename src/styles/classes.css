@@ -25,3 +25,4 @@
 .org-row .grow { display: flex; flex-direction: column; min-width: 0; }
 .org-row small { overflow-wrap: anywhere; }
 .owner-row { display: flex; flex-direction: column; gap: 0.5rem; border-top: 1px solid var(--line); padding-top: 0.75rem; }
+.pack-line { margin: 0 0 0.75rem; padding: 0.5rem 0.75rem; border-radius: 10px; background: var(--tint); color: var(--on-tint); font-weight: 600; font-size: 0.85rem; }

@@ -11,6 +11,7 @@ import { requireLearner, requireLearnerInAction } from "../lib/access";
 import type { OutputKind } from "../modes/package";
 import { cleanDashes } from "../notebooks/ask";
 import { ownNotebook } from "../notebooks/notebooks";
+import { notebookSources, packOutputReadable, packScope } from "../packs/scope";
 import { outputAllowed } from "../safety/checks";
 import { coverageValidator } from "../schema";
 import { settleItems, type SourceMode } from "../sources/modes";
@@ -80,7 +81,7 @@ export const toolContext = internalQuery({
   args: { notebookId: v.id("notebooks") },
   handler: async (ctx, args) => {
     const { profile, notebook } = await ownNotebook(ctx, args.notebookId);
-    const sources = (await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect()).filter((s) => s.status === "ready" && s.deletingAt === undefined);
+    const sources = (await notebookSources(ctx, notebook)).filter((s) => s.status === "ready");
     const pages: Page[] = [];
     let chars = 0;
     for (const [i, source] of sources.entries()) {
@@ -105,7 +106,8 @@ export const toolPlan = internalQuery({
   args: { notebookId: v.id("notebooks"), scope: v.optional(scopeValidator) },
   handler: async (ctx, args): Promise<Plan> => {
     const { profile, notebook } = await ownNotebook(ctx, args.notebookId);
-    const sources = (await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).collect()).filter((s) => s.status === "ready" && s.deletingAt === undefined && s.pageCount > 0);
+    // A linked notebook can make tools from its course pack's sources too.
+    const sources = (await notebookSources(ctx, notebook)).filter((s) => s.status === "ready" && s.pageCount > 0);
     const refs = new Map(sources.map((s, i) => [s._id as string, { ref: `S${i + 1}`, source: s }]));
     const chosen: ToolScope = args.scope === undefined || args.scope.length === 0 ? sources.map((s) => ({ sourceId: s._id })) : args.scope.slice(0, 60);
     const ranges: Range[] = [];
@@ -498,7 +500,15 @@ export const list = query({
   handler: async (ctx, args) => {
     const { notebook } = await ownNotebook(ctx, args.notebookId);
     const outputs = await ctx.db.query("outputs").withIndex("by_notebook", (q) => q.eq("notebookId", notebook._id)).order("desc").take(100);
-    return outputs.map((o) => ({ _id: o._id, mode: o.mode, kind: o.kind, title: o.title, createdAt: o.createdAt }));
+    const mine = outputs.map((o) => ({ _id: o._id, mode: o.mode, kind: o.kind, title: o.title, createdAt: o.createdAt, fromPack: false }));
+    // A linked notebook lists its course pack's tools first, read only.
+    const scope = await packScope(ctx, notebook);
+    const fromPack = [];
+    for (const id of scope?.pack.outputIds ?? []) {
+      const o = await ctx.db.get(id);
+      if (o !== null) fromPack.push({ _id: o._id, mode: o.mode, kind: o.kind, title: o.title, createdAt: o.createdAt, fromPack: true });
+    }
+    return [...fromPack, ...mine];
   },
 });
 
@@ -507,11 +517,14 @@ export const get = query({
   handler: async (ctx, args) => {
     const { profile } = await requireLearner(ctx);
     const output = await ctx.db.get(args.outputId);
-    if (output === null || output.profileId !== profile._id) throw new ConvexError("Not found.");
+    if (output === null) throw new ConvexError("Not found.");
+    // The learner's own tool, or one from a course pack they added (read only).
+    const fromPack = output.profileId === profile._id ? null : await packOutputReadable(ctx, output, profile._id);
+    if (output.profileId !== profile._id && fromPack === null) throw new ConvexError("Not found.");
     const notebook = await ctx.db.get(output.notebookId);
     if (notebook === null || notebook.deletingAt !== undefined) throw new ConvexError("Not found.");
-    const sources = await ctx.db.query("sources").withIndex("by_notebook", (q) => q.eq("notebookId", output.notebookId)).collect();
-    return { output, titles: Object.fromEntries(sources.map((s) => [s._id as string, s.title])) };
+    const sources = await notebookSources(ctx, notebook);
+    return { output, fromPack: fromPack !== null, titles: Object.fromEntries(sources.map((s) => [s._id as string, s.title])) };
   },
 });
 
