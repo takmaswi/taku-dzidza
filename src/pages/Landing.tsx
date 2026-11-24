@@ -1,7 +1,6 @@
 import { ArrowRight, Check } from "lucide-react";
 import { useLayoutEffect, type MouseEvent } from "react";
 import { Link } from "react-router";
-import { STUDY_MODES } from "../../convex/accounts/voices";
 import { CUTOUTS, SCENES, type CutoutSlug, type SceneSlug } from "../art.generated";
 import { Cutout, Scene } from "../components/Art";
 import { BrandMark } from "../components/BrandMark";
@@ -12,6 +11,7 @@ import { DropAnything } from "../components/landing/DropAnything";
 import { HeroDemo } from "../components/landing/HeroDemo";
 import { LandingHeader } from "../components/landing/LandingHeader";
 import { isStill } from "../components/landing/motion";
+import { ModeSwitcher } from "../components/landing/ModeSwitcher";
 import { ToolBento } from "../components/landing/ToolBento";
 import { REGIONS, useRegion, type Region } from "../components/landing/useRegion";
 import { ObjectArt } from "../components/ObjectArt";
@@ -116,20 +116,16 @@ export default function Landing() {
         <ToolBento art={<Cutout slug={ART.flashcards} alt={real(ART.flashcards, "learner-flashcards") ? t.tools.art : t.tools.artFallback} sizes="240px" className="l-person" />} />
       </section>
 
-      <section className="l-section reveal" aria-labelledby="l-modes-title">
+      <section className="l-section l-band reveal" aria-labelledby="l-modes-title">
         <div className="l-wrap">
-          <span className="eyebrow">{t.modes.eyebrow}</span>
-          <h2 id="l-modes-title" className="l-h2">
-            {t.modes.title}
-          </h2>
-          <p className="lead soft">{t.modes.body}</p>
-          <ul className="l-list">
-            {STUDY_MODES.map((m) => (
-              <li key={m}>
-                <b>{copy.study.modes[m].name}</b> <span className="soft">{copy.study.modes[m].line}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="ms-intro">
+            <span className="eyebrow">{t.modes.eyebrow}</span>
+            <h2 id="l-modes-title" className="l-h2">
+              {t.modes.title}
+            </h2>
+            <p className="lead soft">{t.modes.body}</p>
+          </div>
+          <ModeSwitcher />
         </div>
       </section>
 

@@ -328,6 +328,56 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .tb[data-state="play"] .tb-terms li { animation: tb-tick calc(360ms * var(--speed)) var(--ease) calc((400ms + var(--i) * 300ms) * var(--speed)) both; }
 @keyframes tb-tick { from { opacity: 0; transform: translateX(-10px); } }
 
+/* ---------- One question, four ways (src/components/landing/ModeSwitcher.tsx) ---------- */
+.ms-intro { display: grid; gap: 0.5rem; margin-bottom: 1.75rem; }
+.ms { display: grid; gap: 1rem; max-width: 760px; }
+.ms-switch { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 999px; background: var(--panel-fill); border: 1px solid var(--line-strong); }
+.ms-switch button { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; min-height: 44px; padding: 0.4rem 0.6rem; border: 0; border-radius: 999px; background: transparent; color: var(--text); font: inherit; font-weight: 500; cursor: pointer; white-space: nowrap; transition: background var(--dur-tap, 180ms) var(--ease), color var(--dur-tap, 180ms); }
+.ms-switch button:hover { background: var(--hover); }
+.ms-switch button[aria-pressed="true"] { background: var(--ink); color: var(--cream); font-weight: 600; box-shadow: 0 4px 12px rgb(17 17 17 / 0.18); }
+@media (max-width: 560px) {
+  .ms-switch { grid-template-columns: 1fr 1fr; border-radius: 22px; }
+  .ms-switch button { border-radius: 18px; }
+}
+.ms-chat { display: grid; gap: 0.8rem; }
+.ms-q { justify-self: end; margin: 0; padding: 0.55rem 0.9rem; border-radius: 16px 16px 4px 16px; background: var(--ink); color: var(--cream); }
+.ms-a { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 0.6rem; }
+.ms-mark { width: 24px; height: 24px; margin-top: 2px; }
+/* The answer's box eases to each mode's height; the answer itself rises in. */
+.ms-box { overflow: hidden; transition: height calc(var(--dur-card, 420ms) * var(--speed)) var(--ease); }
+.ms-answer { padding-bottom: 0.2rem; animation: l-in calc(var(--dur-card, 420ms) * var(--speed)) var(--ease) both; }
+.ms-answer :is(li, fieldset) { animation: l-in calc(var(--dur-card, 420ms) * var(--speed)) var(--ease) both; animation-delay: calc((120ms + var(--i, 0) * 120ms) * var(--speed)); }
+.ms-line { margin: 0 0 0.7rem; font-size: 0.9rem; }
+.ms-steps { margin: 0; padding-left: 1.3rem; display: grid; gap: 0.5rem; }
+.ms-steps li::marker { font-weight: 700; }
+.ms-check { margin: 0.9rem 0 0; padding: 0.7rem 0.9rem; border-radius: 12px; background: var(--butter); font-weight: 500; }
+.ms-quiz { display: grid; gap: 1rem; }
+.ms-quiz fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.ms-quiz legend { padding: 0; margin-bottom: 0.5rem; font-weight: 600; }
+.ms-options { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.ms-option { display: inline-flex; align-items: center; gap: 0.3rem; min-height: 44px; padding: 0.4rem 0.95rem; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--raised); color: var(--text); font: inherit; cursor: pointer; transition: transform var(--dur-tap, 180ms) var(--ease), background var(--dur-tap, 180ms); }
+.ms-option:hover:not(:disabled) { background: var(--cream); }
+.ms-option:active:not(:disabled) { transform: scale(0.96); }
+.ms-option:disabled { cursor: default; }
+.ms-option[data-state="right"] { background: var(--ink); border-color: var(--ink); color: var(--cream); font-weight: 600; }
+.ms-option[data-state="wrong"] { border-color: var(--msasa); color: var(--msasa); text-decoration: line-through; }
+.ms-mark-line { margin: 0.45rem 0 0; font-weight: 600; font-size: 0.92rem; }
+.ms-sprint { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; align-items: start; }
+.ms-sprint ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.35rem; font-weight: 500; }
+/* A small countdown ring: it sweeps once to the time left and stays. */
+.ms-ring svg { display: block; width: 64px; height: 64px; transform: rotate(-90deg); }
+.ms-ring circle { fill: none; stroke: var(--butter); stroke-width: 5; }
+.ms-ring .ms-ring-left { stroke: var(--ink); stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 10; animation: ms-ring calc(1200ms * var(--speed)) var(--ease) both; }
+@keyframes ms-ring { from { stroke-dashoffset: 100; } }
+.ms-exam p { margin: 0 0 0.6rem; }
+.ms-exam ol { margin: 0; padding-left: 1.3rem; display: grid; gap: 0.45rem; }
+.ms-exam li span:first-child { margin-right: 0.4rem; }
+.ms-marks { white-space: nowrap; }
+/* Red pen, like a marked script. */
+.ms-pen { display: inline-flex; align-items: center; gap: 0.15rem; font-weight: 700; color: var(--msasa); white-space: nowrap; }
+.ms-total { margin-top: 0.8rem !important; display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+.ms-total .ms-pen { padding: 0.15rem 0.65rem; border-radius: 999px; box-shadow: inset 0 0 0 2px var(--msasa); transform: rotate(-2deg); }
+
 /* ---------- Safe ---------- */
 .l-safe-art { justify-self: center; }
 /* Both help lines share one cell, so the space is kept whichever the region shows. */
