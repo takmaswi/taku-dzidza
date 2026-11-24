@@ -137,6 +137,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--ink); outline: n
 .cutout { display: grid; margin: 0; }
 .cutout > img { grid-area: 1 / 1; width: 100%; height: auto; }
 .cutout .cutout-shadow { align-self: end; opacity: 0.9; }
+.cutout-wait { grid-area: 1 / 1; display: block; width: 100%; }
 /* Scenes melt into the page: every edge fades fully out, so no frame or box shows. */
 .scene {
   width: 100%;
@@ -154,7 +155,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--ink); outline: n
 .highlight::after { content: ""; position: absolute; left: -0.12em; right: -0.16em; bottom: 0.06em; height: 0.5em; z-index: -1; background: var(--pick-fill); border-radius: 3px 7px 4px 8px; transform: rotate(-1deg); }
 :root[data-theme="dark"][data-shell="app"] .highlight::after { background: var(--cloth-tex) 0 0 / 512px 512px, var(--cloth-honey); height: 0.16em; bottom: -0.08em; }
 
-/* Motion. Off when the learner or the phone asks. */
+/* Motion. Off when the learner or the phone asks. Three durations, one shared ease (--ease, tokens.css), all scaled by --speed:
+   a tap answers in --dur-tap, a card or panel moves in --dur-card, a story beat (an entrance, a scene) takes --dur-story. */
+:root { --dur-tap: 180ms; --dur-card: 420ms; --dur-story: 900ms; }
 @keyframes rise { from { opacity: 0; transform: translateY(calc(12px * var(--speed))); } to { opacity: 1; transform: none; } }
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
 .reveal.in { opacity: 1; transform: none; }

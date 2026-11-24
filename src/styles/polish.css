@@ -6,7 +6,8 @@
 /* Objects (src/components/ObjectArt.tsx). The art is decorative and sits on the page like cut paper. */
 .object-art { display: block; flex: none; overflow: visible; }
 /* A photo object from Codex: its shadow under it, both filling the same square. */
-.oa-raster { display: grid; }
+/* The size is a custom property, not an inline width, so page rules can size a raster as they size the drawn objects. */
+.oa-raster { display: grid; width: var(--oa-size); height: var(--oa-size); }
 .oa-raster > img { grid-area: 1 / 1; width: 100%; height: 100%; object-fit: contain; }
 .oa-sun .oa-rays { transform-origin: 60px 54px; animation: oa-spin 60s linear infinite; }
 @keyframes oa-spin { to { transform: rotate(360deg); } }

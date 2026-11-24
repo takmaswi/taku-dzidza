@@ -17,6 +17,7 @@ import { ModeSwitcher } from "../components/landing/ModeSwitcher";
 import { ToolBento } from "../components/landing/ToolBento";
 import { REGIONS, useRegion, type Region } from "../components/landing/useRegion";
 import { ObjectArt } from "../components/ObjectArt";
+import { useNear } from "../components/useNear";
 import { useReveal } from "../components/useReveal";
 import { copy } from "../copy/en";
 
@@ -59,6 +60,7 @@ export default function Landing() {
   const t = copy.landing;
   const [region, setRegion] = useRegion();
   useReveal();
+  const [finalRef, finalNear] = useNear<HTMLDivElement>();
   useLayoutEffect(() => {
     // The real page is about to paint, so the prerendered copy (scripts/prerender.mjs) can go.
     document.getElementById("prerender")?.remove();
@@ -100,7 +102,7 @@ export default function Landing() {
       <CurriculumStrip region={region} />
 
       <section id="learners" className="l-section reveal" aria-labelledby="l-drop-title">
-        <DropAnything art={<Cutout slug={ART.snap} alt={real(ART.snap, "learner-snap-notes") ? t.drop.art : t.drop.artFallback} sizes="(min-width: 900px) 340px, 64vw" className="l-person" />} />
+        <DropAnything art={<Cutout slug={ART.snap} alt={real(ART.snap, "learner-snap-notes") ? t.drop.art : t.drop.artFallback} sizes="(min-width: 900px) 340px, 64vw" defer className="l-person" />} />
       </section>
 
       <section className="l-section l-band reveal" aria-labelledby="l-cite-title">
@@ -117,7 +119,7 @@ export default function Landing() {
       </section>
 
       <section className="l-section reveal" aria-labelledby="l-tools-title">
-        <ToolBento art={<Cutout slug={ART.flashcards} alt={real(ART.flashcards, "learner-flashcards") ? t.tools.art : t.tools.artFallback} sizes="240px" className="l-person" />} />
+        <ToolBento art={<Cutout slug={ART.flashcards} alt={real(ART.flashcards, "learner-flashcards") ? t.tools.art : t.tools.artFallback} sizes="240px" defer className="l-person" />} />
       </section>
 
       <section className="l-section l-band reveal" aria-labelledby="l-modes-title">
@@ -151,7 +153,7 @@ export default function Landing() {
                 </Link>
               </div>
             </div>
-            <Cutout slug={ART.seller} alt={real(ART.seller, "seller-notes") ? t.market.art : t.market.artFallback} sizes="(min-width: 900px) 320px, 60vw" className="l-person mk-art" />
+            <Cutout slug={ART.seller} alt={real(ART.seller, "seller-notes") ? t.market.art : t.market.artFallback} sizes="(min-width: 900px) 320px, 60vw" defer className="l-person mk-art" />
           </div>
           <MarketShelf />
           <p className="mk-note soft small-text">{t.market.note}</p>
@@ -166,7 +168,7 @@ export default function Landing() {
               {t.listen.title}
             </h2>
             <p className="ld-honest">{t.listen.honest}</p>
-            <Cutout slug={ART.listening} alt={real(ART.listening, "learner-listening") ? t.listen.art : t.listen.artFallback} sizes="(min-width: 900px) 300px, 56vw" className="l-person ld-art" />
+            <Cutout slug={ART.listening} alt={real(ART.listening, "learner-listening") ? t.listen.art : t.listen.artFallback} sizes="(min-width: 900px) 300px, 56vw" defer className="l-person ld-art" />
           </div>
           <ListenDemo />
         </div>
@@ -174,7 +176,7 @@ export default function Landing() {
 
       <section id="institutions" className="l-section reveal" aria-labelledby="l-inst-title">
         <div className="l-wrap l-split">
-          <Cutout slug={ART.lecturer} alt={real(ART.lecturer, "lecturer-class") ? t.institutions.art : t.institutions.artFallback} sizes="(min-width: 900px) 340px, 64vw" className="l-person in-art" />
+          <Cutout slug={ART.lecturer} alt={real(ART.lecturer, "lecturer-class") ? t.institutions.art : t.institutions.artFallback} sizes="(min-width: 900px) 340px, 64vw" defer className="l-person in-art" />
           <div>
             <span className="eyebrow">{t.institutions.eyebrow}</span>
             <h2 id="l-inst-title" className="l-h2">
@@ -255,7 +257,7 @@ export default function Landing() {
       </section>
 
       <section className="l-final reveal" aria-labelledby="l-final-title">
-        <div className="l-final-card">
+        <div ref={finalRef} className="l-final-card" data-near={finalNear || undefined}>
           <span className="l-final-badge">
             <BrandMark variant="on-cream" className="l-final-mark" />
           </span>

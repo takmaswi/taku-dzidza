@@ -1,6 +1,7 @@
 import { useContext, type CSSProperties } from "react";
 import { CUTOUTS, SCENES, type CutoutSlug, type SceneSlug } from "../art.generated";
 import { SignedInContext } from "./signedIn";
+import { useNear } from "./useNear";
 
 /**
  * Photos, never framed. A cutout is a person with their own soft contact
@@ -20,10 +21,20 @@ function usePeopleAllowed(kind: string, slug: string): boolean {
 
 type Common = { alt: string; sizes: string; eager?: boolean; className?: string; style?: CSSProperties };
 
-export function Cutout({ slug, alt, sizes, eager = false, className = "", style }: Common & { slug: CutoutSlug }) {
+
+/** defer: keep the person out until they are near the screen; a box of the same shape holds their place. */
+export function Cutout({ slug, alt, sizes, eager = false, defer = false, className = "", style }: Common & { slug: CutoutSlug; defer?: boolean }) {
   const allowed = usePeopleAllowed("Cutout", slug);
+  const [ref, near] = useNear<HTMLElement>(defer && !eager);
   if (!allowed) return null;
   const art = CUTOUTS[slug];
+  if (!near) {
+    return (
+      <figure ref={ref} className={`cutout ${className}`} style={style}>
+        <span className="cutout-wait" role="img" aria-label={alt} style={{ aspectRatio: `${art.width} / ${art.height}` }} />
+      </figure>
+    );
+  }
   const widths: readonly number[] = art.widths;
   const srcSet = widths.map((w) => `/art/cutouts/${slug}-${w}.webp ${w}w`).join(", ");
   const loading = eager ? "eager" : "lazy";

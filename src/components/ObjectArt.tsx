@@ -39,9 +39,12 @@ export function ObjectArt({ name, size = 120, alt, className = "", style }: Prop
   const raster = OBJECT_RASTERS[name];
   const cls = `object-art oa-${name} ${className}`.trim();
   if (raster !== undefined) {
-    const srcSet = raster.widths.map((w) => `/art/objects/${name}-${w}.webp ${w}w`).join(", ");
+    // Up to the first width that covers a 2x screen: sharper screens get no visible gain for the bytes.
+    const cover = raster.widths.findIndex((w) => w >= size * 2);
+    const widths = cover === -1 ? raster.widths : raster.widths.slice(0, cover + 1);
+    const srcSet = widths.map((w) => `/art/objects/${name}-${w}.webp ${w}w`).join(", ");
     return (
-      <span className={`${cls} oa-raster`} style={{ ...style, width: size, height: size }}>
+      <span className={`${cls} oa-raster`} style={{ ["--oa-size" as string]: `${size}px`, ...style }}>
         <img src={`/art/objects/${name}-shadow.webp`} alt="" aria-hidden="true" width={size} height={size} loading="lazy" decoding="async" />
         <img src={`/art/objects/${name}-${raster.widths[0]}.webp`} srcSet={srcSet} sizes={`${size}px`} width={size} height={size} alt={alt} loading="lazy" decoding="async" />
       </span>
