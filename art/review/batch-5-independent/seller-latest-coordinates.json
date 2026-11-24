@@ -1,0 +1,24 @@
+{
+  "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-eb859bd9-99be-4d67-a32d-fbf67bdab37f.png",
+  "sha256": "f5210dfe9cee97323aa0fc56a2ea8cc894db15d9e56a993f2ac28c18395e3c83",
+  "size": [
+    1122,
+    1402
+  ],
+  "crops": {
+    "head skin": [
+      430,
+      160
+    ],
+    "page grip": [
+      340,
+      840
+    ],
+    "flat hand": [
+      810,
+      950
+    ]
+  },
+  "box": 256,
+  "scale": 2
+}

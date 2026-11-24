@@ -1,0 +1,150 @@
+{
+  "name": "learner-flashcards",
+  "category": "cutout",
+  "prompt": "Use case: photorealistic-natural.\nCreate ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.\nUse case for this edit: background-extraction. Edit the supplied learner-flashcards photograph. Isolate the exact same person and their required held study props onto genuine transparency. Preserve exact synthetic identity, age, facial proportions, hairstyle, expression, clothing, pose and photographic detail. Keep the woman, hair, hoodie, complete raised right hand and complete left hand holding the fan of index cards. Keep cards completely blank with fine ruling only, no writing. Remove the entire desk, laptop, notebooks, pencil, books and phone. Retain original chin-length bob and fringe, face and gaze. Tight natural subject crop with clear transparent margin, soft clean hair alpha, no coloured edge halo, no background scraps, no frame, no baked shadow. A separate contact shadow will be scripted. No retouching or beautification. Return one true-alpha PNG.\nStrict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.",
+  "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-0ee1dcf8-83e8-4ee6-a2e9-cd43e009d1dc.png",
+  "status": "exported",
+  "source_sha256": "2f63ffc45a681cc692be89d63a1c3b6a1b6ae6190ec250b30113660ab565e149",
+  "source_native_size": [
+    1123,
+    1401
+  ],
+  "source_alpha": {
+    "min": 0,
+    "max": 255,
+    "intermediate_pixels": 1103432,
+    "transparent_pixels": 469617
+  },
+  "export_size": [
+    1147,
+    1412
+  ],
+  "export_alpha": {
+    "min": 0,
+    "max": 255,
+    "intermediate_pixels": 1103432,
+    "transparent_pixels": 515858
+  },
+  "source_bbox_xyxy": [
+    0,
+    13,
+    1123,
+    1401
+  ],
+  "padding_px": 12,
+  "upscale": false,
+  "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+  "alpha_coverage_note": "Source includes fully opaque alpha 255; original pixels and alpha preserved",
+  "webp_quality": 77,
+  "webp_limit_bytes": 200000,
+  "webp_alpha_lossless_verified": true,
+  "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+  "shadow_alpha": {
+    "min": 0,
+    "max": 40,
+    "intermediate_pixels": 72257,
+    "transparent_pixels": 1547307
+  },
+  "files": [
+    {
+      "file": "art/assets/cutouts/learner-flashcards.png",
+      "bytes": 2262677,
+      "native_size": [
+        1147,
+        1412
+      ],
+      "sha256": "5223c74bb9d4a608fcf392ee40f875abd3f260b14a618121f10f2a8e757eb558"
+    },
+    {
+      "file": "art/assets/cutouts/learner-flashcards.webp",
+      "bytes": 198562,
+      "native_size": [
+        1147,
+        1412
+      ],
+      "sha256": "d6a885eb4c0b04b0945ff20eb63609878bf551aa89215784ce129c331568553f"
+    },
+    {
+      "file": "art/assets/cutouts/learner-flashcards-shadow.webp",
+      "bytes": 3590,
+      "native_size": [
+        1147,
+        1412
+      ],
+      "sha256": "68007a4c9b6d2f927e7d96cfdb7ebf32a3c57f2728fa5a5021715f143cda6a45"
+    }
+  ],
+  "review": [
+    {
+      "file": "art/review/edges/learner-flashcards-contact.png",
+      "native_size": [
+        960,
+        640
+      ],
+      "sha256": "4f3ec11c5bab5b25473e9829df448357bfc67c84c41131f478ea5a708b4f7cc1"
+    },
+    {
+      "file": "art/review/edges/learner-flashcards-200pct.png",
+      "native_size": [
+        880,
+        1592
+      ],
+      "sha256": "49b056ba81148a8712b7c6bedd79471ac77f13c94047df485f9c43530e2bd172",
+      "crops": [
+        {
+          "label": "Upper edge / hair candidate",
+          "export_box_xyxy": [
+            412,
+            211,
+            604,
+            403
+          ],
+          "scale": 2,
+          "resampling": "nearest"
+        },
+        {
+          "label": "Lower left / hand candidate",
+          "export_box_xyxy": [
+            209,
+            896,
+            401,
+            1088
+          ],
+          "scale": 2,
+          "resampling": "nearest"
+        },
+        {
+          "label": "Lower right / hand candidate",
+          "export_box_xyxy": [
+            832,
+            905,
+            1024,
+            1097
+          ],
+          "scale": 2,
+          "resampling": "nearest"
+        }
+      ]
+    }
+  ],
+  "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+  "scale_to_export": 1.0,
+  "encoding_search": {
+    "method": "bounded binary search, not exhaustive",
+    "selected_quality": 77,
+    "selected_bytes": 198562,
+    "next_quality_bytes": 206018,
+    "limit": 200000,
+    "sampled_quality_bytes": {
+      "95": 479762,
+      "47": 138444,
+      "71": 177174,
+      "83": 246274,
+      "77": 198562,
+      "80": 220700,
+      "78": 206018
+    }
+  },
+  "cache_reused": true,
+  "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+}

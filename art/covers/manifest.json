@@ -1,0 +1,353 @@
+{
+  "covers": [
+    {
+      "name": "cover-honey",
+      "category": "cover",
+      "prompt": "Create ONE standalone studio product photograph for Takudzidza by Taku: a closed hardback notebook in real honey bookcloth, colour close to #F2C766, front on, 3:4 portrait, target 900x1200 pixels. Blank front, no text, no embossing, visible fine cloth weave at 100 percent, slightly rounded corners, a hint of cream page block on the right edge. Consistent premium notebook family from the same shoot: identical proportions, straight-on camera, cover nearly fills canvas with clear margin, soft diffused key light from upper left and gentle fill. Genuine transparent background, soft contact shadow. No floor, furniture, other objects, lettering, digits, symbols, logos, watermark, elastic band, ribbon or decoration. Photographic woven cloth and paper, no glossy plastic, no cartoon or 3D illustration. Keep entire book and shadow within canvas.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-5e9afd87-0a87-4ff7-b2f6-0fdd9e1715d7.png",
+      "source_native_size": [
+        1086,
+        1448
+      ],
+      "source_sha256": "58fd10671f9e65cb397bf4af9ff320212c55781104ddb01ea4763453c16cf1c4",
+      "export_size": [
+        900,
+        1200
+      ],
+      "scale_to_export": 0.8044692737430168,
+      "generator": "built-in imagegen; model undisclosed",
+      "widths": [
+        450,
+        900
+      ],
+      "encodings": [
+        {
+          "width": 450,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        },
+        {
+          "width": 900,
+          "method": "Retained optional current-batch derivative, not required by brief"
+        }
+      ],
+      "files": [
+        {
+          "file": "art/covers/cover-honey.png",
+          "bytes": 2094095,
+          "sha256": "edda28975e94a8e8e7adc83efcb8cbbb098a61687a5901e87fd5ef527861f933",
+          "size": [
+            900,
+            1200
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/covers/cover-honey-450.webp",
+          "bytes": 74970,
+          "sha256": "beafc778d0f9b47930bce1bbadf565fa5702fbb8705b6dc837e660917647c8b3",
+          "size": [
+            450,
+            600
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/covers/cover-honey-900.webp",
+          "bytes": 159162,
+          "sha256": "43815ded8a98acf2eaeeeb7475c1059ffc8cd53087469b5ab863b8b0ae80400f",
+          "size": [
+            900,
+            1200
+          ],
+          "mode": "RGBA"
+        }
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 846398,
+        "transparent_pixels": 232959
+      },
+      "material": "bookcloth"
+    },
+    {
+      "name": "cover-sage",
+      "category": "cover",
+      "prompt": "Create ONE standalone studio product photograph for Takudzidza by Taku: a closed hardback notebook in real sage bookcloth, colour close to #8A9B7A, front on, 3:4 portrait, target 900x1200 pixels. Blank front, no text, no embossing, visible fine cloth weave at 100 percent, slightly rounded corners, a hint of cream page block on the right edge. Consistent premium notebook family from the same shoot: identical proportions, straight-on camera, cover nearly fills canvas with clear margin, soft diffused key light from upper left and gentle fill. Genuine transparent background, soft contact shadow. No floor, furniture, other objects, lettering, digits, symbols, logos, watermark, elastic band, ribbon or decoration. Photographic woven cloth and paper, no glossy plastic, no cartoon or 3D illustration. Keep entire book and shadow within canvas.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-9a49ca0c-2480-4754-9aaa-6f20576e0ac1.png",
+      "source_native_size": [
+        1086,
+        1448
+      ],
+      "source_sha256": "49e354074b578c5cbedfad755b3aee33024561f286ee3bbece03896972e275e2",
+      "export_size": [
+        900,
+        1200
+      ],
+      "scale_to_export": 0.7955801104972375,
+      "generator": "built-in imagegen; model undisclosed",
+      "widths": [
+        450
+      ],
+      "encodings": [
+        {
+          "width": 450,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        }
+      ],
+      "files": [
+        {
+          "file": "art/covers/cover-sage.png",
+          "bytes": 2367785,
+          "sha256": "a5b0a276a8efdbf9a590d370fe925d07cd9771ef75e45d73ab9e552eacd12d7b",
+          "size": [
+            900,
+            1200
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/covers/cover-sage-450.webp",
+          "bytes": 96326,
+          "sha256": "32baac0ddd71b742b2294a2677c588eeac2e01f0b43522cdf68ac5ddad00016d",
+          "size": [
+            450,
+            600
+          ],
+          "mode": "RGBA"
+        }
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 920957,
+        "transparent_pixels": 158647
+      },
+      "material": "bookcloth"
+    },
+    {
+      "name": "cover-olive",
+      "category": "cover",
+      "prompt": "Create ONE standalone studio product photograph for Takudzidza by Taku: a closed hardback notebook in real olive bookcloth, colour close to #677047, front on, 3:4 portrait, target 900x1200 pixels. Blank front, no text, no embossing, visible fine cloth weave at 100 percent, slightly rounded corners, a hint of cream page block on the right edge. Consistent premium notebook family from the same shoot: identical proportions, straight-on camera, cover nearly fills canvas with clear margin, soft diffused key light from upper left and gentle fill. Genuine transparent background, soft contact shadow. No floor, furniture, other objects, lettering, digits, symbols, logos, watermark, elastic band, ribbon or decoration. Photographic woven cloth and paper, no glossy plastic, no cartoon or 3D illustration. Keep entire book and shadow within canvas.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-28c782ac-ba21-497a-8ddb-6c56027a4960.png",
+      "source_native_size": [
+        1086,
+        1448
+      ],
+      "source_sha256": "944d3f551995bb9371e4efa23e6a0da662c45a305f50f76b33b9993997d92f53",
+      "export_size": [
+        900,
+        1200
+      ],
+      "scale_to_export": 0.7955801104972375,
+      "generator": "built-in imagegen; model undisclosed",
+      "widths": [
+        450
+      ],
+      "encodings": [
+        {
+          "width": 450,
+          "quality": 82,
+          "method": "Optional preview, fixed quality, no voluntary budget search"
+        }
+      ],
+      "files": [
+        {
+          "file": "art/covers/cover-olive.png",
+          "bytes": 2095235,
+          "sha256": "eba899423a7be96fc462d431caf69f3c66d817376f62f2ee5bc433085e27e173",
+          "size": [
+            900,
+            1200
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/covers/cover-olive-450.webp",
+          "bytes": 24870,
+          "sha256": "44ab03598c417e9f39a946d25fb95eccfb822877a28417c6617a315e98bd4970",
+          "size": [
+            450,
+            600
+          ],
+          "mode": "RGBA"
+        }
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 868316,
+        "transparent_pixels": 210610
+      },
+      "material": "bookcloth"
+    },
+    {
+      "name": "cover-ochre",
+      "category": "cover",
+      "prompt": "Create ONE standalone studio product photograph for Takudzidza by Taku: a closed hardback notebook in real ochre bookcloth, colour close to #B28A3D, front on, 3:4 portrait, target 900x1200 pixels. Blank front, no text, no embossing, visible fine cloth weave at 100 percent, slightly rounded corners, a hint of cream page block on the right edge. Consistent premium notebook family from the same shoot: identical proportions, straight-on camera, cover nearly fills canvas with clear margin, soft diffused key light from upper left and gentle fill. Genuine transparent background, soft contact shadow. No floor, furniture, other objects, lettering, digits, symbols, logos, watermark, elastic band, ribbon or decoration. Photographic woven cloth and paper, no glossy plastic, no cartoon or 3D illustration. Keep entire book and shadow within canvas.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-2de8d2fb-4a2c-47a9-ace5-ee8fb92d6f6c.png",
+      "source_native_size": [
+        1086,
+        1448
+      ],
+      "source_sha256": "f177ea75c2d94e1f8ffa8c0cc143379261ea482f35c7f8382c8da23a542dc328",
+      "export_size": [
+        900,
+        1200
+      ],
+      "scale_to_export": 0.7955801104972375,
+      "generator": "built-in imagegen; model undisclosed",
+      "widths": [
+        450
+      ],
+      "encodings": [
+        {
+          "width": 450,
+          "quality": 82,
+          "method": "Optional preview, fixed quality, no voluntary budget search"
+        }
+      ],
+      "files": [
+        {
+          "file": "art/covers/cover-ochre.png",
+          "bytes": 2147343,
+          "sha256": "b3d5dd9354090b96a52bd57b44a32742508d5ed0d3b81424b73c8b09fe69596b",
+          "size": [
+            900,
+            1200
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/covers/cover-ochre-450.webp",
+          "bytes": 33858,
+          "sha256": "4db58cbaed4bd404d1d4a5ab390a0dbd1b7feec68d3d7d02a731af1041bf3d05",
+          "size": [
+            450,
+            600
+          ],
+          "mode": "RGBA"
+        }
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 850499,
+        "transparent_pixels": 228802
+      },
+      "material": "bookcloth"
+    },
+    {
+      "name": "cover-charcoal",
+      "category": "cover",
+      "prompt": "Create ONE standalone studio product photograph for Takudzidza by Taku: a closed hardback notebook in real charcoal bookcloth, colour close to #25231F, front on, 3:4 portrait, target 900x1200 pixels. Blank front, no text, no embossing, visible fine cloth weave at 100 percent, slightly rounded corners, a hint of cream page block on the right edge. Consistent premium notebook family from the same shoot: identical proportions, straight-on camera, cover nearly fills canvas with clear margin, soft diffused key light from upper left and gentle fill. Genuine transparent background, soft contact shadow. No floor, furniture, other objects, lettering, digits, symbols, logos, watermark, elastic band, ribbon or decoration. Photographic woven cloth and paper, no glossy plastic, no cartoon or 3D illustration. Keep entire book and shadow within canvas.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-9c70dbfa-13ac-44a2-b0b5-70b8a82d433d.png",
+      "source_native_size": [
+        1086,
+        1448
+      ],
+      "source_sha256": "924f7eb826420dc50d68ed0fe3b830c5c516083d705c0477856703541cc0c6b6",
+      "export_size": [
+        900,
+        1200
+      ],
+      "scale_to_export": 0.7955801104972375,
+      "generator": "built-in imagegen; model undisclosed",
+      "widths": [
+        450
+      ],
+      "encodings": [
+        {
+          "width": 450,
+          "quality": 82,
+          "method": "Optional preview, fixed quality, no voluntary budget search"
+        }
+      ],
+      "files": [
+        {
+          "file": "art/covers/cover-charcoal.png",
+          "bytes": 1861223,
+          "sha256": "771155518e3c8a3051c0c3a59326e8dbb044ba23293e241b36612ddec28d1d73",
+          "size": [
+            900,
+            1200
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/covers/cover-charcoal-450.webp",
+          "bytes": 23054,
+          "sha256": "79f9f83f53980ba0a6cd1ac0c4a0ae1463ad06028f3666c5a04bdf3704c8feb9",
+          "size": [
+            450,
+            600
+          ],
+          "mode": "RGBA"
+        }
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 871556,
+        "transparent_pixels": 207936
+      },
+      "material": "bookcloth"
+    },
+    {
+      "name": "cover-cream",
+      "category": "cover",
+      "prompt": "Create ONE standalone studio product photograph for Takudzidza by Taku: a closed hardback notebook in real cream bookcloth, colour close to #FFF8EC, front on, 3:4 portrait, target 900x1200 pixels. Blank front, no text, no embossing, visible fine cloth weave at 100 percent, slightly rounded corners, a hint of cream page block on the right edge. Consistent premium notebook family from the same shoot: identical proportions, straight-on camera, cover nearly fills canvas with clear margin, soft diffused key light from upper left and gentle fill. Genuine transparent background, soft contact shadow. No floor, furniture, other objects, lettering, digits, symbols, logos, watermark, elastic band, ribbon or decoration. Photographic woven cloth and paper, no glossy plastic, no cartoon or 3D illustration. Keep entire book and shadow within canvas.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-4d03f526-47c5-4195-be89-cfd37942b51a.png",
+      "source_native_size": [
+        1086,
+        1448
+      ],
+      "source_sha256": "571d797f7cc3917d4b937f28ba1711af37ee869bf2e324e1bacaa49444d210d5",
+      "export_size": [
+        900,
+        1200
+      ],
+      "scale_to_export": 0.803347280334728,
+      "generator": "built-in imagegen; model undisclosed",
+      "widths": [
+        450
+      ],
+      "encodings": [
+        {
+          "width": 450,
+          "quality": 82,
+          "method": "Optional preview, fixed quality, no voluntary budget search"
+        }
+      ],
+      "files": [
+        {
+          "file": "art/covers/cover-cream.png",
+          "bytes": 1824325,
+          "sha256": "d09b51177ad80c1b0eb12b748e52d01c1a3d86b796504dfaa29b1f5094bce95b",
+          "size": [
+            900,
+            1200
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/covers/cover-cream-450.webp",
+          "bytes": 29132,
+          "sha256": "3c39a12a4c6cdf35e7305dff78cb935d54636fba5f7aae4c9be09c1218b04d6a",
+          "size": [
+            450,
+            600
+          ],
+          "mode": "RGBA"
+        }
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 855147,
+        "transparent_pixels": 223096
+      },
+      "material": "bookcloth"
+    }
+  ]
+}

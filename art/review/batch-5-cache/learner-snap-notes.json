@@ -1,0 +1,151 @@
+{
+  "name": "learner-snap-notes",
+  "category": "cutout",
+  "prompt": "Use case: photorealistic-natural.\nCreate ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.\nUse case for this edit: background-extraction. Edit the supplied learner-snap-notes photograph. Isolate the exact same person and their required held study props onto genuine transparency. Preserve exact synthetic identity, age, facial proportions, hairstyle, expression, clothing, pose and photographic detail. Keep both phone-gripping hands and the complete notes page floating naturally immediately below the phone as one joined study cutout; remove desk, books and laptop. Correct the phone's photographing orientation: its rear camera faces DOWN toward the notes, and its top visible surface is a plain dark glass SCREEN with no UI, logo or text. Keep the page with only ruling and simple unlabeled geometric outlines, no glyphs. Tight natural subject crop with clear transparent margin, soft clean hair alpha, no coloured edge halo, no background scraps, no frame, no baked shadow. A separate contact shadow will be scripted. No retouching or beautification. Return one true-alpha PNG.\nStrict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.",
+  "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-660ede2a-801b-4385-9124-5d5fa1453b4b.png",
+  "status": "exported",
+  "source_sha256": "46b7d9e857c3e91b7a3be76a49c676ad43433c90c31ca43099b042b4f4003169",
+  "source_native_size": [
+    1122,
+    1402
+  ],
+  "source_alpha": {
+    "min": 0,
+    "max": 255,
+    "intermediate_pixels": 1000535,
+    "transparent_pixels": 571977
+  },
+  "export_size": [
+    1117,
+    1426
+  ],
+  "export_alpha": {
+    "min": 0,
+    "max": 255,
+    "intermediate_pixels": 1000535,
+    "transparent_pixels": 591775
+  },
+  "source_bbox_xyxy": [
+    11,
+    0,
+    1104,
+    1402
+  ],
+  "padding_px": 12,
+  "upscale": false,
+  "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+  "alpha_coverage_note": "Source includes fully opaque alpha 255; original pixels and alpha preserved",
+  "webp_quality": 76,
+  "webp_limit_bytes": 200000,
+  "webp_alpha_lossless_verified": true,
+  "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+  "shadow_alpha": {
+    "min": 0,
+    "max": 42,
+    "intermediate_pixels": 71591,
+    "transparent_pixels": 1521251
+  },
+  "files": [
+    {
+      "file": "art/assets/cutouts/learner-snap-notes.png",
+      "bytes": 1989544,
+      "native_size": [
+        1117,
+        1426
+      ],
+      "sha256": "6dbf07f0b53ac5106bf9058f4b5c3edaf91ad3d3c192f0617e3edd3970011da4"
+    },
+    {
+      "file": "art/assets/cutouts/learner-snap-notes.webp",
+      "bytes": 197300,
+      "native_size": [
+        1117,
+        1426
+      ],
+      "sha256": "bd86da12d26b98378ad58ed1e480ba1f0407dee199ee03fec5c8030ea73bbdfd"
+    },
+    {
+      "file": "art/assets/cutouts/learner-snap-notes-shadow.webp",
+      "bytes": 3884,
+      "native_size": [
+        1117,
+        1426
+      ],
+      "sha256": "1fe3d7e8ddab4dd73c1e42096bd5de3719137871e7f9f9ced73c2478f0f818eb"
+    }
+  ],
+  "review": [
+    {
+      "file": "art/review/edges/learner-snap-notes-contact.png",
+      "native_size": [
+        960,
+        640
+      ],
+      "sha256": "ad067ffacbd957a9dc9d023ae1f52eb655f39434da461689c498a2168bb14cb1"
+    },
+    {
+      "file": "art/review/edges/learner-snap-notes-200pct.png",
+      "native_size": [
+        880,
+        1592
+      ],
+      "sha256": "f307adc5301cc8bd380c192fccff0a0b48c635ba51d3f0ed4daad3b2e0e9e0b1",
+      "crops": [
+        {
+          "label": "Upper edge / hair candidate",
+          "export_box_xyxy": [
+            805,
+            191,
+            997,
+            383
+          ],
+          "scale": 2,
+          "resampling": "nearest"
+        },
+        {
+          "label": "Lower left / hand candidate",
+          "export_box_xyxy": [
+            55,
+            821,
+            247,
+            1013
+          ],
+          "scale": 2,
+          "resampling": "nearest"
+        },
+        {
+          "label": "Lower right / hand candidate",
+          "export_box_xyxy": [
+            619,
+            892,
+            811,
+            1084
+          ],
+          "scale": 2,
+          "resampling": "nearest"
+        }
+      ]
+    }
+  ],
+  "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+  "scale_to_export": 1.0,
+  "encoding_search": {
+    "method": "bounded binary search, not exhaustive",
+    "selected_quality": 76,
+    "selected_bytes": 197300,
+    "next_quality_bytes": 201796,
+    "limit": 200000,
+    "sampled_quality_bytes": {
+      "95": 459946,
+      "47": 153264,
+      "71": 184466,
+      "83": 243952,
+      "77": 201796,
+      "74": 190582,
+      "75": 191106,
+      "76": 197300
+    }
+  },
+  "cache_reused": true,
+  "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+}

@@ -1,0 +1,26 @@
+{
+  "result": "pass",
+  "checks": [
+    "learner-snap-notes: native crop RGBA exact, WebP alpha exact, under200000bytes",
+    "learner-listening: native crop RGBA exact, WebP alpha exact, under200000bytes",
+    "learner-flashcards: native crop RGBA exact, WebP alpha exact, under200000bytes",
+    "seller-notes: native crop RGBA exact, WebP alpha exact, under200000bytes",
+    "lecturer-class: native crop RGBA exact, WebP alpha exact, under200000bytes",
+    "landing-ensemble: PNG/WebP2560x1600RGB, under250000bytes",
+    "sun: target PNG size/alpha, 3 decoded WebPs dimensions/budgets/lossless-alpha",
+    "moon: target PNG size/alpha, 3 decoded WebPs dimensions/budgets/lossless-alpha",
+    "open-book: target PNG size/alpha, 3 decoded WebPs dimensions/budgets/lossless-alpha",
+    "headphones: target PNG size/alpha, 3 decoded WebPs dimensions/budgets/lossless-alpha",
+    "highlighter: target PNG size/alpha, 3 decoded WebPs dimensions/budgets/lossless-alpha",
+    "index-cards: target PNG size/alpha, 3 decoded WebPs dimensions/budgets/lossless-alpha",
+    "cover-honey: target PNG size/alpha, 2 decoded WebPs dimensions/budgets/lossless-alpha",
+    "cover-sage: target PNG size/alpha, 1 decoded WebPs dimensions/budgets/lossless-alpha",
+    "cover-olive: target PNG size/alpha, 1 decoded WebPs dimensions/budgets/lossless-alpha",
+    "cover-ochre: target PNG size/alpha, 1 decoded WebPs dimensions/budgets/lossless-alpha",
+    "cover-charcoal: target PNG size/alpha, 1 decoded WebPs dimensions/budgets/lossless-alpha",
+    "cover-cream: target PNG size/alpha, 1 decoded WebPs dimensions/budgets/lossless-alpha",
+    "All5 cutout,1scene,6object,6cover manifest entries present"
+  ],
+  "audio_bytes": 0,
+  "limits": "Asset checks only; no app integration, live E2E or physical-device checks"
+}

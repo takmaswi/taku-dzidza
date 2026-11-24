@@ -1,0 +1,151 @@
+{
+  "name": "seller-notes",
+  "category": "cutout",
+  "prompt": "Use case: photorealistic-natural.\nCreate ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.\nVertical4:5 portrait, target2160x2700. NEW direct transparent photograph, no prior image reference. Camera pulled back for a medium seated shot with the WHOLE upper body, both elbows, wrists and both complete hands visible. Subject and all props comfortably within the central80% of frame, a broad clean transparent margin on all sides.\nSubject: A Black Zimbabwean man, age31, rich umber skin, broad build, round face, short neat locs, thin wire glasses, cream oxford shirt with rolled sleeves, a simple watch. Seated, arranging a neat ring binder of printed notes beside an unbranded laptop whose lid faces the camera. Reads as an accountant or tutor who is proud of his notes. Calm half smile. Both hands touching paper naturally. Keep the page-gripping hand well away from the left edge. Binder and laptop sit at lower centre without any table slab. Ruling and a few simple unlabelled geometric diagrams only. Unretouched photographic skin with modest ordinary pore detail, restrained soft even lighting, no shiny forehead. No fingerprint-like contour patterns, branching lines, tattoo texture, etched marks or fabricated skin cracks. Real smooth woven cloth with natural folds. Isolate only the man, binder and laptop onto genuine transparency, no furniture or backdrop, no baked shadow. Do not crop fingers, hands, forearms or head. No chair, floor or additional objects. Entire cutout has clear transparent margins.\nStrict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.",
+  "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-eb859bd9-99be-4d67-a32d-fbf67bdab37f.png",
+  "regenerated": true,
+  "identity_note": "Fresh wider synthetic identity after rejecting extraction texture and clipped-hand variants; visually reviewed natural skin and complete hand silhouettes",
+  "status": "exported",
+  "source_sha256": "f5210dfe9cee97323aa0fc56a2ea8cc894db15d9e56a993f2ac28c18395e3c83",
+  "source_native_size": [
+    1122,
+    1402
+  ],
+  "source_alpha": {
+    "min": 0,
+    "max": 255,
+    "intermediate_pixels": 814719,
+    "transparent_pixels": 758024
+  },
+  "export_size": [
+    1110,
+    1403
+  ],
+  "export_alpha": {
+    "min": 0,
+    "max": 255,
+    "intermediate_pixels": 814719,
+    "transparent_pixels": 742310
+  },
+  "source_bbox_xyxy": [
+    22,
+    23,
+    1108,
+    1402
+  ],
+  "padding_px": 12,
+  "upscale": false,
+  "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+  "alpha_coverage_note": "Source includes fully opaque alpha 255; original pixels and alpha preserved",
+  "webp_quality": 93,
+  "webp_limit_bytes": 200000,
+  "webp_alpha_lossless_verified": true,
+  "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+  "shadow_alpha": {
+    "min": 0,
+    "max": 41,
+    "intermediate_pixels": 69952,
+    "transparent_pixels": 1487378
+  },
+  "files": [
+    {
+      "file": "art/assets/cutouts/seller-notes.png",
+      "bytes": 1346435,
+      "native_size": [
+        1110,
+        1403
+      ],
+      "sha256": "2bcb92e5a09882b4d2958b3d7bb4968355a827381a264590936dad8a0b5c65aa"
+    },
+    {
+      "file": "art/assets/cutouts/seller-notes.webp",
+      "bytes": 198204,
+      "native_size": [
+        1110,
+        1403
+      ],
+      "sha256": "63eafafe6a7c546278f96e25478961057205fcebed7eefe53581b6fbc2a0dacb"
+    },
+    {
+      "file": "art/assets/cutouts/seller-notes-shadow.webp",
+      "bytes": 3646,
+      "native_size": [
+        1110,
+        1403
+      ],
+      "sha256": "9f714e1833d908796524dd268645bda3b57edba27dbee76d38721f48bd91e8b5"
+    }
+  ],
+  "review": [
+    {
+      "file": "art/review/edges/seller-notes-contact.png",
+      "native_size": [
+        960,
+        640
+      ],
+      "sha256": "6dc7f826b35c5c51f61c74f20c3d2014c5b914b95df47102d94dab897d49c30d"
+    },
+    {
+      "file": "art/review/edges/seller-notes-200pct.png",
+      "native_size": [
+        880,
+        1592
+      ],
+      "sha256": "cef6217556ae53f903367abb6676160d24c0d259a5e331c02b9a24948aebb991",
+      "crops": [
+        {
+          "label": "Upper edge / hair candidate",
+          "export_box_xyxy": [
+            458,
+            210,
+            650,
+            402
+          ],
+          "scale": 2,
+          "resampling": "nearest"
+        },
+        {
+          "label": "Lower left / hand candidate",
+          "export_box_xyxy": [
+            219,
+            847,
+            411,
+            1039
+          ],
+          "scale": 2,
+          "resampling": "nearest"
+        },
+        {
+          "label": "Lower right / hand candidate",
+          "export_box_xyxy": [
+            483,
+            834,
+            675,
+            1026
+          ],
+          "scale": 2,
+          "resampling": "nearest"
+        }
+      ]
+    }
+  ],
+  "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+  "scale_to_export": 1.0,
+  "encoding_search": {
+    "method": "bounded binary search, not exhaustive",
+    "selected_quality": 93,
+    "selected_bytes": 198204,
+    "next_quality_bytes": 213518,
+    "limit": 200000,
+    "sampled_quality_bytes": {
+      "95": 233132,
+      "47": 81504,
+      "71": 94252,
+      "83": 118108,
+      "89": 150728,
+      "92": 177864,
+      "93": 198204,
+      "94": 213518
+    }
+  }
+}

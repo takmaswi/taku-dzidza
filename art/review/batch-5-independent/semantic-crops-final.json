@@ -1,0 +1,76 @@
+{
+  "learner-snap-notes": {
+    "hair": [
+      360,
+      40
+    ],
+    "phone left grip": [
+      350,
+      820
+    ],
+    "phone right grip": [
+      760,
+      830
+    ]
+  },
+  "learner-listening": {
+    "hair forehead": [
+      280,
+      20
+    ],
+    "skin cheek neck": [
+      330,
+      220
+    ],
+    "pen hand": [
+      300,
+      780
+    ],
+    "book hand": [
+      850,
+      900
+    ]
+  },
+  "learner-flashcards": {
+    "hair": [
+      320,
+      20
+    ],
+    "raised hand": [
+      25,
+      420
+    ],
+    "cards hand": [
+      540,
+      690
+    ]
+  },
+  "seller-notes": {
+    "hair forehead": [
+      420,
+      30
+    ],
+    "page hand": [
+      0,
+      900
+    ],
+    "binder hand": [
+      490,
+      930
+    ]
+  },
+  "lecturer-class": {
+    "hair silver": [
+      280,
+      20
+    ],
+    "gesture hand": [
+      30,
+      710
+    ],
+    "tablet hand": [
+      720,
+      960
+    ]
+  }
+}

@@ -91,5 +91,63 @@
     "background_removal": "Not applicable: opaque finished composition; reference person was generated alpha cutout",
     "webp_quality": 95,
     "webp_limit_bytes": 250000
+  },
+  {
+    "name": "landing-ensemble",
+    "category": "scene",
+    "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-df5071d0-86f3-4191-a973-48935e0e3553.png",
+    "prompt": "Use case: photorealistic-natural.\nCreate ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.\nEdit the supplied wide library photograph. Preserve the exact four identities, hair, clothes, skin texture, props, study actions and restrained natural light. Change the framing decisively: zoom farther out by 25 percent and shift the group left slightly, until the four face centres are at approximately x=47%, 58%, 69% and 80% of image width, and every complete head ends before x=85%. All faces must remain within the central70% (x15..85). Reserve the entire left42% as quiet cream wall and shelf with no faces. Wide16:10. Show complete hands and study props naturally. All pages must be clean fine ruling or simple unlabeled geometric diagrams only: absolutely no glyphs, paragraph-like marks, writing or numbers. Laptop back towards camera, blank keycaps if any. Four people only, nobody looking at camera, two slight smiles at most. The scene will fade into real paper-cotton surface on the left. No gradient wallpaper.\nStrict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.",
+    "source_native_size": [
+      1586,
+      992
+    ],
+    "source_sha256": "dfcada6d8f7d085ca7fe3394ff29c7cbcc5ebcfcd5b99772c427be5d67f94139",
+    "export_size": [
+      2560,
+      1600
+    ],
+    "scale_to_export": 1.2912988650693569,
+    "generator": "built-in imagegen; model undisclosed",
+    "composite": "Actual tiled paper-cotton surrounds photograph fitted2048x1280 at(256,160). Photo mask ramps x18..42%,right85..90%,top10..14%,bottom86..90%; heads wholly within unchanged central area. Mobile QA crop x15..85%.",
+    "webp_quality": 76,
+    "encoding_search": {
+      "method": "bounded binary search, not exhaustive",
+      "selected_quality": 76,
+      "selected_bytes": 249508,
+      "next_quality_bytes": 260834,
+      "limit": 250000,
+      "sampled_quality_bytes": {
+        "95": 636864,
+        "47": 117354,
+        "71": 213286,
+        "83": 326696,
+        "77": 260834,
+        "74": 235776,
+        "75": 236976,
+        "76": 249508
+      }
+    },
+    "files": [
+      {
+        "file": "art/assets/scenes/landing-ensemble.png",
+        "bytes": 3914885,
+        "sha256": "b89390530522efe56130b28441de3a1a1bc5e50c7830def0e687058ea70e932b",
+        "size": [
+          2560,
+          1600
+        ],
+        "mode": "RGB"
+      },
+      {
+        "file": "art/assets/scenes/landing-ensemble.webp",
+        "bytes": 249508,
+        "sha256": "107d6df4bdc24c9558981063932d8c272f0b1a74f5e7b5d3da2cb9f06f127f0c",
+        "size": [
+          2560,
+          1600
+        ],
+        "mode": "RGB"
+      }
+    ]
   }
 ]
