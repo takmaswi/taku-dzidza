@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { createElement, type ReactElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, test, vi } from "vitest";
+import { beforeAll, describe, expect, test, vi } from "vitest";
 import { Cutout, Scene } from "../../src/components/Art";
 import { ObjectArt, type ObjectName } from "../../src/components/ObjectArt";
 import { SignedInContext } from "../../src/components/signedIn";
@@ -53,9 +53,19 @@ describe("objects", () => {
   // The four paper colours, plus white and black, which only appear inside masks.
   const PALETTE = new Set(["#fff8ec", "#f8e2a8", "#f2b33d", "#111111", "#ffffff", "#000000"]);
 
+  // Art batch 5 ships photos for some names; check the drawings themselves, which still show for any name without a photo.
+  let Drawn: typeof ObjectArt = ObjectArt;
+  beforeAll(async () => {
+    vi.resetModules();
+    vi.doMock("../../src/art.generated", async (original) => ({ ...(await original<object>()), OBJECT_RASTERS: {} }));
+    ({ ObjectArt: Drawn } = await import("../../src/components/ObjectArt"));
+    vi.doUnmock("../../src/art.generated");
+    vi.resetModules();
+  });
+
   for (const name of NAMES) {
     test(`${name} is cut paper in the four colours, with no text and no heavy outline`, () => {
-      const svg = renderToStaticMarkup(createElement(ObjectArt, { name, alt: "" }));
+      const svg = renderToStaticMarkup(createElement(Drawn, { name, alt: "" }));
       expect(svg.startsWith("<svg")).toBe(true);
       expect(svg).toContain('aria-hidden="true"');
       const colours = [...svg.matchAll(/#[0-9a-fA-F]{6}\b|#fff\b|#000\b/g)].map((m) => m[0].toLowerCase().replace(/^#(fff|000)$/, (_, c: string) => `#${c}${c}`));
@@ -68,7 +78,7 @@ describe("objects", () => {
   }
 
   test("an object with alt text is announced as an image", () => {
-    const svg = renderToStaticMarkup(createElement(ObjectArt, { name: "key", alt: "A key" }));
+    const svg = renderToStaticMarkup(createElement(Drawn, { name: "key", alt: "A key" }));
     expect(svg).toContain('role="img"');
     expect(svg).toContain('aria-label="A key"');
   });

@@ -1373,13 +1373,32 @@ Your explicit write limit takes precedence over delivery step 4's request for `p
 
 Review evidence: `art/review/batch-5-landing.png`, original/cream/near-black comparisons, native semantic hair/head/hand crops at 200 percent, identity sheets beside all pre-existing people in `art/assets`, and `art/review/batch-5-independent/`. Rejected extraction sources and scene iterations are recorded with reasons. The independent QA report states the final reviewed sources and its sampling limits. Visual QA is an asset review, not product acceptance, deployment or physical-device certification.
 
-### ElevenLabs voice section - blocked
+### ElevenLabs voice section - generated 2026-11-24 (Claude Code)
 
-`ELEVENLABS_API_KEY` was absent from the process, Windows User and Windows Machine environment variables. No credential file was searched, no secret was printed or written, and no authenticated ElevenLabs call or voice generation was performed. This part stopped as the brief requires. Account plan and chosen-voice commercial eligibility could not be verified. No MP3 files were fabricated. Total generated audio size: 0 bytes.
+The key was supplied for this session only, as the `ELEVENLABS_API_KEY` environment variable inside shell commands. It was never written to a file, script, log or commit. The generation scripts read it from the environment and lived outside the repository.
 
-Current official documentation was checked before any potential call: [models](https://elevenlabs.io/docs/overview/models), [multi-speaker dialogue](https://elevenlabs.io/docs/api-reference/text-to-dialogue/convert), and [commercial-use rules](https://elevenlabs.io/docs/help-center/legal/can-i-publish-the-content-i-generate-on-the-platform). The documentation lists Eleven v4 as the flagship high-quality TTS option, while the dialogue endpoint documents a default of eleven_v3. No model was selected for generation without account/model availability verification. Paid-plan commercial licensing excludes Beta Services; the user's actual plan remains unverified.
+Docs checked first: [models](https://elevenlabs.io/docs/overview/models), [text to dialogue](https://elevenlabs.io/docs/api-reference/text-to-dialogue/convert), [commercial use](https://elevenlabs.io/docs/help-center/legal/can-i-publish-the-content-i-generate-on-the-platform). `GET /v1/models` on the account listed `eleven_v4` as generally available (no alpha access). `GET /v1/user/subscription` reported a paid plan (pay as you go), and ElevenLabs states that every paid plan carries a commercial license outside Beta Services, so commercial use is covered.
 
-`public/audio/landing/manifest.json` records the three requested filenames, exact scripts and blocked statuses. Voice names, model and durations remain unset because there are no generated files.
+Voices, chosen from the voice library (`GET /v1/shared-voices`) by accent, age, tone and usage, then added to the account with `POST /v1/voices/add/{public_user_id}/{voice_id}`:
+
+| Role | Voice | Voice id | Why |
+| --- | --- | --- | --- |
+| Calm British woman (summary-calm, Host A) | Verity X - Calm British Narration | `1hlpeD1ydbI2ow0Tt3EW` | British, calm narrative voice, one of the most used in the library |
+| Upbeat young man (summary-upbeat, Host B) | Luke - Deep, Bright and Clear | `gUS6gtJtKAXCDoCOLaHn` | Young South African, described as bright and energetic |
+
+The account's own cloned voices were not used.
+
+Calls: `POST /v1/text-to-speech/{voice_id}?output_format=mp3_44100_64` with `model_id: eleven_v4` for both summaries, and `POST /v1/text-to-dialogue?output_format=mp3_44100_64` with `model_id: eleven_v4` for the overview, one input per script line. The dialogue carries two non spoken audio tags for light laughter (`[light laugh]` before Host A's third line, `[chuckles]` after Host B's fourth). Every spoken word is the brief's script.
+
+| File | Duration | Bytes | Channels | Bitrate |
+| --- | --- | --- | --- | --- |
+| `summary-calm.mp3` | 26.16 s | 209,858 | mono | 64 kbps |
+| `summary-upbeat.mp3` | 24.48 s | 196,483 | mono | 64 kbps |
+| `overview-duo.mp3` | 52.96 s | 424,271 | mono | 64 kbps |
+
+Total audio: 830,612 bytes.
+
+Check: each file was transcribed with ElevenLabs speech to text (`scribe_v3`, word timestamps). The transcripts match the scripts word for word, the tags were not read aloud, and the laugh is detected as an audio event. Caption cue start times in `public/audio/landing/manifest.json` come from those word timings. SHA 256 of each file is in the manifest.
 
 ### Accepted sources and QA originals
 
@@ -1907,4 +1926,4 @@ Strict constraints: absolutely no text, lettering, digits, readable handwriting,
 - Initial people prompt bodies, final accepted people prompt wrappers and all audio scripts were compared against the brief exactly.
 - No application tests, E2E, deployment or physical-device checks were run for this asset-only package.
 
-Detailed machine-readable provenance and checks: `art/review/batch-5-inventory.json`. Audio manifest is an explicit blocked-work record, not a claim of delivered audio.
+Detailed machine-readable provenance and checks: `art/review/batch-5-inventory.json`. Audio was generated afterwards (see the ElevenLabs section above); `public/audio/landing/manifest.json` records it.

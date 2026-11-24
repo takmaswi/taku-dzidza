@@ -1,9 +1,12 @@
 {
-  "status": "blocked",
-  "reason": "ELEVENLABS_API_KEY absent from process, Windows User and Machine environment variables. Voice generation stopped as required. No credential files read.",
-  "total_audio_bytes": 0,
-  "commercial_use_verified": false,
-  "voice_library_selection": "not performed: no key",
+  "status": "generated",
+  "generated_at": "2026-11-24",
+  "format": "MP3, mono, 44.1 kHz, 64 kbps (output_format mp3_44100_64)",
+  "total_audio_bytes": 830612,
+  "commercial_use_verified": true,
+  "commercial_use_note": "The account is on a paid plan (pay as you go). ElevenLabs states that all paid plans include a commercial license for generated content, outside Beta Services. eleven_v4 is a generally available model (no alpha access required).",
+  "voice_library_selection": "Chosen from the ElevenLabs voice library by accent, age, tone and usage count, then added to the account.",
+  "verification": "Each file was transcribed with ElevenLabs speech to text (scribe_v3). The transcripts match the scripts word for word, and the audio tags were not read aloud. Caption cue start times (seconds) come from the transcript word timings.",
   "docs_checked_at": "2026-11-24",
   "documentation": {
     "models": "https://elevenlabs.io/docs/overview/models",
@@ -13,33 +16,178 @@
   "files": [
     {
       "file": "summary-calm.mp3",
-      "status": "not_generated",
-      "requested_voice": "calm warm British female",
-      "voice_names": [],
-      "model": null,
-      "duration": null,
-      "bytes": 0,
-      "script": "Here's the short version of your biology notes. Plants make their own food through photosynthesis. Chlorophyll, the green pigment in the chloroplasts, absorbs light energy. The plant uses that energy to turn carbon dioxide and water into glucose, and it gives off oxygen along the way. Leaves look green because chlorophyll reflects green light instead of absorbing it. That's page one, in thirty seconds."
+      "status": "generated",
+      "voices": [
+        {
+          "name": "Verity X - Calm British Narration",
+          "voice_id": "1hlpeD1ydbI2ow0Tt3EW",
+          "source": "ElevenLabs voice library"
+        }
+      ],
+      "voice_names": [
+        "Verity X - Calm British Narration"
+      ],
+      "model": "eleven_v4",
+      "endpoint": "POST /v1/text-to-speech/{voice_id}",
+      "duration": 26.16,
+      "bytes": 209858,
+      "sha256": "79da32134cbe09e4974790053cde034a1a871672573845ca3dcdc19c13f520cf",
+      "script": "Here's the short version of your biology notes. Plants make their own food through photosynthesis. Chlorophyll, the green pigment in the chloroplasts, absorbs light energy. The plant uses that energy to turn carbon dioxide and water into glucose, and it gives off oxygen along the way. Leaves look green because chlorophyll reflects green light instead of absorbing it. That's page one, in thirty seconds.",
+      "cues": [
+        {
+          "start": 0.1,
+          "text": "Here's the short version of your biology notes."
+        },
+        {
+          "start": 2.9,
+          "text": "Plants make their own food through photosynthesis."
+        },
+        {
+          "start": 6.2,
+          "text": "Chlorophyll, the green pigment in the chloroplasts, absorbs light energy."
+        },
+        {
+          "start": 11.1,
+          "text": "The plant uses that energy to turn carbon dioxide and water into glucose, and it gives off oxygen along the way."
+        },
+        {
+          "start": 18.6,
+          "text": "Leaves look green because chlorophyll reflects green light instead of absorbing it."
+        },
+        {
+          "start": 23.6,
+          "text": "That's page one, in thirty seconds."
+        }
+      ]
     },
     {
       "file": "summary-upbeat.mp3",
-      "status": "not_generated",
-      "requested_voice": "upbeat friendly young male, Southern African if suitable else neutral international",
-      "voice_names": [],
-      "model": null,
-      "duration": null,
-      "bytes": 0,
-      "script": "Here's the short version of your biology notes. Plants make their own food through photosynthesis. Chlorophyll, the green pigment in the chloroplasts, absorbs light energy. The plant uses that energy to turn carbon dioxide and water into glucose, and it gives off oxygen along the way. Leaves look green because chlorophyll reflects green light instead of absorbing it. That's page one, in thirty seconds."
+      "status": "generated",
+      "voices": [
+        {
+          "name": "Luke - Deep, Bright and Clear",
+          "voice_id": "gUS6gtJtKAXCDoCOLaHn",
+          "source": "ElevenLabs voice library",
+          "accent": "South African"
+        }
+      ],
+      "voice_names": [
+        "Luke - Deep, Bright and Clear"
+      ],
+      "model": "eleven_v4",
+      "endpoint": "POST /v1/text-to-speech/{voice_id}",
+      "duration": 24.48,
+      "bytes": 196483,
+      "sha256": "aa38d159041465ac0d6db0b8cea30353de086c1eb0ee2e36082f3ba1fcb8fd92",
+      "script": "Here's the short version of your biology notes. Plants make their own food through photosynthesis. Chlorophyll, the green pigment in the chloroplasts, absorbs light energy. The plant uses that energy to turn carbon dioxide and water into glucose, and it gives off oxygen along the way. Leaves look green because chlorophyll reflects green light instead of absorbing it. That's page one, in thirty seconds.",
+      "cues": [
+        {
+          "start": 0.1,
+          "text": "Here's the short version of your biology notes."
+        },
+        {
+          "start": 2.8,
+          "text": "Plants make their own food through photosynthesis."
+        },
+        {
+          "start": 5.9,
+          "text": "Chlorophyll, the green pigment in the chloroplasts, absorbs light energy."
+        },
+        {
+          "start": 10.5,
+          "text": "The plant uses that energy to turn carbon dioxide and water into glucose, and it gives off oxygen along the way."
+        },
+        {
+          "start": 17.5,
+          "text": "Leaves look green because chlorophyll reflects green light instead of absorbing it."
+        },
+        {
+          "start": 22.1,
+          "text": "That's page one, in thirty seconds."
+        }
+      ]
     },
     {
       "file": "overview-duo.mp3",
-      "status": "not_generated",
-      "requested_voice": "Host A calm British woman; Host B upbeat young man",
-      "voice_names": [],
-      "model": null,
-      "duration": null,
-      "bytes": 0,
-      "script": "A: So today we're looking at one page of biology notes. Photosynthesis.\nB: The classic. Plants basically cooking their own lunch.\nA: Pretty much. The key player is chlorophyll. It sits inside the chloroplasts and it soaks up light energy.\nB: Which is why leaves are green, right? It's the colour they don't want.\nA: Exactly. Chlorophyll reflects green light, so green is what bounces back to your eyes.\nB: Okay, and what does the plant actually do with all that energy?\nA: It takes carbon dioxide from the air and water from the soil, and turns them into glucose.\nB: And oxygen comes out the other side. Which, honestly, we should thank them for more often.\nA: If this comes up in a paper, remember the inputs, the outputs, and the role of chlorophyll. That's usually three easy marks.\nB: Inputs, outputs, chlorophyll. Got it."
+      "status": "generated",
+      "voices": [
+        {
+          "host": "A",
+          "name": "Verity X - Calm British Narration",
+          "voice_id": "1hlpeD1ydbI2ow0Tt3EW",
+          "source": "ElevenLabs voice library"
+        },
+        {
+          "host": "B",
+          "name": "Luke - Deep, Bright and Clear",
+          "voice_id": "gUS6gtJtKAXCDoCOLaHn",
+          "source": "ElevenLabs voice library",
+          "accent": "South African"
+        }
+      ],
+      "voice_names": [
+        "Verity X - Calm British Narration",
+        "Luke - Deep, Bright and Clear"
+      ],
+      "model": "eleven_v4",
+      "endpoint": "POST /v1/text-to-dialogue",
+      "duration": 52.96,
+      "bytes": 424271,
+      "sha256": "40dd006abf60a503b339e1b4724998d159310e74b44d7a9122001714fd3ccd77",
+      "script": "A: So today we're looking at one page of biology notes. Photosynthesis.\nB: The classic. Plants basically cooking their own lunch.\nA: Pretty much. The key player is chlorophyll. It sits inside the chloroplasts and it soaks up light energy.\nB: Which is why leaves are green, right? It's the colour they don't want.\nA: Exactly. Chlorophyll reflects green light, so green is what bounces back to your eyes.\nB: Okay, and what does the plant actually do with all that energy?\nA: It takes carbon dioxide from the air and water from the soil, and turns them into glucose.\nB: And oxygen comes out the other side. Which, honestly, we should thank them for more often.\nA: If this comes up in a paper, remember the inputs, the outputs, and the role of chlorophyll. That's usually three easy marks.\nB: Inputs, outputs, chlorophyll. Got it.",
+      "audio_tags": "Two non spoken tags were added for light laughter: [light laugh] before Host A's third line and [chuckles] after Host B's fourth line. The spoken words are the script exactly.",
+      "cues": [
+        {
+          "start": 0.1,
+          "speaker": "A",
+          "text": "So today we're looking at one page of biology notes. Photosynthesis."
+        },
+        {
+          "start": 5.5,
+          "speaker": "B",
+          "text": "The classic. Plants basically cooking their own lunch."
+        },
+        {
+          "start": 9.3,
+          "speaker": "A",
+          "text": "Pretty much. The key player is chlorophyll. It sits inside the chloroplasts and it soaks up light energy."
+        },
+        {
+          "start": 16.7,
+          "speaker": "B",
+          "text": "Which is why leaves are green, right? It's the colour they don't want."
+        },
+        {
+          "start": 20.4,
+          "speaker": "A",
+          "text": "Exactly. Chlorophyll reflects green light, so green is what bounces back to your eyes."
+        },
+        {
+          "start": 26.8,
+          "speaker": "B",
+          "text": "Okay, and what does the plant actually do with all that energy?"
+        },
+        {
+          "start": 30.4,
+          "speaker": "A",
+          "text": "It takes carbon dioxide from the air and water from the soil, and turns them into glucose."
+        },
+        {
+          "start": 36.2,
+          "speaker": "B",
+          "text": "And oxygen comes out the other side. Which, honestly, we should thank them for more often."
+        },
+        {
+          "start": 41.5,
+          "speaker": "A",
+          "text": "If this comes up in a paper, remember the inputs, the outputs, and the role of chlorophyll. That's usually three easy marks."
+        },
+        {
+          "start": 49.8,
+          "speaker": "B",
+          "text": "Inputs, outputs, chlorophyll. Got it."
+        }
+      ]
     }
   ]
 }
