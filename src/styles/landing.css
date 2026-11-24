@@ -9,7 +9,8 @@
 /* A band: butter over the cotton paper, so the tooth still shows. */
 .l-band { background: linear-gradient(rgb(248 226 168 / 0.32), rgb(248 226 168 / 0.32)), var(--paper-tex) 0 0 / 512px 512px, var(--cream); border-block: 1px solid rgb(242 179 61 / 0.22); }
 .l-h2 { font-size: clamp(1.9rem, 4.2vw, 3rem); letter-spacing: -0.03em; line-height: 1.08; max-width: 20ch; }
-.l-split { display: grid; gap: 2rem; align-items: center; }
+.l-split { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; align-items: center; }
+.l-split > * { min-width: 0; }
 @media (min-width: 900px) { .l-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3rem; } }
 .l-eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.6rem; font-size: 0.8rem; }
 .l-eyebrow span + span::before { content: ""; display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--honey); margin-right: 0.6rem; vertical-align: middle; }
@@ -159,6 +160,81 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 :root[data-motion="off"] .l-marquee-track { width: auto; }
 :root[data-motion="off"] .l-chips { flex-wrap: wrap; }
 :root[data-motion="off"] .l-chips-copy { display: none; }
+
+/* Cards that swap in: a short rise, staggered by --i inside them. */
+@keyframes l-in { from { opacity: 0; transform: translateY(calc(10px * var(--speed))) scale(0.985); } }
+
+/* ---------- Drop anything in (src/components/landing/DropAnything.tsx) ---------- */
+.da { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; align-items: start; }
+.da > *, .da-stage > *, .da-flow > * { min-width: 0; }
+@media (min-width: 900px) { .da { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 3rem; } }
+.da-art { display: grid; margin-top: 1rem; }
+.da-art .l-person { width: min(300px, 64%); }
+@media (max-width: 899px) { .da-art { margin-top: 0; } .da-art .l-person { width: min(210px, 56%); } }
+.da-stage { display: grid; gap: 1.25rem; }
+.da-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.da-chip { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 44px; padding: 0.5rem 1rem; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--raised); color: var(--text); font: inherit; font-weight: 500; cursor: pointer; transition: background var(--dur-tap, 180ms) var(--ease), transform var(--dur-tap, 180ms) var(--ease), border-color var(--dur-tap, 180ms); }
+.da-chip:hover { background: var(--cream); }
+.da-chip:active { transform: scale(0.96); }
+/* The picked chip is filled ink with a heavier weight, not colour alone. */
+.da-chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--cream); font-weight: 600; }
+.da-soon { font-size: 0.68rem; font-weight: 600; padding: 0.05rem 0.45rem; border-radius: 999px; background: var(--butter); color: var(--ink); }
+.da-flow { display: grid; justify-items: stretch; gap: 0.6rem; }
+.da-card { padding: 1.1rem 1.2rem; border-radius: var(--radius); background: var(--raised); border: 1px solid var(--line); box-shadow: var(--shadow-raised); animation: l-in calc(var(--dur-card, 420ms) * var(--speed)) var(--ease) both; }
+.da-card .eyebrow { display: inline-flex; align-items: center; gap: 0.35rem; margin-bottom: 0.6rem; }
+.da-out { min-height: 220px; animation-delay: calc(120ms * var(--speed)); background: var(--panel-fill); }
+.da-file { display: flex; align-items: center; gap: 0.8rem; }
+.da-icon { display: grid; place-items: center; width: 46px; height: 46px; flex: none; border-radius: 12px; background: var(--butter); color: var(--ink); }
+.da-arrow { justify-self: center; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--honey); color: var(--ink); }
+.da-title { display: block; font-size: 1.1rem; margin-bottom: 0.6rem; }
+.da-summary, .da-soon-lines, .da-paper { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.45rem; }
+.da-summary li, .da-paper li, .da-soon-lines li, .da-flash, .da-branch { animation: l-in calc(var(--dur-card, 420ms) * var(--speed)) var(--ease) both; animation-delay: calc((200ms + var(--i) * 110ms) * var(--speed)); }
+.da-dot { margin-left: 0.35rem; font-size: 0.72rem; padding: 0 0.45rem; }
+.da-paper li::marker { font-weight: 600; }
+.da-cards { display: grid; gap: 0.6rem; }
+@media (min-width: 560px) { .da-cards { grid-template-columns: 1fr 1fr; } }
+.da-flash { display: grid; gap: 0.4rem; align-content: space-between; min-height: 120px; padding: 0.9rem; border-radius: 14px; background: var(--raised); border: 1px solid var(--line); box-shadow: 0 6px 16px rgb(40 30 0 / 0.08); font-weight: 600; }
+.da-flash .soft { font-weight: 400; font-size: 0.9rem; border-top: 1px dashed var(--line-strong); padding-top: 0.4rem; }
+/* A mind map: the topic in the middle, four branches around it, joined by short ink lines. */
+.da-map { position: relative; display: grid; grid-template-columns: 1fr auto 1fr; grid-template-rows: auto auto auto; gap: 0.9rem 0.6rem; align-items: center; justify-items: center; padding: 0.5rem 0; }
+.da-centre { grid-column: 2; grid-row: 2; padding: 0.6rem 1rem; border-radius: 999px; background: var(--ink); color: var(--cream); white-space: nowrap; animation: l-in calc(var(--dur-card, 420ms) * var(--speed)) var(--ease) both; }
+.da-branch { padding: 0.4rem 0.8rem; border-radius: 999px; background: var(--butter); font-weight: 500; font-size: 0.9rem; white-space: nowrap; }
+.da-branch:nth-of-type(1) { grid-column: 1; grid-row: 1; }
+.da-branch:nth-of-type(2) { grid-column: 3; grid-row: 1; }
+.da-branch:nth-of-type(3) { grid-column: 1; grid-row: 3; }
+.da-branch:nth-of-type(4) { grid-column: 3; grid-row: 3; }
+.da-map::before, .da-map::after { content: ""; position: absolute; left: 22%; right: 22%; top: 50%; height: 0; border-top: 1.5px solid var(--line-strong); transform: rotate(18deg); z-index: -1; }
+.da-map::after { transform: rotate(-18deg); }
+.da-map { isolation: isolate; }
+@media (max-width: 559px) {
+  .da-map { grid-template-columns: 1fr 1fr; }
+  .da-centre { grid-column: 1 / -1; grid-row: 1; }
+  .da-branch:nth-of-type(n) { grid-column: auto; grid-row: auto; white-space: normal; text-align: center; }
+  .da-map::before, .da-map::after { display: none; }
+}
+
+/* ---------- Every answer points to the page (src/components/landing/CiteDemo.tsx) ---------- */
+.cd { position: relative; display: grid; gap: 0.75rem; }
+.cd-hint { margin: 0; font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem; }
+.cd-hint::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--honey); }
+.cd-chat { position: relative; z-index: 1; display: grid; gap: 0.7rem; }
+.cd-chat .eyebrow { margin: 0; }
+.cd-q { justify-self: end; margin: 0; padding: 0.55rem 0.9rem; border-radius: 16px 16px 4px 16px; background: var(--ink); color: var(--cream); }
+.cd-a { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 0.6rem; }
+.cd-a p { margin: 0 0 0.5rem; }
+.cd-mark { width: 24px; height: 24px; margin-top: 2px; }
+.cd-added { color: var(--text-soft); font-size: 0.95rem; }
+/* The citation is a real button: 32 px across, honey and ringed while its page is open. */
+.cd-cite { min-width: 32px; min-height: 32px; font-weight: 700; font-size: 0.9rem; cursor: pointer; vertical-align: middle; transition: transform var(--dur-tap, 180ms) var(--ease), background var(--dur-tap, 180ms); animation: cd-call calc(1.6s * var(--speed)) var(--ease) 3 1s; }
+.cd-cite:hover { transform: scale(1.08); }
+.cd.open .cd-cite { background: var(--honey); color: var(--ink); box-shadow: 0 0 0 3px var(--ink); animation: none; }
+@keyframes cd-call { 0%, 100% { box-shadow: 0 0 0 0 rgb(242 179 61 / 0); } 40% { box-shadow: 0 0 0 8px rgb(242 179 61 / 0.4); } }
+/* The source page: its space is always kept; closed, it waits lower down and out of sight, then slides up. */
+.cd-page { display: block; margin-top: -1.5rem; padding: 2.2rem 1.4rem 1.4rem; border-radius: 0 0 var(--radius) var(--radius); background: var(--paper-tex) 0 0 / 512px 512px, var(--white); border: 1px solid var(--line); box-shadow: var(--shadow-raised); transition: transform calc(var(--dur-card, 420ms) * var(--speed)) var(--ease), opacity calc(var(--dur-card, 420ms) * var(--speed)) var(--ease), visibility 0s; }
+.cd-page[hidden] { display: block; visibility: hidden; opacity: 0; transform: translateY(calc(28px * var(--speed))); transition: transform calc(var(--dur-card, 420ms) * var(--speed)) var(--ease), opacity calc(var(--dur-card, 420ms) * var(--speed)) var(--ease), visibility 0s calc(var(--dur-card, 420ms) * var(--speed)); }
+.cd-page p { margin: 0; line-height: 1.6; }
+.cd-page .eyebrow { margin-bottom: 0.5rem; }
+.cd-page[hidden] mark.hl { animation: none; }
 
 /* ---------- Safe ---------- */
 .l-safe-art { justify-self: center; }

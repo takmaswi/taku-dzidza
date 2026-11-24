@@ -6,7 +6,9 @@ import { CUTOUTS, SCENES, type CutoutSlug, type SceneSlug } from "../art.generat
 import { Cutout, Scene } from "../components/Art";
 import { BrandMark } from "../components/BrandMark";
 import { Layout } from "../components/Layout";
+import { CiteDemo } from "../components/landing/CiteDemo";
 import { CurriculumStrip } from "../components/landing/CurriculumStrip";
+import { DropAnything } from "../components/landing/DropAnything";
 import { HeroDemo } from "../components/landing/HeroDemo";
 import { LandingHeader } from "../components/landing/LandingHeader";
 import { isStill } from "../components/landing/motion";
@@ -93,16 +95,7 @@ export default function Landing() {
       <CurriculumStrip region={region} />
 
       <section id="learners" className="l-section reveal" aria-labelledby="l-drop-title">
-        <div className="l-wrap l-split">
-          <div>
-            <span className="eyebrow">{t.drop.eyebrow}</span>
-            <h2 id="l-drop-title" className="l-h2">
-              {t.drop.title}
-            </h2>
-            <p className="lead soft">{t.drop.body}</p>
-          </div>
-          <Cutout slug={ART.snap} alt={real(ART.snap, "learner-snap-notes") ? t.drop.art : t.drop.artFallback} sizes="(min-width: 900px) 360px, 70vw" className="l-person" />
-        </div>
+        <DropAnything art={<Cutout slug={ART.snap} alt={real(ART.snap, "learner-snap-notes") ? t.drop.art : t.drop.artFallback} sizes="(min-width: 900px) 340px, 64vw" className="l-person" />} />
       </section>
 
       <section className="l-section l-band reveal" aria-labelledby="l-cite-title">
@@ -114,6 +107,7 @@ export default function Landing() {
             </h2>
             <p className="lead soft">{t.cite.body}</p>
           </div>
+          <CiteDemo />
         </div>
       </section>
 
