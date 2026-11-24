@@ -12,7 +12,7 @@ test.describe("accounts", () => {
     await page.getByRole("link", { name: "Settings" }).first().click();
     await expect(page.getByText(`Signed in as ${email}`)).toBeVisible();
     await page.getByRole("button", { name: "Sign out" }).click();
-    await expect(page.getByRole("link", { name: "Start studying free" }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: "Start free" }).first()).toBeVisible();
 
     await page.goto("/signin");
     await page.getByRole("button", { name: "Forgot your password?" }).click();
@@ -27,7 +27,7 @@ test.describe("accounts", () => {
     // The old password no longer works, the new one does.
     await page.getByRole("link", { name: "Settings" }).first().click();
     await page.getByRole("button", { name: "Sign out" }).click();
-    await expect(page.getByRole("link", { name: "Start studying free" }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: "Start free" }).first()).toBeVisible();
     await page.goto("/signin");
     await page.getByLabel("Email").fill(email);
     await page.getByLabel("Password", { exact: true }).fill(PASSWORD);

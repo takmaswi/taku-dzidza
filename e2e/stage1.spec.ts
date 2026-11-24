@@ -80,6 +80,6 @@ test("a guardian deletes the learner's account from the consent link", async ({ 
   await guardianContext.close();
 
   // The learner's own screen is signed out: the account no longer exists.
-  await expect(page.getByRole("heading", { name: /Create your account|Welcome back|Your notes in/ }).first()).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByRole("heading", { name: /Create your account|Welcome back|Turn your notes into a tutor/ }).first()).toBeVisible({ timeout: 30_000 });
   await expect(page.getByRole("heading", { name: "Ask a parent or guardian" })).toHaveCount(0);
 });

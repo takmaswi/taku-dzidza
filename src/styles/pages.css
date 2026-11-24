@@ -86,15 +86,6 @@
 .step-in { animation: stepin calc(0.45s * var(--speed)) var(--ease) both; }
 @keyframes stepin { from { opacity: 0; transform: translateX(calc(24px * var(--speed))); } to { opacity: 1; transform: none; } }
 
-/* Study modes on the landing page: four plain cards, an icon and two lines each. */
-.mode-cards { display: grid; gap: 1rem; margin-top: 1.5rem; }
-@media (min-width: 640px) { .mode-cards { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1000px) { .mode-cards { grid-template-columns: repeat(4, 1fr); } }
-.mode-card { display: grid; gap: 0.35rem; align-content: start; padding: 1.2rem 1.1rem; border-radius: var(--radius); border: 1.5px solid var(--line); background: var(--panel-fill); box-shadow: var(--card-edge), var(--shadow-panel); }
-.mode-card .ct-icon { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--tint); color: var(--on-tint); margin-bottom: 0.3rem; }
-.mode-card b { font-size: 1.1rem; }
-.mode-card > span:last-child { color: var(--text-soft); font-size: 0.9rem; }
-
 /* Onboarding and Settings: what gets in the way. */
 .support-picker { border: 0; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
 .support-row { padding: 0.75rem 0.9rem; border-radius: var(--radius-sm); border: 1.5px solid var(--line); background: var(--panel-fill); }
@@ -130,65 +121,5 @@
 .legal h2 { margin-top: 1rem; }
 .help-number { font-size: 1.3rem; font-weight: 600; }
 
-/* ---------- Landing: display sizes live only here ---------- */
-.l-hero { position: relative; display: grid; align-items: center; min-height: min(78dvh, 760px); margin: 0 calc(-1 * clamp(1rem, 4vw, 2.5rem)); padding: 1rem clamp(1rem, 4vw, 2.5rem) 2rem; isolation: isolate; }
-.l-hero-scene { position: absolute; z-index: -1; right: -4%; top: 50%; transform: translateY(-50%); width: min(78%, 1100px); }
-.l-hero-text { max-width: 600px; }
-.l-hero h1 { position: relative; font-size: clamp(2.6rem, 6.4vw, 4.75rem); line-height: 1.02; letter-spacing: -0.035em; max-width: 12ch; margin-bottom: 1rem; }
-.l-hero .lead { font-size: clamp(1.05rem, 1.5vw, 1.2rem); max-width: 46ch; }
-.l-hero .actions { margin-top: 1.5rem; }
-.l-swoop { position: absolute; left: 0; bottom: -0.18em; width: 4.4em; height: 0.36em; }
-.l-float { display: inline-flex; align-items: center; gap: 0.7rem; margin-top: 2rem; padding: 0.75rem 1rem; max-width: 360px; font-size: 0.92rem; transform: rotate(-1.5deg); }
-.l-float .mark { width: 30px; height: 30px; flex: none; }
-@media (max-width: 959px) {
-  .l-hero { min-height: 0; padding-bottom: 0; }
-  .l-hero-scene { position: static; transform: none; width: 112%; max-width: none; margin: -1rem -6% 0; order: 2; }
-  .l-float { display: none; }
-}
-.roller { display: block; height: 1.1em; overflow: hidden; position: relative; }
-.roller > span { display: block; animation: roll calc(10s * var(--speed) + 0.001s) var(--ease) infinite; }
-.roller > span > span { display: block; height: 1.1em; line-height: 1.1; color: var(--text); }
-@keyframes roll { 0%, 18% { transform: translateY(0); } 25%, 43% { transform: translateY(-1.1em); } 50%, 68% { transform: translateY(-2.2em); } 75%, 93% { transform: translateY(-3.3em); } 100% { transform: translateY(-4.4em); } }
-:root[data-motion="off"] .roller > span { animation: none; }
-@media (prefers-reduced-motion: reduce) { .roller > span { animation: none; } }
-.l-h2 { font-size: clamp(1.9rem, 4.2vw, 3rem); letter-spacing: -0.03em; line-height: 1.08; }
-.l-split { display: grid; gap: 2rem; align-items: center; padding: 3rem 0; }
-@media (min-width: 900px) { .l-split { grid-template-columns: 1fr 1fr; } }
-.l-steps { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 1.1rem; counter-reset: s; }
-.l-steps li { counter-increment: s; display: grid; grid-template-columns: 2.4rem 1fr; gap: 0.8rem; }
-.l-steps li::before { content: counter(s); display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--butter); color: var(--on-tint); font-weight: 600; font-size: 0.9rem; }
-.l-demo { position: relative; display: grid; justify-items: center; }
-.l-demo-art { width: min(300px, 70%); justify-self: end; margin-right: 2%; }
-.mock-chat { position: relative; margin-top: -42%; width: min(380px, 92%); justify-self: start; display: grid; gap: 0.75rem; padding: 1rem; font-size: 0.9rem; transform: rotate(1deg); }
-.mock-chat .msg-mark { width: 22px; height: 22px; }
-.mock-chat .msg.taku { grid-template-columns: 22px 1fr; gap: 0.55rem; }
-@media (max-width: 899px) { .mock-chat { margin-top: -20%; } }
-.l-band { margin: 1rem calc(-1 * clamp(1rem, 4vw, 2.5rem)); padding: 0.5rem clamp(1rem, 4vw, 2.5rem); background: var(--panel-fill); border-block: 1px solid var(--line); }
-.cite-demo { position: relative; padding: 1.4rem; }
-.cite-demo p { margin: 0; }
-.cite-demo mark { background: var(--butter); color: var(--ink); border-radius: 4px; padding: 0 3px; box-shadow: 0 0 0 2px var(--honey); }
-.l-tools { padding: 3rem 0 0; }
-.l-center { text-align: center; }
-.tool-ring { position: relative; height: 400px; perspective: 1100px; }
-.tool-ring .ring { position: absolute; left: 50%; top: 45%; transform-style: preserve-3d; animation: spin calc(36s * var(--speed) + 0.001s) linear infinite; }
-.tool-ring .ring-card { position: absolute; width: 220px; height: 150px; margin: -75px 0 0 -110px; border-radius: 20px; padding: 1rem; border: 1px solid var(--line); transform: rotateY(calc(var(--i) * 60deg)) translateZ(300px); display: flex; flex-direction: column; justify-content: space-between; color: var(--ink); box-shadow: var(--shadow-raised); }
-.tool-ring .ring-card b { font-size: 1.1rem; }
-@keyframes spin { from { transform: rotateX(-12deg) rotateY(0); } to { transform: rotateX(-12deg) rotateY(-360deg); } }
-.tool-ring:hover .ring { animation-play-state: paused; }
-@media (max-width: 700px) { .tool-ring { height: 320px; } .tool-ring .ring-card { width: 170px; height: 125px; margin: -62px 0 0 -85px; transform: rotateY(calc(var(--i) * 60deg)) translateZ(200px); } }
-:root[data-motion="off"] .tool-ring .ring { animation: none; transform: rotateX(-12deg); }
-@media (prefers-reduced-motion: reduce) { .tool-ring .ring { animation: none; transform: rotateX(-12deg); } }
-.l-styles { padding: 3rem 0; }
-.l-checks { list-style: none; padding: 0; margin: 1.25rem 0 0; display: grid; gap: 0.9rem; }
-.l-checks li { display: flex; gap: 0.7rem; align-items: flex-start; }
-.l-check { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--butter); color: var(--on-tint); }
-.l-safe-art { width: min(420px, 90%); justify-self: center; }
-.l-final { position: relative; text-align: center; display: grid; justify-items: center; gap: 1rem; padding: 4rem 0 2.5rem; }
-.l-final .l-h2 { max-width: 16ch; }
-.l-final-mark { width: 64px; height: 64px; }
-.l-sparks { position: absolute; top: 2.5rem; left: calc(50% + 2.5rem); width: 70px; height: 42px; }
-.l-eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.6rem; font-size: 0.8rem; }
-.l-eyebrow span + span::before { content: ""; display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--honey); margin-right: 0.6rem; vertical-align: middle; }
-.l-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding: 2rem 0; border-top: 1px solid var(--line); font-size: 0.9rem; color: var(--text-soft); }
-.l-foot a { margin-left: 0.2rem; }
+/* The landing page's styles are in landing.css. */
 #prerender ~ #root .app-loading { display: none; }

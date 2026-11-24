@@ -1,23 +1,40 @@
-import { ArrowRight, BookOpen, Check, FileClock, GraduationCap, Layers, ListChecks, Network, ScrollText, Sparkles, Timer } from "lucide-react";
-import { STUDY_MODES } from "../../convex/accounts/voices";
+import { ArrowRight, Check } from "lucide-react";
 import { useLayoutEffect } from "react";
 import { Link } from "react-router";
-import { Cutout, DecorLine, Scene } from "../components/Art";
+import { STUDY_MODES } from "../../convex/accounts/voices";
+import { CUTOUTS, SCENES, type CutoutSlug, type SceneSlug } from "../art.generated";
+import { Cutout, Scene } from "../components/Art";
 import { BrandMark } from "../components/BrandMark";
 import { Layout } from "../components/Layout";
+import { LandingHeader } from "../components/landing/LandingHeader";
+import { ObjectArt } from "../components/ObjectArt";
 import { useReveal } from "../components/useReveal";
 import { copy } from "../copy/en";
 
-const RING_COLOURS = ["var(--butter)", "var(--tint)", "var(--cream)", "var(--butter-pick)", "var(--white)", "var(--paper)"];
-const RING_ICONS = [Layers, ListChecks, ScrollText, Sparkles, Network, BookOpen];
-const MODE_ICONS = { learn: GraduationCap, test: ListChecks, sprint: Timer, exam: FileClock } as const;
+const scene = (want: string, fallback: SceneSlug): SceneSlug => (want in SCENES ? (want as SceneSlug) : fallback);
+const cutout = (want: string, fallback: CutoutSlug): CutoutSlug => (want in CUTOUTS ? (want as CutoutSlug) : fallback);
 
 /**
- * The public front door. The hero is the landing scene, people stand on the
- * page as cutouts in the feature sections, and a few stationery marks sit in
- * the margins (never behind body text, at most two on a screen). Motion: a
- * rolling headline, rise on scroll and a ring of tool cards, all still with
- * reduced motion.
+ * Every image on the landing page, in one place. Art batch 5 slugs first
+ * (art/BRIEF-batch-5-landing.md); where one has not landed in the generated
+ * manifests, the older art stands in. `real` says which, so the alt text matches.
+ */
+const ART = {
+  ensemble: scene("landing-ensemble", "home-dashboard"),
+  snap: cutout("learner-snap-notes", "onboarding-2-senior-student"),
+  listening: cutout("learner-listening", "audio-overview"),
+  flashcards: cutout("learner-flashcards", "study-planner"),
+  seller: cutout("seller-notes", "exam-coach"),
+  lecturer: cutout("lecturer-class", "class-share-teacher"),
+} as const;
+const real = (slug: string, batch5: string) => slug === batch5;
+
+const SIGN_UP = "/signin?mode=signUp";
+
+/**
+ * The public front door, for learners about 15 to 40, anywhere: a live demo in
+ * the hero, then each feature shown working. Copy is copy.landing; styles are
+ * src/styles/landing.css.
  */
 export default function Landing() {
   const t = copy.landing;
@@ -27,148 +44,171 @@ export default function Landing() {
     document.getElementById("prerender")?.remove();
   }, []);
   return (
-    <Layout>
-      <section className="l-hero">
-        <Scene slug="landing-hero" alt={t.heroAlt} sizes="(min-width: 960px) 72vw, 100vw" eager className="l-hero-scene" />
-        <div className="l-hero-text rise">
-          <p className="eyebrow l-eyebrow">
-            <span>
-              {copy.appName} {copy.byline}
-            </span>
-            <span>{t.eyebrow}</span>
-          </p>
-          <h1>
-            {t.titleStart}{" "}
-            <span className="roller" aria-label={t.roller.join(", ")}>
-              <span aria-hidden="true">
-                {[...t.roller, t.roller[0]].map((w, i) => (
-                  <span key={i}>{w}</span>
-                ))}
+    <Layout top={<LandingHeader />} bleed>
+      <section className="l-hero" aria-labelledby="l-hero-title">
+        <div className="l-wrap l-hero-grid">
+          <div className="l-hero-text">
+            <p className="eyebrow l-eyebrow">
+              <span>
+                {copy.appName} {copy.byline}
               </span>
-            </span>
-            <DecorLine name="underline-swoop" className="l-swoop" />
-          </h1>
-          <p className="lead">{t.lead}</p>
-          <div className="actions">
-            <Link to="/signin?mode=signUp" className="pill">
-              {t.start} <ArrowRight size={18} aria-hidden="true" />
-            </Link>
-            <Link to="/signin" className="pill ghost">
-              {t.signIn}
-            </Link>
+              <span>{t.hero.eyebrow}</span>
+            </p>
+            <h1 id="l-hero-title">{t.hero.title}</h1>
+            <p className="lead">{t.hero.lead}</p>
+            <div className="actions">
+              <Link to={SIGN_UP} className="pill">
+                {t.hero.start} <ArrowRight size={18} aria-hidden="true" />
+              </Link>
+              <a href="#demo" className="pill ghost">
+                {t.hero.see}
+              </a>
+            </div>
+            <p className="l-quiet">{t.hero.quiet}</p>
           </div>
-          <div className="raised l-float">
-            <BrandMark variant="on-cream" className="mark" />
-            <span>{t.floatCard}</span>
+          <div id="demo" className="l-hero-demo" />
+        </div>
+        <Scene slug={ART.ensemble} alt={real(ART.ensemble, "landing-ensemble") ? t.hero.sceneAlt : t.hero.sceneFallbackAlt} sizes="(min-width: 960px) 62vw, 100vw" max={1280} eager className="l-hero-scene" />
+      </section>
+
+      <section className="l-strip" aria-label={t.strip.label}>
+        <p className="l-wrap l-strip-line">{t.strip.line}</p>
+        <ul className="l-wrap l-chips">
+          {Object.values(t.strip.items).map((x) => (
+            <li key={x}>{x}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="learners" className="l-section reveal" aria-labelledby="l-drop-title">
+        <div className="l-wrap l-split">
+          <div>
+            <span className="eyebrow">{t.drop.eyebrow}</span>
+            <h2 id="l-drop-title" className="l-h2">
+              {t.drop.title}
+            </h2>
+            <p className="lead soft">{t.drop.body}</p>
+          </div>
+          <Cutout slug={ART.snap} alt={real(ART.snap, "learner-snap-notes") ? t.drop.art : t.drop.artFallback} sizes="(min-width: 900px) 360px, 70vw" className="l-person" />
+        </div>
+      </section>
+
+      <section className="l-section l-band reveal" aria-labelledby="l-cite-title">
+        <div className="l-wrap l-split">
+          <div>
+            <span className="eyebrow">{t.cite.eyebrow}</span>
+            <h2 id="l-cite-title" className="l-h2">
+              {t.cite.title}
+            </h2>
+            <p className="lead soft">{t.cite.body}</p>
           </div>
         </div>
       </section>
 
-      <section className="l-split reveal">
-        <div>
-          <span className="eyebrow">{t.howEyebrow}</span>
-          <h2 className="l-h2">{t.howTitle}</h2>
-          <ol className="l-steps">
-            {t.howSteps.map((s) => (
-              <li key={s.title}>
-                <span>
-                  <b>{s.title}</b>
-                  <br />
-                  <span className="soft">{s.body}</span>
-                </span>
+      <section className="l-section reveal" aria-labelledby="l-tools-title">
+        <div className="l-wrap">
+          <span className="eyebrow">{t.tools.eyebrow}</span>
+          <h2 id="l-tools-title" className="l-h2">
+            {t.tools.title}
+          </h2>
+          <ul className="l-list">
+            {Object.values(t.tools.items).map((x) => (
+              <li key={x.name}>
+                <b>{x.name}</b> <span className="soft">{x.line}</span>
               </li>
             ))}
-          </ol>
-        </div>
-        <div className="l-demo">
-          <Cutout slug="landing-form1" alt={t.howAlt} sizes="(min-width: 900px) 420px, 80vw" className="l-demo-art" />
-          <div className="mock-chat raised" aria-hidden="true">
-            <span className="eyebrow">Form 3 Biology</span>
-            <div className="msg learner">
-              <p>What does chlorophyll do?</p>
-            </div>
-            <div className="msg taku">
-              <BrandMark variant="on-cream" className="msg-mark" />
-              <div className="msg-body">
-                <p>
-                  Chlorophyll absorbs light energy, which the plant uses to make glucose.<span className="cite-mark static">1</span>
-                </p>
-                <p className="part added">
-                  Think of it like a solar panel. <span className="added-tag">{copy.notebook.addedByTaku}</span>
-                </p>
-              </div>
-            </div>
-          </div>
+          </ul>
+          <Cutout slug={ART.flashcards} alt={real(ART.flashcards, "learner-flashcards") ? t.tools.art : t.tools.artFallback} sizes="(min-width: 900px) 320px, 60vw" className="l-person" />
         </div>
       </section>
 
-      <section className="l-band reveal">
-        <div className="l-split">
+      <section className="l-section reveal" aria-labelledby="l-modes-title">
+        <div className="l-wrap">
+          <span className="eyebrow">{t.modes.eyebrow}</span>
+          <h2 id="l-modes-title" className="l-h2">
+            {t.modes.title}
+          </h2>
+          <p className="lead soft">{t.modes.body}</p>
+          <ul className="l-list">
+            {STUDY_MODES.map((m) => (
+              <li key={m}>
+                <b>{copy.study.modes[m].name}</b> <span className="soft">{copy.study.modes[m].line}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section id="marketplace" className="l-section l-band reveal" aria-labelledby="l-market-title">
+        <div className="l-wrap l-split">
           <div>
-            <span className="eyebrow">{t.citeEyebrow}</span>
-            <h2 className="l-h2">{t.citeTitle}</h2>
-            <p className="lead soft">{t.citeBody}</p>
+            <span className="eyebrow">{t.market.eyebrow}</span>
+            <h2 id="l-market-title" className="l-h2">
+              {t.market.title}
+            </h2>
+            <p className="lead soft">{t.market.body}</p>
+            <div className="actions">
+              <Link to={SIGN_UP} className="pill">
+                {t.market.browse}
+              </Link>
+              <Link to={SIGN_UP} className="pill ghost">
+                {t.market.sell}
+              </Link>
+            </div>
           </div>
-          <div className="cite-demo raised">
-            <span className="eyebrow">Biology notes, page 1</span>
-            <p>
-              Green plants make their own food by photosynthesis. <mark>Chlorophyll, the green pigment in the chloroplasts, absorbs light energy.</mark> The plant uses this energy to turn carbon dioxide and water into glucose.
-            </p>
-          </div>
+          <Cutout slug={ART.seller} alt={real(ART.seller, "seller-notes") ? t.market.art : t.market.artFallback} sizes="(min-width: 900px) 360px, 70vw" className="l-person" />
         </div>
       </section>
 
-      <section className="reveal l-tools">
-        <div className="l-center">
-          <span className="eyebrow">{t.toolsEyebrow}</span>
-          <h2 className="l-h2">{t.toolsTitle}</h2>
-        </div>
-        <div className="tool-ring" aria-label={t.tools.map((x) => x.name).join(", ")}>
-          <div className="ring">
-            {t.tools.map((tool, i) => {
-              const Icon = RING_ICONS[i];
-              return (
-                <div key={tool.name} className="ring-card" style={{ ["--i" as string]: i, background: RING_COLOURS[i] }}>
-                  <Icon size={24} aria-hidden="true" />
-                  <span>
-                    <b>{tool.name}</b>
-                    <br />
-                    <span className="small-text">{tool.line}</span>
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="l-styles reveal">
-        <span className="eyebrow">{t.modesEyebrow}</span>
-        <h2 className="l-h2">{t.modesTitle}</h2>
-        <p className="lead">{t.modesBody}</p>
-        <div className="mode-cards">
-          {STUDY_MODES.map((m) => {
-            const Icon = MODE_ICONS[m];
-            return (
-              <div key={m} className="mode-card">
-                <span className="ct-icon">
-                  <Icon size={22} aria-hidden="true" />
-                </span>
-                <b>{copy.study.modes[m].name}</b>
-                <span>{copy.study.modes[m].line}</span>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="l-band l-safe reveal">
-        <div className="l-split">
+      <section className="l-section reveal" aria-labelledby="l-listen-title">
+        <div className="l-wrap l-split">
           <div>
-            <span className="eyebrow">{t.safeEyebrow}</span>
-            <h2 className="l-h2">{t.safeTitle}</h2>
+            <span className="eyebrow">{t.listen.eyebrow}</span>
+            <h2 id="l-listen-title" className="l-h2">
+              {t.listen.title}
+            </h2>
+            <p className="soft">{t.listen.honest}</p>
+          </div>
+          <Cutout slug={ART.listening} alt={real(ART.listening, "learner-listening") ? t.listen.art : t.listen.artFallback} sizes="(min-width: 900px) 360px, 70vw" className="l-person" />
+        </div>
+      </section>
+
+      <section id="institutions" className="l-section l-band reveal" aria-labelledby="l-inst-title">
+        <div className="l-wrap l-split">
+          <div>
+            <span className="eyebrow">{t.institutions.eyebrow}</span>
+            <h2 id="l-inst-title" className="l-h2">
+              {t.institutions.title}
+            </h2>
             <ul className="l-checks">
-              {t.safePoints.map((p) => (
+              {t.institutions.points.map((p) => (
+                <li key={p}>
+                  <span className="l-check">
+                    <Check size={16} aria-hidden="true" />
+                  </span>
+                  <span>{p}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="actions">
+              <Link to={SIGN_UP} className="pill">
+                {t.institutions.cta}
+              </Link>
+            </div>
+          </div>
+          <Cutout slug={ART.lecturer} alt={real(ART.lecturer, "lecturer-class") ? t.institutions.art : t.institutions.artFallback} sizes="(min-width: 900px) 360px, 70vw" className="l-person" />
+        </div>
+      </section>
+
+      <section className="l-section reveal" aria-labelledby="l-safe-title">
+        <div className="l-wrap l-split">
+          <div>
+            <span className="eyebrow">{t.safe.eyebrow}</span>
+            <h2 id="l-safe-title" className="l-h2">
+              {t.safe.title}
+            </h2>
+            <ul className="l-checks">
+              {[...t.safe.points, t.safe.helpOther].map((p) => (
                 <li key={p}>
                   <span className="l-check">
                     <Check size={16} aria-hidden="true" />
@@ -178,26 +218,43 @@ export default function Landing() {
               ))}
             </ul>
           </div>
-          <Cutout slug="guardian-consent" alt={t.safeAlt} sizes="(min-width: 900px) 460px, 80vw" className="l-safe-art" />
+          <ObjectArt name="open-book" alt="" size={200} className="l-safe-art" />
         </div>
       </section>
 
-      <section className="l-final reveal">
-        <DecorLine name="sparks" className="l-sparks" />
+      <section className="l-section reveal" aria-labelledby="l-faq-title">
+        <div className="l-wrap l-narrow">
+          <h2 id="l-faq-title" className="l-h2">
+            {t.faq.title}
+          </h2>
+          {t.faq.items.map((f) => (
+            <details key={f.q} className="l-faq">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section className="l-final reveal" aria-labelledby="l-final-title">
         <BrandMark variant="on-cream" className="l-final-mark" />
-        <h2 className="l-h2">{t.finalTitle}</h2>
-        <Link to="/signin?mode=signUp" className="pill">
-          {t.finalCta} <ArrowRight size={18} aria-hidden="true" />
+        <h2 id="l-final-title" className="l-h2">
+          {t.final.title}
+        </h2>
+        <Link to={SIGN_UP} className="pill">
+          {t.final.cta} <ArrowRight size={18} aria-hidden="true" />
         </Link>
       </section>
 
       <footer className="l-foot">
-        <span>
-          {copy.appName} {copy.byline}. {t.footer}
-        </span>
-        <Link to="/help">{copy.menu.help}</Link>
-        <Link to="/privacy">{copy.legal.privacyLink}</Link>
-        <Link to="/terms">{copy.legal.termsLink}</Link>
+        <div className="l-wrap l-foot-row">
+          <span>{t.footer.line}</span>
+          <nav className="l-foot-links" aria-label={copy.menu.help}>
+            <Link to="/help">{copy.menu.help}</Link>
+            <Link to="/privacy">{copy.legal.privacyLink}</Link>
+            <Link to="/terms">{copy.legal.termsLink}</Link>
+          </nav>
+        </div>
       </footer>
     </Layout>
   );

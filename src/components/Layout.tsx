@@ -12,24 +12,28 @@ import { ThemeWelcome } from "./ThemePicker";
 import { ThemeToggle } from "./ThemeToggle";
 
 /**
- * The frame of every page. Public pages: a light top bar with the lockup.
+ * The frame of every page. Public pages: a light top bar with the lockup
+ * (the landing page brings its own, through top).
  * Signed in pages: a full height shell that never scrolls (100dvh). A slim
  * icon rail on wide screens, a frosted top bar, and a bottom tab bar on
  * phones that hides while the learner types. Only the content pane scrolls.
  */
-export function Layout({ children }: { children: ReactNode }) {
+export function Layout({ children, top, bleed = false }: { children: ReactNode; top?: ReactNode; bleed?: boolean }) {
   return (
     <div className="public-shell">
-      <header className="public-top">
-        <Link to="/" className="brand-link">
-          <Lockup />
-        </Link>
-        <Link to="/help" className="pill ghost small">
-          <LifeBuoy size={16} aria-hidden="true" />
-          {copy.menu.help}
-        </Link>
-      </header>
-      <main className="public-main">{children}</main>
+      {top ?? (
+        <header className="public-top">
+          <Link to="/" className="brand-link">
+            <Lockup />
+          </Link>
+          <Link to="/help" className="pill ghost small">
+            <LifeBuoy size={16} aria-hidden="true" />
+            {copy.menu.help}
+          </Link>
+        </header>
+      )}
+      {/* bleed: the landing page, whose sections run edge to edge and set their own width. */}
+      <main className={bleed ? "public-main bleed" : "public-main"}>{children}</main>
     </div>
   );
 }

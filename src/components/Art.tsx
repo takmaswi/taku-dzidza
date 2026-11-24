@@ -35,11 +35,14 @@ export function Cutout({ slug, alt, sizes, eager = false, className = "", style 
   );
 }
 
-export function Scene({ slug, alt, sizes, eager = false, className = "", style }: Common & { slug: SceneSlug }) {
+/** max: leave out web sizes wider than this, to keep a page inside its image budget on sharp screens. */
+export function Scene({ slug, alt, sizes, eager = false, className = "", style, max }: Common & { slug: SceneSlug; max?: number }) {
   const allowed = usePeopleAllowed("Scene", slug);
   if (!allowed) return null;
   const art = SCENES[slug];
-  const widths: readonly number[] = art.widths;
+  const all: readonly number[] = art.widths;
+  const capped = all.filter((w) => max === undefined || w <= max);
+  const widths = capped.length > 0 ? capped : all.slice(0, 1);
   const srcSet = widths.map((w) => `/art/scenes/${slug}-${w}.webp ${w}w`).join(", ");
   return (
     <img

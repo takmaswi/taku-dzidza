@@ -45,7 +45,7 @@ test("an adult signs up, says what gets in the way, changes settings and deletes
 
   await page.getByLabel("Type your email address to confirm").fill(email);
   await page.getByRole("button", { name: "Delete my account for good" }).click();
-  await expect(page.getByRole("link", { name: "Start studying free" }).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: "Start free" }).first()).toBeVisible();
 });
 
 test("a 14 year old waits for a guardian, who consents from the link with a phone code", async ({ page, browser }, info) => {

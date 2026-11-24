@@ -35,7 +35,7 @@ async function framedImages(page: Page): Promise<string[]> {
 
 test("no image sits inside an arch, a circle or a box frame", async ({ page }, info) => {
   await page.goto("/");
-  await page.getByRole("link", { name: "Start studying free" }).first().waitFor();
+  await page.getByRole("link", { name: "Start free" }).first().waitFor();
   for (let y = 0; y < 8; y++) await page.mouse.wheel(0, 900);
   expect(await framedImages(page)).toEqual([]);
 
