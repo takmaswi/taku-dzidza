@@ -12,6 +12,7 @@ import { DropAnything } from "../components/landing/DropAnything";
 import { HeroDemo } from "../components/landing/HeroDemo";
 import { LandingHeader } from "../components/landing/LandingHeader";
 import { isStill } from "../components/landing/motion";
+import { ToolBento } from "../components/landing/ToolBento";
 import { REGIONS, useRegion, type Region } from "../components/landing/useRegion";
 import { ObjectArt } from "../components/ObjectArt";
 import { useReveal } from "../components/useReveal";
@@ -112,20 +113,7 @@ export default function Landing() {
       </section>
 
       <section className="l-section reveal" aria-labelledby="l-tools-title">
-        <div className="l-wrap">
-          <span className="eyebrow">{t.tools.eyebrow}</span>
-          <h2 id="l-tools-title" className="l-h2">
-            {t.tools.title}
-          </h2>
-          <ul className="l-list">
-            {Object.values(t.tools.items).map((x) => (
-              <li key={x.name}>
-                <b>{x.name}</b> <span className="soft">{x.line}</span>
-              </li>
-            ))}
-          </ul>
-          <Cutout slug={ART.flashcards} alt={real(ART.flashcards, "learner-flashcards") ? t.tools.art : t.tools.artFallback} sizes="(min-width: 900px) 320px, 60vw" className="l-person" />
-        </div>
+        <ToolBento art={<Cutout slug={ART.flashcards} alt={real(ART.flashcards, "learner-flashcards") ? t.tools.art : t.tools.artFallback} sizes="240px" className="l-person" />} />
       </section>
 
       <section className="l-section reveal" aria-labelledby="l-modes-title">

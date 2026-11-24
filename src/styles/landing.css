@@ -236,6 +236,98 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .cd-page .eyebrow { margin-bottom: 0.5rem; }
 .cd-page[hidden] mark.hl { animation: none; }
 
+/* ---------- Study tools (src/components/landing/ToolBento.tsx) ---------- */
+.tb-head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.75rem; }
+.tb-art { flex: none; width: clamp(120px, 22vw, 240px); margin-bottom: -1.75rem; }
+.tb-art .l-person { width: 100%; }
+.tb-track { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+@media (min-width: 900px) { .tb-track { grid-template-columns: 1.45fr 1fr 1fr; grid-auto-rows: minmax(280px, auto); } }
+.tb-tile { display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; padding: 1.25rem; border-radius: var(--radius); background: var(--panel-fill); border: 1px solid var(--line); box-shadow: var(--card-edge), var(--shadow-panel); transition: transform var(--dur-card, 420ms) var(--ease), box-shadow var(--dur-card, 420ms) var(--ease); }
+.tb-tile:hover { transform: translateY(calc(-3px * var(--speed))); box-shadow: var(--card-edge), var(--shadow-lift); }
+.tb-t-cards { background: linear-gradient(rgb(248 226 168 / 0.55), rgb(248 226 168 / 0.55)), var(--paper-tex) 0 0 / 512px 512px, var(--cream); }
+.tb-top { display: flex; align-items: center; gap: 0.6rem; }
+.tb-top h3 { margin: 0; font-size: 1.15rem; }
+.tb-t-cards .tb-top h3 { font-size: 1.35rem; }
+.tb-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; background: var(--butter); color: var(--ink); flex: none; }
+.tb-t-cards .tb-icon { background: var(--ink); color: var(--butter); }
+.tb-tile > p { margin: 0 0 0.5rem; font-size: 0.95rem; }
+.tb-demo { margin-top: auto; padding-top: 0.5rem; }
+/* Phones: a sideways row that snaps, the next card peeking in, dots and arrows under it. Never turns by itself. */
+@media (max-width: 899px) {
+  .tb-head { align-items: center; }
+  .tb-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; margin-inline: calc(-1 * clamp(1rem, 4vw, 2.5rem)); padding: 0.5rem 9vw 1rem; scroll-padding-inline: 9vw; }
+  .tb-track::-webkit-scrollbar { display: none; }
+  .tb-tile { flex: 0 0 82vw; scroll-snap-align: center; min-height: 300px; }
+  .tb-tile:hover { transform: none; }
+}
+.tb-track:focus-visible { outline-offset: 4px; }
+.tb-controls { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 0.75rem; }
+@media (min-width: 900px) { .tb-controls { display: none; } }
+.tb-arrow:disabled { opacity: 0.4; cursor: default; transform: none; }
+.tb-dots { display: flex; gap: 0.15rem; }
+/* Each dot is a 24 px target; the one in view is a wide ink bar, the rest small rings. */
+.tb-dot { position: relative; width: 24px; height: 24px; padding: 0; border: 0; background: none; cursor: pointer; }
+.tb-dot::before { content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; border-radius: 999px; border: 1.5px solid var(--text-soft); transform: translate(-50%, -50%); transition: width var(--dur-tap, 180ms) var(--ease), background var(--dur-tap, 180ms); }
+.tb-dot[aria-current="true"]::before { width: 20px; background: var(--ink); border-color: var(--ink); }
+
+/* The tile animations. Base styles are the finished look; wait holds the first frame; play runs once. */
+.tb-flip { perspective: 900px; }
+.tb-flip-in { display: grid; transform-style: preserve-3d; transform: rotateY(180deg); }
+.tb-face { grid-area: 1 / 1; display: grid; place-items: center; min-height: 130px; padding: 1rem; border-radius: 16px; text-align: center; font-weight: 600; font-size: 1.1rem; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.tb-front { background: var(--white); border: 1px solid var(--line); box-shadow: 0 8px 20px rgb(40 30 0 / 0.1); }
+.tb-back { background: var(--ink); color: var(--cream); transform: rotateY(180deg); }
+.tb[data-state="wait"] .tb-flip-in { transform: rotateY(0); }
+.tb[data-state="play"] .tb-flip-in { animation: tb-flip calc(800ms * var(--speed)) var(--ease) calc(700ms * var(--speed)) both; }
+@keyframes tb-flip { from { transform: rotateY(0); } to { transform: rotateY(180deg); } }
+
+.tb-paper { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; font-size: 0.88rem; }
+.tb-paper li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.1rem 0.6rem; padding-bottom: 0.5rem; border-bottom: 1px dashed var(--line-strong); }
+.tb-paper b { font-weight: 600; }
+.tb-answer { grid-column: 1; color: var(--text-soft); font-style: italic; }
+/* Marking in red pen, the way a teacher does: a tick and the marks given. */
+.tb-tick { grid-column: 2; grid-row: 1 / span 2; align-self: center; display: inline-flex; align-items: center; gap: 0.15rem; font-weight: 700; color: var(--msasa); transform: rotate(-6deg); }
+.tb-score { border: 0 !important; justify-self: end; font-weight: 700; color: var(--msasa); padding: 0.15rem 0.6rem; border-radius: 999px; box-shadow: inset 0 0 0 2px var(--msasa); transform: rotate(-3deg); }
+.tb[data-state="wait"] :is(.tb-tick, .tb-score) { opacity: 0; transform: scale(0.4) rotate(-20deg); }
+.tb[data-state="play"] :is(.tb-tick, .tb-score) { animation: tb-stamp calc(380ms * var(--speed)) var(--ease) calc((600ms + var(--i) * 550ms) * var(--speed)) both; }
+@keyframes tb-stamp { from { opacity: 0; transform: scale(1.8) rotate(-20deg); } }
+
+.tb-feed { display: grid; gap: 0.45rem; }
+.tb-feed span { padding: 0.6rem 0.8rem; border-radius: 12px; background: var(--ink); color: var(--cream); font-size: 0.85rem; box-shadow: 0 6px 14px rgb(40 30 0 / 0.14); }
+.tb-feed span:nth-child(2) { background: var(--honey); color: var(--ink); }
+.tb-feed span:nth-child(3) { background: var(--white); color: var(--ink); border: 1px solid var(--line); }
+.tb[data-state="wait"] .tb-feed span { opacity: 0; transform: translateY(36px); }
+.tb[data-state="play"] .tb-feed span { animation: tb-feed calc(520ms * var(--speed)) var(--ease) calc((400ms + var(--i) * 420ms) * var(--speed)) both; }
+@keyframes tb-feed { from { opacity: 0; transform: translateY(36px) scale(0.96); } }
+
+.tb-sum { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; font-size: 0.92rem; }
+.tb-sum li { display: flex; align-items: center; gap: 0.4rem; }
+.tb-sum li::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--ink); }
+.tb-cite { flex: none; display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 0.3rem; border-radius: 999px; background: var(--butter); font-size: 0.72rem; font-weight: 600; }
+.tb[data-state="wait"] .tb-write { clip-path: inset(0 100% 0 0); }
+.tb[data-state="wait"] .tb-cite { opacity: 0; transform: scale(0.3); }
+.tb[data-state="play"] .tb-write { animation: tb-write calc(700ms * var(--speed)) steps(18, end) calc((300ms + var(--i) * 800ms) * var(--speed)) both; }
+.tb[data-state="play"] .tb-cite { animation: tb-pop calc(300ms * var(--speed)) var(--ease) calc((1000ms + var(--i) * 800ms) * var(--speed)) both; }
+@keyframes tb-write { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes tb-pop { from { opacity: 0; transform: scale(0.3); } }
+
+.tb-map { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; justify-items: center; align-items: center; isolation: isolate; }
+.tb-map b { grid-column: 1 / -1; padding: 0.45rem 0.9rem; border-radius: 999px; background: var(--ink); color: var(--cream); font-size: 0.9rem; }
+.tb-map span { padding: 0.3rem 0.7rem; border-radius: 999px; background: var(--butter); font-size: 0.82rem; font-weight: 500; transform-origin: 50% 0; }
+.tb-map::before { content: ""; position: absolute; z-index: -1; left: 25%; right: 25%; top: 1.2rem; bottom: 0.9rem; border: 1.5px solid var(--line-strong); border-bottom: 0; border-radius: 12px 12px 0 0; }
+.tb[data-state="wait"] .tb-map span { opacity: 0; transform: scale(0.3); }
+.tb[data-state="wait"] .tb-map::before { transform: scaleY(0); }
+.tb[data-state="play"] .tb-map span { animation: tb-grow calc(480ms * var(--speed)) var(--ease) calc((700ms + var(--i) * 260ms) * var(--speed)) both; }
+.tb[data-state="play"] .tb-map::before { transform-origin: 50% 0; animation: tb-line calc(500ms * var(--speed)) var(--ease) calc(300ms * var(--speed)) both; }
+@keyframes tb-grow { from { opacity: 0; transform: translateY(-14px) scale(0.3); } }
+@keyframes tb-line { from { transform: scaleY(0); } }
+
+.tb-terms { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem; font-size: 0.9rem; font-weight: 500; }
+.tb-terms li { display: flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.55rem; border-radius: 10px; background: var(--white); border: 1px solid var(--line); }
+.tb-terms svg { flex: none; padding: 2px; border-radius: 50%; background: var(--honey); color: var(--ink); }
+.tb[data-state="wait"] .tb-terms li { opacity: 0; transform: translateX(-10px); }
+.tb[data-state="play"] .tb-terms li { animation: tb-tick calc(360ms * var(--speed)) var(--ease) calc((400ms + var(--i) * 300ms) * var(--speed)) both; }
+@keyframes tb-tick { from { opacity: 0; transform: translateX(-10px); } }
+
 /* ---------- Safe ---------- */
 .l-safe-art { justify-self: center; }
 /* Both help lines share one cell, so the space is kept whichever the region shows. */
