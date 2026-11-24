@@ -120,6 +120,11 @@ export function buildArt() {
     if (!/^[a-z-]+$/.test(name) || (o.widths ?? []).length === 0 || missing.length > 0) throw new Error(`art/objects/manifest.json: ${name} needs widths and the files ${missing.join(", ") || files.join(", ")} in art/objects.`);
   }
   copyDir(join(ROOT, "art", "objects"), join(to, "objects"), (n) => n.endsWith(".webp"));
+  // Notebook covers (art batch 5) for the landing page's marketplace shelf: the 450 px WebP of each, where it exists.
+  const coversDir = join(ROOT, "art", "covers");
+  const coverList = existsSync(join(coversDir, "manifest.json")) ? (JSON.parse(read(join(coversDir, "manifest.json"))).covers ?? []) : [];
+  const covers = coverList.map((c) => c.name).filter((n) => /^cover-[a-z]+$/.test(n) && existsSync(join(coversDir, `${n}-450.webp`)));
+  if (covers.length > 0) copyDir(coversDir, join(to, "covers"), (n) => n.endsWith("-450.webp"));
   const manifest = JSON.parse(read(join(ROOT, "art", "web", "manifest.json")));
   const pick = (group) => Object.fromEntries(Object.entries(group).map(([slug, a]) => [slug, { width: a.width, height: a.height, widths: a.widths }]));
   const body = [
@@ -129,6 +134,7 @@ export function buildArt() {
     `export const SCENES = ${JSON.stringify(pick(manifest.scenes))} as const satisfies Record<string, ArtSize>;`,
     "export type CutoutSlug = keyof typeof CUTOUTS;",
     "export type SceneSlug = keyof typeof SCENES;",
+    `export const COVERS: readonly string[] = ${JSON.stringify(covers)};`,
     `export const OBJECT_RASTERS: Record<string, { widths: readonly number[] }> = ${JSON.stringify(Object.fromEntries(Object.entries(objects).map(([n, o]) => [n, { widths: [...o.widths].sort((a, b) => a - b) }])))};`,
     "",
   ].join("\n");

@@ -1,4 +1,4 @@
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, BookOpen, Check, ClipboardCheck, KeyRound } from "lucide-react";
 import { useLayoutEffect, type MouseEvent } from "react";
 import { Link } from "react-router";
 import { CUTOUTS, SCENES, type CutoutSlug, type SceneSlug } from "../art.generated";
@@ -11,6 +11,8 @@ import { DropAnything } from "../components/landing/DropAnything";
 import { HeroDemo } from "../components/landing/HeroDemo";
 import { LandingHeader } from "../components/landing/LandingHeader";
 import { isStill } from "../components/landing/motion";
+import { ListenDemo } from "../components/landing/ListenDemo";
+import { MarketShelf } from "../components/landing/MarketShelf";
 import { ModeSwitcher } from "../components/landing/ModeSwitcher";
 import { ToolBento } from "../components/landing/ToolBento";
 import { REGIONS, useRegion, type Region } from "../components/landing/useRegion";
@@ -37,6 +39,7 @@ const ART = {
 const real = (slug: string, batch5: string) => slug === batch5;
 
 const SIGN_UP = "/signin?mode=signUp";
+const INSTITUTION_ICONS = [KeyRound, BookOpen, ClipboardCheck] as const;
 
 /** "See it work": glide to the demo (it sits under the text on a phone), or jump there with less motion. */
 function seeItWork(e: MouseEvent<HTMLAnchorElement>) {
@@ -129,64 +132,72 @@ export default function Landing() {
         </div>
       </section>
 
-      <section id="marketplace" className="l-section l-band reveal" aria-labelledby="l-market-title">
-        <div className="l-wrap l-split">
-          <div>
-            <span className="eyebrow">{t.market.eyebrow}</span>
-            <h2 id="l-market-title" className="l-h2">
-              {t.market.title}
-            </h2>
-            <p className="lead soft">{t.market.body}</p>
-            <div className="actions">
-              <Link to={SIGN_UP} className="pill">
-                {t.market.browse}
-              </Link>
-              <Link to={SIGN_UP} className="pill ghost">
-                {t.market.sell}
-              </Link>
+      <section id="marketplace" className="l-section reveal" aria-labelledby="l-market-title">
+        <div className="l-wrap">
+          <div className="l-split mk-head">
+            <div>
+              <span className="eyebrow">{t.market.eyebrow}</span>
+              <h2 id="l-market-title" className="l-h2">
+                {t.market.title}
+              </h2>
+              <p className="lead soft">{t.market.body}</p>
+              <div className="actions">
+                <Link to={SIGN_UP} className="pill">
+                  {t.market.browse}
+                </Link>
+                <Link to={SIGN_UP} className="pill ghost">
+                  {t.market.sell}
+                </Link>
+              </div>
             </div>
+            <Cutout slug={ART.seller} alt={real(ART.seller, "seller-notes") ? t.market.art : t.market.artFallback} sizes="(min-width: 900px) 320px, 60vw" className="l-person mk-art" />
           </div>
-          <Cutout slug={ART.seller} alt={real(ART.seller, "seller-notes") ? t.market.art : t.market.artFallback} sizes="(min-width: 900px) 360px, 70vw" className="l-person" />
+          <MarketShelf />
+          <p className="mk-note soft small-text">{t.market.note}</p>
         </div>
       </section>
 
-      <section className="l-section reveal" aria-labelledby="l-listen-title">
-        <div className="l-wrap l-split">
+      <section className="l-section l-band reveal" aria-labelledby="l-listen-title">
+        <div className="l-wrap l-split ld-wrap">
           <div>
             <span className="eyebrow">{t.listen.eyebrow}</span>
             <h2 id="l-listen-title" className="l-h2">
               {t.listen.title}
             </h2>
-            <p className="soft">{t.listen.honest}</p>
+            <p className="ld-honest">{t.listen.honest}</p>
+            <Cutout slug={ART.listening} alt={real(ART.listening, "learner-listening") ? t.listen.art : t.listen.artFallback} sizes="(min-width: 900px) 300px, 56vw" className="l-person ld-art" />
           </div>
-          <Cutout slug={ART.listening} alt={real(ART.listening, "learner-listening") ? t.listen.art : t.listen.artFallback} sizes="(min-width: 900px) 360px, 70vw" className="l-person" />
+          <ListenDemo />
         </div>
       </section>
 
-      <section id="institutions" className="l-section l-band reveal" aria-labelledby="l-inst-title">
+      <section id="institutions" className="l-section reveal" aria-labelledby="l-inst-title">
         <div className="l-wrap l-split">
+          <Cutout slug={ART.lecturer} alt={real(ART.lecturer, "lecturer-class") ? t.institutions.art : t.institutions.artFallback} sizes="(min-width: 900px) 340px, 64vw" className="l-person in-art" />
           <div>
             <span className="eyebrow">{t.institutions.eyebrow}</span>
             <h2 id="l-inst-title" className="l-h2">
               {t.institutions.title}
             </h2>
-            <ul className="l-checks">
-              {t.institutions.points.map((p) => (
-                <li key={p}>
-                  <span className="l-check">
-                    <Check size={16} aria-hidden="true" />
-                  </span>
-                  <span>{p}</span>
-                </li>
-              ))}
+            <ul className="in-points">
+              {t.institutions.points.map((p, i) => {
+                const Icon = INSTITUTION_ICONS[i];
+                return (
+                  <li key={p}>
+                    <span className="in-icon">
+                      <Icon size={20} aria-hidden="true" />
+                    </span>
+                    <span>{p}</span>
+                  </li>
+                );
+              })}
             </ul>
             <div className="actions">
               <Link to={SIGN_UP} className="pill">
-                {t.institutions.cta}
+                {t.institutions.cta} <ArrowRight size={18} aria-hidden="true" />
               </Link>
             </div>
           </div>
-          <Cutout slug={ART.lecturer} alt={real(ART.lecturer, "lecturer-class") ? t.institutions.art : t.institutions.artFallback} sizes="(min-width: 900px) 360px, 70vw" className="l-person" />
         </div>
       </section>
 

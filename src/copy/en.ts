@@ -238,6 +238,7 @@ export const copy = {
       pauseClip: (name: string) => `Pause ${name}`,
       progress: "Played",
       captions: "Captions",
+      hosts: ["Host one", "Host two"],
       deviceVoice: "Read by your device's own voice.",
       summaryScript: "Here's the short version of your biology notes. Plants make their own food through photosynthesis. Chlorophyll, the green pigment in the chloroplasts, absorbs light energy. The plant uses that energy to turn carbon dioxide and water into glucose, and it gives off oxygen along the way. Leaves look green because chlorophyll reflects green light instead of absorbing it. That's page one, in thirty seconds.",
       overviewScript: [
