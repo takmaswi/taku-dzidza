@@ -1,12 +1,14 @@
 import { ArrowRight, Check } from "lucide-react";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, type MouseEvent } from "react";
 import { Link } from "react-router";
 import { STUDY_MODES } from "../../convex/accounts/voices";
 import { CUTOUTS, SCENES, type CutoutSlug, type SceneSlug } from "../art.generated";
 import { Cutout, Scene } from "../components/Art";
 import { BrandMark } from "../components/BrandMark";
 import { Layout } from "../components/Layout";
+import { HeroDemo } from "../components/landing/HeroDemo";
 import { LandingHeader } from "../components/landing/LandingHeader";
+import { isStill } from "../components/landing/motion";
 import { ObjectArt } from "../components/ObjectArt";
 import { useReveal } from "../components/useReveal";
 import { copy } from "../copy/en";
@@ -30,6 +32,14 @@ const ART = {
 const real = (slug: string, batch5: string) => slug === batch5;
 
 const SIGN_UP = "/signin?mode=signUp";
+
+/** "See it work": glide to the demo (it sits under the text on a phone), or jump there with less motion. */
+function seeItWork(e: MouseEvent<HTMLAnchorElement>) {
+  const demo = document.getElementById("demo");
+  if (demo === null) return;
+  e.preventDefault();
+  demo.scrollIntoView({ behavior: isStill() ? "auto" : "smooth", block: "center" });
+}
 
 /**
  * The public front door, for learners about 15 to 40, anywhere: a live demo in
@@ -60,14 +70,20 @@ export default function Landing() {
               <Link to={SIGN_UP} className="pill">
                 {t.hero.start} <ArrowRight size={18} aria-hidden="true" />
               </Link>
-              <a href="#demo" className="pill ghost">
+              <a href="#demo" className="pill ghost" onClick={seeItWork}>
                 {t.hero.see}
               </a>
             </div>
             <p className="l-quiet">{t.hero.quiet}</p>
           </div>
-          <div id="demo" className="l-hero-demo" />
+          <div id="demo" className="l-hero-demo">
+            <HeroDemo />
+          </div>
         </div>
+        <span className="l-sky" aria-hidden="true">
+          <ObjectArt name="sun" alt="" size={128} className="l-sky-sun" />
+          <ObjectArt name="moon" alt="" size={128} className="l-sky-moon" />
+        </span>
         <Scene slug={ART.ensemble} alt={real(ART.ensemble, "landing-ensemble") ? t.hero.sceneAlt : t.hero.sceneFallbackAlt} sizes="(min-width: 960px) 62vw, 100vw" max={1280} eager className="l-hero-scene" />
       </section>
 

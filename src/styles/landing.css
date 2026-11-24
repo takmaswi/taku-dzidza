@@ -35,13 +35,107 @@
 
 /* ---------- Hero ---------- */
 .l-hero { position: relative; isolation: isolate; padding-block: clamp(1.5rem, 4vw, 3rem) clamp(2rem, 5vw, 4rem); background: var(--paper-tex) 0 0 / 512px 512px, var(--cream); }
-.l-hero-grid { display: grid; gap: 2rem; align-items: center; }
-@media (min-width: 960px) { .l-hero-grid { grid-template-columns: 42% minmax(0, 1fr); min-height: min(80dvh, 760px); } }
+.l-hero-grid { display: grid; gap: 2.5rem; align-items: center; }
+@media (min-width: 960px) { .l-hero-grid { grid-template-columns: 42% minmax(0, 1fr); min-height: min(82dvh, 780px); } }
 .l-hero h1 { font-size: clamp(2.3rem, 5.4vw, 4.1rem); line-height: 1.04; letter-spacing: -0.035em; max-width: 15ch; margin-bottom: 1rem; }
 .l-hero .lead { font-size: clamp(1.02rem, 1.4vw, 1.15rem); max-width: 46ch; }
 .l-hero .actions { margin-top: 1.5rem; }
-.l-hero-scene { position: relative; z-index: -1; width: 100%; margin-top: -1rem; }
-@media (min-width: 960px) { .l-hero-scene { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 62%; margin: 0; } }
+.l-hero-demo { position: relative; z-index: 1; scroll-margin-top: 80px; }
+@media (min-width: 960px) { .l-hero-demo { justify-self: start; margin-left: -2%; } }
+/* The scene sits behind and beside the phone on a computer (its quiet left side under the phone), and below the demo on a phone. */
+.l-hero-scene { position: relative; z-index: -1; width: 112%; max-width: none; margin: -2.5rem -6% 0; }
+@media (min-width: 960px) { .l-hero-scene { position: absolute; right: 0; top: 52%; transform: translateY(-50%); width: 60%; margin: 0; } }
+.l-sky { position: absolute; z-index: 2; top: 0.75rem; right: clamp(0.75rem, 3vw, 2.5rem); width: clamp(56px, 9vw, 128px); height: clamp(56px, 9vw, 128px); animation: l-sky-in calc(var(--dur-story, 900ms) * var(--speed)) var(--ease) both; }
+.l-sky > * { width: 100% !important; height: 100% !important; }
+.l-sky-moon { display: none; }
+:root[data-theme="dark"] .l-sky-sun { display: none; }
+:root[data-theme="dark"] .l-sky-moon { display: block; }
+@keyframes l-sky-in { from { opacity: 0; transform: translateY(14px) rotate(-12deg); } }
+
+/* ---------- The pause control, shared by everything that loops ---------- */
+.l-pause { display: inline-grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 50%; border: 1.5px solid var(--line-strong); background: var(--raised); color: var(--text); cursor: pointer; box-shadow: 0 2px 8px rgb(17 17 17 / 0.12); transition: transform var(--dur-tap, 180ms) var(--ease); }
+.l-pause:hover { transform: scale(1.06); }
+.l-pause:active { transform: scale(0.94); }
+
+/* ---------- Hero demo (src/components/landing/HeroDemo.tsx) ---------- */
+.hd { display: grid; justify-items: center; gap: 1rem; }
+.hd-phone { position: relative; width: min(296px, 80vw); aspect-ratio: 9 / 18.4; padding: 9px; border-radius: 44px; background: var(--ink); box-shadow: 0 1px 0 1px rgb(255 255 255 / 0.08) inset, 0 30px 60px rgb(40 30 0 / 0.22), 0 8px 18px rgb(40 30 0 / 0.14); }
+.hd-screen { position: relative; height: 100%; display: flex; flex-direction: column; overflow: hidden; border-radius: 35px; background: var(--paper-tex) 0 0 / 512px 512px, var(--cream); color: var(--ink); font-size: 0.8rem; line-height: 1.35; }
+.hd-bar { display: flex; align-items: center; gap: 0.5rem; padding: 1.1rem 1rem 0.6rem; font-size: 0.85rem; }
+.hd-mark { width: 20px; height: 20px; }
+.hd-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 0.6rem; padding: 0.25rem 0.75rem; }
+.hd-pause { position: absolute; top: 18px; right: 18px; width: 34px; height: 34px; }
+
+/* (0) the photo of notes drops in and settles like paper */
+.hd-photo { position: relative; display: block; background: repeating-linear-gradient(transparent 0 15px, rgb(242 179 61 / 0.3) 15px 16px), #fffdf6; border-radius: 4px; box-shadow: 0 1px 2px rgb(40 30 0 / 0.16), 0 10px 22px rgb(40 30 0 / 0.14); }
+.hd-photo.big { width: 84%; aspect-ratio: 4 / 3; align-self: center; margin-top: 1.5rem; transform: rotate(-4deg); animation: hd-drop calc(950ms * var(--speed)) var(--ease) both; }
+.hd-photo.small { width: 34px; height: 26px; flex: none; transform: rotate(-4deg); }
+.hd-scribble { position: absolute; inset: 8% 6%; width: 88%; height: 84%; fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; opacity: 0.62; }
+.hd-ink-mark { stroke: var(--honey); stroke-width: 6; opacity: 0.6; }
+.hd-photo-tag { position: absolute; left: 50%; bottom: -2.2rem; transform: translateX(-50%) rotate(4deg); white-space: nowrap; padding: 0.2rem 0.6rem; border-radius: 999px; background: var(--butter); font-size: 0.72rem; font-weight: 600; }
+@keyframes hd-drop { 0% { opacity: 0; transform: translateY(-70px) rotate(-16deg) scale(1.08); } 55% { opacity: 1; transform: translateY(6px) rotate(-1deg) scale(1); } 78% { transform: translateY(-3px) rotate(-5deg); } 100% { transform: rotate(-4deg); } }
+.hd-thumb { display: flex; align-items: center; gap: 0.55rem; padding: 0.4rem 0.6rem; border-radius: 12px; background: var(--white); border: 1px solid var(--line); font-size: 0.72rem; font-weight: 500; animation: hd-pop calc(400ms * var(--speed)) var(--ease) both; }
+
+/* (1) the question types itself into the composer */
+.hd-composer { display: flex; align-items: center; gap: 0.5rem; margin: 0.6rem 0.7rem 0.9rem; padding: 0.45rem 0.45rem 0.45rem 0.8rem; border-radius: 999px; background: var(--white); border: 1px solid var(--line); font-size: 0.76rem; }
+.hd-composer > :first-child { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; }
+.hd-placeholder { color: var(--text-soft); }
+.hd-typing { animation: hd-type calc(1500ms * var(--speed)) steps(var(--n), end) both; }
+@keyframes hd-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+.hd-send { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--honey); color: var(--ink); }
+
+/* (2) the answer streams in, word by word, with its citation */
+.hd-msg { margin: 0; max-width: 88%; }
+.hd-q { align-self: flex-end; padding: 0.45rem 0.7rem; border-radius: 14px 14px 4px 14px; background: var(--ink); color: var(--cream); animation: hd-pop calc(350ms * var(--speed)) var(--ease) both; }
+.hd-a { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 0.45rem; padding: 0.55rem 0.65rem; border-radius: 14px 14px 14px 4px; background: var(--white); border: 1px solid var(--line); box-shadow: 0 6px 16px rgb(40 30 0 / 0.08); }
+.hd-a p { margin: 0; }
+.hd-a-mark { width: 18px; height: 18px; margin-top: 1px; }
+.hd-word { animation: hd-word calc(280ms * var(--speed)) var(--ease) both; animation-delay: calc(var(--i) * 70ms * var(--speed)); }
+@keyframes hd-word { from { opacity: 0; filter: blur(2px); } }
+.hd-cite { cursor: pointer; font-weight: 600; min-width: 24px; min-height: 24px; animation: hd-pop calc(300ms * var(--speed)) var(--ease) calc(1300ms * var(--speed)) both; }
+.hd[data-step="3"] .hd-cite { background: var(--honey); color: var(--ink); animation: hd-pulse calc(900ms * var(--speed)) var(--ease) 2; }
+@keyframes hd-pulse { 50% { box-shadow: 0 0 0 7px rgb(242 179 61 / 0.35); transform: scale(1.12); } }
+@keyframes hd-pop { from { opacity: 0; transform: translateY(8px) scale(0.96); } }
+
+/* (3) the source page slides up with the line highlighted */
+.hd-sheet { position: absolute; left: 0; right: 0; bottom: 0; padding: 1rem 1rem 1.3rem; border-radius: 22px 22px 0 0; background: var(--white); box-shadow: 0 -10px 30px rgb(40 30 0 / 0.16); animation: hd-sheet calc(520ms * var(--speed)) var(--ease) calc(350ms * var(--speed)) both; }
+.hd-sheet p { margin: 0; font-size: 0.78rem; line-height: 1.5; }
+@keyframes hd-sheet { from { transform: translateY(105%); } }
+/* The highlighter: a honey stroke drawn across the line, left to right, wrapping with it. */
+mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rgb(242 179 61 / 0.55)) 0 85% / 100% 0.62em no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; padding: 0 2px; border-radius: 3px; animation: hl-sweep calc(700ms * var(--speed)) var(--ease) calc(800ms * var(--speed)) both; }
+@keyframes hl-sweep { from { background-size: 0% 0.62em; } }
+
+/* (4) the answer folds into a flashcard that flips */
+.hd-card { perspective: 900px; margin-top: 0.4rem; animation: hd-fold calc(600ms * var(--speed)) var(--ease) both; }
+.hd-card-in { display: grid; transform-style: preserve-3d; }
+.hd-face { grid-area: 1 / 1; display: grid; gap: 0.4rem; align-content: center; min-height: 130px; padding: 1rem; border-radius: 16px; backface-visibility: hidden; -webkit-backface-visibility: hidden; text-align: center; font-size: 0.95rem; }
+.hd-face .eyebrow { margin: 0; font-size: 0.65rem; }
+.hd-front { background: var(--white); border: 1px solid var(--line); box-shadow: 0 10px 24px rgb(40 30 0 / 0.12); }
+.hd-back { background: var(--ink); color: var(--cream); transform: rotateY(180deg); }
+.hd-back .eyebrow { color: var(--butter); }
+.hd[data-step="4"] .hd-card-in { animation: hd-flip calc(700ms * var(--speed)) var(--ease) calc(800ms * var(--speed)) both; }
+.hd[data-step="5"] .hd-card-in { transform: rotateY(180deg); }
+@keyframes hd-fold { from { opacity: 0; transform: translateY(-30px) scaleY(0.4); } }
+@keyframes hd-flip { from { transform: rotateY(0); } to { transform: rotateY(180deg); } }
+
+/* (5) a listen bar with a pulsing waveform */
+.hd-listen { position: absolute; left: 0.7rem; right: 0.7rem; bottom: 3.6rem; display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0.75rem; border-radius: 14px; background: var(--ink); color: var(--cream); font-size: 0.72rem; animation: hd-pop calc(380ms * var(--speed)) var(--ease) both; }
+.hd-listen small { margin-left: auto; color: var(--butter); }
+.hd-wave { display: inline-flex; align-items: center; gap: 2px; height: 16px; }
+.hd-wave i { display: block; width: 3px; height: 16px; border-radius: 2px; background: var(--honey); transform: scaleY(0.35); animation: hd-wave calc(700ms * var(--speed) + 0.001s) ease-in-out calc(var(--i) * -110ms) infinite alternate; }
+@keyframes hd-wave { to { transform: scaleY(1); } }
+/* Nothing in the demo moves while it is paused, off screen or the tab is hidden. */
+.hd[data-paused] :is(.hd-screen, .hd-screen *) { animation-play-state: paused; }
+
+/* Captions under the phone: the current step is bold with a dot, not colour alone. */
+.hd-steps { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.35rem; padding: 0; margin: 0; max-width: 340px; font-size: 0.74rem; color: var(--text-soft); }
+.hd-steps li { padding: 0.2rem 0.55rem; border-radius: 999px; transition: background var(--dur-tap, 180ms), color var(--dur-tap, 180ms); }
+.hd-steps li.on { background: var(--butter); color: var(--ink); font-weight: 600; }
+.hd-steps li.on::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 0.35rem; border-radius: 50%; background: var(--ink); vertical-align: middle; }
+
+/* Less motion: every landing animation stops on its final, resting look. */
+@media (prefers-reduced-motion: reduce) { .bleed :is(*, *::before, *::after) { animation: none !important; transition-duration: 0s !important; } }
+:root[data-motion="off"] .bleed :is(*, *::before, *::after) { animation: none !important; transition-duration: 0s !important; }
 
 /* ---------- Curriculum strip ---------- */
 .l-strip { padding-block: 1.75rem; border-block: 1px solid var(--line); background: var(--raised); }
