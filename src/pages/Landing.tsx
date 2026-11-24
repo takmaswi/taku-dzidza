@@ -6,9 +6,11 @@ import { CUTOUTS, SCENES, type CutoutSlug, type SceneSlug } from "../art.generat
 import { Cutout, Scene } from "../components/Art";
 import { BrandMark } from "../components/BrandMark";
 import { Layout } from "../components/Layout";
+import { CurriculumStrip } from "../components/landing/CurriculumStrip";
 import { HeroDemo } from "../components/landing/HeroDemo";
 import { LandingHeader } from "../components/landing/LandingHeader";
 import { isStill } from "../components/landing/motion";
+import { REGIONS, useRegion, type Region } from "../components/landing/useRegion";
 import { ObjectArt } from "../components/ObjectArt";
 import { useReveal } from "../components/useReveal";
 import { copy } from "../copy/en";
@@ -48,6 +50,7 @@ function seeItWork(e: MouseEvent<HTMLAnchorElement>) {
  */
 export default function Landing() {
   const t = copy.landing;
+  const [region, setRegion] = useRegion();
   useReveal();
   useLayoutEffect(() => {
     // The real page is about to paint, so the prerendered copy (scripts/prerender.mjs) can go.
@@ -87,14 +90,7 @@ export default function Landing() {
         <Scene slug={ART.ensemble} alt={real(ART.ensemble, "landing-ensemble") ? t.hero.sceneAlt : t.hero.sceneFallbackAlt} sizes="(min-width: 960px) 62vw, 100vw" max={1280} eager className="l-hero-scene" />
       </section>
 
-      <section className="l-strip" aria-label={t.strip.label}>
-        <p className="l-wrap l-strip-line">{t.strip.line}</p>
-        <ul className="l-wrap l-chips">
-          {Object.values(t.strip.items).map((x) => (
-            <li key={x}>{x}</li>
-          ))}
-        </ul>
-      </section>
+      <CurriculumStrip region={region} />
 
       <section id="learners" className="l-section reveal" aria-labelledby="l-drop-title">
         <div className="l-wrap l-split">
@@ -224,7 +220,7 @@ export default function Landing() {
               {t.safe.title}
             </h2>
             <ul className="l-checks">
-              {[...t.safe.points, t.safe.helpOther].map((p) => (
+              {t.safe.points.map((p) => (
                 <li key={p}>
                   <span className="l-check">
                     <Check size={16} aria-hidden="true" />
@@ -232,6 +228,12 @@ export default function Landing() {
                   <span>{p}</span>
                 </li>
               ))}
+              <li>
+                <span className="l-check">
+                  <Check size={16} aria-hidden="true" />
+                </span>
+                <HelpLine region={region} />
+              </li>
             </ul>
           </div>
           <ObjectArt name="open-book" alt="" size={200} className="l-safe-art" />
@@ -270,8 +272,45 @@ export default function Landing() {
             <Link to="/privacy">{copy.legal.privacyLink}</Link>
             <Link to="/terms">{copy.legal.termsLink}</Link>
           </nav>
+          <label className="l-region">
+            <span>{t.footer.region}</span>
+            <select value={region} onChange={(e) => setRegion(e.target.value as Region)}>
+              {REGIONS.map((r) => (
+                <option key={r} value={r}>
+                  {t.footer.regions[r]}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
       </footer>
     </Layout>
+  );
+}
+
+/**
+ * The help line point. Zimbabwe gets Childline 116, verified in the repo
+ * (SPEC.md); everywhere else points to the Get help page, since no other number
+ * is verified yet. Both lines take the same space, so nothing moves when the
+ * region is known.
+ */
+function HelpLine({ region }: { region: Region }) {
+  const t = copy.landing.safe;
+  const zw = region === "ZW";
+  return (
+    <span className="l-help">
+      <span aria-hidden={!zw} className={zw ? undefined : "l-help-off"}>
+        {t.helpZW}{" "}
+        <a href="tel:116" tabIndex={zw ? undefined : -1}>
+          {t.helpZWLink}
+        </a>
+      </span>
+      <span aria-hidden={zw} className={zw ? "l-help-off" : undefined}>
+        {t.helpOther}{" "}
+        <Link to="/help" tabIndex={zw ? -1 : undefined}>
+          {t.helpOtherLink}
+        </Link>
+      </span>
+    </span>
   );
 }

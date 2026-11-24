@@ -138,13 +138,38 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 :root[data-motion="off"] .bleed :is(*, *::before, *::after) { animation: none !important; transition-duration: 0s !important; }
 
 /* ---------- Curriculum strip ---------- */
-.l-strip { padding-block: 1.75rem; border-block: 1px solid var(--line); background: var(--raised); }
-.l-strip-line { margin: 0 auto 0.9rem; font-weight: 600; }
-.l-chips { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; padding-block: 0; margin: 0 auto; }
-.l-chips li { padding: 0.4rem 0.9rem; border-radius: 999px; border: 1px solid var(--line-strong); font-weight: 500; font-size: 0.92rem; white-space: nowrap; background: var(--cream); }
+.l-strip { padding-block: 1.5rem 1.75rem; border-block: 1px solid var(--line); background: var(--panel-fill); }
+.l-strip-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.9rem; }
+.l-strip-line { margin: 0; font-weight: 600; font-size: 1.05rem; }
+/* The chips run past both edges and fade there; two copies of the list make a seamless loop. */
+.l-marquee { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent); }
+.l-marquee-track { display: flex; width: max-content; animation: l-marquee calc(48s * var(--speed) + 0.001s) linear infinite; }
+.l-chips { list-style: none; display: flex; gap: 0.6rem; padding: 0 0.6rem 0 0; margin: 0; }
+.l-chips li { padding: 0.45rem 1rem; border-radius: 999px; border: 1px solid var(--line-strong); font-weight: 500; font-size: 0.95rem; white-space: nowrap; background: var(--cream); }
+@keyframes l-marquee { to { transform: translateX(-50%); } }
+.l-strip[data-paused] .l-marquee-track, .l-strip:hover .l-marquee-track, .l-strip:focus-within .l-marquee-track { animation-play-state: paused; }
+/* Less motion: one still list that wraps. */
+@media (prefers-reduced-motion: reduce) {
+  .l-marquee { -webkit-mask-image: none; mask-image: none; max-width: 1240px; margin: 0 auto; padding-inline: clamp(1rem, 4vw, 2.5rem); }
+  .l-marquee-track { width: auto; }
+  .l-chips { flex-wrap: wrap; }
+  .l-chips-copy { display: none; }
+}
+:root[data-motion="off"] .l-marquee { -webkit-mask-image: none; mask-image: none; max-width: 1240px; margin: 0 auto; padding-inline: clamp(1rem, 4vw, 2.5rem); }
+:root[data-motion="off"] .l-marquee-track { width: auto; }
+:root[data-motion="off"] .l-chips { flex-wrap: wrap; }
+:root[data-motion="off"] .l-chips-copy { display: none; }
 
 /* ---------- Safe ---------- */
 .l-safe-art { justify-self: center; }
+/* Both help lines share one cell, so the space is kept whichever the region shows. */
+.l-help { display: grid; }
+.l-help > span { grid-area: 1 / 1; }
+.l-help-off { visibility: hidden; }
+
+/* ---------- Region picker in the footer ---------- */
+.l-region { display: inline-flex; align-items: center; gap: 0.5rem; }
+.l-region select { font: inherit; color: var(--text); min-height: 40px; padding: 0.3rem 2rem 0.3rem 0.8rem; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--raised); cursor: pointer; }
 
 /* ---------- FAQ ---------- */
 .l-faq { border-top: 1px solid var(--line); padding: 0.25rem 0; }
