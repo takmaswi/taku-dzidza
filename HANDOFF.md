@@ -24,3 +24,16 @@ Read CONVEX_DEPLOY_KEY and OPENROUTER_API_KEY from the environment if present; T
 
 Credit window ends 5 November 2026, 09:59 Harare time. Target: Phases 1 and 2 green, Phase 3 started. Report progress to Takunda in short plain messages.
 ```
+
+## Current state (24 November 2026)
+
+Phases up to the notes marketplace are built and deployed at https://takudzidza.vercel.app (production Convex `disciplined-condor-946`). Deploys are Vercel CLI prebuilt production deploys (`pnpm deploy:prod`, dry run first); a git push does not deploy.
+
+The signed out landing page was rebuilt for an international audience (docs/prompts/landing-rebuild.md; DECISIONS.md, 24 November 2026). Where things are:
+
+- Page: `src/pages/Landing.tsx`. Sections: `src/components/landing/`. Styles: `src/styles/landing.css`. Copy: `copy.landing` in `src/copy/en.ts`.
+- Region layer: `src/components/landing/useRegion.ts`. Motion helpers: `src/components/landing/motion.ts`. Deferred art: `src/components/useNear.ts`.
+- Voices: `public/audio/landing/` with `manifest.json`; cues in `src/components/landing/listenCues.ts`.
+- Tests: `tests/unit/landing.test.ts`, `e2e/landing.spec.ts`; prerender checks in `scripts/prerender.mjs`.
+
+Open: the first screen is 465 KB on a phone against a 400 KB budget; the rest is the shared app shell JS and the app wide paper texture. Audio uploads are not supported yet, so that chip says "Coming soon".
