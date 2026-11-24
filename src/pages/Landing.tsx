@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, Check, ClipboardCheck, KeyRound } from "lucide-react";
+import { ArrowRight, BookOpen, ClipboardCheck, EyeOff, KeyRound, LifeBuoy, Plus, ShieldCheck, Smartphone } from "lucide-react";
 import { useLayoutEffect, type MouseEvent } from "react";
 import { Link } from "react-router";
 import { CUTOUTS, SCENES, type CutoutSlug, type SceneSlug } from "../art.generated";
@@ -40,6 +40,7 @@ const real = (slug: string, batch5: string) => slug === batch5;
 
 const SIGN_UP = "/signin?mode=signUp";
 const INSTITUTION_ICONS = [KeyRound, BookOpen, ClipboardCheck] as const;
+const SAFE_ICONS = [ShieldCheck, EyeOff, Smartphone] as const;
 
 /** "See it work": glide to the demo (it sits under the text on a phone), or jump there with less motion. */
 function seeItWork(e: MouseEvent<HTMLAnchorElement>) {
@@ -201,31 +202,36 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="l-section reveal" aria-labelledby="l-safe-title">
-        <div className="l-wrap l-split">
-          <div>
-            <span className="eyebrow">{t.safe.eyebrow}</span>
-            <h2 id="l-safe-title" className="l-h2">
-              {t.safe.title}
-            </h2>
-            <ul className="l-checks">
-              {t.safe.points.map((p) => (
+      <section className="l-section l-band reveal" aria-labelledby="l-safe-title">
+        <div className="l-wrap sf">
+          <div className="sf-head">
+            <div>
+              <span className="eyebrow">{t.safe.eyebrow}</span>
+              <h2 id="l-safe-title" className="l-h2">
+                {t.safe.title}
+              </h2>
+            </div>
+            <ObjectArt name="open-book" alt="" size={180} className="sf-art" />
+          </div>
+          <ul className="sf-points">
+            {t.safe.points.map((p, i) => {
+              const Icon = SAFE_ICONS[i];
+              return (
                 <li key={p}>
-                  <span className="l-check">
-                    <Check size={16} aria-hidden="true" />
+                  <span className="sf-icon">
+                    <Icon size={20} aria-hidden="true" />
                   </span>
                   <span>{p}</span>
                 </li>
-              ))}
-              <li>
-                <span className="l-check">
-                  <Check size={16} aria-hidden="true" />
-                </span>
-                <HelpLine region={region} />
-              </li>
-            </ul>
-          </div>
-          <ObjectArt name="open-book" alt="" size={200} className="l-safe-art" />
+              );
+            })}
+            <li>
+              <span className="sf-icon">
+                <LifeBuoy size={20} aria-hidden="true" />
+              </span>
+              <HelpLine region={region} />
+            </li>
+          </ul>
         </div>
       </section>
 
@@ -234,28 +240,40 @@ export default function Landing() {
           <h2 id="l-faq-title" className="l-h2">
             {t.faq.title}
           </h2>
-          {t.faq.items.map((f) => (
-            <details key={f.q} className="l-faq">
-              <summary>{f.q}</summary>
-              <p>{f.a}</p>
-            </details>
-          ))}
+          <div className="l-faqs">
+            {t.faq.items.map((f) => (
+              <details key={f.q} className="l-faq">
+                <summary>
+                  {f.q}
+                  <Plus size={20} aria-hidden="true" className="l-faq-icon" />
+                </summary>
+                <p>{f.a}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 
       <section className="l-final reveal" aria-labelledby="l-final-title">
-        <BrandMark variant="on-cream" className="l-final-mark" />
-        <h2 id="l-final-title" className="l-h2">
-          {t.final.title}
-        </h2>
-        <Link to={SIGN_UP} className="pill">
-          {t.final.cta} <ArrowRight size={18} aria-hidden="true" />
-        </Link>
+        <div className="l-final-card">
+          <span className="l-final-badge">
+            <BrandMark variant="on-cream" className="l-final-mark" />
+          </span>
+          <h2 id="l-final-title" className="l-h2">
+            {t.final.title}
+          </h2>
+          <Link to={SIGN_UP} className="pill">
+            {t.final.cta} <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+        </div>
       </section>
 
       <footer className="l-foot">
         <div className="l-wrap l-foot-row">
-          <span>{t.footer.line}</span>
+          <div className="l-foot-brand">
+            <BrandMark variant="on-cream" className="l-foot-mark" />
+            <span>{t.footer.line}</span>
+          </div>
           <nav className="l-foot-links" aria-label={copy.menu.help}>
             <Link to="/help">{copy.menu.help}</Link>
             <Link to="/privacy">{copy.legal.privacyLink}</Link>

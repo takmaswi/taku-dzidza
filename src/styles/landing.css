@@ -16,23 +16,36 @@
 .l-eyebrow span + span::before { content: ""; display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--honey); margin-right: 0.6rem; vertical-align: middle; }
 .l-quiet { margin-top: 1rem; font-size: 0.9rem; color: var(--text-soft); }
 .l-person { width: min(340px, 72%); justify-self: center; }
-.l-list { list-style: none; padding: 0; margin: 1.5rem 0; display: grid; gap: 0.6rem; }
-.l-checks { list-style: none; padding: 0; margin: 1.25rem 0; display: grid; gap: 0.9rem; }
-.l-checks li { display: flex; gap: 0.7rem; align-items: flex-start; }
-.l-check { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--butter); color: var(--on-tint); }
 .l-section .actions { margin-top: 1.5rem; }
 
-/* ---------- Header ---------- */
-.l-top { position: sticky; top: 0; z-index: 30; background: var(--topbar); backdrop-filter: saturate(1.3) blur(14px); -webkit-backdrop-filter: saturate(1.3) blur(14px); border-bottom: 1px solid rgb(240 226 198 / 0.7); }
-.l-top-row { display: flex; align-items: center; gap: 1rem; max-width: 1240px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem); height: var(--bar); }
+/* ---------- Header (src/components/landing/LandingHeader.tsx) ---------- */
+.l-top { position: sticky; top: 0; z-index: 30; background: var(--topbar); backdrop-filter: saturate(1.3) blur(14px); -webkit-backdrop-filter: saturate(1.3) blur(14px); border-bottom: 1px solid rgb(240 226 198 / 0.7); transition: box-shadow var(--dur-card, 420ms) var(--ease); }
+.l-top-row { display: flex; align-items: center; gap: 1rem; max-width: 1240px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem); height: var(--bar); transition: height var(--dur-card, 420ms) var(--ease); }
+/* After 40 px of scroll: a shorter bar with a soft shadow. */
+.l-top.compact { box-shadow: 0 6px 20px rgb(40 30 0 / 0.1); }
+.l-top.compact .l-top-row { height: calc(var(--bar) - 12px); }
 .l-brand { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--text); white-space: nowrap; }
-.l-brand-mark { width: 34px; height: 34px; flex: none; }
+.l-brand-mark { width: 34px; height: 34px; flex: none; transition: transform var(--dur-card, 420ms) var(--ease); }
+.l-top.compact .l-brand-mark { transform: scale(0.86); }
 .l-brand b { font-weight: 600; letter-spacing: -0.01em; }
 .l-nav { display: flex; gap: 0.25rem; margin-left: auto; }
-.l-nav a { padding: 0.5rem 0.75rem; border-radius: 999px; text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+.l-nav a { padding: 0.5rem 0.75rem; border-radius: 999px; text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: background var(--dur-tap, 180ms); }
 .l-nav a:hover { background: var(--hover); }
 .l-start { flex: none; }
-@media (max-width: 859px) { .l-nav { display: none; } .l-start { margin-left: auto; } }
+.l-menu { display: none; }
+.l-sheet { display: none; }
+@media (max-width: 859px) {
+  .l-nav { display: none; }
+  .l-start { margin-left: auto; }
+  .l-menu { display: inline-flex; margin-right: -0.4rem; }
+  /* The sheet drops from under the bar, a card of large links. */
+  .l-sheet:not([hidden]) { display: block; position: absolute; left: 0; right: 0; top: 100%; padding: 0.5rem clamp(1rem, 4vw, 2.5rem) 1rem; background: var(--paper-tex) 0 0 / 512px 512px, var(--cream); border-bottom: 1px solid var(--line); box-shadow: 0 18px 30px rgb(40 30 0 / 0.14); animation: l-sheet calc(var(--dur-card, 420ms) * var(--speed)) var(--ease) both; }
+  .l-sheet nav { display: grid; }
+  .l-sheet a { padding: 0.9rem 0.25rem; border-bottom: 1px solid var(--line); text-decoration: none; font-weight: 600; font-size: 1.1rem; }
+  .l-sheet a:last-child { border-bottom: 0; }
+}
+@media (max-width: 419px) { .l-by { display: none; } .l-start { min-height: 40px; padding: 0.4rem 0.9rem; } }
+@keyframes l-sheet { from { opacity: 0; transform: translateY(-10px); } }
 
 /* ---------- Hero ---------- */
 .l-hero { position: relative; isolation: isolate; padding-block: clamp(1.5rem, 4vw, 3rem) clamp(2rem, 5vw, 4rem); background: var(--paper-tex) 0 0 / 512px 512px, var(--cream); }
@@ -446,27 +459,50 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .in-points li { display: flex; align-items: center; gap: 0.85rem; padding: 0.85rem 1rem; border-radius: var(--radius-sm); background: var(--panel-fill); border: 1px solid var(--line); box-shadow: var(--card-edge), var(--shadow-panel); font-weight: 500; }
 .in-icon { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 12px; background: var(--butter); color: var(--ink); }
 
-/* ---------- Safe ---------- */
-.l-safe-art { justify-self: center; }
+/* ---------- Safe, private, light ---------- */
+.sf-head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.75rem; }
+.sf-art { flex: none; width: clamp(96px, 16vw, 180px) !important; height: clamp(96px, 16vw, 180px) !important; transform: rotate(-6deg); }
+.sf-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+@media (min-width: 760px) { .sf-points { grid-template-columns: 1fr 1fr; } }
+.sf-points li { display: flex; align-items: flex-start; gap: 0.9rem; padding: 1.1rem 1.2rem; border-radius: var(--radius); background: var(--panel-fill); border: 1px solid var(--line); box-shadow: var(--card-edge), var(--shadow-panel); font-weight: 500; line-height: 1.45; }
+.sf-icon { display: grid; place-items: center; width: 42px; height: 42px; flex: none; border-radius: 12px; background: var(--butter); color: var(--ink); }
 /* Both help lines share one cell, so the space is kept whichever the region shows. */
 .l-help { display: grid; }
 .l-help > span { grid-area: 1 / 1; }
 .l-help-off { visibility: hidden; }
+.l-help a { font-weight: 600; text-underline-offset: 3px; white-space: nowrap; }
 
-/* ---------- Region picker in the footer ---------- */
-.l-region { display: inline-flex; align-items: center; gap: 0.5rem; }
-.l-region select { font: inherit; color: var(--text); min-height: 40px; padding: 0.3rem 2rem 0.3rem 0.8rem; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--raised); cursor: pointer; }
-
-/* ---------- FAQ ---------- */
-.l-faq { border-top: 1px solid var(--line); padding: 0.25rem 0; }
+/* ---------- FAQ: details that open with a short ease ---------- */
+.l-faqs { margin-top: 1.5rem; }
+.l-faq { border-top: 1px solid var(--line); interpolate-size: allow-keywords; }
 .l-faq:last-child { border-bottom: 1px solid var(--line); }
-.l-faq summary { cursor: pointer; padding: 1rem 0; font-weight: 600; font-size: 1.05rem; }
-.l-faq p { margin: 0 0 1rem; color: var(--text-soft); }
+.l-faq summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 56px; padding: 0.9rem 0; cursor: pointer; list-style: none; font-weight: 600; font-size: 1.08rem; }
+.l-faq summary::-webkit-details-marker { display: none; }
+.l-faq-icon { flex: none; padding: 6px; width: 32px !important; height: 32px !important; border-radius: 50%; background: var(--butter); transition: transform var(--dur-card, 420ms) var(--ease), background var(--dur-tap, 180ms); }
+.l-faq[open] .l-faq-icon { transform: rotate(45deg); background: var(--ink); color: var(--cream); }
+.l-faq summary:hover .l-faq-icon { background: var(--honey); }
+.l-faq[open] summary:hover .l-faq-icon { background: var(--ink); }
+.l-faq p { margin: 0; padding: 0 0 1.1rem; color: var(--text-soft); max-width: 64ch; }
+.l-faq[open] p { animation: l-in calc(var(--dur-card, 420ms) * var(--speed)) var(--ease) both; }
+/* Where the browser can, the answer's height eases open too. */
+@supports selector(::details-content) {
+  .l-faq::details-content { block-size: 0; overflow: hidden; transition: block-size calc(var(--dur-card, 420ms) * var(--speed)) var(--ease), content-visibility calc(var(--dur-card, 420ms) * var(--speed)) allow-discrete; }
+  .l-faq[open]::details-content { block-size: auto; }
+}
 
-/* ---------- Final call and footer ---------- */
-.l-final { text-align: center; display: grid; justify-items: center; gap: 1rem; padding: clamp(3.5rem, 8vw, 6rem) clamp(1rem, 4vw, 2.5rem); }
-.l-final .l-h2 { max-width: 18ch; }
-.l-final-mark { width: 64px; height: 64px; }
-.l-foot { border-top: 1px solid var(--line); padding-block: 2rem; font-size: 0.9rem; color: var(--text-soft); }
-.l-foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
-.l-foot-links { display: flex; flex-wrap: wrap; gap: 1rem; }
+/* ---------- Final call: honey bookcloth, the one strong surface on the page ---------- */
+.l-final { padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2.5rem) clamp(3rem, 7vw, 5rem); }
+.l-final-card { max-width: 1240px; margin: 0 auto; display: grid; justify-items: center; gap: 1.1rem; text-align: center; padding: clamp(2.5rem, 7vw, 5rem) clamp(1.25rem, 4vw, 3rem); border-radius: 28px; background: var(--pick-fill); color: var(--ink); box-shadow: var(--shadow-raised); }
+.l-final .l-h2 { max-width: 18ch; color: var(--ink); }
+.l-final-badge { display: grid; place-items: center; width: 84px; height: 84px; border-radius: 24px; background: var(--paper-tex) 0 0 / 512px 512px, var(--cream); box-shadow: 0 8px 20px rgb(40 30 0 / 0.16); }
+.l-final-mark { width: 56px; height: 56px; }
+
+/* ---------- Footer ---------- */
+.l-foot { border-top: 1px solid var(--line); padding-block: 2rem 2.5rem; font-size: 0.92rem; color: var(--text-soft); background: var(--panel-fill); }
+.l-foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem 2rem; }
+.l-foot-brand { display: flex; align-items: center; gap: 0.6rem; color: var(--text); }
+.l-foot-mark { width: 28px; height: 28px; flex: none; }
+.l-foot-links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
+.l-foot-links a { padding: 0.4rem 0; text-underline-offset: 3px; }
+.l-region { display: inline-flex; align-items: center; gap: 0.5rem; }
+.l-region select { font: inherit; color: var(--text); min-height: 40px; padding: 0.3rem 0.8rem; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--raised); cursor: pointer; }
