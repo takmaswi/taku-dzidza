@@ -176,6 +176,46 @@
     480,
     800
    ]
+  },
+  "learner-snap-notes": {
+   "width": 1117,
+   "height": 1426,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "learner-listening": {
+   "width": 1146,
+   "height": 1412,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "learner-flashcards": {
+   "width": 1147,
+   "height": 1412,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "seller-notes": {
+   "width": 1110,
+   "height": 1403,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "lecturer-class": {
+   "width": 1098,
+   "height": 1426,
+   "widths": [
+    480,
+    800
+   ]
   }
  },
  "scenes": {
@@ -204,10 +244,20 @@
     1280,
     1920
    ]
+  },
+  "landing-ensemble": {
+   "width": 2560,
+   "height": 1600,
+   "widths": [
+    640,
+    1280,
+    1920
+   ]
   }
  },
  "icons": {
   "maskableFarthestPx": 191.2,
   "maskableSafeRadiusPx": 204.8
- }
+ },
+ "batch5_generator": "build_batch5.py scopes build_web.py webp()/fit_width()/width constants to new5cutouts and1scene; no CLI/main/public outputs"
 }

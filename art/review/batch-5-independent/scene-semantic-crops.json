@@ -1,0 +1,46 @@
+{
+  "source_native_size": [
+    1586,
+    992
+  ],
+  "crops_xy": {
+    "woman head": [
+      680,
+      370
+    ],
+    "man head": [
+      880,
+      350
+    ],
+    "wrap head": [
+      1060,
+      300
+    ],
+    "teen head": [
+      1260,
+      340
+    ],
+    "pointing hand": [
+      790,
+      610
+    ],
+    "marker hand": [
+      880,
+      550
+    ],
+    "pen hand": [
+      1030,
+      530
+    ],
+    "report hand": [
+      1130,
+      600
+    ],
+    "cards hand": [
+      1300,
+      480
+    ]
+  },
+  "box_size": 256,
+  "scale": 2
+}

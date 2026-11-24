@@ -1,4 +1,575 @@
 {
   "about": "Photo objects that replace the drawn SVG in src/components/ObjectArt.tsx, one at a time. Add an entry per slug, for example \"sun\": { \"widths\": [160, 320, 640] }, with sun-160.webp, sun-320.webp, sun-640.webp and sun-shadow.webp beside this file (art/BRIEF-batch-4.md). Other fields, such as bytes or sha256, may sit alongside. Empty means every object is drawn.",
-  "objects": {}
+  "objects": {
+    "sun": {
+      "name": "sun",
+      "category": "object",
+      "prompt": "Studio product photograph of a single a round sun disc with short rays, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.\nMaster 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-c14263ae-f805-48e2-93fc-e463b3a0b3da.png",
+      "source_native_size": [
+        1254,
+        1254
+      ],
+      "source_sha256": "264c7570bbd762075110c86a8c4c7babf980dece17e6d156857c3accf83f1b2a",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 0.8663980660757452,
+      "generator": "built-in imagegen; model undisclosed",
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        },
+        {
+          "width": 320,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        },
+        {
+          "width": 640,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/sun.png",
+          "bytes": 1176323,
+          "sha256": "70eb8b2679a80095b13c166b5dd831a64825b73ae21be1154d23e87c0981db64",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/sun-160.webp",
+          "bytes": 7604,
+          "sha256": "ef3ef8c3883cf0e70fdb0b14b39311e56bc4bc1ea891878c83a03892e9d6cea4",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/sun-320.webp",
+          "bytes": 18336,
+          "sha256": "a0990df6d30a8829ee454f1ad4c12a36cf1e40f56710ac24c4f7eeec06ce0852",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/sun-640.webp",
+          "bytes": 50352,
+          "sha256": "42561c8e68c3e5a159fe0757929975705c0e24cd785a528e01c992fe484e2ca6",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/sun-shadow.webp",
+          "bytes": 2874,
+          "sha256": "cc0f201914dc95f86ae0b3ad097cbff73ab9c74ae4108bebf794ed960d405e33",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA"
+        }
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 649399,
+        "transparent_pixels": 1708209
+      },
+      "material": "matte glazed ceramic"
+    },
+    "moon": {
+      "name": "moon",
+      "category": "object",
+      "prompt": "Studio product photograph of a single a crescent moon with two small stars, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.\nMaster 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-256821bc-0547-4299-878c-4c0832225093.png",
+      "source_native_size": [
+        1254,
+        1254
+      ],
+      "source_sha256": "63197e2ab10330f1e4047a866920bee1d1eb7fc1951702a9be33a524908066af",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 0.85947242206235,
+      "generator": "built-in imagegen; model undisclosed",
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        },
+        {
+          "width": 320,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        },
+        {
+          "width": 640,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/moon.png",
+          "bytes": 917458,
+          "sha256": "1925f05ec87e96c14256522e2c0281da75add8a90e3c4d76afdd004a80b54785",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/moon-160.webp",
+          "bytes": 6198,
+          "sha256": "9d502a905120a4f65baef17ffb18f81d10778a659a8287aa8d9b8608219ee5be",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/moon-320.webp",
+          "bytes": 14006,
+          "sha256": "a686ebd336144ed88fdb2ddc90d83b5d07e0899087c1c222501ae2718a264937",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/moon-640.webp",
+          "bytes": 36678,
+          "sha256": "e427c772a45df01f439dcde99fbd843634f8e04971b794ca59a94b971f24ee94",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/moon-shadow.webp",
+          "bytes": 2862,
+          "sha256": "07477b6bdc713ede835001476f147792fffd61f224e9f65b7d08a0e108be32a6",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA"
+        }
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 531731,
+        "transparent_pixels": 1826115
+      },
+      "material": "matte glazed ceramic"
+    },
+    "open-book": {
+      "name": "open-book",
+      "category": "object",
+      "prompt": "Studio product photograph of a single an open hardback book, blank pages, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.\nMaster 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-39b6415b-8201-4611-95f2-0c3c344b3cdc.png",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_sha256": "1eebf5f62727f75b215e4234ae7a28f05ec8d274de0f2c1ad026c13aa50e357f",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 0.7220953660174613,
+      "generator": "built-in imagegen; model undisclosed",
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        },
+        {
+          "width": 320,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        },
+        {
+          "width": 640,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/open-book.png",
+          "bytes": 732193,
+          "sha256": "2379e782bba5957ebb61885fb064b4eecee209e2ed2395e30185114627fd1b37",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/open-book-160.webp",
+          "bytes": 4506,
+          "sha256": "b1a1582b2b6e36dbbb431560e96ba9092da1431a342bd218a0e0b0c75d8faeb9",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/open-book-320.webp",
+          "bytes": 10758,
+          "sha256": "150a01364880952c0aa7c459271fc197ee2c61e18092845ee391578eb273bdb6",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/open-book-640.webp",
+          "bytes": 26464,
+          "sha256": "c8172f5ab73065fbc3d450327e42b406700e2bead4de116e9d34c5349e245cb4",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/open-book-shadow.webp",
+          "bytes": 2870,
+          "sha256": "10b7b126d9fd2d08148bdd043d6183ecaa6fcce656a5c5e6fe2cec0620abfcc4",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA"
+        }
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 461756,
+        "transparent_pixels": 1896337
+      },
+      "material": "matte glazed ceramic"
+    },
+    "headphones": {
+      "name": "headphones",
+      "category": "object",
+      "prompt": "Studio product photograph of a single over ear headphones, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.\nMaster 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-9764bc22-8c05-4d3b-913e-01b6223857b5.png",
+      "source_native_size": [
+        1254,
+        1254
+      ],
+      "source_sha256": "7ec0d7bb5232f65807dcda0be154d54f44cfd2d2ccf0f593479bf002132ef1b1",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 0.8574162679425836,
+      "generator": "built-in imagegen; model undisclosed",
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        },
+        {
+          "width": 320,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        },
+        {
+          "width": 640,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/headphones.png",
+          "bytes": 1065626,
+          "sha256": "25c56d91d0a20a1c4db7de1987ccf1abaa34e14350ab56ff7cca47736c25d5fc",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/headphones-160.webp",
+          "bytes": 8262,
+          "sha256": "77dc93390b8528a4f10b5851799c88cd6592c511810289e7e9ef291c6efd128c",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/headphones-320.webp",
+          "bytes": 18894,
+          "sha256": "f6be64b3326d4e5aa5306ef76dbdb976053edc3c0f1d0cebcdf541bc7f8bc7d3",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/headphones-640.webp",
+          "bytes": 49372,
+          "sha256": "16100819caec8d528ff7fb3e464f1f78795bff7b9fe9bab192e972729eb04524",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/headphones-shadow.webp",
+          "bytes": 2862,
+          "sha256": "07477b6bdc713ede835001476f147792fffd61f224e9f65b7d08a0e108be32a6",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA"
+        }
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 568083,
+        "transparent_pixels": 1789361
+      },
+      "material": "matte glazed ceramic"
+    },
+    "highlighter": {
+      "name": "highlighter",
+      "category": "object",
+      "prompt": "Studio product photograph of a single a single broad-tipped capped highlighter pen, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.\nMaster 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-6c16b013-8f52-405a-8007-7f119e7649b2.png",
+      "source_native_size": [
+        2172,
+        724
+      ],
+      "source_sha256": "723c8693e12d918049d30e1ab5af9f85634d42df430c46a67266dc18e1590bfa",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 0.5043151969981238,
+      "generator": "built-in imagegen; model undisclosed",
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        },
+        {
+          "width": 320,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        },
+        {
+          "width": 640,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/highlighter.png",
+          "bytes": 365525,
+          "sha256": "16a38db66cceb6595465d83bd5a6cd300cf6d11a86265a3af85250bb3f55e7ab",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/highlighter-160.webp",
+          "bytes": 3406,
+          "sha256": "854584be63a6fe579d463ec3a4798f4584a9caaaf236b2756cc4cc3f8a129eb9",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/highlighter-320.webp",
+          "bytes": 7538,
+          "sha256": "cf0b248e10743688ba4a77b13a297eecb9725116700379eb0db68b9e1bdd4a0e",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/highlighter-640.webp",
+          "bytes": 17460,
+          "sha256": "eccf93c98f4d8ea728666b945ff1d0099c8336b61506b1ebcbf61ecb17206aad",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/highlighter-shadow.webp",
+          "bytes": 2882,
+          "sha256": "3d06d97f85d2615353e87e6f080810c344694f8febd338205d12c833d1cd8caf",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA"
+        }
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 207334,
+        "transparent_pixels": 2150390
+      },
+      "material": "matte glazed ceramic"
+    },
+    "index-cards": {
+      "name": "index-cards",
+      "category": "object",
+      "prompt": "Studio product photograph of a single a small fanned stack of blank index cards, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.\nMaster 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-28e45e62-4023-47a0-aa2b-62524f9c4ce8.png",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_sha256": "2d78ca6f34498ff7380b09b3584dae30929803b69365d82890a3e59467436b79",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 0.7073684210526314,
+      "generator": "built-in imagegen; model undisclosed",
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        },
+        {
+          "width": 320,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        },
+        {
+          "width": 640,
+          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/index-cards.png",
+          "bytes": 709989,
+          "sha256": "e39e4281ff92de03683566dfac5ccd70afa0a1667f4bec5c5c05acd399b68e1c",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/index-cards-160.webp",
+          "bytes": 4546,
+          "sha256": "7664a8c278847d54ad002ff7ababfaa9847cff8beda728c5ea54b732a23b7793",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/index-cards-320.webp",
+          "bytes": 10572,
+          "sha256": "8ce334b2261920c3fdb0e655c966681bae98ce7bcdd56c97aa8ae498a62ee5f1",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/index-cards-640.webp",
+          "bytes": 25684,
+          "sha256": "dd75b57518c15f4c0fe1da157ad5a18f7d4c7c1587e01d66e67c7bb8c658af14",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "file": "art/objects/index-cards-shadow.webp",
+          "bytes": 2882,
+          "sha256": "867ebc7e6f0d5affcf380928fb64cd96797ed772d62f01603ae2a626e529a29a",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA"
+        }
+      ],
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 417466,
+        "transparent_pixels": 1940739
+      },
+      "material": "matte glazed ceramic"
+    }
+  }
 }

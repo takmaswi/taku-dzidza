@@ -1,0 +1,153 @@
+{
+  "name": "lecturer-class",
+  "category": "cutout",
+  "prompt": "Use case: photorealistic-natural.\nCreate ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.\nVertical 4:5, target 2160x2700, plain warm light grey studio background, soft even light, designed for clean background removal.\nSubject: A Lebanese woman, age 42, olive skin, angular face, dark wavy hair to the shoulder with a natural silver streak at the front, olive blazer over a cream top. Standing, explaining to an unseen class with an open right hand, holding a tablet against her body with the left, screen facing her.\nFraming: Waist up, slightly low angle, confident and warm, not posed.\nOutput clarification: create a NEW photographic true-alpha cutout directly, not an edit of an old image. Isolate ONLY the described person and their required held study props on genuine transparency, no warm grey backdrop in delivered image. No chair, table, desk or additional furnishings; for seller keep binder and unbranded laptop as one natural joined cutout. No baked shadow. Natural photographic skin with subtle pores and normal creases, real uniform woven fabrics. Absolutely no etched, crackled, branching, scribbled, tattoo-like or repeated line patterns on skin, forehead, neck, hands or clothing. No illustrative strokes or sharpening. Clean natural hair alpha edges and clear transparent margin.\nStrict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.",
+  "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-8f928ebd-7e2c-4dc2-a793-5b85f05b0f4c.png",
+  "regenerated": true,
+  "identity_note": "Fresh synthetic identity generated from same brief after extraction texture concern; no original identity equivalence claimed",
+  "status": "exported",
+  "source_sha256": "bb3839c98a49aacb7057028bfafec73ec238e34f1626be38bba3c4e785417d3a",
+  "source_native_size": [
+    1122,
+    1402
+  ],
+  "source_alpha": {
+    "min": 0,
+    "max": 255,
+    "intermediate_pixels": 1039383,
+    "transparent_pixels": 533435
+  },
+  "export_size": [
+    1098,
+    1426
+  ],
+  "export_alpha": {
+    "min": 0,
+    "max": 255,
+    "intermediate_pixels": 1039383,
+    "transparent_pixels": 526139
+  },
+  "source_bbox_xyxy": [
+    38,
+    0,
+    1112,
+    1402
+  ],
+  "padding_px": 12,
+  "upscale": false,
+  "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+  "alpha_coverage_note": "Source includes fully opaque alpha 255; original pixels and alpha preserved",
+  "webp_quality": 88,
+  "webp_limit_bytes": 200000,
+  "webp_alpha_lossless_verified": true,
+  "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+  "shadow_alpha": {
+    "min": 0,
+    "max": 42,
+    "intermediate_pixels": 70480,
+    "transparent_pixels": 1495268
+  },
+  "files": [
+    {
+      "file": "art/assets/cutouts/lecturer-class.png",
+      "bytes": 1751262,
+      "native_size": [
+        1098,
+        1426
+      ],
+      "sha256": "a15216a55b651a587bedb23499b824af2c9499151d4f9b3b313c37037f748775"
+    },
+    {
+      "file": "art/assets/cutouts/lecturer-class.webp",
+      "bytes": 195906,
+      "native_size": [
+        1098,
+        1426
+      ],
+      "sha256": "b7a9469059485ef462c1783e384645d4a7e3755c1edc9f4da917c952d3385005"
+    },
+    {
+      "file": "art/assets/cutouts/lecturer-class-shadow.webp",
+      "bytes": 3814,
+      "native_size": [
+        1098,
+        1426
+      ],
+      "sha256": "cfc1dea618749b6276ed53996c3d127eaee7bf9dab0046efb539750aea2d4fe4"
+    }
+  ],
+  "review": [
+    {
+      "file": "art/review/edges/lecturer-class-contact.png",
+      "native_size": [
+        960,
+        640
+      ],
+      "sha256": "ea7c40f979e3c3a192966b516d478ed4fbfeae7cee0a1730423f4879b26f6181"
+    },
+    {
+      "file": "art/review/edges/lecturer-class-200pct.png",
+      "native_size": [
+        880,
+        1592
+      ],
+      "sha256": "19ef6ab65c563c27c2a4b43b5a7a801e46ca9c135c0e684bf3799b06cf6b6b52",
+      "crops": [
+        {
+          "label": "Upper edge / hair candidate",
+          "export_box_xyxy": [
+            465,
+            219,
+            657,
+            411
+          ],
+          "scale": 2,
+          "resampling": "nearest"
+        },
+        {
+          "label": "Lower left / hand candidate",
+          "export_box_xyxy": [
+            199,
+            902,
+            391,
+            1094
+          ],
+          "scale": 2,
+          "resampling": "nearest"
+        },
+        {
+          "label": "Lower right / hand candidate",
+          "export_box_xyxy": [
+            677,
+            933,
+            869,
+            1125
+          ],
+          "scale": 2,
+          "resampling": "nearest"
+        }
+      ]
+    }
+  ],
+  "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+  "scale_to_export": 1.0,
+  "encoding_search": {
+    "method": "bounded binary search, not exhaustive",
+    "selected_quality": 88,
+    "selected_bytes": 195906,
+    "next_quality_bytes": 200582,
+    "limit": 200000,
+    "sampled_quality_bytes": {
+      "95": 324846,
+      "47": 107456,
+      "71": 123286,
+      "83": 157224,
+      "89": 200582,
+      "86": 177562,
+      "87": 184974,
+      "88": 195906
+    }
+  },
+  "cache_reused": true,
+  "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+}

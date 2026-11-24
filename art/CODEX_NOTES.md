@@ -1348,3 +1348,563 @@ The old brand book's charcoal `#2B2D42` is gone from everything the app uses. `a
 | `board.png` (texture board) | 2560x3284 | 2,464,278 | none | - | `8f4f16decb0cc65753317e259b8755ad3704f8766f94089c2141e5e7c285c6e3` |
 
 Measured on the decoded WebPs: no pixel has more blue than red; the brightest 0.1 percent of pixels still give cream `#FFF8F0` text 13.2:1. The texture board was rebuilt by `build_texture_board()` in `art/decor/build_decor.py` (its sample button is now ink `#4A3010`). The brand board (`art/brand/takudzidza/build_brand.py`) shows the dark surface as the dark page `#1E1710`; the approved inverse mark still reads best there, with the paper stem and pale pills clear at 512, 64 and 32 px. The other variants keep a weak stem or top right pill on it, as on charcoal before.
+
+## Batch 5 - landing assets and voice status
+
+Created 2026-11-24, Africa/Harare. Branch `codex/art-batch-5-landing`, based on freshly pulled main.
+
+### Scope and method
+
+The Batch 5 brief controls this landing-only asset package. The full image set is delivered without a pilot gate: one ensemble scene, five people cutouts, six matte ceramic objects and six blank bookcloth covers. At landing wiring, retire `landing-hero`, `landing-form1` and `guardian-consent` from that page while keeping their files. Their current application references are not changed by this asset-only delivery. No source code or application integration is part of this package.
+
+Generation used the built-in imagegen tool, one call per source or revision. The tool does not expose a model identifier. No CLI fallback, external identity reference, credit-bearing OpenRouter call, rembg or chroma key was used. All identities are synthetic. Initial six people prompts use the brief's exact shared preamble, body and shared constraints. Revision prompts are reproduced verbatim below, including the first scene edit that omitted the shared wrapper; this omission is recorded rather than hidden. Later people revisions include the exact wrapper.
+
+Rejected original people photographs are kept under `art/review/batch-5-originals/` solely for QA, not as accepted product assets. Listening, seller and lecturer were freshly regenerated from their subject descriptions after extraction texture concerns. Those three accepted identities are new generations, not pixel-identity extractions of rejected originals. Snap and flashcards preserve their respective reference identities by visual comparison. Snap phone orientation was corrected to show the screen above the page, with the rear camera facing the notes.
+
+`art/review/build_batch5.py` reuses Batch 3 native-alpha crop, 12 px margin, lossless WebP alpha and independent warm contact shadows. Cutout masters retain native detail rather than being described as native 2160x2700. Native size, actual canvas and scale are listed below. Resizing uses Pillow Lanczos without skin retouching, sharpening or recolouring. WebP encoding uses method 6, preserved alpha and strict budgets. Where bounded quality search is used, no exhaustive highest-quality claim is made.
+
+No finish selection was found in the current object manifest or notes, so the brief's default matte glazed ceramic in cream and honey was used. Objects use 1536 square transparent masters and 160/320/640 WebPs below 60,000 bytes plus separate contact shadows. The required covers are 900x1200 transparent bookcloth PNG masters. Any cover WebPs in the inventory are optional previews, not an additional delivery requirement.
+
+The 2560x1600 ensemble composes the resized real photograph at 80 percent of the canvas over the existing actual `paper-cotton.webp` tile. Soft edge masks blend the scene into that material; no wallpaper gradient is created. Four complete heads fit within the central 70 percent. The left 42 percent has no face. The centred crop is saved as `art/review/batch-5-scene-mobile.png`. Scaling is recorded as a composition transform, not a native-resolution claim.
+
+Your explicit write limit takes precedence over delivery step 4's request for `public/art`. Web exports use a scoped invocation of the existing `art/web/build_web.py` module's webp(), fit_width() and width constants for the new five cutouts and one scene. Its default main() was excluded because it deletes directories and writes public icons. New web sizes and merged manifests are under `art/web/`. Nothing was copied to `public/art`, and no public icon or application code was changed. Incidental older derivative rewrites from the initial helper pass were restored to their original tracked bytes.
+
+### Review and limits
+
+Review evidence: `art/review/batch-5-landing.png`, original/cream/near-black comparisons, native semantic hair/head/hand crops at 200 percent, identity sheets beside all pre-existing people in `art/assets`, and `art/review/batch-5-independent/`. Rejected extraction sources and scene iterations are recorded with reasons. The independent QA report states the final reviewed sources and its sampling limits. Visual QA is an asset review, not product acceptance, deployment or physical-device certification.
+
+### ElevenLabs voice section - blocked
+
+`ELEVENLABS_API_KEY` was absent from the process, Windows User and Windows Machine environment variables. No credential file was searched, no secret was printed or written, and no authenticated ElevenLabs call or voice generation was performed. This part stopped as the brief requires. Account plan and chosen-voice commercial eligibility could not be verified. No MP3 files were fabricated. Total generated audio size: 0 bytes.
+
+Current official documentation was checked before any potential call: [models](https://elevenlabs.io/docs/overview/models), [multi-speaker dialogue](https://elevenlabs.io/docs/api-reference/text-to-dialogue/convert), and [commercial-use rules](https://elevenlabs.io/docs/help-center/legal/can-i-publish-the-content-i-generate-on-the-platform). The documentation lists Eleven v4 as the flagship high-quality TTS option, while the dialogue endpoint documents a default of eleven_v3. No model was selected for generation without account/model availability verification. Paid-plan commercial licensing excludes Beta Services; the user's actual plan remains unverified.
+
+`public/audio/landing/manifest.json` records the three requested filenames, exact scripts and blocked statuses. Voice names, model and durations remain unset because there are no generated files.
+
+### Accepted sources and QA originals
+
+| Name | Category | Native source | Actual export | Scale | Source SHA-256 |
+| --- | --- | --- | --- | --- | --- |
+| learner-snap-notes | photo | 1122x1402 | 1122x1402 | 1.0 | `b298fed4c9545f2f43c9f27dbe8b08a7ee8f5a2190031334b5ee14bc34cb9865` |
+| learner-listening | photo | 1122x1402 | 1122x1402 | 1.0 | `2fb42b64ad768afd5996f684818a07fa7c3d3c64bce40cf7219a7621a2fd874a` |
+| learner-flashcards | photo | 1122x1402 | 1122x1402 | 1.0 | `a768bda440d2cf0688725090ae27c500f43f8d0c9ddc9b43efe60ef1ec48fde1` |
+| seller-notes | photo | 1122x1402 | 1122x1402 | 1.0 | `8d3ca7664b7bb1c96bcc4adad2e804d7e10e675458654630b1b0d91fdbf32d31` |
+| lecturer-class | photo | 1122x1402 | 1122x1402 | 1.0 | `c0553f8c8f8c06a57e2ad8c794e9022b29eb1c4c146f811641b183299faca4e6` |
+| learner-snap-notes | cutout | 1122x1402 | 1117x1426 | 1.0 | `46b7d9e857c3e91b7a3be76a49c676ad43433c90c31ca43099b042b4f4003169` |
+| learner-listening | cutout | 1122x1402 | 1146x1412 | 1.0 | `49fe574d083f1221bab52db3bacdc110d9d6a3348718e87393a5f3609c3e91c8` |
+| learner-flashcards | cutout | 1123x1401 | 1147x1412 | 1.0 | `2f63ffc45a681cc692be89d63a1c3b6a1b6ae6190ec250b30113660ab565e149` |
+| seller-notes | cutout | 1122x1402 | 1110x1403 | 1.0 | `f5210dfe9cee97323aa0fc56a2ea8cc894db15d9e56a993f2ac28c18395e3c83` |
+| lecturer-class | cutout | 1122x1402 | 1098x1426 | 1.0 | `bb3839c98a49aacb7057028bfafec73ec238e34f1626be38bba3c4e785417d3a` |
+| landing-ensemble | scene | 1586x992 | 2560x1600 | 1.2912988650693569 | `dfcada6d8f7d085ca7fe3394ff29c7cbcc5ebcfcd5b99772c427be5d67f94139` |
+| sun | object | 1254x1254 | 1536x1536 | 0.8663980660757452 | `264c7570bbd762075110c86a8c4c7babf980dece17e6d156857c3accf83f1b2a` |
+| moon | object | 1254x1254 | 1536x1536 | 0.85947242206235 | `63197e2ab10330f1e4047a866920bee1d1eb7fc1951702a9be33a524908066af` |
+| open-book | object | 1536x1024 | 1536x1536 | 0.7220953660174613 | `1eebf5f62727f75b215e4234ae7a28f05ec8d274de0f2c1ad026c13aa50e357f` |
+| headphones | object | 1254x1254 | 1536x1536 | 0.8574162679425836 | `7ec0d7bb5232f65807dcda0be154d54f44cfd2d2ccf0f593479bf002132ef1b1` |
+| highlighter | object | 2172x724 | 1536x1536 | 0.5043151969981238 | `723c8693e12d918049d30e1ab5af9f85634d42df430c46a67266dc18e1590bfa` |
+| index-cards | object | 1536x1024 | 1536x1536 | 0.7073684210526314 | `2d78ca6f34498ff7380b09b3584dae30929803b69365d82890a3e59467436b79` |
+| cover-honey | cover | 1086x1448 | 900x1200 | 0.8044692737430168 | `58fd10671f9e65cb397bf4af9ff320212c55781104ddb01ea4763453c16cf1c4` |
+| cover-sage | cover | 1086x1448 | 900x1200 | 0.7955801104972375 | `49e354074b578c5cbedfad755b3aee33024561f286ee3bbece03896972e275e2` |
+| cover-olive | cover | 1086x1448 | 900x1200 | 0.7955801104972375 | `944d3f551995bb9371e4efa23e6a0da662c45a305f50f76b33b9993997d92f53` |
+| cover-ochre | cover | 1086x1448 | 900x1200 | 0.7955801104972375 | `f177ea75c2d94e1f8ffa8c0cc143379261ea482f35c7f8382c8da23a542dc328` |
+| cover-charcoal | cover | 1086x1448 | 900x1200 | 0.7955801104972375 | `924f7eb826420dc50d68ed0fe3b830c5c516083d705c0477856703541cc0c6b6` |
+| cover-cream | cover | 1086x1448 | 900x1200 | 0.803347280334728 | `571d797f7cc3917d4b937f28ba1711af37ee869bf2e324e1bacaa49444d210d5` |
+
+### Exact generation and revision prompts
+
+#### 1. learner-snap-notes - photo
+
+Source: `exec-ecdbdf27-b151-4bb7-920a-a8bf9380533f.png`. Native 1122x1402. SHA-256: `b298fed4c9545f2f43c9f27dbe8b08a7ee8f5a2190031334b5ee14bc34cb9865`.
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Vertical 4:5, target 2160x2700, plain warm light grey studio background, soft even light, designed for clean background removal.
+Subject: A Black South African woman, age 20, medium brown skin, heart-shaped face, freckles across her nose, curly shoulder length hair with a few loose strands, sage green linen shirt, thin silver ring. She stands over a desk-height surface, holding her phone flat above a page of handwritten notes to photograph it, both hands clearly visible, the notes page visible below the phone.
+Framing: Waist up, three-quarter angle from her left, face in focus, slight concentration in her brow.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 2. learner-listening - photo
+
+Source: `exec-18c8d640-024b-469e-876d-5082b806e832.png`. Native 1122x1402. SHA-256: `2fb42b64ad768afd5996f684818a07fa7c3d3c64bce40cf7219a7621a2fd874a`.
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Vertical 4:5, target 2160x2700, plain warm light grey studio background, soft even light, designed for clean background removal.
+Subject: A Kenyan man, age 27, very dark skin, long lean face, close cropped hair, short neat beard, charcoal chore jacket over a cream tee. Over-ear matte headphones on, seated, an open notebook on his knee, pen resting in his right hand, eyes half closed listening, a faint pleased expression.
+Framing: Seated three-quarter body, slightly from his right, hands and notebook fully in frame.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 3. learner-flashcards - photo
+
+Source: `exec-8d3af248-83bf-43d2-8c81-645e7eb63cdf.png`. Native 1122x1402. SHA-256: `a768bda440d2cf0688725090ae27c500f43f8d0c9ddc9b43efe60ef1ec48fde1`.
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Vertical 4:5, target 2160x2700, plain warm light grey studio background, soft even light, designed for clean background removal.
+Subject: A Korean woman, age 18, light warm skin, straight black chin length bob with a blunt fringe, small build, honey coloured hoodie with sleeves pushed up. Holding a small fan of blank index cards in her left hand, right hand lifted mid gesture, eyes up and away recalling an answer, lips slightly parted.
+Framing: Waist up, front three-quarter, cards and both hands clear.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 4. seller-notes - photo
+
+Source: `exec-867aec49-6a94-4755-892d-bcdb215caa54.png`. Native 1122x1402. SHA-256: `8d3ca7664b7bb1c96bcc4adad2e804d7e10e675458654630b1b0d91fdbf32d31`.
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Vertical 4:5, target 2160x2700, plain warm light grey studio background, soft even light, designed for clean background removal.
+Subject: A Black Zimbabwean man, age 31, rich umber skin, broad build, round face, short neat locs, thin wire glasses, cream oxford shirt with rolled sleeves, a simple watch. Seated, arranging a neat ring binder of printed notes beside an unbranded laptop whose lid faces the camera. Reads as an accountant or tutor who is proud of his notes. Calm half smile.
+Framing: Seated mid shot, binder and both hands clear.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 5. lecturer-class - photo
+
+Source: `exec-6e1e6b26-628f-480c-9301-53e4e8df8af6.png`. Native 1122x1402. SHA-256: `c0553f8c8f8c06a57e2ad8c794e9022b29eb1c4c146f811641b183299faca4e6`.
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Vertical 4:5, target 2160x2700, plain warm light grey studio background, soft even light, designed for clean background removal.
+Subject: A Lebanese woman, age 42, olive skin, angular face, dark wavy hair to the shoulder with a natural silver streak at the front, olive blazer over a cream top. Standing, explaining to an unseen class with an open right hand, holding a tablet against her body with the left, screen facing her.
+Framing: Waist up, slightly low angle, confident and warm, not posed.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 6. learner-snap-notes - cutout
+
+Source: `exec-660ede2a-801b-4385-9124-5d5fa1453b4b.png`. Native 1122x1402. SHA-256: `46b7d9e857c3e91b7a3be76a49c676ad43433c90c31ca43099b042b4f4003169`.
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Use case for this edit: background-extraction. Edit the supplied learner-snap-notes photograph. Isolate the exact same person and their required held study props onto genuine transparency. Preserve exact synthetic identity, age, facial proportions, hairstyle, expression, clothing, pose and photographic detail. Keep both phone-gripping hands and the complete notes page floating naturally immediately below the phone as one joined study cutout; remove desk, books and laptop. Correct the phone's photographing orientation: its rear camera faces DOWN toward the notes, and its top visible surface is a plain dark glass SCREEN with no UI, logo or text. Keep the page with only ruling and simple unlabeled geometric outlines, no glyphs. Tight natural subject crop with clear transparent margin, soft clean hair alpha, no coloured edge halo, no background scraps, no frame, no baked shadow. A separate contact shadow will be scripted. No retouching or beautification. Return one true-alpha PNG.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 7. learner-listening - cutout
+
+Source: `exec-db30e1cc-4d4a-4da8-9bad-4dfae6d666c5.png`. Native 1122x1402. SHA-256: `49fe574d083f1221bab52db3bacdc110d9d6a3348718e87393a5f3609c3e91c8`.
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Vertical4:5, target2160x2700. Create a NEW standalone true-transparent photographic person cutout, NOT an edit of any prior photograph.
+Subject: A Kenyan man, age27, very dark skin, long lean face, close cropped hair, short neat natural beard, charcoal chore jacket over a cream tee. Over-ear matte headphones on, seated with crossed legs, an open notebook on his knee, pen resting in his right hand, eyes half closed listening, a faint pleased expression. Seated three-quarter body, slightly from his right, both hands and notebook fully in frame. Unretouched natural smooth photographic skin with subtle pores and normal fine creases, normal uniform woven jacket. Absolutely no branching, etched, cracked, scribbled or tattoo-like dark lines on skin, no illustration marks, no added texture. Entire silhouette of man, headphones, notebook and pen isolated onto genuine transparent alpha, clean flyaway hair boundaries. No chair, table, mug, laptop, additional books, furniture, background or floor, no baked shadow. Pages show ruling and simple unlabelled geometric outlines only. All fingers naturally contacting notebook and pen. Preserve clear canvas margin around silhouette.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 8. learner-flashcards - cutout
+
+Source: `exec-0ee1dcf8-83e8-4ee6-a2e9-cd43e009d1dc.png`. Native 1123x1401. SHA-256: `2f63ffc45a681cc692be89d63a1c3b6a1b6ae6190ec250b30113660ab565e149`.
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Use case for this edit: background-extraction. Edit the supplied learner-flashcards photograph. Isolate the exact same person and their required held study props onto genuine transparency. Preserve exact synthetic identity, age, facial proportions, hairstyle, expression, clothing, pose and photographic detail. Keep the woman, hair, hoodie, complete raised right hand and complete left hand holding the fan of index cards. Keep cards completely blank with fine ruling only, no writing. Remove the entire desk, laptop, notebooks, pencil, books and phone. Retain original chin-length bob and fringe, face and gaze. Tight natural subject crop with clear transparent margin, soft clean hair alpha, no coloured edge halo, no background scraps, no frame, no baked shadow. A separate contact shadow will be scripted. No retouching or beautification. Return one true-alpha PNG.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 9. seller-notes - cutout
+
+Source: `exec-eb859bd9-99be-4d67-a32d-fbf67bdab37f.png`. Native 1122x1402. SHA-256: `f5210dfe9cee97323aa0fc56a2ea8cc894db15d9e56a993f2ac28c18395e3c83`.
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Vertical4:5 portrait, target2160x2700. NEW direct transparent photograph, no prior image reference. Camera pulled back for a medium seated shot with the WHOLE upper body, both elbows, wrists and both complete hands visible. Subject and all props comfortably within the central80% of frame, a broad clean transparent margin on all sides.
+Subject: A Black Zimbabwean man, age31, rich umber skin, broad build, round face, short neat locs, thin wire glasses, cream oxford shirt with rolled sleeves, a simple watch. Seated, arranging a neat ring binder of printed notes beside an unbranded laptop whose lid faces the camera. Reads as an accountant or tutor who is proud of his notes. Calm half smile. Both hands touching paper naturally. Keep the page-gripping hand well away from the left edge. Binder and laptop sit at lower centre without any table slab. Ruling and a few simple unlabelled geometric diagrams only. Unretouched photographic skin with modest ordinary pore detail, restrained soft even lighting, no shiny forehead. No fingerprint-like contour patterns, branching lines, tattoo texture, etched marks or fabricated skin cracks. Real smooth woven cloth with natural folds. Isolate only the man, binder and laptop onto genuine transparency, no furniture or backdrop, no baked shadow. Do not crop fingers, hands, forearms or head. No chair, floor or additional objects. Entire cutout has clear transparent margins.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 10. lecturer-class - cutout
+
+Source: `exec-8f928ebd-7e2c-4dc2-a793-5b85f05b0f4c.png`. Native 1122x1402. SHA-256: `bb3839c98a49aacb7057028bfafec73ec238e34f1626be38bba3c4e785417d3a`.
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Vertical 4:5, target 2160x2700, plain warm light grey studio background, soft even light, designed for clean background removal.
+Subject: A Lebanese woman, age 42, olive skin, angular face, dark wavy hair to the shoulder with a natural silver streak at the front, olive blazer over a cream top. Standing, explaining to an unseen class with an open right hand, holding a tablet against her body with the left, screen facing her.
+Framing: Waist up, slightly low angle, confident and warm, not posed.
+Output clarification: create a NEW photographic true-alpha cutout directly, not an edit of an old image. Isolate ONLY the described person and their required held study props on genuine transparency, no warm grey backdrop in delivered image. No chair, table, desk or additional furnishings; for seller keep binder and unbranded laptop as one natural joined cutout. No baked shadow. Natural photographic skin with subtle pores and normal creases, real uniform woven fabrics. Absolutely no etched, crackled, branching, scribbled, tattoo-like or repeated line patterns on skin, forehead, neck, hands or clothing. No illustrative strokes or sharpening. Clean natural hair alpha edges and clear transparent margin.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 11. landing-ensemble - scene
+
+Source: `exec-df5071d0-86f3-4191-a973-48935e0e3553.png`. Native 1586x992. SHA-256: `dfcada6d8f7d085ca7fe3394ff29c7cbcc5ebcfcd5b99772c427be5d67f94139`.
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Edit the supplied wide library photograph. Preserve the exact four identities, hair, clothes, skin texture, props, study actions and restrained natural light. Change the framing decisively: zoom farther out by 25 percent and shift the group left slightly, until the four face centres are at approximately x=47%, 58%, 69% and 80% of image width, and every complete head ends before x=85%. All faces must remain within the central70% (x15..85). Reserve the entire left42% as quiet cream wall and shelf with no faces. Wide16:10. Show complete hands and study props naturally. All pages must be clean fine ruling or simple unlabeled geometric diagrams only: absolutely no glyphs, paragraph-like marks, writing or numbers. Laptop back towards camera, blank keycaps if any. Four people only, nobody looking at camera, two slight smiles at most. The scene will fade into real paper-cotton surface on the left. No gradient wallpaper.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 12. sun - object
+
+Source: `exec-c14263ae-f805-48e2-93fc-e463b3a0b3da.png`. Native 1254x1254. SHA-256: `264c7570bbd762075110c86a8c4c7babf980dece17e6d156857c3accf83f1b2a`.
+
+```text
+Studio product photograph of a single a round sun disc with short rays, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.
+Master 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.
+```
+
+#### 13. moon - object
+
+Source: `exec-256821bc-0547-4299-878c-4c0832225093.png`. Native 1254x1254. SHA-256: `63197e2ab10330f1e4047a866920bee1d1eb7fc1951702a9be33a524908066af`.
+
+```text
+Studio product photograph of a single a crescent moon with two small stars, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.
+Master 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.
+```
+
+#### 14. open-book - object
+
+Source: `exec-39b6415b-8201-4611-95f2-0c3c344b3cdc.png`. Native 1536x1024. SHA-256: `1eebf5f62727f75b215e4234ae7a28f05ec8d274de0f2c1ad026c13aa50e357f`.
+
+```text
+Studio product photograph of a single an open hardback book, blank pages, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.
+Master 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.
+```
+
+#### 15. headphones - object
+
+Source: `exec-9764bc22-8c05-4d3b-913e-01b6223857b5.png`. Native 1254x1254. SHA-256: `7ec0d7bb5232f65807dcda0be154d54f44cfd2d2ccf0f593479bf002132ef1b1`.
+
+```text
+Studio product photograph of a single over ear headphones, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.
+Master 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.
+```
+
+#### 16. highlighter - object
+
+Source: `exec-6c16b013-8f52-405a-8007-7f119e7649b2.png`. Native 2172x724. SHA-256: `723c8693e12d918049d30e1ab5af9f85634d42df430c46a67266dc18e1590bfa`.
+
+```text
+Studio product photograph of a single a single broad-tipped capped highlighter pen, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.
+Master 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.
+```
+
+#### 17. index-cards - object
+
+Source: `exec-28e45e62-4023-47a0-aa2b-62524f9c4ce8.png`. Native 1536x1024. SHA-256: `2d78ca6f34498ff7380b09b3584dae30929803b69365d82890a3e59467436b79`.
+
+```text
+Studio product photograph of a single a small fanned stack of blank index cards, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.
+Master 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.
+```
+
+#### 18. cover-honey - cover
+
+Source: `exec-5e9afd87-0a87-4ff7-b2f6-0fdd9e1715d7.png`. Native 1086x1448. SHA-256: `58fd10671f9e65cb397bf4af9ff320212c55781104ddb01ea4763453c16cf1c4`.
+
+```text
+Create ONE standalone studio product photograph for Takudzidza by Taku: a closed hardback notebook in real honey bookcloth, colour close to #F2C766, front on, 3:4 portrait, target 900x1200 pixels. Blank front, no text, no embossing, visible fine cloth weave at 100 percent, slightly rounded corners, a hint of cream page block on the right edge. Consistent premium notebook family from the same shoot: identical proportions, straight-on camera, cover nearly fills canvas with clear margin, soft diffused key light from upper left and gentle fill. Genuine transparent background, soft contact shadow. No floor, furniture, other objects, lettering, digits, symbols, logos, watermark, elastic band, ribbon or decoration. Photographic woven cloth and paper, no glossy plastic, no cartoon or 3D illustration. Keep entire book and shadow within canvas.
+```
+
+#### 19. cover-sage - cover
+
+Source: `exec-9a49ca0c-2480-4754-9aaa-6f20576e0ac1.png`. Native 1086x1448. SHA-256: `49e354074b578c5cbedfad755b3aee33024561f286ee3bbece03896972e275e2`.
+
+```text
+Create ONE standalone studio product photograph for Takudzidza by Taku: a closed hardback notebook in real sage bookcloth, colour close to #8A9B7A, front on, 3:4 portrait, target 900x1200 pixels. Blank front, no text, no embossing, visible fine cloth weave at 100 percent, slightly rounded corners, a hint of cream page block on the right edge. Consistent premium notebook family from the same shoot: identical proportions, straight-on camera, cover nearly fills canvas with clear margin, soft diffused key light from upper left and gentle fill. Genuine transparent background, soft contact shadow. No floor, furniture, other objects, lettering, digits, symbols, logos, watermark, elastic band, ribbon or decoration. Photographic woven cloth and paper, no glossy plastic, no cartoon or 3D illustration. Keep entire book and shadow within canvas.
+```
+
+#### 20. cover-olive - cover
+
+Source: `exec-28c782ac-ba21-497a-8ddb-6c56027a4960.png`. Native 1086x1448. SHA-256: `944d3f551995bb9371e4efa23e6a0da662c45a305f50f76b33b9993997d92f53`.
+
+```text
+Create ONE standalone studio product photograph for Takudzidza by Taku: a closed hardback notebook in real olive bookcloth, colour close to #677047, front on, 3:4 portrait, target 900x1200 pixels. Blank front, no text, no embossing, visible fine cloth weave at 100 percent, slightly rounded corners, a hint of cream page block on the right edge. Consistent premium notebook family from the same shoot: identical proportions, straight-on camera, cover nearly fills canvas with clear margin, soft diffused key light from upper left and gentle fill. Genuine transparent background, soft contact shadow. No floor, furniture, other objects, lettering, digits, symbols, logos, watermark, elastic band, ribbon or decoration. Photographic woven cloth and paper, no glossy plastic, no cartoon or 3D illustration. Keep entire book and shadow within canvas.
+```
+
+#### 21. cover-ochre - cover
+
+Source: `exec-2de8d2fb-4a2c-47a9-ace5-ee8fb92d6f6c.png`. Native 1086x1448. SHA-256: `f177ea75c2d94e1f8ffa8c0cc143379261ea482f35c7f8382c8da23a542dc328`.
+
+```text
+Create ONE standalone studio product photograph for Takudzidza by Taku: a closed hardback notebook in real ochre bookcloth, colour close to #B28A3D, front on, 3:4 portrait, target 900x1200 pixels. Blank front, no text, no embossing, visible fine cloth weave at 100 percent, slightly rounded corners, a hint of cream page block on the right edge. Consistent premium notebook family from the same shoot: identical proportions, straight-on camera, cover nearly fills canvas with clear margin, soft diffused key light from upper left and gentle fill. Genuine transparent background, soft contact shadow. No floor, furniture, other objects, lettering, digits, symbols, logos, watermark, elastic band, ribbon or decoration. Photographic woven cloth and paper, no glossy plastic, no cartoon or 3D illustration. Keep entire book and shadow within canvas.
+```
+
+#### 22. cover-charcoal - cover
+
+Source: `exec-9c70dbfa-13ac-44a2-b0b5-70b8a82d433d.png`. Native 1086x1448. SHA-256: `924f7eb826420dc50d68ed0fe3b830c5c516083d705c0477856703541cc0c6b6`.
+
+```text
+Create ONE standalone studio product photograph for Takudzidza by Taku: a closed hardback notebook in real charcoal bookcloth, colour close to #25231F, front on, 3:4 portrait, target 900x1200 pixels. Blank front, no text, no embossing, visible fine cloth weave at 100 percent, slightly rounded corners, a hint of cream page block on the right edge. Consistent premium notebook family from the same shoot: identical proportions, straight-on camera, cover nearly fills canvas with clear margin, soft diffused key light from upper left and gentle fill. Genuine transparent background, soft contact shadow. No floor, furniture, other objects, lettering, digits, symbols, logos, watermark, elastic band, ribbon or decoration. Photographic woven cloth and paper, no glossy plastic, no cartoon or 3D illustration. Keep entire book and shadow within canvas.
+```
+
+#### 23. cover-cream - cover
+
+Source: `exec-4d03f526-47c5-4195-be89-cfd37942b51a.png`. Native 1086x1448. SHA-256: `571d797f7cc3917d4b937f28ba1711af37ee869bf2e324e1bacaa49444d210d5`.
+
+```text
+Create ONE standalone studio product photograph for Takudzidza by Taku: a closed hardback notebook in real cream bookcloth, colour close to #FFF8EC, front on, 3:4 portrait, target 900x1200 pixels. Blank front, no text, no embossing, visible fine cloth weave at 100 percent, slightly rounded corners, a hint of cream page block on the right edge. Consistent premium notebook family from the same shoot: identical proportions, straight-on camera, cover nearly fills canvas with clear margin, soft diffused key light from upper left and gentle fill. Genuine transparent background, soft contact shadow. No floor, furniture, other objects, lettering, digits, symbols, logos, watermark, elastic band, ribbon or decoration. Photographic woven cloth and paper, no glossy plastic, no cartoon or 3D illustration. Keep entire book and shadow within canvas.
+```
+
+#### 24. landing-ensemble-initial - scene-rejected
+
+Source: `exec-0c12f709-11b6-4c56-a83d-48b061e0ed37.png`. Native 1586x992. SHA-256: `af64e90b51199a1abc50d2a18a814003ca32d3941b645adca4d46483c7d25af7`.
+
+Disposition: Faces outside central70%; insufficient left quiet space; pseudo-text in notes
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Wide horizontal 16:10 composition, target 2560x1600 pixels.
+Scene: A sunlit modern university library, long warm oak table, cream walls, tall window light from the right, a few softly blurred shelves. Lived-in detail: a ceramic mug, a charger cable, loose printed pages, a closed hardback.
+Subjects, four distinct people sharing the table, each doing something different:
+1. A Black Zimbabwean woman, age 22, deep espresso skin, oval face, high cheekbones, short natural coily hair, slim build, cream ribbed knit. Laptop open with lid facing camera, she points at a passage in a printed page, mid sentence, explaining to the man beside her.
+2. A South Asian man, age 19, light brown skin, narrow face, wavy black hair falling across his forehead, slight stubble, olive overshirt over a white tee. He listens, highlighter uncapped over printed notes.
+3. A West African woman, age 34, dark brown skin, strong jaw, tall, long braids gathered up in a plain ochre wrap, small gold studs, ochre blouse. Wireless headphones around her neck, reading a bound report with a pen in hand, quietly focused.
+4. A European teen, age 17, fair skin with light freckles, soft round face, shoulder length light brown hair tucked behind one ear, butter yellow crewneck jumper. Holding a short stack of index cards, eyes up and to the side, recalling an answer.
+Framing: Eye level from the far end of the table. Keep the left 42 percent of the frame as quiet softly lit wall and shelf with no faces so text can sit there. All four faces inside the central 70 percent so a centred mobile crop keeps them. Nobody looks at the camera. Only two of them smile slightly.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 25. landing-ensemble-edit-1 - scene-iteration
+
+Source: `exec-dd7b66f0-9c2f-4202-9f7b-f82cabe9e5fe.png`. Native 1586x992. SHA-256: `b27ee3b25e6baff5a63c6ad120563431497c3521668f89d89dcaa41058348359`.
+
+Disposition: Crop remains outside central70%
+
+```text
+Edit this exact photograph. Preserve all four distinct identities, ages, hair, clothing, natural skin, expressions, actions, props and right-side window light. Recompose the full scene into a wide 16:10 photograph: move the group farther back and pack the four faces entirely within x=44% to x=82% of the frame, leaving the entire left 42% as quiet softly lit cream wall and unlettered shelf with no person or props for page copy. Leave right breathing room so the rightmost head survives a centred mobile crop. Keep all important hands and study props fully visible and anatomically plausible. Remove ALL paragraph-like pseudo-text, letters, digits and tiny glyphs from every printed sheet, bound report and book spine. Pages show only fine ruling and simple unlabelled geometric outlines, with no writing-like texture. Keep lived-in mug, charger cable, loose pages and closed hardback. No new people. Nobody looks at camera. Only two slight smiles. Real candid editorial photograph, no airbrushing, no orange saturation or teal shadows, no watermark, logo, signage or text. Return one standalone opaque photograph.
+```
+
+#### 26. landing-ensemble-edit-2 - scene-iteration
+
+Source: `exec-df5071d0-86f3-4191-a973-48935e0e3553.png`. Native 1586x992. SHA-256: `dfcada6d8f7d085ca7fe3394ff29c7cbcc5ebcfcd5b99772c427be5d67f94139`.
+
+Disposition: Accepted as source only after scaled physical-paper composite
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Edit the supplied wide library photograph. Preserve the exact four identities, hair, clothes, skin texture, props, study actions and restrained natural light. Change the framing decisively: zoom farther out by 25 percent and shift the group left slightly, until the four face centres are at approximately x=47%, 58%, 69% and 80% of image width, and every complete head ends before x=85%. All faces must remain within the central70% (x15..85). Reserve the entire left42% as quiet cream wall and shelf with no faces. Wide16:10. Show complete hands and study props naturally. All pages must be clean fine ruling or simple unlabeled geometric diagrams only: absolutely no glyphs, paragraph-like marks, writing or numbers. Laptop back towards camera, blank keycaps if any. Four people only, nobody looking at camera, two slight smiles at most. The scene will fade into real paper-cotton surface on the left. No gradient wallpaper.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 27. landing-ensemble-regenerated-reject - scene-iteration
+
+Source: `exec-5b0039a6-3472-472e-8979-3decdacbcbf7.png`. Native 1586x992. SHA-256: `c865e3e33e64f9c5e6a9907586c30d51aac799a6cae61c708aa545017ad97dd2`.
+
+Disposition: Reject: quiet area and mobile crop violated; pseudo-text
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Wide horizontal 16:10 composition, target 2560x1600 pixels.
+Scene: A sunlit modern university library, long warm oak table, cream walls, tall window light from the right, a few softly blurred shelves. Lived-in detail: a ceramic mug, a charger cable, loose printed pages, a closed hardback.
+Subjects, four distinct people sharing the table, each doing something different:
+1. A Black Zimbabwean woman, age 22, deep espresso skin, oval face, high cheekbones, short natural coily hair, slim build, cream ribbed knit. Laptop open with lid facing camera, she points at a passage in a printed page, mid sentence, explaining to the man beside her.
+2. A South Asian man, age 19, light brown skin, narrow face, wavy black hair falling across his forehead, slight stubble, olive overshirt over a white tee. He listens, highlighter uncapped over printed notes.
+3. A West African woman, age 34, dark brown skin, strong jaw, tall, long braids gathered up in a plain ochre wrap, small gold studs, ochre blouse. Wireless headphones around her neck, reading a bound report with a pen in hand, quietly focused.
+4. A European teen, age 17, fair skin with light freckles, soft round face, shoulder length light brown hair tucked behind one ear, butter yellow crewneck jumper. Holding a short stack of index cards, eyes up and to the side, recalling an answer.
+Framing: Eye level from the far end of the table. Keep the left 42 percent of the frame as quiet softly lit wall and shelf with no faces so text can sit there. All four faces inside the central 70 percent so a centred mobile crop keeps them. Nobody looks at the camera. Only two of them smile slightly.
+Composition clarification: make the group compact, seen slightly farther away, all four faces fit in the RIGHT MIDDLE of the image, not spread to the right edge. Face centres at 46%, 56%, 66% and 77% of canvas width; all head silhouettes strictly end before 84% width. Keep quiet wall across left42%. Leave a broad visible strip of window/library beyond the group at the rightmost16% with no person. Use depth along the table to fit the four people comfortably. No other people.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 28. learner-listening - cutout
+
+Source: `exec-60059818-6270-4133-91e9-77505726e37c.png`. Native 1122x1402. SHA-256: `2163875ae32e0afb0b5e00e2ba6fb8cf40079ccdfbaa077a42d7c867146124eb`.
+
+Disposition: Extraction skin/fabric texture rejected or superseded after close review
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Use case for this edit: background-extraction. Edit the supplied learner-listening photograph. Isolate the exact same person and their required held study props onto genuine transparency. Preserve exact synthetic identity, age, facial proportions, hairstyle, expression, clothing, pose and photographic detail. Keep the man's complete seated three-quarter body, headphones, both hands, pen and open notebook on his knee. Remove the entire chair, foreground laptop, mug, desk and books; complete only any small lower silhouette hidden by furniture if necessary for a natural seated crop. Preserve both knees and notebook contact. Tight natural subject crop with clear transparent margin, soft clean hair alpha, no coloured edge halo, no background scraps, no frame, no baked shadow. A separate contact shadow will be scripted. No retouching or beautification. Return one true-alpha PNG.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 29. seller-notes - cutout
+
+Source: `exec-e3ec90c8-9cef-4253-a83c-0bdf17bc19b0.png`. Native 1122x1402. SHA-256: `407cf0dd4ae0400a17f3d33997fb108d15cd6abc84b25e16203de3a84e80786e`.
+
+Disposition: Extraction skin/fabric texture rejected or superseded after close review
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Use case for this edit: background-extraction. Edit the supplied seller-notes photograph. Isolate the exact same person and their required held study props onto genuine transparency. Preserve exact synthetic identity, age, facial proportions, hairstyle, expression, clothing, pose and photographic detail. Keep the man, wire glasses, hair, both complete hands, watch, ring binder with its lifted sheet and the unbranded laptop lid. Remove desk and background. Every binder page and every laptop keycap must be blank or fine ruling/unlabelled geometry only, no pseudo-text. Keep natural fingers contacting the binder and paper. Tight natural subject crop with clear transparent margin, soft clean hair alpha, no coloured edge halo, no background scraps, no frame, no baked shadow. A separate contact shadow will be scripted. No retouching or beautification. Return one true-alpha PNG.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 30. lecturer-class - cutout
+
+Source: `exec-58ebd623-6ff7-493f-92b6-bdfeafc06f55.png`. Native 1122x1402. SHA-256: `a2f2c6a81df010bbdbd2894810b0fd67713eb725541b323e97ee299f5a16bcde`.
+
+Disposition: Extraction skin/fabric texture rejected or superseded after close review
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Use case for this edit: background-extraction. Edit the supplied lecturer-class photograph. Isolate the exact same person and their required held study props onto genuine transparency. Preserve exact synthetic identity, age, facial proportions, hairstyle, expression, clothing, pose and photographic detail. Keep the woman, hair and silver streak, olive blazer, cream top, both complete hands and tablet. Remove all background. Tablet screen stays facing her. Keep real skin and natural flyaway hair. Tight natural subject crop with clear transparent margin, soft clean hair alpha, no coloured edge halo, no background scraps, no frame, no baked shadow. A separate contact shadow will be scripted. No retouching or beautification. Return one true-alpha PNG.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 31. learner-listening - cutout-rejected
+
+Source: `exec-dd41210d-bc01-4464-a8fc-076b30b600f0.png`. Native 1122x1402. SHA-256: `ff5e98fd6db1fd2ddf767ecb2fc1c2cf25108104fee1206c00c163c17b7279f9`.
+
+Disposition: Repair retained etched skin texture; rejected
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Edit target: supplied original learner-listening photograph. Background-extraction ONLY. Preserve the exact original Kenyan man and his natural photographic skin and fabric pixels, including his face, beard, hair, headphones, charcoal chore jacket, cream tee, notebook on crossed knee, pen and complete both hands. Isolate this complete seated three-quarter subject and notebook onto true transparency with clear margin. Remove chair, table, laptop, mug and foreground books. Preserve normal unretouched skin: DO NOT invent scratches, branching marks, scribbles, tattoos, veins, fissures, crosshatching, thread-like patterns or decorative detail across the forehead, cheek, neck, wrist, hands or jacket. Skin has subtle natural pores only, not dark linework. No new textures or redrawing details. Keep hand anatomy and pen/notebook contact credible. Preserve crossed legs, completing only any tiny furniture-occluded silhouette. No baked shadow, retained furniture, background glow or edge halo. Genuine transparent background with clean natural alpha edges. One standalone transparent PNG.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 32. seller-notes - cutout
+
+Source: `exec-64f5d3f9-19b6-4030-971b-19c2cb267ebe.png`. Native 1122x1402. SHA-256: `c2408409d4a6e14fb726be31e0d72099d461254828af78b94cd4528addb24a33`.
+
+Disposition: Clean skin but source clipped outer hand/forearm at left edge
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Vertical 4:5, target 2160x2700, plain warm light grey studio background, soft even light, designed for clean background removal.
+Subject: A Black Zimbabwean man, age 31, rich umber skin, broad build, round face, short neat locs, thin wire glasses, cream oxford shirt with rolled sleeves, a simple watch. Seated, arranging a neat ring binder of printed notes beside an unbranded laptop whose lid faces the camera. Reads as an accountant or tutor who is proud of his notes. Calm half smile.
+Framing: Seated mid shot, binder and both hands clear.
+Output clarification: create a NEW photographic true-alpha cutout directly, not an edit of an old image. Isolate ONLY the described person and their required held study props on genuine transparency, no warm grey backdrop in delivered image. No chair, table, desk or additional furnishings; for seller keep binder and unbranded laptop as one natural joined cutout. No baked shadow. Natural photographic skin with subtle pores and normal creases, real uniform woven fabrics. Absolutely no etched, crackled, branching, scribbled, tattoo-like or repeated line patterns on skin, forehead, neck, hands or clothing. No illustrative strokes or sharpening. Clean natural hair alpha edges and clear transparent margin.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+#### 33. seller-notes - cutout-rejected
+
+Source: `exec-0b9a2800-a002-4edf-80fd-3fdcd1ee81e9.png`. Native 1122x1402. SHA-256: `0ca54a9df7f291c13185b3d40570843f00ff3c3546e6dbfeaaa4e6ff2e93f80a`.
+
+Disposition: Hand margin fixed, but fingerprint-like skin patterns introduced; rejected
+
+```text
+Use case: photorealistic-natural.
+Create ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.
+Edit this exact transparent seller-notes cutout. Correct ONLY the left crop boundary: widen the transparent canvas toward the left and complete the small clipped outer edge of the man's right forearm and page-gripping hand so every fingertip and the entire hand silhouette is visible with at least4percent canvas-width clear transparent margin. Preserve this exact synthetic man's face, hair, wire glasses, cream oxford, natural clean skin texture, watch, calm expression, pose, binder, page diagrams and laptop. Do NOT introduce etched, branching, scribbled, cracked or tattoo-like marks anywhere on skin or fabric. Do not retouch, replace face, alter existing fingers or invent props. Keep laptop and binder naturally joined with hands. Restore only the tiny cropped hand/forearm boundary, then zoom out slightly for clear transparent margins around both hands and complete head. Output one true-alpha PNG, portrait4:5, no furniture, backdrop, frame, baked shadow, glow or lettering.
+Strict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.
+```
+
+### Export inventory
+
+| File | Size | Bytes | SHA-256 |
+| --- | --- | ---: | --- |
+| `art/review/batch-5-originals/learner-snap-notes.png` | [1122, 1402] | 2195750 | `8ac309be2175a20bc5bb6365cc4269a69bdc1fd4068a5bcfd5d5831b87e1d178` |
+| `art/review/batch-5-originals/learner-listening.png` | [1122, 1402] | 1935644 | `c23af74cba1a882beec0d5e1eeca9656e3c94242074a12fefda5f9460e590a39` |
+| `art/review/batch-5-originals/learner-flashcards.png` | [1122, 1402] | 1967633 | `1416e9ed7e23cd827f930fb8a4d06cf4357c6e59bd1f1727c16f140077d1c311` |
+| `art/review/batch-5-originals/seller-notes.png` | [1122, 1402] | 1994086 | `a4a5f98f20a6dffecbbf738c321f476d38f9d9d59cc791da3ec03c2d14eb009f` |
+| `art/review/batch-5-originals/lecturer-class.png` | [1122, 1402] | 2179697 | `08ee11c690547b120669856a37a9e590ca384eb7e2d90a9399f528e95a0afa1a` |
+| `art/assets/cutouts/learner-snap-notes.png` | [1117, 1426] | 1989544 | `6dbf07f0b53ac5106bf9058f4b5c3edaf91ad3d3c192f0617e3edd3970011da4` |
+| `art/assets/cutouts/learner-snap-notes.webp` | [1117, 1426] | 197300 | `bd86da12d26b98378ad58ed1e480ba1f0407dee199ee03fec5c8030ea73bbdfd` |
+| `art/assets/cutouts/learner-snap-notes-shadow.webp` | [1117, 1426] | 3884 | `1fe3d7e8ddab4dd73c1e42096bd5de3719137871e7f9f9ced73c2478f0f818eb` |
+| `art/assets/cutouts/learner-listening.png` | [1146, 1412] | 1761834 | `111879156b4c101e652c14601bef1819e0fb92478ff8f8db4f926df179a0616b` |
+| `art/assets/cutouts/learner-listening.webp` | [1146, 1412] | 193304 | `cab703813de0af1bb3435333a8406f16339a943b74175c52b3e51b03937dfe69` |
+| `art/assets/cutouts/learner-listening-shadow.webp` | [1146, 1412] | 3678 | `36be29cdb5df6ae77bc4e96837b501c7d6043dc27669643003349c644750125c` |
+| `art/assets/cutouts/learner-flashcards.png` | [1147, 1412] | 2262677 | `5223c74bb9d4a608fcf392ee40f875abd3f260b14a618121f10f2a8e757eb558` |
+| `art/assets/cutouts/learner-flashcards.webp` | [1147, 1412] | 198562 | `d6a885eb4c0b04b0945ff20eb63609878bf551aa89215784ce129c331568553f` |
+| `art/assets/cutouts/learner-flashcards-shadow.webp` | [1147, 1412] | 3590 | `68007a4c9b6d2f927e7d96cfdb7ebf32a3c57f2728fa5a5021715f143cda6a45` |
+| `art/assets/cutouts/seller-notes.png` | [1110, 1403] | 1346435 | `2bcb92e5a09882b4d2958b3d7bb4968355a827381a264590936dad8a0b5c65aa` |
+| `art/assets/cutouts/seller-notes.webp` | [1110, 1403] | 198204 | `63eafafe6a7c546278f96e25478961057205fcebed7eefe53581b6fbc2a0dacb` |
+| `art/assets/cutouts/seller-notes-shadow.webp` | [1110, 1403] | 3646 | `9f714e1833d908796524dd268645bda3b57edba27dbee76d38721f48bd91e8b5` |
+| `art/assets/cutouts/lecturer-class.png` | [1098, 1426] | 1751262 | `a15216a55b651a587bedb23499b824af2c9499151d4f9b3b313c37037f748775` |
+| `art/assets/cutouts/lecturer-class.webp` | [1098, 1426] | 195906 | `b7a9469059485ef462c1783e384645d4a7e3755c1edc9f4da917c952d3385005` |
+| `art/assets/cutouts/lecturer-class-shadow.webp` | [1098, 1426] | 3814 | `cfc1dea618749b6276ed53996c3d127eaee7bf9dab0046efb539750aea2d4fe4` |
+| `art/assets/scenes/landing-ensemble.png` | [2560, 1600] | 3914885 | `b89390530522efe56130b28441de3a1a1bc5e50c7830def0e687058ea70e932b` |
+| `art/assets/scenes/landing-ensemble.webp` | [2560, 1600] | 249508 | `107d6df4bdc24c9558981063932d8c272f0b1a74f5e7b5d3da2cb9f06f127f0c` |
+| `art/objects/sun.png` | [1536, 1536] | 1176323 | `70eb8b2679a80095b13c166b5dd831a64825b73ae21be1154d23e87c0981db64` |
+| `art/objects/sun-160.webp` | [160, 160] | 7604 | `ef3ef8c3883cf0e70fdb0b14b39311e56bc4bc1ea891878c83a03892e9d6cea4` |
+| `art/objects/sun-320.webp` | [320, 320] | 18336 | `a0990df6d30a8829ee454f1ad4c12a36cf1e40f56710ac24c4f7eeec06ce0852` |
+| `art/objects/sun-640.webp` | [640, 640] | 50352 | `42561c8e68c3e5a159fe0757929975705c0e24cd785a528e01c992fe484e2ca6` |
+| `art/objects/sun-shadow.webp` | [1536, 1536] | 2874 | `cc0f201914dc95f86ae0b3ad097cbff73ab9c74ae4108bebf794ed960d405e33` |
+| `art/objects/moon.png` | [1536, 1536] | 917458 | `1925f05ec87e96c14256522e2c0281da75add8a90e3c4d76afdd004a80b54785` |
+| `art/objects/moon-160.webp` | [160, 160] | 6198 | `9d502a905120a4f65baef17ffb18f81d10778a659a8287aa8d9b8608219ee5be` |
+| `art/objects/moon-320.webp` | [320, 320] | 14006 | `a686ebd336144ed88fdb2ddc90d83b5d07e0899087c1c222501ae2718a264937` |
+| `art/objects/moon-640.webp` | [640, 640] | 36678 | `e427c772a45df01f439dcde99fbd843634f8e04971b794ca59a94b971f24ee94` |
+| `art/objects/moon-shadow.webp` | [1536, 1536] | 2862 | `07477b6bdc713ede835001476f147792fffd61f224e9f65b7d08a0e108be32a6` |
+| `art/objects/open-book.png` | [1536, 1536] | 732193 | `2379e782bba5957ebb61885fb064b4eecee209e2ed2395e30185114627fd1b37` |
+| `art/objects/open-book-160.webp` | [160, 160] | 4506 | `b1a1582b2b6e36dbbb431560e96ba9092da1431a342bd218a0e0b0c75d8faeb9` |
+| `art/objects/open-book-320.webp` | [320, 320] | 10758 | `150a01364880952c0aa7c459271fc197ee2c61e18092845ee391578eb273bdb6` |
+| `art/objects/open-book-640.webp` | [640, 640] | 26464 | `c8172f5ab73065fbc3d450327e42b406700e2bead4de116e9d34c5349e245cb4` |
+| `art/objects/open-book-shadow.webp` | [1536, 1536] | 2870 | `10b7b126d9fd2d08148bdd043d6183ecaa6fcce656a5c5e6fe2cec0620abfcc4` |
+| `art/objects/headphones.png` | [1536, 1536] | 1065626 | `25c56d91d0a20a1c4db7de1987ccf1abaa34e14350ab56ff7cca47736c25d5fc` |
+| `art/objects/headphones-160.webp` | [160, 160] | 8262 | `77dc93390b8528a4f10b5851799c88cd6592c511810289e7e9ef291c6efd128c` |
+| `art/objects/headphones-320.webp` | [320, 320] | 18894 | `f6be64b3326d4e5aa5306ef76dbdb976053edc3c0f1d0cebcdf541bc7f8bc7d3` |
+| `art/objects/headphones-640.webp` | [640, 640] | 49372 | `16100819caec8d528ff7fb3e464f1f78795bff7b9fe9bab192e972729eb04524` |
+| `art/objects/headphones-shadow.webp` | [1536, 1536] | 2862 | `07477b6bdc713ede835001476f147792fffd61f224e9f65b7d08a0e108be32a6` |
+| `art/objects/highlighter.png` | [1536, 1536] | 365525 | `16a38db66cceb6595465d83bd5a6cd300cf6d11a86265a3af85250bb3f55e7ab` |
+| `art/objects/highlighter-160.webp` | [160, 160] | 3406 | `854584be63a6fe579d463ec3a4798f4584a9caaaf236b2756cc4cc3f8a129eb9` |
+| `art/objects/highlighter-320.webp` | [320, 320] | 7538 | `cf0b248e10743688ba4a77b13a297eecb9725116700379eb0db68b9e1bdd4a0e` |
+| `art/objects/highlighter-640.webp` | [640, 640] | 17460 | `eccf93c98f4d8ea728666b945ff1d0099c8336b61506b1ebcbf61ecb17206aad` |
+| `art/objects/highlighter-shadow.webp` | [1536, 1536] | 2882 | `3d06d97f85d2615353e87e6f080810c344694f8febd338205d12c833d1cd8caf` |
+| `art/objects/index-cards.png` | [1536, 1536] | 709989 | `e39e4281ff92de03683566dfac5ccd70afa0a1667f4bec5c5c05acd399b68e1c` |
+| `art/objects/index-cards-160.webp` | [160, 160] | 4546 | `7664a8c278847d54ad002ff7ababfaa9847cff8beda728c5ea54b732a23b7793` |
+| `art/objects/index-cards-320.webp` | [320, 320] | 10572 | `8ce334b2261920c3fdb0e655c966681bae98ce7bcdd56c97aa8ae498a62ee5f1` |
+| `art/objects/index-cards-640.webp` | [640, 640] | 25684 | `dd75b57518c15f4c0fe1da157ad5a18f7d4c7c1587e01d66e67c7bb8c658af14` |
+| `art/objects/index-cards-shadow.webp` | [1536, 1536] | 2882 | `867ebc7e6f0d5affcf380928fb64cd96797ed772d62f01603ae2a626e529a29a` |
+| `art/covers/cover-honey.png` | [900, 1200] | 2094095 | `edda28975e94a8e8e7adc83efcb8cbbb098a61687a5901e87fd5ef527861f933` |
+| `art/covers/cover-honey-450.webp` | [450, 600] | 74970 | `beafc778d0f9b47930bce1bbadf565fa5702fbb8705b6dc837e660917647c8b3` |
+| `art/covers/cover-honey-900.webp` | [900, 1200] | 159162 | `43815ded8a98acf2eaeeeb7475c1059ffc8cd53087469b5ab863b8b0ae80400f` |
+| `art/covers/cover-sage.png` | [900, 1200] | 2367785 | `a5b0a276a8efdbf9a590d370fe925d07cd9771ef75e45d73ab9e552eacd12d7b` |
+| `art/covers/cover-sage-450.webp` | [450, 600] | 96326 | `32baac0ddd71b742b2294a2677c588eeac2e01f0b43522cdf68ac5ddad00016d` |
+| `art/covers/cover-olive.png` | [900, 1200] | 2095235 | `eba899423a7be96fc462d431caf69f3c66d817376f62f2ee5bc433085e27e173` |
+| `art/covers/cover-olive-450.webp` | [450, 600] | 24870 | `44ab03598c417e9f39a946d25fb95eccfb822877a28417c6617a315e98bd4970` |
+| `art/covers/cover-ochre.png` | [900, 1200] | 2147343 | `b3d5dd9354090b96a52bd57b44a32742508d5ed0d3b81424b73c8b09fe69596b` |
+| `art/covers/cover-ochre-450.webp` | [450, 600] | 33858 | `4db58cbaed4bd404d1d4a5ab390a0dbd1b7feec68d3d7d02a731af1041bf3d05` |
+| `art/covers/cover-charcoal.png` | [900, 1200] | 1861223 | `771155518e3c8a3051c0c3a59326e8dbb044ba23293e241b36612ddec28d1d73` |
+| `art/covers/cover-charcoal-450.webp` | [450, 600] | 23054 | `79f9f83f53980ba0a6cd1ac0c4a0ae1463ad06028f3666c5a04bdf3704c8feb9` |
+| `art/covers/cover-cream.png` | [900, 1200] | 1824325 | `d09b51177ad80c1b0eb12b748e52d01c1a3d86b796504dfaa29b1f5094bce95b` |
+| `art/covers/cover-cream-450.webp` | [450, 600] | 29132 | `3c39a12a4c6cdf35e7305dff78cb935d54636fba5f7aae4c9be09c1218b04d6a` |
+| `art/web/cutouts/learner-snap-notes-480.webp` | [480, 613] | 53592 | `9882345f182de3261dec4ec0ee24eb312bf81f30cbf4235b45718c5089b8aee1` |
+| `art/web/cutouts/learner-snap-notes-800.webp` | [800, 1021] | 125820 | `8915262bfa3c0b4bf2dbb42a8cf77f6630f12a6dc514dac346360ce5243d3d2a` |
+| `art/web/cutouts/learner-snap-notes-shadow.webp` | [480, 613] | 2878 | `756c0ef12de012a743233dacc5d2d162e7f7a09a53e582e4bcf722293ba9a639` |
+| `art/web/cutouts/learner-listening-480.webp` | [480, 591] | 34650 | `00c40c01c21ea11ab1284115311e5ceefeb62f42372485ce529416fd84ef8df8` |
+| `art/web/cutouts/learner-listening-800.webp` | [800, 986] | 79038 | `5a7f35dde98ad19d5d2ba19f38b52598f3b00b33ecd97b1b2ac4cf95a72730ca` |
+| `art/web/cutouts/learner-listening-shadow.webp` | [480, 591] | 2598 | `81142b38cceaacb6f05cd88528096d8352883357659a439615a8789130f54def` |
+| `art/web/cutouts/learner-flashcards-480.webp` | [480, 591] | 46132 | `60918a354cd07216b129af965096054320de218892df84051a1fd83179368dce` |
+| `art/web/cutouts/learner-flashcards-800.webp` | [800, 985] | 118544 | `26daf39eee54fc6e1839f005002409817374ad1b019cac08008170497c2a7045` |
+| `art/web/cutouts/learner-flashcards-shadow.webp` | [480, 591] | 2662 | `444b592e89431961942c1a4a9031837fe2b47c52d6d1d71f771d20eb6289149c` |
+| `art/web/cutouts/seller-notes-480.webp` | [480, 607] | 32038 | `84f6a94dd9601946a22fa6b08aa8c32d39dc0929c4b18ee364436dfcaea6db8f` |
+| `art/web/cutouts/seller-notes-800.webp` | [800, 1011] | 69226 | `0179bb8f5081076871d98a8948a8bdea11c90562ccfb7935a01e85b80e842405` |
+| `art/web/cutouts/seller-notes-shadow.webp` | [480, 607] | 2854 | `703dfff006f35e1467a59b8eff81aa07bdd1610b60f35662665e56abee73f870` |
+| `art/web/cutouts/lecturer-class-480.webp` | [480, 623] | 40516 | `079018e908282eadf90a4a1d77bd516f564396af134cace5e11bba9b4908cad9` |
+| `art/web/cutouts/lecturer-class-800.webp` | [800, 1039] | 91736 | `f511e3f089bbc283ba57bd86a704825167058c0745fade605903fec025e575cc` |
+| `art/web/cutouts/lecturer-class-shadow.webp` | [480, 623] | 2752 | `413c11371c8fa5a1da03164b0a9c8a3c43214f6234a8caac0dcb98cc3f752d17` |
+| `art/web/scenes/landing-ensemble-1280.webp` | [1280, 800] | 79438 | `2f127199abae1da7ba8a86c03e8f3e2df472da664816f18d4af78690f2c6dfca` |
+| `art/web/scenes/landing-ensemble-1920.webp` | [1920, 1200] | 150960 | `438b187d38cef352001bcc93ac8a10cb3e70119dbea214a1ee0b178419e45b45` |
+| `art/web/scenes/landing-ensemble-640.webp` | [640, 400] | 19764 | `7a7e652a75a39426d2e848e1054b34acad18164bb665891b4dcf2ef2c5839dc0` |
+
+### Checks actually performed
+
+- learner-snap-notes: native crop RGBA exact, WebP alpha exact, under200000bytes
+- learner-listening: native crop RGBA exact, WebP alpha exact, under200000bytes
+- learner-flashcards: native crop RGBA exact, WebP alpha exact, under200000bytes
+- seller-notes: native crop RGBA exact, WebP alpha exact, under200000bytes
+- lecturer-class: native crop RGBA exact, WebP alpha exact, under200000bytes
+- landing-ensemble: PNG/WebP2560x1600RGB, under250000bytes
+- sun: target PNG size/alpha, 3 decoded WebPs dimensions/budgets/lossless-alpha
+- moon: target PNG size/alpha, 3 decoded WebPs dimensions/budgets/lossless-alpha
+- open-book: target PNG size/alpha, 3 decoded WebPs dimensions/budgets/lossless-alpha
+- headphones: target PNG size/alpha, 3 decoded WebPs dimensions/budgets/lossless-alpha
+- highlighter: target PNG size/alpha, 3 decoded WebPs dimensions/budgets/lossless-alpha
+- index-cards: target PNG size/alpha, 3 decoded WebPs dimensions/budgets/lossless-alpha
+- cover-honey: target PNG size/alpha, 2 decoded WebPs dimensions/budgets/lossless-alpha
+- cover-sage: target PNG size/alpha, 1 decoded WebPs dimensions/budgets/lossless-alpha
+- cover-olive: target PNG size/alpha, 1 decoded WebPs dimensions/budgets/lossless-alpha
+- cover-ochre: target PNG size/alpha, 1 decoded WebPs dimensions/budgets/lossless-alpha
+- cover-charcoal: target PNG size/alpha, 1 decoded WebPs dimensions/budgets/lossless-alpha
+- cover-cream: target PNG size/alpha, 1 decoded WebPs dimensions/budgets/lossless-alpha
+- All5 cutout,1scene,6object,6cover manifest entries present
+- Ruff passed for the two Batch 5 helpers; independent read-only code review found no critical or high issue.
+- Initial people prompt bodies, final accepted people prompt wrappers and all audio scripts were compared against the brief exactly.
+- No application tests, E2E, deployment or physical-device checks were run for this asset-only package.
+
+Detailed machine-readable provenance and checks: `art/review/batch-5-inventory.json`. Audio manifest is an explicit blocked-work record, not a claim of delivered audio.

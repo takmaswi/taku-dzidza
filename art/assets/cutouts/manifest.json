@@ -3009,6 +3009,764 @@
         }
       ],
       "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands"
+    },
+    {
+      "name": "learner-snap-notes",
+      "category": "cutout",
+      "prompt": "Use case: photorealistic-natural.\nCreate ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.\nUse case for this edit: background-extraction. Edit the supplied learner-snap-notes photograph. Isolate the exact same person and their required held study props onto genuine transparency. Preserve exact synthetic identity, age, facial proportions, hairstyle, expression, clothing, pose and photographic detail. Keep both phone-gripping hands and the complete notes page floating naturally immediately below the phone as one joined study cutout; remove desk, books and laptop. Correct the phone's photographing orientation: its rear camera faces DOWN toward the notes, and its top visible surface is a plain dark glass SCREEN with no UI, logo or text. Keep the page with only ruling and simple unlabeled geometric outlines, no glyphs. Tight natural subject crop with clear transparent margin, soft clean hair alpha, no coloured edge halo, no background scraps, no frame, no baked shadow. A separate contact shadow will be scripted. No retouching or beautification. Return one true-alpha PNG.\nStrict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-660ede2a-801b-4385-9124-5d5fa1453b4b.png",
+      "status": "exported",
+      "source_sha256": "46b7d9e857c3e91b7a3be76a49c676ad43433c90c31ca43099b042b4f4003169",
+      "source_native_size": [
+        1122,
+        1402
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 1000535,
+        "transparent_pixels": 571977
+      },
+      "export_size": [
+        1117,
+        1426
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 1000535,
+        "transparent_pixels": 591775
+      },
+      "source_bbox_xyxy": [
+        11,
+        0,
+        1104,
+        1402
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "alpha_coverage_note": "Source includes fully opaque alpha 255; original pixels and alpha preserved",
+      "webp_quality": 76,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 42,
+        "intermediate_pixels": 71591,
+        "transparent_pixels": 1521251
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/learner-snap-notes.png",
+          "bytes": 1989544,
+          "native_size": [
+            1117,
+            1426
+          ],
+          "sha256": "6dbf07f0b53ac5106bf9058f4b5c3edaf91ad3d3c192f0617e3edd3970011da4"
+        },
+        {
+          "file": "art/assets/cutouts/learner-snap-notes.webp",
+          "bytes": 197300,
+          "native_size": [
+            1117,
+            1426
+          ],
+          "sha256": "bd86da12d26b98378ad58ed1e480ba1f0407dee199ee03fec5c8030ea73bbdfd"
+        },
+        {
+          "file": "art/assets/cutouts/learner-snap-notes-shadow.webp",
+          "bytes": 3884,
+          "native_size": [
+            1117,
+            1426
+          ],
+          "sha256": "1fe3d7e8ddab4dd73c1e42096bd5de3719137871e7f9f9ced73c2478f0f818eb"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/learner-snap-notes-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "ad067ffacbd957a9dc9d023ae1f52eb655f39434da461689c498a2168bb14cb1"
+        },
+        {
+          "file": "art/review/edges/learner-snap-notes-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "f307adc5301cc8bd380c192fccff0a0b48c635ba51d3f0ed4daad3b2e0e9e0b1",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                805,
+                191,
+                997,
+                383
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                55,
+                821,
+                247,
+                1013
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                619,
+                892,
+                811,
+                1084
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "scale_to_export": 1.0,
+      "encoding_search": {
+        "method": "bounded binary search, not exhaustive",
+        "selected_quality": 76,
+        "selected_bytes": 197300,
+        "next_quality_bytes": 201796,
+        "limit": 200000,
+        "sampled_quality_bytes": {
+          "95": 459946,
+          "47": 153264,
+          "71": 184466,
+          "83": 243952,
+          "77": 201796,
+          "74": 190582,
+          "75": 191106,
+          "76": 197300
+        }
+      },
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "learner-listening",
+      "category": "cutout",
+      "prompt": "Use case: photorealistic-natural.\nCreate ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.\nVertical4:5, target2160x2700. Create a NEW standalone true-transparent photographic person cutout, NOT an edit of any prior photograph.\nSubject: A Kenyan man, age27, very dark skin, long lean face, close cropped hair, short neat natural beard, charcoal chore jacket over a cream tee. Over-ear matte headphones on, seated with crossed legs, an open notebook on his knee, pen resting in his right hand, eyes half closed listening, a faint pleased expression. Seated three-quarter body, slightly from his right, both hands and notebook fully in frame. Unretouched natural smooth photographic skin with subtle pores and normal fine creases, normal uniform woven jacket. Absolutely no branching, etched, cracked, scribbled or tattoo-like dark lines on skin, no illustration marks, no added texture. Entire silhouette of man, headphones, notebook and pen isolated onto genuine transparent alpha, clean flyaway hair boundaries. No chair, table, mug, laptop, additional books, furniture, background or floor, no baked shadow. Pages show ruling and simple unlabelled geometric outlines only. All fingers naturally contacting notebook and pen. Preserve clear canvas margin around silhouette.\nStrict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-db30e1cc-4d4a-4da8-9bad-4dfae6d666c5.png",
+      "regenerated": true,
+      "identity_note": "Fresh generation from same subject specification after rejecting original extraction texture; no claim of exact original identity",
+      "status": "exported",
+      "source_sha256": "49fe574d083f1221bab52db3bacdc110d9d6a3348718e87393a5f3609c3e91c8",
+      "source_native_size": [
+        1122,
+        1402
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 1047739,
+        "transparent_pixels": 524789
+      },
+      "export_size": [
+        1146,
+        1412
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 1047739,
+        "transparent_pixels": 569897
+      },
+      "source_bbox_xyxy": [
+        0,
+        14,
+        1122,
+        1402
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "alpha_coverage_note": "Source includes fully opaque alpha 255; original pixels and alpha preserved",
+      "webp_quality": 88,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 40,
+        "intermediate_pixels": 72174,
+        "transparent_pixels": 1545978
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/learner-listening.png",
+          "bytes": 1761834,
+          "native_size": [
+            1146,
+            1412
+          ],
+          "sha256": "111879156b4c101e652c14601bef1819e0fb92478ff8f8db4f926df179a0616b"
+        },
+        {
+          "file": "art/assets/cutouts/learner-listening.webp",
+          "bytes": 193304,
+          "native_size": [
+            1146,
+            1412
+          ],
+          "sha256": "cab703813de0af1bb3435333a8406f16339a943b74175c52b3e51b03937dfe69"
+        },
+        {
+          "file": "art/assets/cutouts/learner-listening-shadow.webp",
+          "bytes": 3678,
+          "native_size": [
+            1146,
+            1412
+          ],
+          "sha256": "36be29cdb5df6ae77bc4e96837b501c7d6043dc27669643003349c644750125c"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/learner-listening-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "bb1c7191e50c31b50adf30a60db32350ccc0432a5429f908a89a727f2b03d9de"
+        },
+        {
+          "file": "art/review/edges/learner-listening-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "05ecb5e1a2a58c8f5024a19420985d9ad35c6df2e4777f015cb67b25f128784f",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                438,
+                170,
+                630,
+                362
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                308,
+                879,
+                500,
+                1071
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                777,
+                891,
+                969,
+                1083
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "scale_to_export": 1.0,
+      "encoding_search": {
+        "method": "bounded binary search, not exhaustive",
+        "selected_quality": 88,
+        "selected_bytes": 193304,
+        "next_quality_bytes": 204170,
+        "limit": 200000,
+        "sampled_quality_bytes": {
+          "95": 309440,
+          "47": 94484,
+          "71": 113190,
+          "83": 153380,
+          "89": 204170,
+          "86": 173620,
+          "87": 183730,
+          "88": 193304
+        }
+      },
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "learner-flashcards",
+      "category": "cutout",
+      "prompt": "Use case: photorealistic-natural.\nCreate ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.\nUse case for this edit: background-extraction. Edit the supplied learner-flashcards photograph. Isolate the exact same person and their required held study props onto genuine transparency. Preserve exact synthetic identity, age, facial proportions, hairstyle, expression, clothing, pose and photographic detail. Keep the woman, hair, hoodie, complete raised right hand and complete left hand holding the fan of index cards. Keep cards completely blank with fine ruling only, no writing. Remove the entire desk, laptop, notebooks, pencil, books and phone. Retain original chin-length bob and fringe, face and gaze. Tight natural subject crop with clear transparent margin, soft clean hair alpha, no coloured edge halo, no background scraps, no frame, no baked shadow. A separate contact shadow will be scripted. No retouching or beautification. Return one true-alpha PNG.\nStrict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-0ee1dcf8-83e8-4ee6-a2e9-cd43e009d1dc.png",
+      "status": "exported",
+      "source_sha256": "2f63ffc45a681cc692be89d63a1c3b6a1b6ae6190ec250b30113660ab565e149",
+      "source_native_size": [
+        1123,
+        1401
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 1103432,
+        "transparent_pixels": 469617
+      },
+      "export_size": [
+        1147,
+        1412
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 1103432,
+        "transparent_pixels": 515858
+      },
+      "source_bbox_xyxy": [
+        0,
+        13,
+        1123,
+        1401
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "alpha_coverage_note": "Source includes fully opaque alpha 255; original pixels and alpha preserved",
+      "webp_quality": 77,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 40,
+        "intermediate_pixels": 72257,
+        "transparent_pixels": 1547307
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/learner-flashcards.png",
+          "bytes": 2262677,
+          "native_size": [
+            1147,
+            1412
+          ],
+          "sha256": "5223c74bb9d4a608fcf392ee40f875abd3f260b14a618121f10f2a8e757eb558"
+        },
+        {
+          "file": "art/assets/cutouts/learner-flashcards.webp",
+          "bytes": 198562,
+          "native_size": [
+            1147,
+            1412
+          ],
+          "sha256": "d6a885eb4c0b04b0945ff20eb63609878bf551aa89215784ce129c331568553f"
+        },
+        {
+          "file": "art/assets/cutouts/learner-flashcards-shadow.webp",
+          "bytes": 3590,
+          "native_size": [
+            1147,
+            1412
+          ],
+          "sha256": "68007a4c9b6d2f927e7d96cfdb7ebf32a3c57f2728fa5a5021715f143cda6a45"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/learner-flashcards-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "4f3ec11c5bab5b25473e9829df448357bfc67c84c41131f478ea5a708b4f7cc1"
+        },
+        {
+          "file": "art/review/edges/learner-flashcards-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "49b056ba81148a8712b7c6bedd79471ac77f13c94047df485f9c43530e2bd172",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                412,
+                211,
+                604,
+                403
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                209,
+                896,
+                401,
+                1088
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                832,
+                905,
+                1024,
+                1097
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "scale_to_export": 1.0,
+      "encoding_search": {
+        "method": "bounded binary search, not exhaustive",
+        "selected_quality": 77,
+        "selected_bytes": 198562,
+        "next_quality_bytes": 206018,
+        "limit": 200000,
+        "sampled_quality_bytes": {
+          "95": 479762,
+          "47": 138444,
+          "71": 177174,
+          "83": 246274,
+          "77": 198562,
+          "80": 220700,
+          "78": 206018
+        }
+      },
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
+    },
+    {
+      "name": "seller-notes",
+      "category": "cutout",
+      "prompt": "Use case: photorealistic-natural.\nCreate ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.\nVertical4:5 portrait, target2160x2700. NEW direct transparent photograph, no prior image reference. Camera pulled back for a medium seated shot with the WHOLE upper body, both elbows, wrists and both complete hands visible. Subject and all props comfortably within the central80% of frame, a broad clean transparent margin on all sides.\nSubject: A Black Zimbabwean man, age31, rich umber skin, broad build, round face, short neat locs, thin wire glasses, cream oxford shirt with rolled sleeves, a simple watch. Seated, arranging a neat ring binder of printed notes beside an unbranded laptop whose lid faces the camera. Reads as an accountant or tutor who is proud of his notes. Calm half smile. Both hands touching paper naturally. Keep the page-gripping hand well away from the left edge. Binder and laptop sit at lower centre without any table slab. Ruling and a few simple unlabelled geometric diagrams only. Unretouched photographic skin with modest ordinary pore detail, restrained soft even lighting, no shiny forehead. No fingerprint-like contour patterns, branching lines, tattoo texture, etched marks or fabricated skin cracks. Real smooth woven cloth with natural folds. Isolate only the man, binder and laptop onto genuine transparency, no furniture or backdrop, no baked shadow. Do not crop fingers, hands, forearms or head. No chair, floor or additional objects. Entire cutout has clear transparent margins.\nStrict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-eb859bd9-99be-4d67-a32d-fbf67bdab37f.png",
+      "regenerated": true,
+      "identity_note": "Fresh wider synthetic identity after rejecting extraction texture and clipped-hand variants; visually reviewed natural skin and complete hand silhouettes",
+      "status": "exported",
+      "source_sha256": "f5210dfe9cee97323aa0fc56a2ea8cc894db15d9e56a993f2ac28c18395e3c83",
+      "source_native_size": [
+        1122,
+        1402
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 814719,
+        "transparent_pixels": 758024
+      },
+      "export_size": [
+        1110,
+        1403
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 814719,
+        "transparent_pixels": 742310
+      },
+      "source_bbox_xyxy": [
+        22,
+        23,
+        1108,
+        1402
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "alpha_coverage_note": "Source includes fully opaque alpha 255; original pixels and alpha preserved",
+      "webp_quality": 93,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 41,
+        "intermediate_pixels": 69952,
+        "transparent_pixels": 1487378
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/seller-notes.png",
+          "bytes": 1346435,
+          "native_size": [
+            1110,
+            1403
+          ],
+          "sha256": "2bcb92e5a09882b4d2958b3d7bb4968355a827381a264590936dad8a0b5c65aa"
+        },
+        {
+          "file": "art/assets/cutouts/seller-notes.webp",
+          "bytes": 198204,
+          "native_size": [
+            1110,
+            1403
+          ],
+          "sha256": "63eafafe6a7c546278f96e25478961057205fcebed7eefe53581b6fbc2a0dacb"
+        },
+        {
+          "file": "art/assets/cutouts/seller-notes-shadow.webp",
+          "bytes": 3646,
+          "native_size": [
+            1110,
+            1403
+          ],
+          "sha256": "9f714e1833d908796524dd268645bda3b57edba27dbee76d38721f48bd91e8b5"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/seller-notes-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "6dc7f826b35c5c51f61c74f20c3d2014c5b914b95df47102d94dab897d49c30d"
+        },
+        {
+          "file": "art/review/edges/seller-notes-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "cef6217556ae53f903367abb6676160d24c0d259a5e331c02b9a24948aebb991",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                458,
+                210,
+                650,
+                402
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                219,
+                847,
+                411,
+                1039
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                483,
+                834,
+                675,
+                1026
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "scale_to_export": 1.0,
+      "encoding_search": {
+        "method": "bounded binary search, not exhaustive",
+        "selected_quality": 93,
+        "selected_bytes": 198204,
+        "next_quality_bytes": 213518,
+        "limit": 200000,
+        "sampled_quality_bytes": {
+          "95": 233132,
+          "47": 81504,
+          "71": 94252,
+          "83": 118108,
+          "89": 150728,
+          "92": 177864,
+          "93": 198204,
+          "94": 213518
+        }
+      }
+    },
+    {
+      "name": "lecturer-class",
+      "category": "cutout",
+      "prompt": "Use case: photorealistic-natural.\nCreate ONE standalone photograph for Takudzidza by Taku, an international study app made in Zimbabwe and used worldwide. Ultra realistic editorial photography with the authenticity of a candid magazine shoot for a premium university or learning brand. Finest available photographic detail. 50mm full-frame lens feel, natural perspective, soft natural window light, believable exposure and restrained warm colour. Real skin texture with pores and natural variation, real fabric creases, credible depth of field. The person is mid study and unaware of the camera.\nVertical 4:5, target 2160x2700, plain warm light grey studio background, soft even light, designed for clean background removal.\nSubject: A Lebanese woman, age 42, olive skin, angular face, dark wavy hair to the shoulder with a natural silver streak at the front, olive blazer over a cream top. Standing, explaining to an unseen class with an open right hand, holding a tablet against her body with the left, screen facing her.\nFraming: Waist up, slightly low angle, confident and warm, not posed.\nOutput clarification: create a NEW photographic true-alpha cutout directly, not an edit of an old image. Isolate ONLY the described person and their required held study props on genuine transparency, no warm grey backdrop in delivered image. No chair, table, desk or additional furnishings; for seller keep binder and unbranded laptop as one natural joined cutout. No baked shadow. Natural photographic skin with subtle pores and normal creases, real uniform woven fabrics. Absolutely no etched, crackled, branching, scribbled, tattoo-like or repeated line patterns on skin, forehead, neck, hands or clothing. No illustrative strokes or sharpening. Clean natural hair alpha edges and clear transparent margin.\nStrict constraints: absolutely no text, lettering, digits, readable handwriting, logos, brand marks, school crests, watermarks or signage anywhere, including clothing, books, screens and devices. Pages show only ruling, unlabeled geometric diagrams and soft indistinct tonal marks, never letter-like glyphs. Phone and laptop screens face away or show a blank warm glow. No camera-facing advertising pose, no generic stock-photo grin, no glamour makeup or retouching, no plastic or airbrushed skin, no cartoon, no 3D rendering, no rural or poverty imagery, no flags or tourism motifs, no staged luxury. Every person reads clearly as 15 or older. Realistic hands, correct fingers and credible object contact.",
+      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-8f928ebd-7e2c-4dc2-a793-5b85f05b0f4c.png",
+      "regenerated": true,
+      "identity_note": "Fresh synthetic identity generated from same brief after extraction texture concern; no original identity equivalence claimed",
+      "status": "exported",
+      "source_sha256": "bb3839c98a49aacb7057028bfafec73ec238e34f1626be38bba3c4e785417d3a",
+      "source_native_size": [
+        1122,
+        1402
+      ],
+      "source_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 1039383,
+        "transparent_pixels": 533435
+      },
+      "export_size": [
+        1098,
+        1426
+      ],
+      "export_alpha": {
+        "min": 0,
+        "max": 255,
+        "intermediate_pixels": 1039383,
+        "transparent_pixels": 526139
+      },
+      "source_bbox_xyxy": [
+        38,
+        0,
+        1112,
+        1402
+      ],
+      "padding_px": 12,
+      "upscale": false,
+      "background_removal_method": "Built-in imagegen true alpha supplied by source; no removal performed by exporter",
+      "alpha_coverage_note": "Source includes fully opaque alpha 255; original pixels and alpha preserved",
+      "webp_quality": 88,
+      "webp_limit_bytes": 200000,
+      "webp_alpha_lossless_verified": true,
+      "shadow_method": "Independent warm ink #4A3010 ellipse, Gaussian softening, bottom aligned; no subject pixels",
+      "shadow_alpha": {
+        "min": 0,
+        "max": 42,
+        "intermediate_pixels": 70480,
+        "transparent_pixels": 1495268
+      },
+      "files": [
+        {
+          "file": "art/assets/cutouts/lecturer-class.png",
+          "bytes": 1751262,
+          "native_size": [
+            1098,
+            1426
+          ],
+          "sha256": "a15216a55b651a587bedb23499b824af2c9499151d4f9b3b313c37037f748775"
+        },
+        {
+          "file": "art/assets/cutouts/lecturer-class.webp",
+          "bytes": 195906,
+          "native_size": [
+            1098,
+            1426
+          ],
+          "sha256": "b7a9469059485ef462c1783e384645d4a7e3755c1edc9f4da917c952d3385005"
+        },
+        {
+          "file": "art/assets/cutouts/lecturer-class-shadow.webp",
+          "bytes": 3814,
+          "native_size": [
+            1098,
+            1426
+          ],
+          "sha256": "cfc1dea618749b6276ed53996c3d127eaee7bf9dab0046efb539750aea2d4fe4"
+        }
+      ],
+      "review": [
+        {
+          "file": "art/review/edges/lecturer-class-contact.png",
+          "native_size": [
+            960,
+            640
+          ],
+          "sha256": "ea7c40f979e3c3a192966b516d478ed4fbfeae7cee0a1730423f4879b26f6181"
+        },
+        {
+          "file": "art/review/edges/lecturer-class-200pct.png",
+          "native_size": [
+            880,
+            1592
+          ],
+          "sha256": "19ef6ab65c563c27c2a4b43b5a7a801e46ca9c135c0e684bf3799b06cf6b6b52",
+          "crops": [
+            {
+              "label": "Upper edge / hair candidate",
+              "export_box_xyxy": [
+                465,
+                219,
+                657,
+                411
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower left / hand candidate",
+              "export_box_xyxy": [
+                199,
+                902,
+                391,
+                1094
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            },
+            {
+              "label": "Lower right / hand candidate",
+              "export_box_xyxy": [
+                677,
+                933,
+                869,
+                1125
+              ],
+              "scale": 2,
+              "resampling": "nearest"
+            }
+          ]
+        }
+      ],
+      "review_status": "Pending human/model visual inspection; candidate crops are not semantic proof of hair or hands",
+      "scale_to_export": 1.0,
+      "encoding_search": {
+        "method": "bounded binary search, not exhaustive",
+        "selected_quality": 88,
+        "selected_bytes": 195906,
+        "next_quality_bytes": 200582,
+        "limit": 200000,
+        "sampled_quality_bytes": {
+          "95": 324846,
+          "47": 107456,
+          "71": 123286,
+          "83": 157224,
+          "89": 200582,
+          "86": 177562,
+          "87": 184974,
+          "88": 195906
+        }
+      },
+      "cache_reused": true,
+      "cache_verification": "Source SHA-256 and all three exports plus both review sheet hashes match"
     }
   ]
 }
