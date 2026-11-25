@@ -106,9 +106,16 @@ function Demo({ k }: { k: Key }) {
   switch (k) {
     case "cards":
       return (
-        <div className="tb-flip">
-          <div className="tb-face tb-back">{i.cards.back}</div>
-          <div className="tb-face tb-front">{i.cards.front}</div>
+        <div className="tb-cardstack">
+          <div className="tb-flip">
+            <div className="tb-face tb-back">{i.cards.back}</div>
+            <div className="tb-face tb-front">{i.cards.front}</div>
+          </div>
+          {/* A picture of the two answers, not controls: the whole demo is aria-hidden. */}
+          <div className="tb-rate">
+            <span className="tb-again">{i.cards.again}</span>
+            <span className="tb-got">{i.cards.gotIt}</span>
+          </div>
         </div>
       );
     case "paper":

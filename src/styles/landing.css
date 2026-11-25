@@ -112,6 +112,14 @@
   .l-desk-highlighter { --w: 112px; top: 34%; left: calc(var(--w) * -0.55); }
   .l-desk-tea-cup { --w: 104px; top: 50%; right: calc(var(--w) * -0.52); }
 }
+@media (max-width: 699px) {
+  /* The gap beside the phone is (100vw minus the phone) / 2. A small tilt, and 10 px kept back (6 px for the tilted corners, 4 px of air), so no object reaches the screen edge. */
+  .l-desk-highlighter, .l-desk-tea-cup { --w: 72px; --reach: min(calc((100vw - min(296px, 80vw)) / 2 - 10px), calc(var(--w) * 0.6)); }
+  .l-desk-highlighter { --r: -8deg; }
+  .l-desk-tea-cup { --r: 6deg; }
+  .l-desk-highlighter { left: calc(-1 * var(--reach)); }
+  .l-desk-tea-cup { right: calc(-1 * var(--reach)); }
+}
 /* A slow drift of a few pixels, staggered; it stops with the demo's pause, off screen, and for less motion. */
 @keyframes l-float { from { translate: 0 calc(-2px * var(--speed)); } to { translate: 0 calc(3px * var(--speed)); } }
 .hd[data-paused] .l-desk-obj { animation-play-state: paused; }
@@ -208,6 +216,11 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 
 /* Captions under the phone: the current step is bold with a dot, not colour alone. */
 .hd-steps { display: grid; justify-items: center; gap: 0.35rem; width: min(420px, 100%); }
+@media (min-width: 700px) {
+  .hd-steps { width: max-content; max-width: none; }
+  .hd-tabs { overflow: visible; }
+  .hd-tab { padding-inline: 0.7rem; }
+}
 .hd-steps-hint { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-soft); }
 .hd-tabs { display: flex; flex-wrap: nowrap; gap: 0.3rem; max-width: 100%; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; padding: 2px; }
 .hd-tabs::-webkit-scrollbar { display: none; }
@@ -317,6 +330,12 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .cd-page p { margin: 0; line-height: 1.6; }
 .cd-page .eyebrow { margin-bottom: 0.5rem; }
 .cd-page[hidden] mark.hl { animation: none; }
+@media (min-width: 900px) {
+  .l-cite { padding-bottom: 40px; }
+  .cd-page[hidden] { display: none; }
+  .cd-page:not([hidden]) { animation: cd-open calc(var(--dur-card) * var(--speed)) var(--ease) both; }
+}
+@keyframes cd-open { from { opacity: 0; transform: translateY(calc(-12px * var(--speed))); } }
 
 /* ---------- Study tools (src/components/landing/ToolBento.tsx) ---------- */
 .tb-head { margin-bottom: 1rem; }
@@ -332,6 +351,14 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .tb-t-cards .tb-icon { background: var(--ink); color: var(--butter); }
 .tb-tile > p { margin: 0 0 0.5rem; font-size: 0.95rem; }
 .tb-demo { margin-top: 0.4rem; }
+.tb-t-cards .tb-demo { flex: 1; display: flex; flex-direction: column; }
+.tb-cardstack { flex: 1; display: flex; flex-direction: column; gap: 0.6rem; }
+.tb-cardstack .tb-flip { flex: 1; }
+.tb-cardstack .tb-face { min-height: 120px; font-size: 1.25rem; }
+.tb-rate { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.tb-rate span { display: grid; place-items: center; min-height: 36px; padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600; }
+.tb-again { background: var(--white); border: 1px solid var(--ink); color: var(--ink); }
+.tb-got { background: var(--ink); color: var(--white); }
 /* Phones: a sideways row that snaps, the next card peeking in, dots and arrows under it. Never turns by itself. */
 @media (max-width: 899px) {
   .tb-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; margin-inline: calc(-1 * clamp(1rem, 4vw, 2.5rem)); padding: 0.5rem 9vw 1rem; scroll-padding-inline: 9vw; }

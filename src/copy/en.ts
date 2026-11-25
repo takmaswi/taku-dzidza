@@ -163,7 +163,7 @@ export const copy = {
       dots: "Choose a tool",
       show: (name: string) => `Show ${name}`,
       items: {
-        cards: { name: "Flashcards", line: "Got it or Try again, and they come back at the right time.", front: "What does chlorophyll absorb?", back: "Light energy" },
+        cards: { name: "Flashcards", line: "Got it or Try again, and they come back at the right time.", front: "What does chlorophyll absorb?", back: "Light energy", gotIt: "Got it", again: "Try again" },
         paper: { name: "Practice papers", line: "Marks in brackets, like the real thing.", q1: "Name the gas plants give off.", m1: "(1 mark)", a1: "Oxygen", q2: "Explain why leaves look green.", m2: "(2 marks)", a2: "Chlorophyll reflects green light.", score: "3 out of 3" },
         scroll: { name: "Scroll", line: "Revision you can swipe, one idea at a time.", cards: ["Leaves are green because chlorophyll reflects green light.", "Stomata let carbon dioxide in.", "Glucose is stored as starch."] },
         summary: { name: "Summaries", line: "The main points, each one cited.", lines: ["Plants make their own food.", "Chlorophyll absorbs the light.", "Oxygen is given off."] },

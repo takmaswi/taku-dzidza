@@ -94,7 +94,7 @@ export default function Landing() {
         <DropAnything />
       </section>
 
-      <section className="l-section l-band reveal" aria-labelledby="l-cite-title">
+      <section className="l-section l-band l-cite reveal" aria-labelledby="l-cite-title">
         <div className="l-wrap l-split">
           <div>
             <span className="eyebrow">{t.cite.eyebrow}</span>
