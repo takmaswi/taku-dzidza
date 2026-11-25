@@ -1,22 +1,30 @@
 {
-  "about": "Photo objects that replace the drawn SVG in src/components/ObjectArt.tsx, one at a time. Add an entry per slug, for example \"sun\": { \"widths\": [160, 320, 640] }, with sun-160.webp, sun-320.webp, sun-640.webp and sun-shadow.webp beside this file (art/BRIEF-batch-4.md). Other fields, such as bytes or sha256, may sit alongside. Empty means every object is drawn.",
+  "about": "Batch 6 real object photography; exact prompts and native-source hashes included.",
   "objects": {
     "sun": {
       "name": "sun",
       "category": "object",
-      "prompt": "Studio product photograph of a single a round sun disc with short rays, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.\nMaster 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.",
-      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-c14263ae-f805-48e2-93fc-e463b3a0b3da.png",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nA solid polished brass sun paperweight, a disc with short tapered rays, about 8 cm across, resting flat on the white surface, warm highlights on the rays.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/sun.png",
       "source_native_size": [
-        1254,
-        1254
+        1536,
+        1024
       ],
-      "source_sha256": "264c7570bbd762075110c86a8c4c7babf980dece17e6d156857c3accf83f1b2a",
+      "source_sha256": "4aa2eb6da46b39df9562a4fccd9faefaf696d776d4913ebe81d0ac882b8983c0",
+      "generator": "built-in imagegen; model undisclosed",
       "export_size": [
         1536,
         1536
       ],
-      "scale_to_export": 0.8663980660757452,
-      "generator": "built-in imagegen; model undisclosed",
+      "scale_to_export": 1.2516880093131546,
+      "source_object_bounds": [
+        333,
+        156,
+        1192,
+        894
+      ],
       "widths": [
         160,
         320,
@@ -25,93 +33,95 @@
       "encodings": [
         {
           "width": 160,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+          "quality": 92
         },
         {
           "width": 320,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+          "quality": 92
         },
         {
           "width": 640,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+          "quality": 92
         }
       ],
       "files": [
         {
           "file": "art/objects/sun.png",
-          "bytes": 1176323,
-          "sha256": "70eb8b2679a80095b13c166b5dd831a64825b73ae21be1154d23e87c0981db64",
           "size": [
             1536,
             1536
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 1032817,
+          "sha256": "1b809943f5f728af93aa58ca420e79e3ea10bbfd1866139b8ab26fa1ac511687"
         },
         {
           "file": "art/objects/sun-160.webp",
-          "bytes": 7604,
-          "sha256": "ef3ef8c3883cf0e70fdb0b14b39311e56bc4bc1ea891878c83a03892e9d6cea4",
           "size": [
             160,
             160
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 7260,
+          "sha256": "ec1a4cdf4438918b823973dc6dab2f863440b17dd1e46b11ec1b4f23b0dc32fa"
         },
         {
           "file": "art/objects/sun-320.webp",
-          "bytes": 18336,
-          "sha256": "a0990df6d30a8829ee454f1ad4c12a36cf1e40f56710ac24c4f7eeec06ce0852",
           "size": [
             320,
             320
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 17012,
+          "sha256": "736ba2fab1df26a9a1d18eef0029f5a8644b31e27d19c5e2f1463d23d383876e"
         },
         {
           "file": "art/objects/sun-640.webp",
-          "bytes": 50352,
-          "sha256": "42561c8e68c3e5a159fe0757929975705c0e24cd785a528e01c992fe484e2ca6",
           "size": [
             640,
             640
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 46068,
+          "sha256": "eb321cf7a69f711ec723801785b5c682f8f16dc87c462dc8ac71db09008c1d91"
         },
         {
           "file": "art/objects/sun-shadow.webp",
-          "bytes": 2874,
-          "sha256": "cc0f201914dc95f86ae0b3ad097cbff73ab9c74ae4108bebf794ed960d405e33",
           "size": [
             1536,
             1536
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 7686,
+          "sha256": "e41b09d4faf3f5a0a9f13a58cbb9ad95a2e8109e20530e8548102497c741027b"
         }
       ],
-      "alpha": {
-        "min": 0,
-        "max": 255,
-        "intermediate_pixels": 649399,
-        "transparent_pixels": 1708209
-      },
-      "material": "matte glazed ceramic"
+      "background_removal": "rembg isnet-general-use; alpha thresholds 8/247; Lanczos fit to 70%"
     },
-    "moon": {
-      "name": "moon",
+    "sun-low": {
+      "name": "sun-low",
       "category": "object",
-      "prompt": "Studio product photograph of a single a crescent moon with two small stars, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.\nMaster 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.",
-      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-256821bc-0547-4299-878c-4c0832225093.png",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nThe same brass sun paperweight standing on its edge in a small walnut stand, lit by low warm late afternoon light from the left with a longer soft shadow.\nReference image 1 is the exact brass sun paperweight. Preserve its straight short tapered twelve rays, circular central disc, brass surface and proportions while photographing it upright in the walnut stand. Do not curve the rays. No other object from previous photographs.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/sun-low.png",
       "source_native_size": [
-        1254,
-        1254
+        1536,
+        1024
       ],
-      "source_sha256": "63197e2ab10330f1e4047a866920bee1d1eb7fc1951702a9be33a524908066af",
+      "source_sha256": "5d22cce32b2aaa2c2db0adef71ec9dcd1952cd618200a607a46a1efd672535ab",
+      "generator": "built-in imagegen; model undisclosed",
       "export_size": [
         1536,
         1536
       ],
-      "scale_to_export": 0.85947242206235,
-      "generator": "built-in imagegen; model undisclosed",
+      "scale_to_export": 1.240138408304498,
+      "source_object_bounds": [
+        390,
+        78,
+        1088,
+        945
+      ],
       "widths": [
         160,
         320,
@@ -120,93 +130,192 @@
       "encodings": [
         {
           "width": 160,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+          "quality": 92
         },
         {
           "width": 320,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+          "quality": 92
         },
         {
           "width": 640,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+          "quality": 92
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/sun-low.png",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 1176560,
+          "sha256": "578a3a8b42728ceb458241ee8c108b6d9f1bfb0a3e3475d1bf0541c13f9cae07"
+        },
+        {
+          "file": "art/objects/sun-low-160.webp",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA",
+          "bytes": 7206,
+          "sha256": "287f6bbdde42f0bb441200826881e519bdbaea8cfb685d25bbd9c748163e700d"
+        },
+        {
+          "file": "art/objects/sun-low-320.webp",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA",
+          "bytes": 17380,
+          "sha256": "5d8115eb94a7dd6c10ef5292ef16c4f3647bc22f4a13064cb5e05858ec5a25bd"
+        },
+        {
+          "file": "art/objects/sun-low-640.webp",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA",
+          "bytes": 48380,
+          "sha256": "db2f0623a12e06176bfaaf1eec8a453f58a9fe3a43a6f734a2c5145dae7db019"
+        },
+        {
+          "file": "art/objects/sun-low-shadow.webp",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 7550,
+          "sha256": "7a52ba6af21847eb4a010e3ce67aeea34a2b03e9e588d2c3528a6e97cf1d1eb4"
+        }
+      ],
+      "background_removal": "rembg isnet-general-use; alpha thresholds 8/247; Lanczos fit to 70%"
+    },
+    "moon": {
+      "name": "moon",
+      "category": "object",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nA small spherical moon lamp with a realistic pale cratered surface, switched on, glowing softly warm from inside, on a minimal walnut base.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/moon.png",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_sha256": "2246683d99b3153f3da44f84d9db7052c9447d3b348a02d0fef294dc8af7cad5",
+      "generator": "built-in imagegen; model undisclosed",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 1.3406483790523689,
+      "source_object_bounds": [
+        449,
+        84,
+        1078,
+        886
+      ],
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "quality": 92
+        },
+        {
+          "width": 320,
+          "quality": 92
+        },
+        {
+          "width": 640,
+          "quality": 92
         }
       ],
       "files": [
         {
           "file": "art/objects/moon.png",
-          "bytes": 917458,
-          "sha256": "1925f05ec87e96c14256522e2c0281da75add8a90e3c4d76afdd004a80b54785",
           "size": [
             1536,
             1536
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 1169845,
+          "sha256": "985179a3d8573ebd00598dd0a57e3276fae6549ea7438be374565ad491d03010"
         },
         {
           "file": "art/objects/moon-160.webp",
-          "bytes": 6198,
-          "sha256": "9d502a905120a4f65baef17ffb18f81d10778a659a8287aa8d9b8608219ee5be",
           "size": [
             160,
             160
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 5254,
+          "sha256": "a14ae701621ed7a7a4cb4f442250898b4da4312d25fbc2fd8fd885bbf52da4a5"
         },
         {
           "file": "art/objects/moon-320.webp",
-          "bytes": 14006,
-          "sha256": "a686ebd336144ed88fdb2ddc90d83b5d07e0899087c1c222501ae2718a264937",
           "size": [
             320,
             320
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 12522,
+          "sha256": "b74f68aa9c398cb8745525baeae2abacc43b3e07c51b1423c8e3f6244b47961c"
         },
         {
           "file": "art/objects/moon-640.webp",
-          "bytes": 36678,
-          "sha256": "e427c772a45df01f439dcde99fbd843634f8e04971b794ca59a94b971f24ee94",
           "size": [
             640,
             640
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 35206,
+          "sha256": "ae57683b97cfcddd9d24c9b55b48bdd7bc255b869567e9a6b302b75453f59f33"
         },
         {
           "file": "art/objects/moon-shadow.webp",
-          "bytes": 2862,
-          "sha256": "07477b6bdc713ede835001476f147792fffd61f224e9f65b7d08a0e108be32a6",
           "size": [
             1536,
             1536
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 7538,
+          "sha256": "6b336cd2acc1f9be75bd325dff1808eb62c5ef4da9d9cfda01925f30ef0b99a7"
         }
       ],
-      "alpha": {
-        "min": 0,
-        "max": 255,
-        "intermediate_pixels": 531731,
-        "transparent_pixels": 1826115
-      },
-      "material": "matte glazed ceramic"
+      "background_removal": "rembg u2net; alpha thresholds 8/247; source optical details retained where required; Lanczos fit to 70%"
     },
-    "open-book": {
-      "name": "open-book",
+    "speech-bubble": {
+      "name": "speech-bubble",
       "category": "object",
-      "prompt": "Studio product photograph of a single an open hardback book, blank pages, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.\nMaster 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.",
-      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-39b6415b-8201-4611-95f2-0c3c344b3cdc.png",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nA small square pad of pale butter yellow sticky notes, the top note slightly lifted at one corner, a black fine liner pen lying diagonally across it.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/speech-bubble.png",
       "source_native_size": [
         1536,
         1024
       ],
-      "source_sha256": "1eebf5f62727f75b215e4234ae7a28f05ec8d274de0f2c1ad026c13aa50e357f",
+      "source_sha256": "5acc6f466fd87cfbca8e8cb5a827993064e80676005d23f07b906b9d22b04a28",
+      "generator": "built-in imagegen; model undisclosed",
       "export_size": [
         1536,
         1536
       ],
-      "scale_to_export": 0.7220953660174613,
-      "generator": "built-in imagegen; model undisclosed",
+      "scale_to_export": 1.0269340974212033,
+      "source_object_bounds": [
+        232,
+        165,
+        1279,
+        922
+      ],
       "widths": [
         160,
         320,
@@ -215,283 +324,192 @@
       "encodings": [
         {
           "width": 160,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+          "quality": 92
         },
         {
           "width": 320,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+          "quality": 92
         },
         {
           "width": 640,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+          "quality": 92
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/speech-bubble.png",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 935750,
+          "sha256": "a3a1b2d38403f54921a9877d77583fd43805684c17d71e843ff09a30d158b569"
+        },
+        {
+          "file": "art/objects/speech-bubble-160.webp",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA",
+          "bytes": 4886,
+          "sha256": "3b2082bf95a861c945a15da6adb2f333c5f249923d61df8172e19d2e548a3fcd"
+        },
+        {
+          "file": "art/objects/speech-bubble-320.webp",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA",
+          "bytes": 10256,
+          "sha256": "705913ee97b31913e5c011b213538f8851a311e4da5e31661aeabd8fdf1f2f12"
+        },
+        {
+          "file": "art/objects/speech-bubble-640.webp",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA",
+          "bytes": 20656,
+          "sha256": "625d7f6b8f767ae9be97c5205d960f83e8ffc7e74ffe98114463d22b1dada8c7"
+        },
+        {
+          "file": "art/objects/speech-bubble-shadow.webp",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 7688,
+          "sha256": "7df91d6afd9a44977676ef31626f3aeea5fed413f2da32bc366fbfe43183b603"
+        }
+      ],
+      "background_removal": "rembg u2net; alpha thresholds 8/247; source optical details retained where required; Lanczos fit to 70%"
+    },
+    "open-book": {
+      "name": "open-book",
+      "category": "object",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nA hardback book lying open flat, cream pages with faint printed lines that are not readable, a honey yellow ribbon bookmark across the right page, cloth spine.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/open-book.png",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_sha256": "fd6fcc0369a40fd38b310e621549d2257804910c4fe442821146d4228515261f",
+      "generator": "built-in imagegen; model undisclosed",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 0.7988112927191677,
+      "source_object_bounds": [
+        100,
+        130,
+        1446,
+        900
+      ],
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "quality": 92
+        },
+        {
+          "width": 320,
+          "quality": 92
+        },
+        {
+          "width": 640,
+          "quality": 92
         }
       ],
       "files": [
         {
           "file": "art/objects/open-book.png",
-          "bytes": 732193,
-          "sha256": "2379e782bba5957ebb61885fb064b4eecee209e2ed2395e30185114627fd1b37",
           "size": [
             1536,
             1536
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 782993,
+          "sha256": "3bff9c1d4e43c41b78a474510288011b2a31eac0e4f4abbcc348f0984b56fe22"
         },
         {
           "file": "art/objects/open-book-160.webp",
-          "bytes": 4506,
-          "sha256": "b1a1582b2b6e36dbbb431560e96ba9092da1431a342bd218a0e0b0c75d8faeb9",
           "size": [
             160,
             160
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 5228,
+          "sha256": "cde52982e9fc2f37bc9847e000bd23259812d67db2c415a92744c88dab0fbd6a"
         },
         {
           "file": "art/objects/open-book-320.webp",
-          "bytes": 10758,
-          "sha256": "150a01364880952c0aa7c459271fc197ee2c61e18092845ee391578eb273bdb6",
           "size": [
             320,
             320
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 12634,
+          "sha256": "958a4b83a5495739e17e900b66cbfc3e8dc0800127d4899a0f13836392e095f4"
         },
         {
           "file": "art/objects/open-book-640.webp",
-          "bytes": 26464,
-          "sha256": "c8172f5ab73065fbc3d450327e42b406700e2bead4de116e9d34c5349e245cb4",
           "size": [
             640,
             640
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 31354,
+          "sha256": "a35a0d81846c17b95091d1832d1ad2dcef4ceb3c893cd8ff8e5eebd478d66929"
         },
         {
           "file": "art/objects/open-book-shadow.webp",
-          "bytes": 2870,
-          "sha256": "10b7b126d9fd2d08148bdd043d6183ecaa6fcce656a5c5e6fe2cec0620abfcc4",
           "size": [
             1536,
             1536
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 7704,
+          "sha256": "f93d3da2519ae2d52dbf29f45dd1cd1e059e47df86debd25a24cad72a73eb77f"
         }
       ],
-      "alpha": {
-        "min": 0,
-        "max": 255,
-        "intermediate_pixels": 461756,
-        "transparent_pixels": 1896337
-      },
-      "material": "matte glazed ceramic"
-    },
-    "headphones": {
-      "name": "headphones",
-      "category": "object",
-      "prompt": "Studio product photograph of a single over ear headphones, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.\nMaster 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.",
-      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-9764bc22-8c05-4d3b-913e-01b6223857b5.png",
-      "source_native_size": [
-        1254,
-        1254
-      ],
-      "source_sha256": "7ec0d7bb5232f65807dcda0be154d54f44cfd2d2ccf0f593479bf002132ef1b1",
-      "export_size": [
-        1536,
-        1536
-      ],
-      "scale_to_export": 0.8574162679425836,
-      "generator": "built-in imagegen; model undisclosed",
-      "widths": [
-        160,
-        320,
-        640
-      ],
-      "encodings": [
-        {
-          "width": 160,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
-        },
-        {
-          "width": 320,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
-        },
-        {
-          "width": 640,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
-        }
-      ],
-      "files": [
-        {
-          "file": "art/objects/headphones.png",
-          "bytes": 1065626,
-          "sha256": "25c56d91d0a20a1c4db7de1987ccf1abaa34e14350ab56ff7cca47736c25d5fc",
-          "size": [
-            1536,
-            1536
-          ],
-          "mode": "RGBA"
-        },
-        {
-          "file": "art/objects/headphones-160.webp",
-          "bytes": 8262,
-          "sha256": "77dc93390b8528a4f10b5851799c88cd6592c511810289e7e9ef291c6efd128c",
-          "size": [
-            160,
-            160
-          ],
-          "mode": "RGBA"
-        },
-        {
-          "file": "art/objects/headphones-320.webp",
-          "bytes": 18894,
-          "sha256": "f6be64b3326d4e5aa5306ef76dbdb976053edc3c0f1d0cebcdf541bc7f8bc7d3",
-          "size": [
-            320,
-            320
-          ],
-          "mode": "RGBA"
-        },
-        {
-          "file": "art/objects/headphones-640.webp",
-          "bytes": 49372,
-          "sha256": "16100819caec8d528ff7fb3e464f1f78795bff7b9fe9bab192e972729eb04524",
-          "size": [
-            640,
-            640
-          ],
-          "mode": "RGBA"
-        },
-        {
-          "file": "art/objects/headphones-shadow.webp",
-          "bytes": 2862,
-          "sha256": "07477b6bdc713ede835001476f147792fffd61f224e9f65b7d08a0e108be32a6",
-          "size": [
-            1536,
-            1536
-          ],
-          "mode": "RGBA"
-        }
-      ],
-      "alpha": {
-        "min": 0,
-        "max": 255,
-        "intermediate_pixels": 568083,
-        "transparent_pixels": 1789361
-      },
-      "material": "matte glazed ceramic"
-    },
-    "highlighter": {
-      "name": "highlighter",
-      "category": "object",
-      "prompt": "Studio product photograph of a single a single broad-tipped capped highlighter pen, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.\nMaster 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.",
-      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-6c16b013-8f52-405a-8007-7f119e7649b2.png",
-      "source_native_size": [
-        2172,
-        724
-      ],
-      "source_sha256": "723c8693e12d918049d30e1ab5af9f85634d42df430c46a67266dc18e1590bfa",
-      "export_size": [
-        1536,
-        1536
-      ],
-      "scale_to_export": 0.5043151969981238,
-      "generator": "built-in imagegen; model undisclosed",
-      "widths": [
-        160,
-        320,
-        640
-      ],
-      "encodings": [
-        {
-          "width": 160,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
-        },
-        {
-          "width": 320,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
-        },
-        {
-          "width": 640,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
-        }
-      ],
-      "files": [
-        {
-          "file": "art/objects/highlighter.png",
-          "bytes": 365525,
-          "sha256": "16a38db66cceb6595465d83bd5a6cd300cf6d11a86265a3af85250bb3f55e7ab",
-          "size": [
-            1536,
-            1536
-          ],
-          "mode": "RGBA"
-        },
-        {
-          "file": "art/objects/highlighter-160.webp",
-          "bytes": 3406,
-          "sha256": "854584be63a6fe579d463ec3a4798f4584a9caaaf236b2756cc4cc3f8a129eb9",
-          "size": [
-            160,
-            160
-          ],
-          "mode": "RGBA"
-        },
-        {
-          "file": "art/objects/highlighter-320.webp",
-          "bytes": 7538,
-          "sha256": "cf0b248e10743688ba4a77b13a297eecb9725116700379eb0db68b9e1bdd4a0e",
-          "size": [
-            320,
-            320
-          ],
-          "mode": "RGBA"
-        },
-        {
-          "file": "art/objects/highlighter-640.webp",
-          "bytes": 17460,
-          "sha256": "eccf93c98f4d8ea728666b945ff1d0099c8336b61506b1ebcbf61ecb17206aad",
-          "size": [
-            640,
-            640
-          ],
-          "mode": "RGBA"
-        },
-        {
-          "file": "art/objects/highlighter-shadow.webp",
-          "bytes": 2882,
-          "sha256": "3d06d97f85d2615353e87e6f080810c344694f8febd338205d12c833d1cd8caf",
-          "size": [
-            1536,
-            1536
-          ],
-          "mode": "RGBA"
-        }
-      ],
-      "alpha": {
-        "min": 0,
-        "max": 255,
-        "intermediate_pixels": 207334,
-        "transparent_pixels": 2150390
-      },
-      "material": "matte glazed ceramic"
+      "background_removal": "rembg isnet-general-use; alpha thresholds 8/247; Lanczos fit to 70%"
     },
     "index-cards": {
       "name": "index-cards",
       "category": "object",
-      "prompt": "Studio product photograph of a single a small fanned stack of blank index cards, made as matte glazed ceramic desk object, soft satin glaze in the palette, slight hand made irregularity, smooth and heavy looking, colours limited to ivory cream, butter yellow, honey yellow and ink black, three quarter view from slightly above, centred on a plain warm ivory seamless backdrop, soft diffused key light from the top left, gentle shadow, 85mm lens, crisp focus across the object, minimal, premium, no text, no numbers, no logo, no face.\nMaster 1536x1536, square canvas, object fills 70 percent of frame, camera about 30 degrees from above. One consistent cream and honey matte ceramic family. Isolate the entire object onto genuine transparent background, no baked shadow (a separate contact shadow will be scripted), no backdrop or ground plane. No cartoon, glossy plastic 3D, emoji, chrome or blue.",
-      "source": "C:\\Users\\Dell\\.codex\\generated_images\\01a20ed2-d068-7d62-bfeb-472411bfd948\\exec-28e45e62-4023-47a0-aa2b-62524f9c4ce8.png",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nA loose fanned stack of real white and pale butter index cards with faint blue ruling, held together at one corner by a black binder clip.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/index-cards.png",
       "source_native_size": [
         1536,
         1024
       ],
-      "source_sha256": "2d78ca6f34498ff7380b09b3584dae30929803b69365d82890a3e59467436b79",
+      "source_sha256": "314ed2693add0e804ba611c9f412d1c7656d3c7d9afc945ce051471b8c557193",
+      "generator": "built-in imagegen; model undisclosed",
       "export_size": [
         1536,
         1536
       ],
-      "scale_to_export": 0.7073684210526314,
-      "generator": "built-in imagegen; model undisclosed",
+      "scale_to_export": 0.8399999999999999,
+      "source_object_bounds": [
+        129,
+        23,
+        1409,
+        995
+      ],
       "widths": [
         160,
         320,
@@ -500,76 +518,943 @@
       "encodings": [
         {
           "width": 160,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+          "quality": 92
         },
         {
           "width": 320,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+          "quality": 92
         },
         {
           "width": 640,
-          "method": "Reused current-batch output; decoded dimensions and exact alpha verified"
+          "quality": 92
         }
       ],
       "files": [
         {
           "file": "art/objects/index-cards.png",
-          "bytes": 709989,
-          "sha256": "e39e4281ff92de03683566dfac5ccd70afa0a1667f4bec5c5c05acd399b68e1c",
           "size": [
             1536,
             1536
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 1020301,
+          "sha256": "d133a198123cf7051f140980c98581677a408d3d20f917cbf759a06a3a23b951"
         },
         {
           "file": "art/objects/index-cards-160.webp",
-          "bytes": 4546,
-          "sha256": "7664a8c278847d54ad002ff7ababfaa9847cff8beda728c5ea54b732a23b7793",
           "size": [
             160,
             160
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 6044,
+          "sha256": "425e58c44bc7e8a037264579cfe34eed4ddc4a4a58ee1b6c1ed82f18f479c1d6"
         },
         {
           "file": "art/objects/index-cards-320.webp",
-          "bytes": 10572,
-          "sha256": "8ce334b2261920c3fdb0e655c966681bae98ce7bcdd56c97aa8ae498a62ee5f1",
           "size": [
             320,
             320
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 14940,
+          "sha256": "1cd4d1ca9b140a5850f7fa8560636155194aa2381e65a1c04a93b3029402de8c"
         },
         {
           "file": "art/objects/index-cards-640.webp",
-          "bytes": 25684,
-          "sha256": "dd75b57518c15f4c0fe1da157ad5a18f7d4c7c1587e01d66e67c7bb8c658af14",
           "size": [
             640,
             640
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 41168,
+          "sha256": "0b61ef6b7d64e7555c1eb3a4acdcce9d3a05d8be9166435398a9a4c37d78fb24"
         },
         {
           "file": "art/objects/index-cards-shadow.webp",
-          "bytes": 2882,
-          "sha256": "867ebc7e6f0d5affcf380928fb64cd96797ed772d62f01603ae2a626e529a29a",
           "size": [
             1536,
             1536
           ],
-          "mode": "RGBA"
+          "mode": "RGBA",
+          "bytes": 7688,
+          "sha256": "1f1ad0c3243ad76a9e1039ee97985eef0057935aa6605d2d2641e2a9caa3f316"
         }
       ],
-      "alpha": {
-        "min": 0,
-        "max": 255,
-        "intermediate_pixels": 417466,
-        "transparent_pixels": 1940739
-      },
-      "material": "matte glazed ceramic"
+      "background_removal": "rembg isnet-general-use; alpha thresholds 8/247; Lanczos fit to 70%"
+    },
+    "star-medal": {
+      "name": "star-medal",
+      "category": "object",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nA solid brass medal with a simple raised star, on a short folded honey yellow grosgrain ribbon, lying flat.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/star-medal.png",
+      "source_native_size": [
+        1535,
+        1025
+      ],
+      "source_sha256": "6717844d690eaa0ea600094015ea9d421e668e9a32f8922f388ba93de8febb18",
+      "generator": "built-in imagegen; model undisclosed",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 1.087158746208291,
+      "source_object_bounds": [
+        207,
+        36,
+        1196,
+        970
+      ],
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "quality": 92
+        },
+        {
+          "width": 320,
+          "quality": 92
+        },
+        {
+          "width": 640,
+          "quality": 92
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/star-medal.png",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 1154290,
+          "sha256": "e2874654cf730707bbc7ac2c313cff970bd7d79e07cd62fd87b75e354237491b"
+        },
+        {
+          "file": "art/objects/star-medal-160.webp",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA",
+          "bytes": 5504,
+          "sha256": "18714c47ee44af5643f3b307de287a9a8150bab5f2286398a0a94bcaac5d2c88"
+        },
+        {
+          "file": "art/objects/star-medal-320.webp",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA",
+          "bytes": 15974,
+          "sha256": "ae5f053cacdc803990021914fbe80ebcba0ede2ff84ca4958e15c88681aa4e13"
+        },
+        {
+          "file": "art/objects/star-medal-640.webp",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA",
+          "bytes": 50400,
+          "sha256": "3aceb11d8d1d1c5441c08a06b150e9259d0e1ae348a04dd2bccec9e521734f5d"
+        },
+        {
+          "file": "art/objects/star-medal-shadow.webp",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 7674,
+          "sha256": "3489e573bbd5855782311fe3e98bbffea01e8b773466f4715388c9d97999a418"
+        }
+      ],
+      "background_removal": "rembg isnet-general-use; alpha thresholds 8/247; Lanczos fit to 70%"
+    },
+    "hourglass": {
+      "name": "hourglass",
+      "category": "object",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nA clear glass hourglass in a light oak frame, fine golden sand mid flow, sand stream visible, half in each bulb.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/hourglass.png",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_sha256": "001e542efe89b8688087fb02ee5f3304c8f18b3ff60736d24b3907cded7c132a",
+      "generator": "built-in imagegen; model undisclosed",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 1.1725190839694655,
+      "source_object_bounds": [
+        506,
+        42,
+        1024,
+        959
+      ],
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "quality": 92
+        },
+        {
+          "width": 320,
+          "quality": 92
+        },
+        {
+          "width": 640,
+          "quality": 92
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/hourglass.png",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 999483,
+          "sha256": "010129a1f014e905fbb4bb52bb9e7dcefdb6e3dbb551153da77d786a2ac86d48"
+        },
+        {
+          "file": "art/objects/hourglass-160.webp",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA",
+          "bytes": 6342,
+          "sha256": "6f28c43bb6732a226389e217dad1f64525a5e62bba3d0aca02525a5096cf4c57"
+        },
+        {
+          "file": "art/objects/hourglass-320.webp",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA",
+          "bytes": 14238,
+          "sha256": "c6b05fbbff00bdef04006e04261b7dca74ce6d5f0c8a00f4934280665af8f300"
+        },
+        {
+          "file": "art/objects/hourglass-640.webp",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA",
+          "bytes": 38446,
+          "sha256": "3a1b057c8ae95fa1c5ecaca5796a94f228ec9b61fa8507bfcdfe456144a9dfe0"
+        },
+        {
+          "file": "art/objects/hourglass-shadow.webp",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 7324,
+          "sha256": "db999b2989c0d4b8f092ee1a811e70ced1dcb322e9582e9b3403d9874cd19bfc"
+        }
+      ],
+      "background_removal": "rembg u2net; alpha thresholds 8/247; source optical details retained where required; Lanczos fit to 70%"
+    },
+    "lamp": {
+      "name": "lamp",
+      "category": "object",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nA modern matte black adjustable desk lamp with a brass joint, switched on, casting a warm pool of light on the white surface.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/lamp.png",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_sha256": "d3c954cfeb671e5561cf1415a37b08cf76df6c26a306b178b168e1f33000e0fb",
+      "generator": "built-in imagegen; model undisclosed",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 0.806601650412603,
+      "source_object_bounds": [
+        75,
+        41,
+        1408,
+        1021
+      ],
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "quality": 92
+        },
+        {
+          "width": 320,
+          "quality": 92
+        },
+        {
+          "width": 640,
+          "quality": 92
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/lamp.png",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 588565,
+          "sha256": "768daa8f60d8aa39e97bdc3c34525e20860f918bb30c9f2d3fc20b89548328ec"
+        },
+        {
+          "file": "art/objects/lamp-160.webp",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA",
+          "bytes": 4976,
+          "sha256": "15b1f40603b68141e219ef255fffa49434a3c95c32222b885a273702712bf84b"
+        },
+        {
+          "file": "art/objects/lamp-320.webp",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA",
+          "bytes": 11782,
+          "sha256": "f796850803a9b350b53c6b365715dfc5575b7b2ad930ff2cb74f98647d1c2451"
+        },
+        {
+          "file": "art/objects/lamp-640.webp",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA",
+          "bytes": 32464,
+          "sha256": "79ef1c92391c8c17b51fa2537592695d5f033f4240ccc528081ba62e97d0e984"
+        },
+        {
+          "file": "art/objects/lamp-shadow.webp",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 7682,
+          "sha256": "38492d05fda20fd42a1aae9c8ec866fb942128b01d13180557bac861f2e82567"
+        }
+      ],
+      "background_removal": "rembg isnet-general-use; alpha thresholds 8/247; source optical details retained where required; Lanczos fit to 70%"
+    },
+    "spark": {
+      "name": "spark",
+      "category": "object",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nA small clear glass prism on the white surface catching daylight and throwing a short soft rainbow onto the surface beside it.\nOnly the single clear glass prism and its short refracted rainbow. The prism must be the main subject. No notebook, book, paper, ribbon or stationery. Square catalogue composition.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/spark.png",
+      "source_native_size": [
+        1254,
+        1254
+      ],
+      "source_sha256": "ba05d6abe09d4007cd454bb63d81db91608482b79c64a113f116ee41cff9ae0d",
+      "generator": "built-in imagegen; model undisclosed",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 1.216289592760181,
+      "source_object_bounds": [
+        173,
+        267,
+        1057,
+        975
+      ],
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "quality": 92
+        },
+        {
+          "width": 320,
+          "quality": 92
+        },
+        {
+          "width": 640,
+          "quality": 92
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/spark.png",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 805476,
+          "sha256": "4e360d72ba3bb675cf109733e8258b4990fd738bfc382823b9fd6c28a46b4167"
+        },
+        {
+          "file": "art/objects/spark-160.webp",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA",
+          "bytes": 5684,
+          "sha256": "c32a56eef8ffc646afc4a09e1712156df377b1c938d5823f5873233f50c7b1e5"
+        },
+        {
+          "file": "art/objects/spark-320.webp",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA",
+          "bytes": 13154,
+          "sha256": "78f7308fef600ae01a67b5c28d85a91df3f397918f0b9ab84457a873f3aa8b34"
+        },
+        {
+          "file": "art/objects/spark-640.webp",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA",
+          "bytes": 33226,
+          "sha256": "ffa2d1a83d1ab0e73067c598d5faba59b4e97e0fcd09362f079032677fd31799"
+        },
+        {
+          "file": "art/objects/spark-shadow.webp",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 7698,
+          "sha256": "56de418f5c4f46261286013f17f502af38763ff6199504c21d6eb137542f1980"
+        }
+      ],
+      "background_removal": "rembg isnet-general-use; alpha thresholds 8/247; source optical details retained where required; Lanczos fit to 70%"
+    },
+    "tea-cup": {
+      "name": "tea-cup",
+      "category": "object",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nA handmade stoneware mug with a honey yellow glaze and natural speckles, on a small light oak coaster, a thin wisp of real steam.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/tea-cup.png",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_sha256": "8ba7879ef5f400b8ea65792efe0c3819e831041e84b6179654c95bcde6feea79",
+      "generator": "built-in imagegen; model undisclosed",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 1.241570438799076,
+      "source_object_bounds": [
+        442,
+        53,
+        1148,
+        919
+      ],
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "quality": 92
+        },
+        {
+          "width": 320,
+          "quality": 92
+        },
+        {
+          "width": 640,
+          "quality": 92
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/tea-cup.png",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 1140937,
+          "sha256": "eced3c92a4b36def4fd81b39f173aed7e59f79526a3f54da179291116ebf5421"
+        },
+        {
+          "file": "art/objects/tea-cup-160.webp",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA",
+          "bytes": 6742,
+          "sha256": "11332f677b04304cc8d6a40216395b8dced12d719a5a9dd9cd838054ba0523b2"
+        },
+        {
+          "file": "art/objects/tea-cup-320.webp",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA",
+          "bytes": 17430,
+          "sha256": "e2d18f4b15c0e1a0e8bd80f1027cc08025843dec1269eab8cf3545221b4eddee"
+        },
+        {
+          "file": "art/objects/tea-cup-640.webp",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA",
+          "bytes": 51222,
+          "sha256": "4ec0c38190e263cddfa59a0105f9ab7598031792a2665b3bb8710ef6adb0956e"
+        },
+        {
+          "file": "art/objects/tea-cup-shadow.webp",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 7512,
+          "sha256": "143773a0903d95e1ad27055ee294585361b567183c8073dcfc00e1077a28b433"
+        }
+      ],
+      "background_removal": "rembg isnet-general-use; alpha thresholds 8/247; source optical details retained where required; Lanczos fit to 70%"
+    },
+    "key": {
+      "name": "key",
+      "category": "object",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nAn old style solid brass key with a round bow, lying diagonally, worn edges, warm reflections.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/key.png",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_sha256": "405e70c50703ee9ab710d23f2588c789af1ca7360bdd5d276f506942397d38c4",
+      "generator": "built-in imagegen; model undisclosed",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 0.9439859525899911,
+      "source_object_bounds": [
+        148,
+        160,
+        1287,
+        879
+      ],
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "quality": 92
+        },
+        {
+          "width": 320,
+          "quality": 92
+        },
+        {
+          "width": 640,
+          "quality": 92
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/key.png",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 469163,
+          "sha256": "79a61495ebefb742e33987f0c02a4b5a7829cadd81dc4c1d8a6e397ddfa2a06a"
+        },
+        {
+          "file": "art/objects/key-160.webp",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA",
+          "bytes": 4764,
+          "sha256": "84db2d2a440bd575eec9a0c6ee56ab4c399699ca2e7d5b6ad602c8a972cf6f2f"
+        },
+        {
+          "file": "art/objects/key-320.webp",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA",
+          "bytes": 11036,
+          "sha256": "bb36dde04e143aa9f426eb922aa4af9d5d9cb151615d243cd5e35db9db2435c8"
+        },
+        {
+          "file": "art/objects/key-640.webp",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA",
+          "bytes": 28354,
+          "sha256": "5c0bd179b9554bd77f5775aea989d3bfa72eedab73035f4aed179dbcf8275a04"
+        },
+        {
+          "file": "art/objects/key-shadow.webp",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 7696,
+          "sha256": "14dabf27d974bdf2972663cc68588e33d217a5678ec4b7fb274483beac89684c"
+        }
+      ],
+      "background_removal": "rembg isnet-general-use; alpha thresholds 8/247; Lanczos fit to 70%"
+    },
+    "seedling": {
+      "name": "seedling",
+      "category": "object",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nA small young seedling with two real green leaves in a matte white ceramic pot with soil, natural and fresh.\nThe entire pot is plain matte white ceramic, with no coloured band or decorative motif. Exactly two green leaves. No other props.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/seedling.png",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_sha256": "1d6250f899ecef7d63aa9d8ab5dca5e597e9c31a891cfe6e9d6c9a3be4e4b300",
+      "generator": "built-in imagegen; model undisclosed",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 1.583505154639175,
+      "source_object_bounds": [
+        503,
+        179,
+        1002,
+        858
+      ],
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "quality": 92
+        },
+        {
+          "width": 320,
+          "quality": 92
+        },
+        {
+          "width": 640,
+          "quality": 92
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/seedling.png",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 954585,
+          "sha256": "4b243471303fdc3d6fd8ee41c5c6b5e30e6ba6ae81bbea3a71ccca011484daa5"
+        },
+        {
+          "file": "art/objects/seedling-160.webp",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA",
+          "bytes": 6048,
+          "sha256": "2e148f4d15267afcb815e17f794ec73728675ce088668f34eefa28f596d106c8"
+        },
+        {
+          "file": "art/objects/seedling-320.webp",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA",
+          "bytes": 14410,
+          "sha256": "2b76c9d96a060b5191d9c5901957f5dbd03ba03a54fe5d3840ffe2fd0693efd2"
+        },
+        {
+          "file": "art/objects/seedling-640.webp",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA",
+          "bytes": 37536,
+          "sha256": "2428ccac077f99ad2cf5f8ffb9a0d48303ae8f8e0964d0ce3fcd0f123e1fdaf2"
+        },
+        {
+          "file": "art/objects/seedling-shadow.webp",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 7516,
+          "sha256": "eb4cf5e93215490299e1a888be3beb53bf5e0d0be99b0941a7f7a7fb9d9dbf9d"
+        }
+      ],
+      "background_removal": "rembg isnet-general-use; alpha thresholds 8/247; Lanczos fit to 70%"
+    },
+    "headphones": {
+      "name": "headphones",
+      "category": "object",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nPremium over ear headphones in warm cream fabric and matte black, ear cushions visible, lying at a natural angle.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/headphones.png",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_sha256": "b1a278e4966380f641e610b611c2c692ab5c751f5c3bfb37fbed4bbf62624358",
+      "generator": "built-in imagegen; model undisclosed",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 1.0893617021276594,
+      "source_object_bounds": [
+        275,
+        74,
+        1262,
+        967
+      ],
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "quality": 92
+        },
+        {
+          "width": 320,
+          "quality": 92
+        },
+        {
+          "width": 640,
+          "quality": 92
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/headphones.png",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 1260556,
+          "sha256": "7a5a295f945d54f531182fbbb55f9109e6ccd87ef8b3856ddd17676b74ae39b3"
+        },
+        {
+          "file": "art/objects/headphones-160.webp",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA",
+          "bytes": 6578,
+          "sha256": "4b26465389fdc41c98a80f178f83c1282f027636f298f6832cb6584f7f53975f"
+        },
+        {
+          "file": "art/objects/headphones-320.webp",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA",
+          "bytes": 14604,
+          "sha256": "bd0384a0f1c3c0de815a516ee2febc55d09a4e03dbe07c610c431ad97a154b32"
+        },
+        {
+          "file": "art/objects/headphones-640.webp",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA",
+          "bytes": 41138,
+          "sha256": "162a390c444d2d5fa0d3d7b1c87023af3a57c23f408cba8ec24c061cbef850c6"
+        },
+        {
+          "file": "art/objects/headphones-shadow.webp",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 7686,
+          "sha256": "095b5e6938a2e0e5ed2bf111cff33257807e9b2e13dabb87d1227be832a8397e"
+        }
+      ],
+      "background_removal": "rembg isnet-general-use; alpha thresholds 8/247; Lanczos fit to 70%"
+    },
+    "highlighter": {
+      "name": "highlighter",
+      "category": "object",
+      "batch": 6,
+      "material": "real physical materials; photographic still life",
+      "prompt": "Use case: photorealistic product still life.\nCreate ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.\n\nA real yellow highlighter, cap off and lying beside it, with one clean straight stroke of yellow highlight on a blank white card under the tip.\n\nStrict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.",
+      "source": "art/review/batch-6-sources/highlighter.png",
+      "source_native_size": [
+        1536,
+        1024
+      ],
+      "source_sha256": "b8efdbdbe69aca97bd74cba9ae781a969caea35cea66d1af8bf9236b78c26aef",
+      "generator": "built-in imagegen; model undisclosed",
+      "export_size": [
+        1536,
+        1536
+      ],
+      "scale_to_export": 0.8643086816720256,
+      "source_object_bounds": [
+        176,
+        126,
+        1420,
+        963
+      ],
+      "widths": [
+        160,
+        320,
+        640
+      ],
+      "encodings": [
+        {
+          "width": 160,
+          "quality": 92
+        },
+        {
+          "width": 320,
+          "quality": 92
+        },
+        {
+          "width": 640,
+          "quality": 92
+        }
+      ],
+      "files": [
+        {
+          "file": "art/objects/highlighter.png",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 521400,
+          "sha256": "b5c827f5e22e23e101f86474ca9496b23c3ad2502ce890168a9b32737d956fc8"
+        },
+        {
+          "file": "art/objects/highlighter-160.webp",
+          "size": [
+            160,
+            160
+          ],
+          "mode": "RGBA",
+          "bytes": 4800,
+          "sha256": "11522018aadc9b516601d0e7f649dec8f9d6f7e3e233924af41a95a76ff24e64"
+        },
+        {
+          "file": "art/objects/highlighter-320.webp",
+          "size": [
+            320,
+            320
+          ],
+          "mode": "RGBA",
+          "bytes": 9986,
+          "sha256": "0fb3fe9ba664ddd89f3d04cc8c68f45ae926e5a509fb0de29098f264e27b459d"
+        },
+        {
+          "file": "art/objects/highlighter-640.webp",
+          "size": [
+            640,
+            640
+          ],
+          "mode": "RGBA",
+          "bytes": 19866,
+          "sha256": "04dc7a843167a9f66983f05845e0803116e4e4ffabf2e44a60777815b5f619a7"
+        },
+        {
+          "file": "art/objects/highlighter-shadow.webp",
+          "size": [
+            1536,
+            1536
+          ],
+          "mode": "RGBA",
+          "bytes": 7698,
+          "sha256": "1d73d4afb565eab40e2dd84d949fefa3d19c5d3b45a2bdd340d9718c924636fa"
+        }
+      ],
+      "background_removal": "rembg u2net; alpha thresholds 8/247; source optical details retained where required; Lanczos fit to 70%"
     }
   }
 }

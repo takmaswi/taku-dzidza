@@ -1927,3 +1927,391 @@ Strict constraints: absolutely no text, lettering, digits, readable handwriting,
 - No application tests, E2E, deployment or physical-device checks were run for this asset-only package.
 
 Detailed machine-readable provenance and checks: `art/review/batch-5-inventory.json`. Audio was generated afterwards (see the ElevenLabs section above); `public/audio/landing/manifest.json` records it.
+
+## Batch 6 - real object photography (2026-11-25)
+
+Generated with built-in imagegen. Exact shared preamble and constraints were
+preserved at the beginning and end of every prompt, including corrections.
+Native photographs are preserved byte-for-byte under `art/review/batch-6-sources/`.
+Masters are 1536x1536 RGBA, cropped and fitted to 70% with Lanczos.
+Native dimensions and the actual scaling factor are listed below; masters are not claimed as native 1536px photographs.
+Background removal uses local rembg isnet-general-use, with u2net for moon, speech-bubble, hourglass and highlighter to preserve complete subjects.
+Source-derived masks retain the prism rainbow, lamp light pool and steam above the mug; coloured spill is unmatted from white.
+Both background models omitted the highlighter's white card. A traced four-corner source mask retains its original photographed pixels and straight edges.
+Transparent glass, steam and fine reflected light are reviewed on both backgrounds.
+One shared Pillow ellipse/blur procedure produces the separate contact shadows.
+Exports: 160, 320, 640px WebP, each below 60000 bytes with lossless alpha.
+
+### Scripts and scope
+
+`python -B art/review/build_batch6.py` exports the objects and contact sheet.
+It runs the unchanged `art/web/build_web.py` main function with only its PUBLIC
+constant redirected to `art/review/batch-6-build-icons/`, so every write stays under art/.
+No application code, public assets, deployment, app tests or E2E checks are part of this batch.
+
+### Exact accepted prompts and source provenance
+
+#### sun
+
+Native: [1536, 1024]. Scale to export: 1.251688.
+Source: `art/review/batch-6-sources/sun.png`.
+Source SHA-256: `4aa2eb6da46b39df9562a4fccd9faefaf696d776d4913ebe81d0ac882b8983c0`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+A solid polished brass sun paperweight, a disc with short tapered rays, about 8 cm across, resting flat on the white surface, warm highlights on the rays.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### sun-low
+
+Native: [1536, 1024]. Scale to export: 1.240138.
+Source: `art/review/batch-6-sources/sun-low.png`.
+Source SHA-256: `5d22cce32b2aaa2c2db0adef71ec9dcd1952cd618200a607a46a1efd672535ab`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+The same brass sun paperweight standing on its edge in a small walnut stand, lit by low warm late afternoon light from the left with a longer soft shadow.
+Reference image 1 is the exact brass sun paperweight. Preserve its straight short tapered twelve rays, circular central disc, brass surface and proportions while photographing it upright in the walnut stand. Do not curve the rays. No other object from previous photographs.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### moon
+
+Native: [1536, 1024]. Scale to export: 1.340648.
+Source: `art/review/batch-6-sources/moon.png`.
+Source SHA-256: `2246683d99b3153f3da44f84d9db7052c9447d3b348a02d0fef294dc8af7cad5`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+A small spherical moon lamp with a realistic pale cratered surface, switched on, glowing softly warm from inside, on a minimal walnut base.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### speech-bubble
+
+Native: [1536, 1024]. Scale to export: 1.026934.
+Source: `art/review/batch-6-sources/speech-bubble.png`.
+Source SHA-256: `5acc6f466fd87cfbca8e8cb5a827993064e80676005d23f07b906b9d22b04a28`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+A small square pad of pale butter yellow sticky notes, the top note slightly lifted at one corner, a black fine liner pen lying diagonally across it.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### open-book
+
+Native: [1536, 1024]. Scale to export: 0.798811.
+Source: `art/review/batch-6-sources/open-book.png`.
+Source SHA-256: `fd6fcc0369a40fd38b310e621549d2257804910c4fe442821146d4228515261f`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+A hardback book lying open flat, cream pages with faint printed lines that are not readable, a honey yellow ribbon bookmark across the right page, cloth spine.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### index-cards
+
+Native: [1536, 1024]. Scale to export: 0.840000.
+Source: `art/review/batch-6-sources/index-cards.png`.
+Source SHA-256: `314ed2693add0e804ba611c9f412d1c7656d3c7d9afc945ce051471b8c557193`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+A loose fanned stack of real white and pale butter index cards with faint blue ruling, held together at one corner by a black binder clip.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### star-medal
+
+Native: [1535, 1025]. Scale to export: 1.087159.
+Source: `art/review/batch-6-sources/star-medal.png`.
+Source SHA-256: `6717844d690eaa0ea600094015ea9d421e668e9a32f8922f388ba93de8febb18`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+A solid brass medal with a simple raised star, on a short folded honey yellow grosgrain ribbon, lying flat.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### hourglass
+
+Native: [1536, 1024]. Scale to export: 1.172519.
+Source: `art/review/batch-6-sources/hourglass.png`.
+Source SHA-256: `001e542efe89b8688087fb02ee5f3304c8f18b3ff60736d24b3907cded7c132a`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+A clear glass hourglass in a light oak frame, fine golden sand mid flow, sand stream visible, half in each bulb.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### lamp
+
+Native: [1536, 1024]. Scale to export: 0.806602.
+Source: `art/review/batch-6-sources/lamp.png`.
+Source SHA-256: `d3c954cfeb671e5561cf1415a37b08cf76df6c26a306b178b168e1f33000e0fb`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+A modern matte black adjustable desk lamp with a brass joint, switched on, casting a warm pool of light on the white surface.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### spark
+
+Native: [1254, 1254]. Scale to export: 1.216290.
+Source: `art/review/batch-6-sources/spark.png`.
+Source SHA-256: `ba05d6abe09d4007cd454bb63d81db91608482b79c64a113f116ee41cff9ae0d`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+A small clear glass prism on the white surface catching daylight and throwing a short soft rainbow onto the surface beside it.
+Only the single clear glass prism and its short refracted rainbow. The prism must be the main subject. No notebook, book, paper, ribbon or stationery. Square catalogue composition.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### tea-cup
+
+Native: [1536, 1024]. Scale to export: 1.241570.
+Source: `art/review/batch-6-sources/tea-cup.png`.
+Source SHA-256: `8ba7879ef5f400b8ea65792efe0c3819e831041e84b6179654c95bcde6feea79`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+A handmade stoneware mug with a honey yellow glaze and natural speckles, on a small light oak coaster, a thin wisp of real steam.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### key
+
+Native: [1536, 1024]. Scale to export: 0.943986.
+Source: `art/review/batch-6-sources/key.png`.
+Source SHA-256: `405e70c50703ee9ab710d23f2588c789af1ca7360bdd5d276f506942397d38c4`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+An old style solid brass key with a round bow, lying diagonally, worn edges, warm reflections.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### seedling
+
+Native: [1536, 1024]. Scale to export: 1.583505.
+Source: `art/review/batch-6-sources/seedling.png`.
+Source SHA-256: `1d6250f899ecef7d63aa9d8ab5dca5e597e9c31a891cfe6e9d6c9a3be4e4b300`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+A small young seedling with two real green leaves in a matte white ceramic pot with soil, natural and fresh.
+The entire pot is plain matte white ceramic, with no coloured band or decorative motif. Exactly two green leaves. No other props.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### headphones
+
+Native: [1536, 1024]. Scale to export: 1.089362.
+Source: `art/review/batch-6-sources/headphones.png`.
+Source SHA-256: `b1a278e4966380f641e610b611c2c692ab5c751f5c3bfb37fbed4bbf62624358`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+Premium over ear headphones in warm cream fabric and matte black, ear cushions visible, lying at a natural angle.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### highlighter
+
+Native: [1536, 1024]. Scale to export: 0.864309.
+Source: `art/review/batch-6-sources/highlighter.png`.
+Source SHA-256: `b8efdbdbe69aca97bd74cba9ae781a969caea35cea66d1af8bf9236b78c26aef`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+A real yellow highlighter, cap off and lying beside it, with one clean straight stroke of yellow highlight on a blank white card under the tip.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+### Rejected generations
+
+#### sun-low - rejected
+
+Curved rays differed from the sun paperweight.
+Native: [1536, 1024]. SHA-256: `221a32ad19e58eaf3ec38a8d90211474ebddcca56317d1b98ed974ab99e22c15`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+The same brass sun paperweight standing on its edge in a small walnut stand, lit by low warm late afternoon light from the left with a longer soft shadow.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### spark - rejected
+
+Unrequested notebook prop.
+Native: [1536, 1024]. SHA-256: `854f18cbd0878228abcfb2fdf96bda94ccf9f24a3e4fc6b214311210ceb25cd7`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+A small clear glass prism on the white surface catching daylight and throwing a short soft rainbow onto the surface beside it.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+#### seedling - rejected
+
+Unrequested yellow band on the pot.
+Native: [1536, 1024]. SHA-256: `3ea25f5a9589218a0bbab4b114ad7037efd8fb5962e9c64313f9bec310b92f1a`.
+
+```text
+Use case: photorealistic product still life.
+Create ONE studio product photograph for a premium study app. Real physical object, real materials, shot like a high end design catalogue. Pure white seamless background #FFFFFF. Soft large daylight source from the upper left, gentle fill from the right, one natural soft contact shadow directly under the object. Camera at a three quarter view from about 30 degrees above, 85mm lens feel, no distortion, whole object in frame with generous white space around it. Finest available photographic detail: real surface texture, tiny imperfections, true reflections, accurate geometry. Colours restrained: natural material colours with honey yellow #F2B33D accents only where the object would really have them.
+
+A small young seedling with two real green leaves in a matte white ceramic pot with soil, natural and fresh.
+
+Strict constraints: photographic realism only. No cartoon, no illustration, no 3D render look, no clay, no plastic toy look, no glossy CGI sheen, no faces on objects, no glow effects, no gradients in the background, no props other than the object described. Absolutely no text, letters, digits, logos or brand marks anywhere, including on paper, packaging and labels. Paper is blank or has only faint ruling. Geometry must be physically correct: symmetric where real objects are symmetric, straight edges straight, teeth, hinges and joints exactly as a real object would have them.
+```
+
+### Export inventory
+
+| File | Dimensions | Bytes | SHA-256 |
+| --- | --- | ---: | --- |
+| `art/objects/sun.png` | [1536, 1536] | 1032817 | `1b809943f5f728af93aa58ca420e79e3ea10bbfd1866139b8ab26fa1ac511687` |
+| `art/objects/sun-160.webp` | [160, 160] | 7260 | `ec1a4cdf4438918b823973dc6dab2f863440b17dd1e46b11ec1b4f23b0dc32fa` |
+| `art/objects/sun-320.webp` | [320, 320] | 17012 | `736ba2fab1df26a9a1d18eef0029f5a8644b31e27d19c5e2f1463d23d383876e` |
+| `art/objects/sun-640.webp` | [640, 640] | 46068 | `eb321cf7a69f711ec723801785b5c682f8f16dc87c462dc8ac71db09008c1d91` |
+| `art/objects/sun-shadow.webp` | [1536, 1536] | 7686 | `e41b09d4faf3f5a0a9f13a58cbb9ad95a2e8109e20530e8548102497c741027b` |
+| `art/objects/sun-low.png` | [1536, 1536] | 1176560 | `578a3a8b42728ceb458241ee8c108b6d9f1bfb0a3e3475d1bf0541c13f9cae07` |
+| `art/objects/sun-low-160.webp` | [160, 160] | 7206 | `287f6bbdde42f0bb441200826881e519bdbaea8cfb685d25bbd9c748163e700d` |
+| `art/objects/sun-low-320.webp` | [320, 320] | 17380 | `5d8115eb94a7dd6c10ef5292ef16c4f3647bc22f4a13064cb5e05858ec5a25bd` |
+| `art/objects/sun-low-640.webp` | [640, 640] | 48380 | `db2f0623a12e06176bfaaf1eec8a453f58a9fe3a43a6f734a2c5145dae7db019` |
+| `art/objects/sun-low-shadow.webp` | [1536, 1536] | 7550 | `7a52ba6af21847eb4a010e3ce67aeea34a2b03e9e588d2c3528a6e97cf1d1eb4` |
+| `art/objects/moon.png` | [1536, 1536] | 1169845 | `985179a3d8573ebd00598dd0a57e3276fae6549ea7438be374565ad491d03010` |
+| `art/objects/moon-160.webp` | [160, 160] | 5254 | `a14ae701621ed7a7a4cb4f442250898b4da4312d25fbc2fd8fd885bbf52da4a5` |
+| `art/objects/moon-320.webp` | [320, 320] | 12522 | `b74f68aa9c398cb8745525baeae2abacc43b3e07c51b1423c8e3f6244b47961c` |
+| `art/objects/moon-640.webp` | [640, 640] | 35206 | `ae57683b97cfcddd9d24c9b55b48bdd7bc255b869567e9a6b302b75453f59f33` |
+| `art/objects/moon-shadow.webp` | [1536, 1536] | 7538 | `6b336cd2acc1f9be75bd325dff1808eb62c5ef4da9d9cfda01925f30ef0b99a7` |
+| `art/objects/speech-bubble.png` | [1536, 1536] | 935750 | `a3a1b2d38403f54921a9877d77583fd43805684c17d71e843ff09a30d158b569` |
+| `art/objects/speech-bubble-160.webp` | [160, 160] | 4886 | `3b2082bf95a861c945a15da6adb2f333c5f249923d61df8172e19d2e548a3fcd` |
+| `art/objects/speech-bubble-320.webp` | [320, 320] | 10256 | `705913ee97b31913e5c011b213538f8851a311e4da5e31661aeabd8fdf1f2f12` |
+| `art/objects/speech-bubble-640.webp` | [640, 640] | 20656 | `625d7f6b8f767ae9be97c5205d960f83e8ffc7e74ffe98114463d22b1dada8c7` |
+| `art/objects/speech-bubble-shadow.webp` | [1536, 1536] | 7688 | `7df91d6afd9a44977676ef31626f3aeea5fed413f2da32bc366fbfe43183b603` |
+| `art/objects/open-book.png` | [1536, 1536] | 782993 | `3bff9c1d4e43c41b78a474510288011b2a31eac0e4f4abbcc348f0984b56fe22` |
+| `art/objects/open-book-160.webp` | [160, 160] | 5228 | `cde52982e9fc2f37bc9847e000bd23259812d67db2c415a92744c88dab0fbd6a` |
+| `art/objects/open-book-320.webp` | [320, 320] | 12634 | `958a4b83a5495739e17e900b66cbfc3e8dc0800127d4899a0f13836392e095f4` |
+| `art/objects/open-book-640.webp` | [640, 640] | 31354 | `a35a0d81846c17b95091d1832d1ad2dcef4ceb3c893cd8ff8e5eebd478d66929` |
+| `art/objects/open-book-shadow.webp` | [1536, 1536] | 7704 | `f93d3da2519ae2d52dbf29f45dd1cd1e059e47df86debd25a24cad72a73eb77f` |
+| `art/objects/index-cards.png` | [1536, 1536] | 1020301 | `d133a198123cf7051f140980c98581677a408d3d20f917cbf759a06a3a23b951` |
+| `art/objects/index-cards-160.webp` | [160, 160] | 6044 | `425e58c44bc7e8a037264579cfe34eed4ddc4a4a58ee1b6c1ed82f18f479c1d6` |
+| `art/objects/index-cards-320.webp` | [320, 320] | 14940 | `1cd4d1ca9b140a5850f7fa8560636155194aa2381e65a1c04a93b3029402de8c` |
+| `art/objects/index-cards-640.webp` | [640, 640] | 41168 | `0b61ef6b7d64e7555c1eb3a4acdcce9d3a05d8be9166435398a9a4c37d78fb24` |
+| `art/objects/index-cards-shadow.webp` | [1536, 1536] | 7688 | `1f1ad0c3243ad76a9e1039ee97985eef0057935aa6605d2d2641e2a9caa3f316` |
+| `art/objects/star-medal.png` | [1536, 1536] | 1154290 | `e2874654cf730707bbc7ac2c313cff970bd7d79e07cd62fd87b75e354237491b` |
+| `art/objects/star-medal-160.webp` | [160, 160] | 5504 | `18714c47ee44af5643f3b307de287a9a8150bab5f2286398a0a94bcaac5d2c88` |
+| `art/objects/star-medal-320.webp` | [320, 320] | 15974 | `ae5f053cacdc803990021914fbe80ebcba0ede2ff84ca4958e15c88681aa4e13` |
+| `art/objects/star-medal-640.webp` | [640, 640] | 50400 | `3aceb11d8d1d1c5441c08a06b150e9259d0e1ae348a04dd2bccec9e521734f5d` |
+| `art/objects/star-medal-shadow.webp` | [1536, 1536] | 7674 | `3489e573bbd5855782311fe3e98bbffea01e8b773466f4715388c9d97999a418` |
+| `art/objects/hourglass.png` | [1536, 1536] | 999483 | `010129a1f014e905fbb4bb52bb9e7dcefdb6e3dbb551153da77d786a2ac86d48` |
+| `art/objects/hourglass-160.webp` | [160, 160] | 6342 | `6f28c43bb6732a226389e217dad1f64525a5e62bba3d0aca02525a5096cf4c57` |
+| `art/objects/hourglass-320.webp` | [320, 320] | 14238 | `c6b05fbbff00bdef04006e04261b7dca74ce6d5f0c8a00f4934280665af8f300` |
+| `art/objects/hourglass-640.webp` | [640, 640] | 38446 | `3a1b057c8ae95fa1c5ecaca5796a94f228ec9b61fa8507bfcdfe456144a9dfe0` |
+| `art/objects/hourglass-shadow.webp` | [1536, 1536] | 7324 | `db999b2989c0d4b8f092ee1a811e70ced1dcb322e9582e9b3403d9874cd19bfc` |
+| `art/objects/lamp.png` | [1536, 1536] | 588565 | `768daa8f60d8aa39e97bdc3c34525e20860f918bb30c9f2d3fc20b89548328ec` |
+| `art/objects/lamp-160.webp` | [160, 160] | 4976 | `15b1f40603b68141e219ef255fffa49434a3c95c32222b885a273702712bf84b` |
+| `art/objects/lamp-320.webp` | [320, 320] | 11782 | `f796850803a9b350b53c6b365715dfc5575b7b2ad930ff2cb74f98647d1c2451` |
+| `art/objects/lamp-640.webp` | [640, 640] | 32464 | `79ef1c92391c8c17b51fa2537592695d5f033f4240ccc528081ba62e97d0e984` |
+| `art/objects/lamp-shadow.webp` | [1536, 1536] | 7682 | `38492d05fda20fd42a1aae9c8ec866fb942128b01d13180557bac861f2e82567` |
+| `art/objects/spark.png` | [1536, 1536] | 805476 | `4e360d72ba3bb675cf109733e8258b4990fd738bfc382823b9fd6c28a46b4167` |
+| `art/objects/spark-160.webp` | [160, 160] | 5684 | `c32a56eef8ffc646afc4a09e1712156df377b1c938d5823f5873233f50c7b1e5` |
+| `art/objects/spark-320.webp` | [320, 320] | 13154 | `78f7308fef600ae01a67b5c28d85a91df3f397918f0b9ab84457a873f3aa8b34` |
+| `art/objects/spark-640.webp` | [640, 640] | 33226 | `ffa2d1a83d1ab0e73067c598d5faba59b4e97e0fcd09362f079032677fd31799` |
+| `art/objects/spark-shadow.webp` | [1536, 1536] | 7698 | `56de418f5c4f46261286013f17f502af38763ff6199504c21d6eb137542f1980` |
+| `art/objects/tea-cup.png` | [1536, 1536] | 1140937 | `eced3c92a4b36def4fd81b39f173aed7e59f79526a3f54da179291116ebf5421` |
+| `art/objects/tea-cup-160.webp` | [160, 160] | 6742 | `11332f677b04304cc8d6a40216395b8dced12d719a5a9dd9cd838054ba0523b2` |
+| `art/objects/tea-cup-320.webp` | [320, 320] | 17430 | `e2d18f4b15c0e1a0e8bd80f1027cc08025843dec1269eab8cf3545221b4eddee` |
+| `art/objects/tea-cup-640.webp` | [640, 640] | 51222 | `4ec0c38190e263cddfa59a0105f9ab7598031792a2665b3bb8710ef6adb0956e` |
+| `art/objects/tea-cup-shadow.webp` | [1536, 1536] | 7512 | `143773a0903d95e1ad27055ee294585361b567183c8073dcfc00e1077a28b433` |
+| `art/objects/key.png` | [1536, 1536] | 469163 | `79a61495ebefb742e33987f0c02a4b5a7829cadd81dc4c1d8a6e397ddfa2a06a` |
+| `art/objects/key-160.webp` | [160, 160] | 4764 | `84db2d2a440bd575eec9a0c6ee56ab4c399699ca2e7d5b6ad602c8a972cf6f2f` |
+| `art/objects/key-320.webp` | [320, 320] | 11036 | `bb36dde04e143aa9f426eb922aa4af9d5d9cb151615d243cd5e35db9db2435c8` |
+| `art/objects/key-640.webp` | [640, 640] | 28354 | `5c0bd179b9554bd77f5775aea989d3bfa72eedab73035f4aed179dbcf8275a04` |
+| `art/objects/key-shadow.webp` | [1536, 1536] | 7696 | `14dabf27d974bdf2972663cc68588e33d217a5678ec4b7fb274483beac89684c` |
+| `art/objects/seedling.png` | [1536, 1536] | 954585 | `4b243471303fdc3d6fd8ee41c5c6b5e30e6ba6ae81bbea3a71ccca011484daa5` |
+| `art/objects/seedling-160.webp` | [160, 160] | 6048 | `2e148f4d15267afcb815e17f794ec73728675ce088668f34eefa28f596d106c8` |
+| `art/objects/seedling-320.webp` | [320, 320] | 14410 | `2b76c9d96a060b5191d9c5901957f5dbd03ba03a54fe5d3840ffe2fd0693efd2` |
+| `art/objects/seedling-640.webp` | [640, 640] | 37536 | `2428ccac077f99ad2cf5f8ffb9a0d48303ae8f8e0964d0ce3fcd0f123e1fdaf2` |
+| `art/objects/seedling-shadow.webp` | [1536, 1536] | 7516 | `eb4cf5e93215490299e1a888be3beb53bf5e0d0be99b0941a7f7a7fb9d9dbf9d` |
+| `art/objects/headphones.png` | [1536, 1536] | 1260556 | `7a5a295f945d54f531182fbbb55f9109e6ccd87ef8b3856ddd17676b74ae39b3` |
+| `art/objects/headphones-160.webp` | [160, 160] | 6578 | `4b26465389fdc41c98a80f178f83c1282f027636f298f6832cb6584f7f53975f` |
+| `art/objects/headphones-320.webp` | [320, 320] | 14604 | `bd0384a0f1c3c0de815a516ee2febc55d09a4e03dbe07c610c431ad97a154b32` |
+| `art/objects/headphones-640.webp` | [640, 640] | 41138 | `162a390c444d2d5fa0d3d7b1c87023af3a57c23f408cba8ec24c061cbef850c6` |
+| `art/objects/headphones-shadow.webp` | [1536, 1536] | 7686 | `095b5e6938a2e0e5ed2bf111cff33257807e9b2e13dabb87d1227be832a8397e` |
+| `art/objects/highlighter.png` | [1536, 1536] | 521400 | `b5c827f5e22e23e101f86474ca9496b23c3ad2502ce890168a9b32737d956fc8` |
+| `art/objects/highlighter-160.webp` | [160, 160] | 4800 | `11522018aadc9b516601d0e7f649dec8f9d6f7e3e233924af41a95a76ff24e64` |
+| `art/objects/highlighter-320.webp` | [320, 320] | 9986 | `0fb3fe9ba664ddd89f3d04cc8c68f45ae926e5a509fb0de29098f264e27b459d` |
+| `art/objects/highlighter-640.webp` | [640, 640] | 19866 | `04dc7a843167a9f66983f05845e0803116e4e4ffabf2e44a60777815b5f619a7` |
+| `art/objects/highlighter-shadow.webp` | [1536, 1536] | 7698 | `1d73d4afb565eab40e2dd84d949fefa3d19c5d3b45a2bdd340d9718c924636fa` |
+
+### Checks actually performed
+
+- All 15 accepted and 3 rejected prompts preserve the exact shared preamble and final constraints; all accepted prompts include the exact subject from the brief.
+- All 18 preserved native PNGs match the original generation bytes and SHA-256 exactly.
+- Independent `python -B art/review/verify_batch6.py` passed all 15 object entries and 75 final exports: source hashes/native sizes, 1536 RGBA masters, transparent margins, decoded 160/320/640 WebP sizes, exact alpha preservation, 60000-byte budgets, separate shadow files and every export hash.
+- Contact sheet verified as 1760x2880: 15 objects at 320px on white, 15 at 160px on white, and 15 at 320px on #121212.
+- Read-only independent code and visual review completed. Initial masks lost the moon base, rear sticky pad, highlighter card and optical details; those were corrected. The prism floor flecks were removed and the external rainbow edge was feathered. Final review found no unresolved material issue.
+- `art/web/build_web.py` main completed: 27 cutouts, 4 scenes and icons. PUBLIC was redirected under art/ as described above. Existing web image files rebuilt byte-identically; the web manifest was regenerated.
+- Ruff check and format check passed for both Batch 6 Python helpers. `git diff --check` passed. No source, public or Convex file was changed.
+- No app build, application tests, E2E, deployment or physical-device checks were run for this asset-only delivery.
+
+Contact sheet SHA-256: `08ed6181b3cb0233e6d60893101fbe6717e466b2906ba0d2465407cc93d5b558`.

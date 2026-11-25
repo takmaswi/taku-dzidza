@@ -1,0 +1,84 @@
+{
+  "objects": [
+    {
+      "slug": "sun",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    },
+    {
+      "slug": "sun-low",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    },
+    {
+      "slug": "moon",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    },
+    {
+      "slug": "speech-bubble",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    },
+    {
+      "slug": "open-book",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    },
+    {
+      "slug": "index-cards",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    },
+    {
+      "slug": "star-medal",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    },
+    {
+      "slug": "hourglass",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    },
+    {
+      "slug": "lamp",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    },
+    {
+      "slug": "spark",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    },
+    {
+      "slug": "tea-cup",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    },
+    {
+      "slug": "key",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    },
+    {
+      "slug": "seedling",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    },
+    {
+      "slug": "headphones",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    },
+    {
+      "slug": "highlighter",
+      "status": "pass",
+      "checks": "exact prompt blocks, subject, source hash/native dimensions, RGBA master, transparent margins, 3 WebP sizes/budgets/exact alpha, separate shadow, 5 export hashes"
+    }
+  ],
+  "contact_sheet": "pass: 15 at 320 white, 15 at 160 white, 15 at 320 near black",
+  "application_tests": "not run; asset-only task",
+  "visual_review": "pass: independent read-only review, no unresolved material findings",
+  "web_builder": "pass: 27 cutouts, 4 scenes, icons; PUBLIC redirected under art/",
+  "native_source_copy_check": "pass: all 18 native files byte-exact"
+}
