@@ -31,6 +31,7 @@ For Codex and build agents. **From batch 4, `art/BRIEF-batch-4.md` overrides thi
 ## In the app
 - People stand on the page as cutouts with a soft warm shadow under them. Scenes (landing hero, home dashboard, empty notebook) fade into the page on every edge.
 - No arch, circle or box photo frames anywhere. The e2e journey `e2e/design.spec.ts` checks this.
+- Exception, the landing page only: a scene cropped inside its faded edge may show as a full width rounded photo card, corners about 24 px, no fade and no border (the "Made for learners everywhere" section uses `landing-people`, cut from `landing-ensemble`). Corners stay well under the 20 percent radius that the frame check treats as a frame.
 - Never put text directly on a photo; captions go below or beside on a solid token colour.
 - Decor (stationery marks, line marks) is sparing: at most two on a screen, never behind body text. Line marks are suffix amber `#B0822F` or ink.
 - Every image has meaningful alt text. Images load lazily with `srcset` and `sizes`, except the landing hero.

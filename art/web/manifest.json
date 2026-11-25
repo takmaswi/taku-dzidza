@@ -253,6 +253,14 @@
     1280,
     1920
    ]
+  },
+  "landing-people": {
+   "width": 1110,
+   "height": 1140,
+   "widths": [
+    640,
+    1110
+   ]
   }
  },
  "icons": {

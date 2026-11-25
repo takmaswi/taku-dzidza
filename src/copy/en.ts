@@ -81,6 +81,10 @@ export const copy = {
         pro: "Professional exams",
       },
     },
+    people: {
+      title: "Made for learners everywhere",
+      alt: "Four learners share a long library table: one explains a printed page, one highlights his notes, one reads and one recalls an answer from index cards.",
+    },
     drop: {
       eyebrow: "Drop anything in",
       title: "Whatever you study from, Taku can read it.",

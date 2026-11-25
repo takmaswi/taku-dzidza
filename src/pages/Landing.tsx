@@ -1,6 +1,7 @@
 import { ArrowRight, BookOpen, ClipboardCheck, EyeOff, KeyRound, LifeBuoy, Plus, ShieldCheck, Smartphone } from "lucide-react";
 import { useLayoutEffect, type MouseEvent } from "react";
 import { Link } from "react-router";
+import { Scene } from "../components/Art";
 import { BrandMark } from "../components/BrandMark";
 import { Layout } from "../components/Layout";
 import { CiteDemo } from "../components/landing/CiteDemo";
@@ -93,6 +94,15 @@ export default function Landing() {
               }
             />
           </div>
+        </div>
+      </section>
+
+      <section className="l-section l-people reveal" aria-labelledby="l-people-title">
+        <div className="l-wrap">
+          <h2 id="l-people-title" className="l-h2">
+            {t.people.title}
+          </h2>
+          <Scene slug="landing-people" alt={t.people.alt} sizes="(min-width: 1240px) 1160px, 92vw" className="l-people-photo" />
         </div>
       </section>
 

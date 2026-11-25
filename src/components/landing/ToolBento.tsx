@@ -35,7 +35,10 @@ export function ToolBento({ art }: { art: ReactNode }) {
     const el = tileAt(Math.max(0, Math.min(TILES.length - 1, i)));
     const box = track.current;
     if (el === undefined || box === null) return;
-    box.scrollTo({ left: el.offsetLeft - (box.clientWidth - el.clientWidth) / 2, behavior: isStill() ? "auto" : "smooth" });
+    // Phones under 700 px snap each card to the start, so the next one peeks in; wider, cards snap to the centre.
+    const start = getComputedStyle(el).scrollSnapAlign.includes("start");
+    const left = start ? el.offsetLeft - parseFloat(getComputedStyle(box).scrollPaddingLeft || "0") : el.offsetLeft - (box.clientWidth - el.clientWidth) / 2;
+    box.scrollTo({ left, behavior: isStill() ? "auto" : "smooth" });
   };
   const onScroll = () => {
     cancelAnimationFrame(frame.current);
