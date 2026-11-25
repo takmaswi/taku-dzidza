@@ -45,9 +45,12 @@
 .l-split { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; align-items: center; }
 .l-split > * { min-width: 0; }
 @media (min-width: 900px) { .l-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3rem; } }
-.l-eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.6rem; font-size: 0.8rem; }
-.l-eyebrow span + span::before { content: ""; display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--honey); margin-right: 0.6rem; vertical-align: middle; }
-.l-quiet { margin-top: 1rem; font-size: 0.9rem; color: var(--text-soft); }
+.l-quiet { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; font-size: 0.9rem; color: var(--text-soft); }
+.l-quiet li { display: inline-flex; align-items: center; gap: 0.35rem; }
+.l-quiet svg { flex: none; color: var(--ink); }
+/* An eyebrow with a small tag after it (Beta, Coming soon). */
+.l-tagged { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.l-tag { padding: 0.1rem 0.55rem; border-radius: 999px; background: var(--butter); color: var(--ink); font-size: 0.68rem; letter-spacing: 0.04em; }
 .l-section .actions { margin-top: 1.1rem; }
 
 /* ---------- Header (src/components/landing/LandingHeader.tsx) ---------- */
@@ -149,72 +152,113 @@
 .hd-bar { display: flex; align-items: center; gap: 0.5rem; padding: 1.1rem 1rem 0.6rem; font-size: 0.85rem; }
 .hd-mark { width: 20px; height: 20px; }
 .hd-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 0.6rem; padding: 0.25rem 0.75rem; }
+.hd-middle { justify-content: center; padding-bottom: 1.5rem; }
 .hd-pause { position: absolute; top: 18px; right: 18px; width: 34px; height: 34px; }
+.hd-soft { color: var(--text-soft); }
 
-/* (0) the photo of notes drops in and settles like paper */
+/* The five screens stack in one place; the next fades in as the last fades out. */
+.hd-panel { position: absolute; inset: 0; display: flex; flex-direction: column; }
+.hd-enter { animation: hd-in calc(450ms * var(--speed)) var(--ease) both; }
+.hd-leave { z-index: 1; pointer-events: none; animation: hd-out calc(450ms * var(--speed)) var(--ease) both; }
+.hd-leave * { animation: none !important; }
+@keyframes hd-in { from { opacity: 0; transform: scale(0.985); } }
+@keyframes hd-out { to { opacity: 0; } }
+
+/* Tutor: the notes strip, the question, the answer streaming in with its citation, then the source page */
 .hd-photo { position: relative; display: block; background: repeating-linear-gradient(transparent 0 15px, rgb(242 179 61 / 0.3) 15px 16px), var(--white); border-radius: 4px; box-shadow: 0 1px 2px rgb(40 30 0 / 0.16), 0 10px 22px rgb(40 30 0 / 0.14); }
-.hd-photo.big { width: 84%; aspect-ratio: 4 / 3; align-self: center; margin-top: 1.5rem; transform: rotate(-4deg); animation: hd-drop calc(950ms * var(--speed)) var(--ease) both; }
-/* After the question: the photo becomes a wide source strip at the top of the chat, with its name on it. */
-.hd-photo.strip { width: 100%; height: 96px; flex: none; transform: rotate(-1.2deg); overflow: hidden; animation: hd-pop calc(400ms * var(--speed)) var(--ease) both; }
-.hd-photo.strip .hd-scribble { inset: 6px 8px; width: calc(100% - 16px); height: calc(100% - 12px); }
-.hd-photo.strip .hd-photo-tag { left: auto; right: 8px; bottom: 8px; transform: none; }
-.hd-scribble { position: absolute; inset: 8% 6%; width: 88%; height: 84%; fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; opacity: 0.62; }
+.hd-photo.strip { width: 100%; height: 96px; flex: none; transform: rotate(-1.2deg); overflow: hidden; }
+.hd-scribble { position: absolute; inset: 6px 8px; width: calc(100% - 16px); height: calc(100% - 12px); fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; opacity: 0.62; }
 .hd-ink-mark { stroke: var(--honey); stroke-width: 6; opacity: 0.6; }
-.hd-photo-tag { position: absolute; left: 50%; bottom: -2.2rem; transform: translateX(-50%) rotate(4deg); white-space: nowrap; padding: 0.2rem 0.6rem; border-radius: 999px; background: var(--butter); font-size: 0.72rem; font-weight: 600; }
-@keyframes hd-drop { 0% { opacity: 0; transform: translateY(-70px) rotate(-16deg) scale(1.08); } 55% { opacity: 1; transform: translateY(6px) rotate(-1deg) scale(1); } 78% { transform: translateY(-3px) rotate(-5deg); } 100% { transform: rotate(-4deg); } }
-
-/* (1) the question types itself into the composer */
+.hd-photo-tag { position: absolute; right: 8px; bottom: 8px; white-space: nowrap; padding: 0.2rem 0.6rem; border-radius: 999px; background: var(--butter); font-size: 0.72rem; font-weight: 600; }
 .hd-composer { display: flex; align-items: center; gap: 0.5rem; margin: 0.6rem 0.7rem 0.9rem; padding: 0.45rem 0.45rem 0.45rem 0.8rem; border-radius: 999px; background: var(--white); border: 1px solid var(--line); font-size: 0.76rem; }
 .hd-composer > :first-child { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; }
 .hd-placeholder { color: var(--text-soft); }
-.hd-typing { animation: hd-type calc(1500ms * var(--speed)) steps(var(--n), end) both; }
-@keyframes hd-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 .hd-send { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--honey); color: var(--ink); }
-
-/* (2) the answer streams in, word by word, with its citation */
 .hd-msg { margin: 0; max-width: 88%; }
 .hd-q { align-self: flex-end; padding: 0.45rem 0.7rem; border-radius: 14px 14px 4px 14px; background: var(--ink); color: var(--cream); animation: hd-pop calc(350ms * var(--speed)) var(--ease) both; }
 .hd-a { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 0.45rem; padding: 0.55rem 0.65rem; border-radius: 14px 14px 14px 4px; background: var(--white); border: 1px solid var(--line); box-shadow: 0 6px 16px rgb(40 30 0 / 0.08); }
 .hd-a p { margin: 0; }
 .hd-a-mark { width: 18px; height: 18px; margin-top: 1px; }
-.hd-word { animation: hd-word calc(280ms * var(--speed)) var(--ease) both; animation-delay: calc(var(--i) * 70ms * var(--speed)); }
+.hd-word { animation: hd-word calc(280ms * var(--speed)) var(--ease) both; animation-delay: calc((300ms + var(--i) * 60ms) * var(--speed)); }
 @keyframes hd-word { from { opacity: 0; filter: blur(2px); } }
-.hd-cite { cursor: pointer; font-weight: 600; min-width: 24px; min-height: 24px; animation: hd-pop calc(300ms * var(--speed)) var(--ease) calc(1300ms * var(--speed)) both; }
-.hd[data-step="3"] .hd-cite { background: var(--honey); color: var(--ink); animation: hd-pulse calc(900ms * var(--speed)) var(--ease) 2; }
+.hd-cite { cursor: pointer; font-weight: 600; min-width: 24px; min-height: 24px; animation: hd-pop calc(300ms * var(--speed)) var(--ease) calc(1500ms * var(--speed)) both; }
+.hd-cite[data-open] { background: var(--honey); color: var(--ink); animation: hd-pulse calc(900ms * var(--speed)) var(--ease) 2; }
 @keyframes hd-pulse { 50% { box-shadow: 0 0 0 7px rgb(242 179 61 / 0.35); transform: scale(1.12); } }
 @keyframes hd-pop { from { opacity: 0; transform: translateY(8px) scale(0.96); } }
-
-/* (3) the source page slides up with the line highlighted */
-.hd-sheet { position: absolute; left: 0; right: 0; bottom: 0; padding: 1rem 1rem 1.3rem; border-radius: 22px 22px 0 0; background: var(--white); box-shadow: 0 -10px 30px rgb(40 30 0 / 0.16); animation: hd-sheet calc(520ms * var(--speed)) var(--ease) calc(350ms * var(--speed)) both; }
+.hd-sheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 1rem 1rem 1.3rem; border-radius: 22px 22px 0 0; background: var(--white); box-shadow: 0 -10px 30px rgb(40 30 0 / 0.16); animation: hd-sheet calc(520ms * var(--speed)) var(--ease) calc(200ms * var(--speed)) both; }
 .hd-sheet p { margin: 0; font-size: 0.78rem; line-height: 1.5; }
 @keyframes hd-sheet { from { transform: translateY(105%); } }
 /* The highlighter: a honey stroke drawn across the line, left to right, wrapping with it. */
 mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rgb(242 179 61 / 0.55)) 0 85% / 100% 0.62em no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; padding: 0 2px; border-radius: 3px; animation: hl-sweep calc(700ms * var(--speed)) var(--ease) calc(800ms * var(--speed)) both; }
 @keyframes hl-sweep { from { background-size: 0% 0.62em; } }
 
-/* (4) the answer folds into a flashcard that flips */
-.hd-card { perspective: 900px; margin-top: 0.4rem; animation: hd-fold calc(600ms * var(--speed)) var(--ease) both; }
-.hd-card-in { display: grid; transform-style: preserve-3d; }
-.hd-face { grid-area: 1 / 1; display: grid; gap: 0.4rem; align-content: center; min-height: 130px; padding: 1rem; border-radius: 16px; backface-visibility: hidden; -webkit-backface-visibility: hidden; text-align: center; font-size: 0.95rem; }
+/* Practise: a flashcard turns from question to answer, then one marked practice question. At rest the card shows its answer. */
+.hd-card { perspective: 900px; animation: hd-pop calc(400ms * var(--speed)) var(--ease) both; }
+.hd-card-in { display: grid; transform-style: preserve-3d; transform: rotateY(180deg); animation: hd-flip calc(700ms * var(--speed)) var(--ease) calc(700ms * var(--speed)) both; }
+.hd-face { grid-area: 1 / 1; display: grid; gap: 0.4rem; align-content: center; min-height: 180px; padding: 1rem; border-radius: 16px; backface-visibility: hidden; -webkit-backface-visibility: hidden; text-align: center; font-size: 1.05rem; }
 .hd-face .eyebrow { margin: 0; font-size: 0.65rem; }
 .hd-front { background: var(--white); border: 1px solid var(--line); box-shadow: 0 10px 24px rgb(40 30 0 / 0.12); }
 .hd-back { background: var(--ink); color: var(--cream); transform: rotateY(180deg); }
 .hd-back .eyebrow { color: var(--butter); }
-.hd[data-step="4"] .hd-card-in { animation: hd-flip calc(700ms * var(--speed)) var(--ease) calc(800ms * var(--speed)) both; }
-.hd[data-step="5"] .hd-card-in { transform: rotateY(180deg); }
-@keyframes hd-fold { from { opacity: 0; transform: translateY(-30px) scaleY(0.4); } }
 @keyframes hd-flip { from { transform: rotateY(0); } to { transform: rotateY(180deg); } }
+.hd-paper { display: grid; gap: 0.55rem; padding: 0.9rem; border-radius: 16px; background: var(--white); border: 1px solid var(--line); box-shadow: 0 10px 24px rgb(40 30 0 / 0.1); animation: hd-pop calc(400ms * var(--speed)) var(--ease) both; }
+.hd-paper .eyebrow { margin: 0; font-size: 0.65rem; }
+.hd-paper-q { margin: 0; font-size: 0.85rem; }
+.hd-paper-q span { white-space: nowrap; color: var(--text-soft); }
+.hd-paper ol { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.4rem; font-size: 0.76rem; }
+.hd-paper li { padding-bottom: 0.35rem; border-bottom: 1px dashed var(--line-strong); animation: hd-pop calc(350ms * var(--speed)) var(--ease) calc((300ms + var(--i) * 350ms) * var(--speed)) both; }
+.hd-paper li > span:first-child { margin-right: 0.3rem; }
+/* Red pen, like a marked script: a tick and the mark in brackets. */
+.hd-pen { display: inline-flex; align-items: center; gap: 0.1rem; font-weight: 700; color: var(--msasa); white-space: nowrap; }
+.hd-total { justify-self: end; padding: 0.1rem 0.55rem; border-radius: 999px; box-shadow: inset 0 0 0 2px var(--msasa); color: var(--msasa); font-weight: 700; font-size: 0.78rem; transform: rotate(-3deg); animation: hd-pop calc(350ms * var(--speed)) var(--ease) calc(1100ms * var(--speed)) both; }
 
-/* (5) a listen bar with a pulsing waveform */
-.hd-listen { position: absolute; left: 0.7rem; right: 0.7rem; bottom: 3.6rem; display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0.75rem; border-radius: 14px; background: var(--ink); color: var(--cream); font-size: 0.72rem; animation: hd-pop calc(380ms * var(--speed)) var(--ease) both; }
-.hd-listen small { margin-left: auto; color: var(--butter); }
-.hd-wave { display: inline-flex; align-items: center; gap: 2px; height: 16px; }
-.hd-wave i { display: block; width: 3px; height: 16px; border-radius: 2px; background: var(--honey); transform: scaleY(0.35); animation: hd-wave calc(700ms * var(--speed) + 0.001s) ease-in-out calc(var(--i) * -110ms) infinite alternate; }
-@keyframes hd-wave { to { transform: scaleY(1); } }
-/* Nothing in the demo moves while it is paused, off screen or the tab is hidden. */
-.hd[data-paused] :is(.hd-screen, .hd-screen *) { animation-play-state: paused; }
+/* Listen: the real summary clip. The bars lie low and still until it plays. */
+.hd-player { display: grid; justify-items: center; gap: 0.55rem; padding: 1.1rem 0.9rem; border-radius: 18px; background: var(--white); border: 1px solid var(--line); box-shadow: 0 10px 24px rgb(40 30 0 / 0.1); text-align: center; animation: hd-pop calc(400ms * var(--speed)) var(--ease) both; }
+.hd-player > b { font-size: 0.85rem; }
+.hd-player-art { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 18px; background: var(--butter); color: var(--ink); }
+.hd-eq { display: flex; align-items: center; justify-content: center; gap: 3px; width: 100%; height: 30px; }
+.hd-eq i { width: 4px; height: 100%; border-radius: 2px; background: var(--line-strong); transform: scaleY(0.25); }
+.hd-player[data-on] .hd-eq i { background: var(--ink); animation: ld-bar calc(820ms * var(--speed) + 0.001s) ease-in-out calc(var(--i) * -97ms) infinite alternate; }
+@media (prefers-reduced-motion: reduce) { .hd-player[data-on] .hd-eq i { transform: scaleY(0.6); } }
+:root[data-motion="off"] .hd-player[data-on] .hd-eq i { transform: scaleY(0.6); }
+.hd-track { display: block; width: 100%; height: 4px; border-radius: 2px; background: var(--muted-fill, var(--line)); overflow: hidden; }
+.hd-track i { display: block; height: 100%; background: var(--ink); transform-origin: 0 50%; transition: transform 0.3s linear; }
+.hd-player-row { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+.hd-time { min-width: 3ch; font-size: 0.72rem; font-variant-numeric: tabular-nums; color: var(--text-soft); }
+.hd-play { display: grid; place-items: center; width: 52px; height: 52px; border: 0; border-radius: 50%; background: var(--honey); color: var(--ink); cursor: pointer; transition: transform var(--dur-tap) var(--ease); }
+.hd-play:hover { transform: scale(1.05); }
+.hd-play:active { transform: scale(0.95); }
 
-/* Captions under the phone: the current step is bold with a dot, not colour alone. */
+/* Marketplace: three sample notebooks, each with Rent and Buy. */
+.hd-shelf { list-style: none; margin: 0; padding-bottom: 0.9rem; justify-content: center; }
+.hd-book { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 0.65rem; align-items: center; padding: 0.55rem; border-radius: 14px; background: var(--white); border: 1px solid var(--line); box-shadow: 0 6px 16px rgb(40 30 0 / 0.08); animation: hd-pop calc(380ms * var(--speed)) var(--ease) calc(var(--i) * 120ms * var(--speed)) both; }
+.hd-cover { display: block; width: 58px; aspect-ratio: 3 / 4; }
+.hd-book-info { display: grid; justify-items: start; gap: 0.15rem; min-width: 0; font-size: 0.72rem; line-height: 1.3; }
+.hd-book-info b { font-size: 0.8rem; }
+.hd-book-info .msh-sample { font-size: 0.58rem; padding: 0 0.4rem; }
+.hd-deal { display: flex; gap: 0.3rem; margin-top: 0.2rem; }
+.hd-deal a { display: inline-grid; place-items: center; min-height: 26px; padding: 0 0.7rem; border-radius: 999px; font-size: 0.7rem; font-weight: 600; text-decoration: none; border: 1px solid var(--ink); color: var(--ink); background: var(--white); }
+.hd-deal a:last-child { background: var(--ink); color: var(--white); }
+
+/* Class: the teacher's view of one assignment. */
+.hd-class { display: grid; gap: 0.25rem; padding: 0.85rem 0.9rem; border-radius: 16px; background: var(--ink); color: var(--cream); animation: hd-pop calc(380ms * var(--speed)) var(--ease) both; }
+.hd-class .eyebrow { margin: 0; font-size: 0.62rem; color: var(--butter); }
+.hd-class-name { font-size: 1.05rem; }
+.hd-code { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.74rem; }
+.hd-code b { padding: 0.05rem 0.45rem; border-radius: 6px; background: var(--butter); color: var(--ink); font-family: var(--mono, monospace); letter-spacing: 0.06em; }
+.hd-task { display: grid; gap: 0.5rem; padding: 0.85rem 0.9rem; border-radius: 16px; background: var(--white); border: 1px solid var(--line); box-shadow: 0 8px 20px rgb(40 30 0 / 0.1); animation: hd-pop calc(380ms * var(--speed)) var(--ease) calc(150ms * var(--speed)) both; }
+.hd-task-top { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; }
+.hd-task-icon { display: grid; place-items: center; width: 30px; height: 30px; flex: none; border-radius: 9px; background: var(--butter); color: var(--ink); }
+.hd-due { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.74rem; }
+.hd-handed { display: block; height: 8px; border-radius: 4px; background: var(--muted-fill, var(--line)); overflow: hidden; }
+.hd-handed i { display: block; height: 100%; width: calc(var(--done) * 100%); border-radius: 4px; background: var(--honey); transform-origin: 0 50%; animation: hd-fill calc(900ms * var(--speed)) var(--ease) calc(400ms * var(--speed)) both; }
+.hd-handed-label { font-size: 0.74rem; font-weight: 600; }
+@keyframes hd-fill { from { transform: scaleX(0); } }
+
+/* Nothing in the demo moves while it is paused, off screen or the tab is hidden. A playing clip's bars are the one exception. */
+.hd[data-paused] :is(.hd-screen, .hd-screen *):not(.hd-eq > i) { animation-play-state: paused; }
+
+/* Tabs under the phone: the lit tab is butter, bold and ink edged with a progress bar along its foot, not colour alone. */
 .hd-steps { display: grid; justify-items: center; gap: 0.35rem; width: min(420px, 100%); }
 @media (min-width: 700px) {
   .hd-steps { width: max-content; max-width: none; }
@@ -222,10 +266,12 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
   .hd-tab { padding-inline: 0.7rem; }
 }
 .hd-steps-hint { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-soft); }
-.hd-tabs { display: flex; flex-wrap: nowrap; gap: 0.3rem; max-width: 100%; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; padding: 2px; }
+.hd-tabs { position: relative; display: flex; flex-wrap: nowrap; gap: 0.3rem; max-width: 100%; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; padding: 2px; }
 .hd-tabs::-webkit-scrollbar { display: none; }
 .hd-tab { position: relative; flex: none; overflow: hidden; min-height: 36px; padding: 0.35rem 0.8rem; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--white); color: var(--text); font: inherit; font-size: 0.8rem; font-weight: 500; white-space: nowrap; cursor: pointer; transition: background var(--dur-tap), border-color var(--dur-tap); }
 .hd-tab:hover { background: var(--hover); border-color: var(--ink); }
+/* Under 700 px: tighter tabs, so all five fit on most phones; narrower screens scroll the row. */
+@media (max-width: 699px) { .hd-tabs { gap: 0.25rem; } .hd-tab { padding-inline: 0.55rem; font-size: 0.78rem; } }
 /* The lit tab: butter, heavier, ink edge, and a progress bar filling along its foot (not colour alone). */
 .hd-tab[aria-selected="true"] { background: var(--butter); border-color: var(--ink); color: var(--ink); font-weight: 600; }
 .hd-tab-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--ink); transform-origin: 0 50%; animation: hd-bar calc(var(--ms) * var(--speed) + 0.001ms) linear both; }
@@ -284,6 +330,8 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .da-arrow { justify-self: center; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--honey); color: var(--ink); }
 .da-title { display: block; font-size: 1.1rem; margin-bottom: 0.6rem; }
 .da-summary, .da-soon-lines, .da-paper { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.45rem; }
+/* Plain lists carry no bullet dots. */
+.da-summary, .da-soon-lines { list-style: none; padding-left: 0; }
 .da-summary li, .da-paper li, .da-soon-lines li, .da-flash, .da-branch { animation: l-in calc(var(--dur-card) * var(--speed)) var(--ease) both; animation-delay: calc((200ms + var(--i) * 110ms) * var(--speed)); }
 .da-dot { margin-left: 0.35rem; font-size: 0.72rem; padding: 0 0.45rem; }
 .da-paper li::marker { font-weight: 600; }
@@ -312,7 +360,6 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 /* ---------- Every answer points to the page (src/components/landing/CiteDemo.tsx) ---------- */
 .cd { position: relative; display: grid; gap: 0.75rem; }
 .cd-hint { margin: 0; font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem; }
-.cd-hint::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--honey); }
 .cd-chat { position: relative; z-index: 1; display: grid; gap: 0.7rem; }
 .cd-chat .eyebrow { margin: 0; }
 .cd-q { justify-self: end; margin: 0; padding: 0.55rem 0.9rem; border-radius: 16px 16px 4px 16px; background: var(--ink); color: var(--cream); }
@@ -409,7 +456,6 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 
 .tb-sum { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; font-size: 0.92rem; }
 .tb-sum li { display: flex; align-items: center; gap: 0.4rem; }
-.tb-sum li::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--ink); }
 .tb-cite { flex: none; display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 0.3rem; border-radius: 999px; background: var(--butter); font-size: 0.72rem; font-weight: 600; }
 .tb[data-state="play"] .tb-write { animation: tb-ink calc(520ms * var(--speed)) var(--ease) calc((200ms + var(--i) * 220ms) * var(--speed)) both; }
 .tb[data-state="play"] .tb-cite { animation: tb-pop calc(320ms * var(--speed)) var(--ease) calc((500ms + var(--i) * 220ms) * var(--speed)) both; }
@@ -464,7 +510,7 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .ms-option[data-state="wrong"] { border-color: var(--msasa); color: var(--msasa); text-decoration: line-through; }
 .ms-mark-line { margin: 0.45rem 0 0; font-weight: 600; font-size: 0.92rem; }
 .ms-sprint { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; align-items: start; }
-.ms-sprint ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.35rem; font-weight: 500; }
+.ms-sprint ul { list-style: none; margin: 0; padding-left: 0; display: grid; gap: 0.35rem; font-weight: 500; }
 /* A small countdown ring: it sweeps once to the time left and stays. */
 .ms-ring svg { display: block; width: 64px; height: 64px; transform: rotate(-90deg); }
 .ms-ring circle { fill: none; stroke: var(--butter); stroke-width: 5; }
@@ -516,8 +562,8 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 /* ---------- Listen to your notes (src/components/landing/ListenDemo.tsx) ---------- */
 /* Listen: the head above, the two players side by side. */
 .ld-head { margin-bottom: 1rem; }
+.ld-head .lead { margin-bottom: 0.9rem; }
 .ld-honest { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.8rem; border-radius: 999px; background: var(--raised); border: 1px solid var(--line-strong); font-size: 0.9rem; font-weight: 500; max-width: none; }
-.ld-honest::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--honey); }
 .ld { display: grid; gap: 1rem; align-items: start; }
 @media (min-width: 900px) { .ld { grid-template-columns: 1fr 1fr; } }
 .ld-card { display: grid; gap: 0.8rem; }
@@ -558,14 +604,59 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 /* ---------- Safe, private, light ---------- */
 .sf-head { margin-bottom: 1rem; }
 .sf-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
-@media (min-width: 760px) { .sf-points { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 760px) { .sf-points { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .sf-points li { display: flex; align-items: flex-start; gap: 0.9rem; padding: 0.9rem 1.1rem; border-radius: var(--radius); background: var(--panel-fill); border: 1px solid var(--line); box-shadow: var(--card-edge), var(--shadow-panel); font-weight: 500; line-height: 1.45; }
 .sf-icon { display: grid; place-items: center; width: 42px; height: 42px; flex: none; border-radius: 12px; background: var(--butter); color: var(--ink); }
-/* Both help lines share one cell, so the space is kept whichever the region shows. */
-.l-help { display: grid; }
-.l-help > span { grid-area: 1 / 1; }
-.l-help-off { visibility: hidden; }
-.l-help a { font-weight: 600; text-underline-offset: 3px; white-space: nowrap; }
+
+/* ---------- Your progress (src/components/landing/ProgressCard.tsx) ---------- */
+.pg { display: grid; gap: 0.9rem; padding: 1.25rem; }
+.pg .eyebrow { margin: 0; }
+.pg-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+.pg-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.4rem 0.75rem; }
+.pg-name { font-weight: 600; }
+.pg-level { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.85rem; font-weight: 500; color: var(--text-soft); }
+.pg-strong .pg-level svg, .pg-good .pg-level svg { color: var(--ink); }
+.pg-weak .pg-level { color: var(--msasa); }
+.pg-bar { grid-column: 1 / -1; display: block; height: 10px; border-radius: 5px; background: var(--muted-fill, var(--line)); overflow: hidden; }
+.pg-bar i { display: block; height: 100%; width: calc(var(--score) * 100%); border-radius: 5px; background: var(--ink); transform-origin: 0 50%; }
+.pg-good .pg-bar i { background: #595955; }
+.pg-weak .pg-bar i { background: var(--honey); }
+/* The bars wait empty, then fill once the card is on screen. With less motion they rest full. */
+.pg:not([data-in]) .pg-bar i { transform: scaleX(0); }
+.pg[data-in] .pg-bar i { animation: hd-fill calc(900ms * var(--speed)) var(--ease) calc((150ms + var(--i) * 140ms) * var(--speed)) both; }
+@media (prefers-reduced-motion: reduce) { .pg:not([data-in]) .pg-bar i { transform: none; } }
+:root[data-motion="off"] .pg:not([data-in]) .pg-bar i { transform: none; }
+.pg-cta { grid-column: 1 / -1; justify-self: start; min-height: 40px; padding: 0.4rem 1rem; font-size: 0.9rem; }
+@media (min-width: 480px) {
+  .pg-row:has(.pg-cta) { grid-template-columns: minmax(0, 1fr) auto auto; }
+  .pg-row:has(.pg-cta) .pg-bar { grid-column: 1 / 3; }
+  .pg-cta { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
+}
+
+/* ---------- Study together (src/components/landing/GroupCard.tsx) ---------- */
+.gp { margin: 0; display: grid; gap: 1rem; padding: 1.25rem; }
+.gp-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem; }
+.gp-session { font-size: 1.1rem; }
+.gp-online { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 500; color: var(--text-soft); }
+.gp-faces { display: inline-flex; margin-right: 0.3rem; }
+/* Each friend is an initial with a green ring for online. */
+.gp-face { display: grid; place-items: center; width: 32px; height: 32px; margin-left: -6px; border-radius: 50%; background: var(--butter); color: var(--ink); font-size: 0.8rem; font-weight: 600; box-shadow: 0 0 0 2px var(--white), 0 0 0 4px #1f9d55; }
+.gp-face:first-child { margin-left: 0; }
+.gp-face:nth-child(2) { background: var(--ink); color: var(--cream); }
+.gp-face:nth-child(3) { background: var(--honey); }
+.gp-face:nth-child(4) { background: var(--band); border: 1px solid var(--line-strong); }
+.gp-q { display: grid; gap: 0.55rem; padding: 0.9rem 1rem; border-radius: 14px; background: var(--band); border: 1px solid var(--line); }
+.gp-q p { margin: 0; font-weight: 600; }
+.gp-live { display: inline-flex; align-items: center; gap: 0.35rem; justify-self: start; padding: 0.1rem 0.55rem; border-radius: 999px; background: var(--ink); color: var(--cream); font-size: 0.72rem; font-weight: 600; }
+.gp-options { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.gp-options li { display: inline-flex; align-items: center; gap: 0.3rem; min-height: 36px; padding: 0.3rem 0.85rem; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--white); font-size: 0.9rem; }
+.gp-options li[data-right] { background: var(--ink); border-color: var(--ink); color: var(--cream); font-weight: 600; }
+.gp-board .eyebrow { display: inline-flex; align-items: center; gap: 0.35rem; }
+.gp-board ol { margin: 0; padding-left: 1.3rem; display: grid; gap: 0.35rem; }
+.gp-board li::marker { font-weight: 700; }
+.gp-board li > * { vertical-align: middle; }
+.gp-board li { padding: 0.15rem 0; }
+.gp-board li b { float: right; font-variant-numeric: tabular-nums; }
 
 /* ---------- FAQ: details that open with a short ease ---------- */
 .l-faqs { margin-top: 0.75rem; }
@@ -588,7 +679,8 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 /* ---------- Final call: an off white card with the honey button ---------- */
 .l-final { padding: 24px clamp(1rem, 4vw, 2.5rem) 56px; }
 .l-final-card { max-width: 1240px; margin: 0 auto; display: grid; justify-items: center; gap: 0.9rem; text-align: center; padding: clamp(2rem, 4vw, 3rem) clamp(1.25rem, 4vw, 3rem); border-radius: 28px; background: var(--band); color: var(--ink); }
-.l-final .l-h2 { max-width: 18ch; color: var(--ink); }
+.l-final .l-h2 { max-width: 18ch; color: var(--ink); margin-bottom: 0; }
+.l-final .lead { margin: 0; }
 .l-final-badge { display: grid; place-items: center; width: 84px; height: 84px; border-radius: 24px; background: var(--white); box-shadow: 0 8px 20px rgb(26 26 26 / 0.1); }
 .l-final-mark { width: 56px; height: 56px; }
 

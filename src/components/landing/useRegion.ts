@@ -4,7 +4,7 @@ import { useCallback, useSyncExternalStore } from "react";
  * The landing page's local layer. Global is the default, and what the
  * prerendered page shows. In the browser the time zone gives a first guess;
  * the footer's picker overrides it and is remembered. The region changes only
- * the order of the curriculum strip and the help line point, nothing else.
+ * the order of the curriculum strip, nothing else.
  */
 
 export const REGIONS = ["GLOBAL", "ZW", "ZA", "KE", "NG", "GB"] as const;

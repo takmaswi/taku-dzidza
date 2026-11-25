@@ -14,7 +14,7 @@ const isPhone = (info: TestInfo) => info.project.name === "phone";
 async function openLanding(page: Page, info: TestInfo) {
   await page.setViewportSize(isPhone(info) ? PHONE : DESKTOP);
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1, name: "Turn your notes into a tutor that shows its working." })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "The AI that studies with you" })).toBeVisible();
 }
 
 /** Scrolls down the whole page in steps, so every section has been on screen. */

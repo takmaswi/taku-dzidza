@@ -65,6 +65,7 @@ export function ToolBento() {
         <h2 id="l-tools-title" className="l-h2">
           {t.title}
         </h2>
+        <p className="lead soft">{t.body}</p>
       </div>
       <Try className="tb-try">
       <ul ref={track} className="tb-track" aria-labelledby="l-tools-title" tabIndex={0} onScroll={onScroll}>

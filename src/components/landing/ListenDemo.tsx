@@ -16,6 +16,9 @@ import { useInView } from "./motion";
 
 const SUMMARY_LINES = copy.landing.listen.summaryScript.match(/[^.]+\./g)?.map((s) => s.trim()) ?? [copy.landing.listen.summaryScript];
 
+/** Captions are one line each, so they drop the closing full stop (question marks stay). */
+const bare = (line: string) => line.replace(/\.$/, "");
+
 export function ListenDemo() {
   const t = copy.landing.listen;
   const [voice, setVoice] = useState<"calm" | "upbeat">("calm");
@@ -123,7 +126,7 @@ function Player({ clip, name, lines, script, claim, speakers = false }: PlayerPr
         <figcaption className="eyebrow">{t.captions}</figcaption>
         <p key={line} className="ld-line">
           {speakers && <span className="ld-host">{t.hosts[line % 2]}</span>}
-          {lines[line]}
+          {bare(lines[line])}
         </p>
       </figure>
     </div>

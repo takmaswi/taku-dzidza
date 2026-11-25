@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, ClipboardCheck, EyeOff, KeyRound, LifeBuoy, Plus, ShieldCheck, Smartphone } from "lucide-react";
+import { ArrowRight, BookOpen, Check, ClipboardCheck, KeyRound, Lock, Plus, Smartphone, Trash2 } from "lucide-react";
 import { useLayoutEffect, type MouseEvent } from "react";
 import { Link } from "react-router";
 import { BrandMark } from "../components/BrandMark";
@@ -6,12 +6,14 @@ import { Layout } from "../components/Layout";
 import { CiteDemo } from "../components/landing/CiteDemo";
 import { CurriculumStrip } from "../components/landing/CurriculumStrip";
 import { DropAnything } from "../components/landing/DropAnything";
+import { GroupCard } from "../components/landing/GroupCard";
 import { HeroDemo } from "../components/landing/HeroDemo";
 import { LandingHeader } from "../components/landing/LandingHeader";
 import { isStill } from "../components/landing/motion";
 import { ListenDemo } from "../components/landing/ListenDemo";
 import { MarketShelf } from "../components/landing/MarketShelf";
 import { ModeSwitcher } from "../components/landing/ModeSwitcher";
+import { ProgressCard } from "../components/landing/ProgressCard";
 import { ToolBento } from "../components/landing/ToolBento";
 import { Try } from "../components/landing/Try";
 import { REGIONS, useRegion, type Region } from "../components/landing/useRegion";
@@ -28,9 +30,9 @@ const DESK = ["highlighter", "tea-cup", "index-cards", "headphones"] as const;
 
 const SIGN_UP = "/signin?mode=signUp";
 const INSTITUTION_ICONS = [KeyRound, BookOpen, ClipboardCheck] as const;
-const SAFE_ICONS = [ShieldCheck, EyeOff, Smartphone] as const;
+const SAFE_ICONS = [Lock, Trash2, Smartphone] as const;
 
-/** "See it work": glide to the demo (it sits under the text on a phone), or jump there with less motion. */
+/** "See how it works": glide to the demo (it sits under the text on a phone), or jump there with less motion. */
 function seeItWork(e: MouseEvent<HTMLAnchorElement>) {
   const demo = document.getElementById("demo");
   if (demo === null) return;
@@ -56,12 +58,6 @@ export default function Landing() {
       <section className="l-hero" aria-labelledby="l-hero-title">
         <div className="l-wrap l-hero-grid">
           <div className="l-hero-text">
-            <p className="eyebrow l-eyebrow">
-              <span>
-                {copy.appName} {copy.byline}
-              </span>
-              <span>{t.hero.eyebrow}</span>
-            </p>
             <h1 id="l-hero-title">{t.hero.title}</h1>
             <p className="lead">{t.hero.lead}</p>
             <div className="actions">
@@ -72,7 +68,14 @@ export default function Landing() {
                 {t.hero.see}
               </a>
             </div>
-            <p className="l-quiet">{t.hero.quiet}</p>
+            <ul className="l-quiet">
+              {t.hero.quiet.map((q) => (
+                <li key={q}>
+                  <Check size={16} aria-hidden="true" />
+                  {q}
+                </li>
+              ))}
+            </ul>
           </div>
           <div id="demo" className="l-hero-demo">
             <HeroDemo
@@ -113,7 +116,22 @@ export default function Landing() {
         <ToolBento />
       </section>
 
-      <section className="l-section l-band reveal" aria-labelledby="l-modes-title">
+      <section className="l-section l-band reveal" aria-labelledby="l-progress-title">
+        <div className="l-wrap l-split">
+          <div>
+            <span className="eyebrow l-tagged">
+              {t.progress.eyebrow} <span className="l-tag">{t.progress.tag}</span>
+            </span>
+            <h2 id="l-progress-title" className="l-h2">
+              {t.progress.title}
+            </h2>
+            <p className="lead soft">{t.progress.body}</p>
+          </div>
+          <ProgressCard signUp={SIGN_UP} />
+        </div>
+      </section>
+
+      <section className="l-section reveal" aria-labelledby="l-modes-title">
         <div className="l-wrap">
           <div className="ms-intro">
             <span className="eyebrow">{t.modes.eyebrow}</span>
@@ -125,6 +143,21 @@ export default function Landing() {
           <Try>
             <ModeSwitcher />
           </Try>
+        </div>
+      </section>
+
+      <section className="l-section l-band reveal" aria-labelledby="l-groups-title">
+        <div className="l-wrap l-split">
+          <div>
+            <span className="eyebrow l-tagged">
+              {t.groups.eyebrow} <span className="l-tag">{t.groups.tag}</span>
+            </span>
+            <h2 id="l-groups-title" className="l-h2">
+              {t.groups.title}
+            </h2>
+            <p className="lead soft">{t.groups.body}</p>
+          </div>
+          <GroupCard />
         </div>
       </section>
 
@@ -159,6 +192,7 @@ export default function Landing() {
             <h2 id="l-listen-title" className="l-h2">
               {t.listen.title}
             </h2>
+            <p className="lead soft">{t.listen.body}</p>
             <p className="ld-honest">{t.listen.honest}</p>
           </div>
           <Try>
@@ -218,12 +252,6 @@ export default function Landing() {
                 </li>
               );
             })}
-            <li>
-              <span className="sf-icon">
-                <LifeBuoy size={20} aria-hidden="true" />
-              </span>
-              <HelpLine region={region} />
-            </li>
           </ul>
         </div>
       </section>
@@ -255,6 +283,7 @@ export default function Landing() {
           <h2 id="l-final-title" className="l-h2">
             {t.final.title}
           </h2>
+          <p className="lead soft">{t.final.body}</p>
           <Link to={SIGN_UP} className="pill">
             {t.final.cta} <ArrowRight size={18} aria-hidden="true" />
           </Link>
@@ -285,32 +314,5 @@ export default function Landing() {
         </div>
       </footer>
     </Layout>
-  );
-}
-
-/**
- * The help line point. Zimbabwe gets Childline 116, verified in the repo
- * (SPEC.md); everywhere else points to the Get help page, since no other number
- * is verified yet. Both lines take the same space, so nothing moves when the
- * region is known.
- */
-function HelpLine({ region }: { region: Region }) {
-  const t = copy.landing.safe;
-  const zw = region === "ZW";
-  return (
-    <span className="l-help">
-      <span aria-hidden={!zw} className={zw ? undefined : "l-help-off"}>
-        {t.helpZW}{" "}
-        <a href="tel:116" tabIndex={zw ? undefined : -1}>
-          {t.helpZWLink}
-        </a>
-      </span>
-      <span aria-hidden={zw} className={zw ? "l-help-off" : undefined}>
-        {t.helpOther}{" "}
-        <Link to="/help" tabIndex={zw ? -1 : undefined}>
-          {t.helpOtherLink}
-        </Link>
-      </span>
-    </span>
   );
 }

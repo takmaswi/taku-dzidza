@@ -20,6 +20,7 @@ export default function GetHelp() {
           <h2>{t.under18Title}</h2>
           <p className="help-number">{t.childline}</p>
           <p>{t.childlineLine}</p>
+          <p>{t.childlineAnyTime}</p>
           <a className="pill" href="tel:116">
             <Phone size={18} aria-hidden="true" /> {t.callChildline}
           </a>
@@ -28,6 +29,12 @@ export default function GetHelp() {
           <h2>{t.everyoneTitle}</h2>
           <p>{t.danger}</p>
           <p>{t.talk}</p>
+          <p>
+            {t.findLine}{" "}
+            <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer">
+              {t.findLink}
+            </a>
+          </p>
           <p className="soft">{t.taku}</p>
         </section>
       </div>

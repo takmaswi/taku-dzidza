@@ -30,7 +30,7 @@ export const legal = {
         heading: "Why we store it",
         body: [
           "To run the study tools you ask for, to keep your work so you can come back to it, to get a guardian's permission for learners under 18, and to limit spending on AI.",
-          "We do not show adverts. Your material is not used to train AI models.",
+          "We use what you add to run and improve Takudzidza. We will never sell your notes, and if we ever use them to train AI models, we will ask you first.",
         ],
       },
       {

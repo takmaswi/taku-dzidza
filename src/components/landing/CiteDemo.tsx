@@ -1,3 +1,4 @@
+import { Pointer } from "lucide-react";
 import { useState } from "react";
 import { copy } from "../../copy/en";
 import { BrandMark } from "../BrandMark";
@@ -13,7 +14,10 @@ export function CiteDemo() {
   const [open, setOpen] = useState(false);
   return (
     <div className={`cd${open ? " open" : ""}`}>
-      <p className="cd-hint">{t.hint}</p>
+      <p className="cd-hint">
+        <Pointer size={16} aria-hidden="true" />
+        {t.hint}
+      </p>
       <div className="cd-chat raised">
         <span className="eyebrow">{t.notebook}</span>
         <p className="cd-q">{t.question}</p>
