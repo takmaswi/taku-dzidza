@@ -17,6 +17,8 @@ export const copy = {
   landing: {
     // Also the sign in page's floating card (src/pages/SignIn.tsx).
     floatCard: "From your notes, page 4: Chlorophyll absorbs the light.",
+    // The small pill on each demo a visitor can play with (src/components/landing/Try.tsx).
+    tryIt: "Try it",
     nav: {
       label: "Main",
       learners: "Learners",
@@ -58,6 +60,8 @@ export const copy = {
       listen: "Listening to page 1",
       listenTime: "0:24",
       steps: ["Snap your notes", "Ask", "See the page", "Practise", "Listen"],
+      tapStep: "Tap a step",
+      stepsLabel: "Steps of the demo",
     },
     strip: {
       line: "Built for the exams you are actually sitting.",
@@ -80,10 +84,6 @@ export const copy = {
         uni: "University courses",
         pro: "Professional exams",
       },
-    },
-    people: {
-      title: "Made for learners everywhere",
-      alt: "Four learners share a long library table: one explains a printed page, one highlights his notes, one reads and one recalls an answer from index cards.",
     },
     drop: {
       eyebrow: "Drop anything in",

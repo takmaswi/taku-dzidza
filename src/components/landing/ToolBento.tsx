@@ -1,6 +1,7 @@
 import { BookOpen, Check, ChevronLeft, ChevronRight, Layers, ListChecks, Network, ScrollText, Sparkles, type LucideIcon } from "lucide-react";
-import { useRef, useState, type ReactNode } from "react";
+import { useRef, useState } from "react";
 import { copy } from "../../copy/en";
+import { Try } from "./Try";
 import { isStill, useInView, useStill } from "./motion";
 
 type Key = keyof typeof copy.landing.tools.items;
@@ -20,12 +21,12 @@ const TILES: { key: Key; Icon: LucideIcon }[] = [
  * scroll snap row with the next card peeking in, dots that follow the scroll,
  * and arrow buttons for keyboards. It never turns by itself.
  */
-export function ToolBento({ art }: { art: ReactNode }) {
+export function ToolBento() {
   const t = copy.landing.tools;
   const still = useStill();
   const [ref, active] = useInView<HTMLDivElement>("0px 0px -15% 0px");
-  // wait: hold each tile at its first frame until it is seen; play: run once. With less motion (and in the prerendered page) neither, so the finished look shows.
-  const state = still ? undefined : active ? "play" : "wait";
+  // Every tile shows its finished look at all times; play adds a short, subtle settle when the tiles come on screen. With less motion, never.
+  const state = still || !active ? undefined : "play";
   const track = useRef<HTMLUListElement>(null);
   const [current, setCurrent] = useState(0);
   const frame = useRef(0);
@@ -60,14 +61,12 @@ export function ToolBento({ art }: { art: ReactNode }) {
   return (
     <div ref={ref} className="l-wrap tb" data-state={state}>
       <div className="tb-head">
-        <div>
-          <span className="eyebrow">{t.eyebrow}</span>
-          <h2 id="l-tools-title" className="l-h2">
-            {t.title}
-          </h2>
-        </div>
-        <div className="tb-art">{art}</div>
+        <span className="eyebrow">{t.eyebrow}</span>
+        <h2 id="l-tools-title" className="l-h2">
+          {t.title}
+        </h2>
       </div>
+      <Try className="tb-try">
       <ul ref={track} className="tb-track" aria-labelledby="l-tools-title" tabIndex={0} onScroll={onScroll}>
         {TILES.map(({ key, Icon }, i) => (
           <li key={key} className={`tb-tile tb-t-${key}`} data-current={i === current ? "true" : undefined}>
@@ -93,10 +92,11 @@ export function ToolBento({ art }: { art: ReactNode }) {
             <button key={key} type="button" className="tb-dot" aria-label={t.show(t.items[key].name)} aria-current={i === current ? "true" : undefined} onClick={() => go(i)} />
           ))}
         </div>
-        <button type="button" className="l-pause tb-arrow" onClick={() => go(current + 1)} aria-label={t.next} disabled={current === TILES.length - 1}>
+        <button type="button" className="l-pause tb-arrow try-target" onClick={() => go(current + 1)} aria-label={t.next} disabled={current === TILES.length - 1}>
           <ChevronRight size={18} aria-hidden="true" />
         </button>
       </div>
+      </Try>
     </div>
   );
 }
@@ -107,10 +107,8 @@ function Demo({ k }: { k: Key }) {
     case "cards":
       return (
         <div className="tb-flip">
-          <div className="tb-flip-in">
-            <div className="tb-face tb-front">{i.cards.front}</div>
-            <div className="tb-face tb-back">{i.cards.back}</div>
-          </div>
+          <div className="tb-face tb-back">{i.cards.back}</div>
+          <div className="tb-face tb-front">{i.cards.front}</div>
         </div>
       );
     case "paper":

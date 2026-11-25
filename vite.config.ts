@@ -30,12 +30,22 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ["**/*.{js,css,html,woff2,svg,png}"],
+        // A new worker takes over at once, so a returning visitor gets the new version on their next visit.
+        skipWaiting: true,
+        clientsClaim: true,
+        cleanupOutdatedCaches: true,
+        // Pages are not precached: index.html is fetched network first (below), so it is never an old cached copy.
+        globPatterns: ["**/*.{js,css,woff2,svg,png}"],
         // Loaded on first use (src/components/MathText.tsx, src/widgets/WidgetHost.tsx) and cached then, below.
         globIgnores: ["**/katex*", "**/KaTeX_*", "**/mhchem*", "**/EquationSteps*", "**/art/**"],
-        navigateFallback: "/index.html",
-        navigateFallbackDenylist: [/^\/api\//],
+        navigateFallback: null,
         runtimeCaching: [
+          {
+            // Every page load: the network first; the last copy only when offline or after 4 seconds without an answer.
+            urlPattern: ({ request, url }) => request.mode === "navigate" && !url.pathname.startsWith("/api/"),
+            handler: "NetworkFirst",
+            options: { cacheName: "pages", networkTimeoutSeconds: 4, expiration: { maxEntries: 20 } },
+          },
           {
             urlPattern: ({ url }) => url.pathname.startsWith("/assets/"),
             handler: "CacheFirst",

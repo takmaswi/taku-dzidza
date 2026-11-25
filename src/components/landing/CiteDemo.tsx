@@ -22,7 +22,7 @@ export function CiteDemo() {
           <div>
             <p>
               {t.answer}{" "}
-              <button type="button" className="cite cd-cite" aria-expanded={open} aria-controls="cd-page" aria-label={open ? t.close : t.open} onClick={() => setOpen((o) => !o)}>
+              <button type="button" className="cite cd-cite try-target" aria-expanded={open} aria-controls="cd-page" aria-label={open ? t.close : t.open} onClick={() => setOpen((o) => !o)}>
                 1
               </button>
             </p>

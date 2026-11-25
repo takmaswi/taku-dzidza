@@ -1,7 +1,6 @@
 import { ArrowRight, BookOpen, ClipboardCheck, EyeOff, KeyRound, LifeBuoy, Plus, ShieldCheck, Smartphone } from "lucide-react";
 import { useLayoutEffect, type MouseEvent } from "react";
 import { Link } from "react-router";
-import { Scene } from "../components/Art";
 import { BrandMark } from "../components/BrandMark";
 import { Layout } from "../components/Layout";
 import { CiteDemo } from "../components/landing/CiteDemo";
@@ -14,25 +13,17 @@ import { ListenDemo } from "../components/landing/ListenDemo";
 import { MarketShelf } from "../components/landing/MarketShelf";
 import { ModeSwitcher } from "../components/landing/ModeSwitcher";
 import { ToolBento } from "../components/landing/ToolBento";
+import { Try } from "../components/landing/Try";
 import { REGIONS, useRegion, type Region } from "../components/landing/useRegion";
-import { ObjectArt, type ObjectArtName } from "../components/ObjectArt";
+import { ObjectArt } from "../components/ObjectArt";
 import { useReveal } from "../components/useReveal";
 import { copy } from "../copy/en";
 
 /**
- * Every object on the landing page, in one place: batch 6 photos
- * (art/BRIEF-batch-6-objects.md). People stay out of the sections; they
- * appear once, in the people section.
+ * The study desk around the hero phone, seen from above: batch 6 photos
+ * (art/BRIEF-batch-6-objects.md), the only objects on the page. Only the
+ * first two stay on a phone.
  */
-const ART: Record<"drop" | "tools" | "market" | "listen" | "institutions" | "safe", ObjectArtName> = {
-  drop: "speech-bubble",
-  tools: "lamp",
-  market: "star-medal",
-  listen: "headphones",
-  institutions: "key",
-  safe: "open-book",
-};
-/** The study desk around the hero phone, seen from above. Only the first two stay on a phone. */
 const DESK = ["highlighter", "tea-cup", "index-cards", "headphones"] as const;
 
 const SIGN_UP = "/signin?mode=signUp";
@@ -97,19 +88,10 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="l-section l-people reveal" aria-labelledby="l-people-title">
-        <div className="l-wrap">
-          <h2 id="l-people-title" className="l-h2">
-            {t.people.title}
-          </h2>
-          <Scene slug="landing-people" alt={t.people.alt} sizes="(min-width: 1240px) 1160px, 92vw" className="l-people-photo" />
-        </div>
-      </section>
-
       <CurriculumStrip region={region} />
 
       <section id="learners" className="l-section reveal" aria-labelledby="l-drop-title">
-        <DropAnything art={<ObjectArt name={ART.drop} alt="" size={240} className="l-obj" />} />
+        <DropAnything />
       </section>
 
       <section className="l-section l-band reveal" aria-labelledby="l-cite-title">
@@ -121,12 +103,14 @@ export default function Landing() {
             </h2>
             <p className="lead soft">{t.cite.body}</p>
           </div>
-          <CiteDemo />
+          <Try>
+            <CiteDemo />
+          </Try>
         </div>
       </section>
 
       <section className="l-section reveal" aria-labelledby="l-tools-title">
-        <ToolBento art={<ObjectArt name={ART.tools} alt="" size={220} className="l-obj" />} />
+        <ToolBento />
       </section>
 
       <section className="l-section l-band reveal" aria-labelledby="l-modes-title">
@@ -138,29 +122,30 @@ export default function Landing() {
             </h2>
             <p className="lead soft">{t.modes.body}</p>
           </div>
-          <ModeSwitcher />
+          <Try>
+            <ModeSwitcher />
+          </Try>
         </div>
       </section>
 
       <section id="marketplace" className="l-section reveal" aria-labelledby="l-market-title">
         <div className="l-wrap">
-          <div className="l-split mk-head">
+          <div className="mk-head">
             <div>
               <span className="eyebrow">{t.market.eyebrow}</span>
               <h2 id="l-market-title" className="l-h2">
                 {t.market.title}
               </h2>
               <p className="lead soft">{t.market.body}</p>
-              <div className="actions">
-                <Link to={SIGN_UP} className="pill">
-                  {t.market.browse}
-                </Link>
-                <Link to={SIGN_UP} className="pill ghost">
-                  {t.market.sell}
-                </Link>
-              </div>
             </div>
-            <ObjectArt name={ART.market} alt="" size={240} className="l-obj mk-art" />
+            <div className="actions">
+              <Link to={SIGN_UP} className="pill">
+                {t.market.browse}
+              </Link>
+              <Link to={SIGN_UP} className="pill ghost">
+                {t.market.sell}
+              </Link>
+            </div>
           </div>
           <MarketShelf />
           <p className="mk-note soft small-text">{t.market.note}</p>
@@ -168,27 +153,34 @@ export default function Landing() {
       </section>
 
       <section className="l-section l-band reveal" aria-labelledby="l-listen-title">
-        <div className="l-wrap l-split ld-wrap">
-          <div>
+        <div className="l-wrap ld-wrap">
+          <div className="ld-head">
             <span className="eyebrow">{t.listen.eyebrow}</span>
             <h2 id="l-listen-title" className="l-h2">
               {t.listen.title}
             </h2>
             <p className="ld-honest">{t.listen.honest}</p>
-            <ObjectArt name={ART.listen} alt="" size={240} className="l-obj ld-art" />
           </div>
-          <ListenDemo />
+          <Try>
+            <ListenDemo />
+          </Try>
         </div>
       </section>
 
       <section id="institutions" className="l-section reveal" aria-labelledby="l-inst-title">
-        <div className="l-wrap l-split">
-          <ObjectArt name={ART.institutions} alt="" size={240} className="l-obj in-art" />
+        <div className="l-wrap l-split in-wrap">
           <div>
             <span className="eyebrow">{t.institutions.eyebrow}</span>
             <h2 id="l-inst-title" className="l-h2">
               {t.institutions.title}
             </h2>
+            <div className="actions">
+              <Link to={SIGN_UP} className="pill">
+                {t.institutions.cta} <ArrowRight size={18} aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+          <div>
             <ul className="in-points">
               {t.institutions.points.map((p, i) => {
                 const Icon = INSTITUTION_ICONS[i];
@@ -202,11 +194,6 @@ export default function Landing() {
                 );
               })}
             </ul>
-            <div className="actions">
-              <Link to={SIGN_UP} className="pill">
-                {t.institutions.cta} <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-            </div>
           </div>
         </div>
       </section>
@@ -214,13 +201,10 @@ export default function Landing() {
       <section className="l-section l-band reveal" aria-labelledby="l-safe-title">
         <div className="l-wrap sf">
           <div className="sf-head">
-            <div>
-              <span className="eyebrow">{t.safe.eyebrow}</span>
-              <h2 id="l-safe-title" className="l-h2">
-                {t.safe.title}
-              </h2>
-            </div>
-            <ObjectArt name={ART.safe} alt="" size={180} className="sf-art" />
+            <span className="eyebrow">{t.safe.eyebrow}</span>
+            <h2 id="l-safe-title" className="l-h2">
+              {t.safe.title}
+            </h2>
           </div>
           <ul className="sf-points">
             {t.safe.points.map((p, i) => {

@@ -29,10 +29,10 @@ export function ModeSwitcher() {
   return (
     <div className="ms">
       <div className="ms-switch" role="group" aria-label={t.pick}>
-        {STUDY_MODES.map((m) => {
+        {STUDY_MODES.map((m, i) => {
           const Icon = ICONS[m];
           return (
-            <button key={m} type="button" aria-pressed={m === mode} onClick={() => setMode(m)}>
+            <button key={m} type="button" className={i === 1 ? "try-target" : undefined} aria-pressed={m === mode} onClick={() => setMode(m)}>
               <Icon size={17} aria-hidden="true" />
               {copy.study.modes[m].name}
             </button>

@@ -17,8 +17,11 @@ import { PauseButton } from "./PauseButton";
 
 const DURATIONS = [2000, 2000, 2200, 2600, 1900, 1300] as const;
 const STILL_STEP = 3;
-/** Which caption under the phone each step lights. */
+/** Which tab under the phone each step lights, and the step each tab jumps to. */
 const CAPTION_FOR_STEP = [0, 1, 1, 2, 3, 4] as const;
+const STEP_FOR_CAPTION = [0, 1, 3, 4, 5] as const;
+/** How long each tab stays lit while the loop plays: its progress bar fills over this. */
+const CAPTION_MS = STEP_FOR_CAPTION.map((_, c) => DURATIONS.reduce((sum, d, step) => (CAPTION_FOR_STEP[step] === c ? sum + d : sum), 0));
 
 /** desk: decor laid around the phone, behind it; it pauses with the demo. */
 export function HeroDemo({ desk }: { desk?: ReactNode }) {
@@ -27,16 +30,26 @@ export function HeroDemo({ desk }: { desk?: ReactNode }) {
   const [ref, active, idle] = useInView<HTMLDivElement>();
   const [playing, setPlaying] = useState(true);
   const [step, setStep] = useState<number>(STILL_STEP);
+  // Bumped on every tap, so a tapped step restarts its time and its progress bar even when it is already lit.
+  const [jumps, setJumps] = useState(0);
+  const [picked, setPicked] = useState(false);
   const running = playing && active && !still;
 
   useEffect(() => {
     if (!running) return;
     const id = window.setTimeout(() => setStep((s) => (s + 1) % DURATIONS.length), DURATIONS[step]);
     return () => window.clearTimeout(id);
-  }, [running, step]);
+  }, [running, step, jumps]);
 
-  // With less motion the demo is one still frame: the cited page.
-  const shown = still ? STILL_STEP : step;
+  const jump = (to: number) => {
+    setStep(to);
+    setJumps((j) => j + 1);
+    setPicked(true);
+  };
+
+  // With less motion the demo is one still frame, the cited page, until the visitor taps a step.
+  const shown = still && !picked ? STILL_STEP : step;
+  const caption = CAPTION_FOR_STEP[shown];
   const words = t.answer.split(" ");
 
   return (
@@ -50,17 +63,16 @@ export function HeroDemo({ desk }: { desk?: ReactNode }) {
           </div>
 
           <div className="hd-body">
-            {shown === 0 ? (
+            {/* The photo stays large while the question is typed, then becomes the notebook's source strip, so the screen never stands empty. */}
+            {shown <= 1 ? (
               <div key="drop" className="hd-photo big" aria-hidden="true">
                 <Scribbles />
                 <span className="hd-photo-tag">{t.photo}</span>
               </div>
             ) : (
-              <div className="hd-thumb" aria-hidden="true">
-                <span className="hd-photo small">
-                  <Scribbles />
-                </span>
-                <span>{t.source}</span>
+              <div className="hd-photo strip" aria-hidden="true">
+                <Scribbles slice />
+                <span className="hd-photo-tag">{t.source}</span>
               </div>
             )}
 
@@ -80,7 +92,7 @@ export function HeroDemo({ desk }: { desk?: ReactNode }) {
                     </span>
                   ))}
                   <span className="sr-only">{t.answer}</span>
-                  <button type="button" className="cite hd-cite" aria-label={t.cite} aria-expanded={shown === 3} onClick={() => setStep(STILL_STEP)}>
+                  <button type="button" className="cite hd-cite" aria-label={t.cite} aria-expanded={shown === 3} onClick={() => jump(STILL_STEP)}>
                     1
                   </button>
                 </p>
@@ -141,21 +153,25 @@ export function HeroDemo({ desk }: { desk?: ReactNode }) {
         </div>
         {!still && <PauseButton playing={playing} onToggle={() => setPlaying((p) => !p)} pauseLabel={t.pauseDemo} playLabel={t.playDemo} className="hd-pause" />}
       </div>
-      <ol className="hd-steps" aria-hidden="true">
-        {t.steps.map((s, i) => (
-          <li key={s} className={CAPTION_FOR_STEP[shown] === i ? "on" : undefined}>
-            {s}
-          </li>
-        ))}
-      </ol>
+      <div className="hd-steps">
+        <span className="hd-steps-hint">{t.tapStep}</span>
+        <div className="hd-tabs" role="tablist" aria-label={t.stepsLabel}>
+          {t.steps.map((s, i) => (
+            <button key={s} type="button" role="tab" className="hd-tab" aria-selected={caption === i} onClick={() => jump(STEP_FOR_CAPTION[i])}>
+              {s}
+              {caption === i && <span key={jumps} className="hd-tab-bar" style={{ ["--ms" as string]: `${CAPTION_MS[i]}ms` }} aria-hidden="true" />}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
 
 /** Handwriting as soft ink strokes: lines of notes with no letters (art/STYLE.md: no readable text in pictures). */
-function Scribbles() {
+function Scribbles({ slice = false }: { slice?: boolean }) {
   return (
-    <svg className="hd-scribble" viewBox="0 0 200 150" aria-hidden="true" focusable="false">
+    <svg className="hd-scribble" viewBox="0 0 200 150" preserveAspectRatio={slice ? "xMidYMid slice" : undefined} aria-hidden="true" focusable="false">
       <path d="M14 18 q18 -5 36 0 t36 0 t30 1" />
       <path d="M14 38 q14 -4 28 0 t28 0 t28 0 t26 -1 t24 1" />
       <path d="M14 56 q16 -5 32 0 t32 0 t30 0 t22 1" />

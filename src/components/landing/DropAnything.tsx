@@ -1,6 +1,7 @@
 import { ArrowDown, AudioLines, Camera, Clock, FileText, Layers, Link2, ListChecks, Network, Presentation, ScrollText, type LucideIcon } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 import { copy } from "../../copy/en";
+import { Try } from "./Try";
 
 type Kind = keyof typeof copy.landing.drop.chips;
 const KINDS: { kind: Kind; Icon: LucideIcon; Out: LucideIcon }[] = [
@@ -17,7 +18,7 @@ const KINDS: { kind: Kind; Icon: LucideIcon; Out: LucideIcon }[] = [
  * honestly as coming soon: today sources are photos, PDFs, Word files, pasted
  * text and links (convex/schema.ts, sourceKindValidator).
  */
-export function DropAnything({ art }: { art: ReactNode }) {
+export function DropAnything() {
   const t = copy.landing.drop;
   const [active, setActive] = useState<Kind>("photo");
   const pick = KINDS.find((k) => k.kind === active) ?? KINDS[0];
@@ -30,12 +31,11 @@ export function DropAnything({ art }: { art: ReactNode }) {
           {t.title}
         </h2>
         <p className="lead soft">{t.body}</p>
-        <div className="da-art">{art}</div>
       </div>
-      <div className="da-stage">
+      <Try className="da-stage">
         <div className="da-chips" role="group" aria-labelledby="l-drop-title">
-          {KINDS.map(({ kind, Icon }) => (
-            <button key={kind} type="button" className="da-chip" aria-pressed={kind === active} onClick={() => setActive(kind)}>
+          {KINDS.map(({ kind, Icon }, i) => (
+            <button key={kind} type="button" className={i === 1 ? "da-chip try-target" : "da-chip"} aria-pressed={kind === active} onClick={() => setActive(kind)}>
               <Icon size={18} aria-hidden="true" />
               {t.chips[kind].label}
               {kind === "audio" && <span className="da-soon">{t.soon}</span>}
@@ -67,7 +67,7 @@ export function DropAnything({ art }: { art: ReactNode }) {
             <Output kind={active} title={c.title} lines={c.lines} />
           </div>
         </div>
-      </div>
+      </Try>
     </div>
   );
 }
