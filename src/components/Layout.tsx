@@ -18,9 +18,10 @@ import { ThemeToggle } from "./ThemeToggle";
  * icon rail on wide screens, a frosted top bar, and a bottom tab bar on
  * phones that hides while the learner types. Only the content pane scrolls.
  */
-export function Layout({ children, top, bleed = false }: { children: ReactNode; top?: ReactNode; bleed?: boolean }) {
+export function Layout({ children, top, bleed = false, white = false }: { children: ReactNode; top?: ReactNode; bleed?: boolean; white?: boolean }) {
   return (
-    <div className="public-shell">
+    // white: the landing page and sign in, on plain white with yellow accents (src/styles/landing.css, "White public pages").
+    <div className={white ? "public-shell pw" : "public-shell"}>
       {top ?? (
         <header className="public-top">
           <Link to="/" className="brand-link">

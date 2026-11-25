@@ -1,8 +1,6 @@
 import { ArrowRight, BookOpen, ClipboardCheck, EyeOff, KeyRound, LifeBuoy, Plus, ShieldCheck, Smartphone } from "lucide-react";
 import { useLayoutEffect, type MouseEvent } from "react";
 import { Link } from "react-router";
-import { CUTOUTS, SCENES, type CutoutSlug, type SceneSlug } from "../art.generated";
-import { Cutout, Scene } from "../components/Art";
 import { BrandMark } from "../components/BrandMark";
 import { Layout } from "../components/Layout";
 import { CiteDemo } from "../components/landing/CiteDemo";
@@ -16,28 +14,25 @@ import { MarketShelf } from "../components/landing/MarketShelf";
 import { ModeSwitcher } from "../components/landing/ModeSwitcher";
 import { ToolBento } from "../components/landing/ToolBento";
 import { REGIONS, useRegion, type Region } from "../components/landing/useRegion";
-import { ObjectArt } from "../components/ObjectArt";
-import { useNear } from "../components/useNear";
+import { ObjectArt, type ObjectArtName } from "../components/ObjectArt";
 import { useReveal } from "../components/useReveal";
 import { copy } from "../copy/en";
 
-const scene = (want: string, fallback: SceneSlug): SceneSlug => (want in SCENES ? (want as SceneSlug) : fallback);
-const cutout = (want: string, fallback: CutoutSlug): CutoutSlug => (want in CUTOUTS ? (want as CutoutSlug) : fallback);
-
 /**
- * Every image on the landing page, in one place. Art batch 5 slugs first
- * (art/BRIEF-batch-5-landing.md); where one has not landed in the generated
- * manifests, the older art stands in. `real` says which, so the alt text matches.
+ * Every object on the landing page, in one place: batch 6 photos
+ * (art/BRIEF-batch-6-objects.md). People stay out of the sections; they
+ * appear once, in the people section.
  */
-const ART = {
-  ensemble: scene("landing-ensemble", "home-dashboard"),
-  snap: cutout("learner-snap-notes", "onboarding-2-senior-student"),
-  listening: cutout("learner-listening", "audio-overview"),
-  flashcards: cutout("learner-flashcards", "study-planner"),
-  seller: cutout("seller-notes", "exam-coach"),
-  lecturer: cutout("lecturer-class", "class-share-teacher"),
-} as const;
-const real = (slug: string, batch5: string) => slug === batch5;
+const ART: Record<"drop" | "tools" | "market" | "listen" | "institutions" | "safe", ObjectArtName> = {
+  drop: "speech-bubble",
+  tools: "lamp",
+  market: "star-medal",
+  listen: "headphones",
+  institutions: "key",
+  safe: "open-book",
+};
+/** The study desk around the hero phone, seen from above. Only the first two stay on a phone. */
+const DESK = ["highlighter", "tea-cup", "index-cards", "headphones"] as const;
 
 const SIGN_UP = "/signin?mode=signUp";
 const INSTITUTION_ICONS = [KeyRound, BookOpen, ClipboardCheck] as const;
@@ -60,13 +55,12 @@ export default function Landing() {
   const t = copy.landing;
   const [region, setRegion] = useRegion();
   useReveal();
-  const [finalRef, finalNear] = useNear<HTMLDivElement>();
   useLayoutEffect(() => {
     // The real page is about to paint, so the prerendered copy (scripts/prerender.mjs) can go.
     document.getElementById("prerender")?.remove();
   }, []);
   return (
-    <Layout top={<LandingHeader />} bleed>
+    <Layout top={<LandingHeader />} bleed white>
       <section className="l-hero" aria-labelledby="l-hero-title">
         <div className="l-wrap l-hero-grid">
           <div className="l-hero-text">
@@ -89,20 +83,23 @@ export default function Landing() {
             <p className="l-quiet">{t.hero.quiet}</p>
           </div>
           <div id="demo" className="l-hero-demo">
-            <HeroDemo />
+            <HeroDemo
+              desk={
+                <span className="l-desk" aria-hidden="true">
+                  {DESK.map((name) => (
+                    <ObjectArt key={name} name={name} alt="" size={200} className={`l-desk-obj l-desk-${name}`} />
+                  ))}
+                </span>
+              }
+            />
           </div>
         </div>
-        <span className="l-sky" aria-hidden="true">
-          <ObjectArt name="sun" alt="" size={128} className="l-sky-sun" />
-          <ObjectArt name="moon" alt="" size={128} className="l-sky-moon" />
-        </span>
-        <Scene slug={ART.ensemble} alt={real(ART.ensemble, "landing-ensemble") ? t.hero.sceneAlt : t.hero.sceneFallbackAlt} sizes="(min-width: 960px) 62vw, 100vw" max={1280} eager className="l-hero-scene" />
       </section>
 
       <CurriculumStrip region={region} />
 
       <section id="learners" className="l-section reveal" aria-labelledby="l-drop-title">
-        <DropAnything art={<Cutout slug={ART.snap} alt={real(ART.snap, "learner-snap-notes") ? t.drop.art : t.drop.artFallback} sizes="(min-width: 900px) 340px, 64vw" defer className="l-person" />} />
+        <DropAnything art={<ObjectArt name={ART.drop} alt="" size={240} className="l-obj" />} />
       </section>
 
       <section className="l-section l-band reveal" aria-labelledby="l-cite-title">
@@ -119,7 +116,7 @@ export default function Landing() {
       </section>
 
       <section className="l-section reveal" aria-labelledby="l-tools-title">
-        <ToolBento art={<Cutout slug={ART.flashcards} alt={real(ART.flashcards, "learner-flashcards") ? t.tools.art : t.tools.artFallback} sizes="240px" defer className="l-person" />} />
+        <ToolBento art={<ObjectArt name={ART.tools} alt="" size={220} className="l-obj" />} />
       </section>
 
       <section className="l-section l-band reveal" aria-labelledby="l-modes-title">
@@ -153,7 +150,7 @@ export default function Landing() {
                 </Link>
               </div>
             </div>
-            <Cutout slug={ART.seller} alt={real(ART.seller, "seller-notes") ? t.market.art : t.market.artFallback} sizes="(min-width: 900px) 320px, 60vw" defer className="l-person mk-art" />
+            <ObjectArt name={ART.market} alt="" size={240} className="l-obj mk-art" />
           </div>
           <MarketShelf />
           <p className="mk-note soft small-text">{t.market.note}</p>
@@ -168,7 +165,7 @@ export default function Landing() {
               {t.listen.title}
             </h2>
             <p className="ld-honest">{t.listen.honest}</p>
-            <Cutout slug={ART.listening} alt={real(ART.listening, "learner-listening") ? t.listen.art : t.listen.artFallback} sizes="(min-width: 900px) 300px, 56vw" defer className="l-person ld-art" />
+            <ObjectArt name={ART.listen} alt="" size={240} className="l-obj ld-art" />
           </div>
           <ListenDemo />
         </div>
@@ -176,7 +173,7 @@ export default function Landing() {
 
       <section id="institutions" className="l-section reveal" aria-labelledby="l-inst-title">
         <div className="l-wrap l-split">
-          <Cutout slug={ART.lecturer} alt={real(ART.lecturer, "lecturer-class") ? t.institutions.art : t.institutions.artFallback} sizes="(min-width: 900px) 340px, 64vw" defer className="l-person in-art" />
+          <ObjectArt name={ART.institutions} alt="" size={240} className="l-obj in-art" />
           <div>
             <span className="eyebrow">{t.institutions.eyebrow}</span>
             <h2 id="l-inst-title" className="l-h2">
@@ -213,7 +210,7 @@ export default function Landing() {
                 {t.safe.title}
               </h2>
             </div>
-            <ObjectArt name="open-book" alt="" size={180} className="sf-art" />
+            <ObjectArt name={ART.safe} alt="" size={180} className="sf-art" />
           </div>
           <ul className="sf-points">
             {t.safe.points.map((p, i) => {
@@ -257,7 +254,7 @@ export default function Landing() {
       </section>
 
       <section className="l-final reveal" aria-labelledby="l-final-title">
-        <div ref={finalRef} className="l-final-card" data-near={finalNear || undefined}>
+        <div className="l-final-card">
           <span className="l-final-badge">
             <BrandMark variant="on-cream" className="l-final-mark" />
           </span>

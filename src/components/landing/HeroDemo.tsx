@@ -1,5 +1,5 @@
 import { Headphones, Mic, Send } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { copy } from "../../copy/en";
 import { BrandMark } from "../BrandMark";
 import { useInView, useStill } from "./motion";
@@ -20,7 +20,8 @@ const STILL_STEP = 3;
 /** Which caption under the phone each step lights. */
 const CAPTION_FOR_STEP = [0, 1, 1, 2, 3, 4] as const;
 
-export function HeroDemo() {
+/** desk: decor laid around the phone, behind it; it pauses with the demo. */
+export function HeroDemo({ desk }: { desk?: ReactNode }) {
   const t = copy.landing.demo;
   const still = useStill();
   const [ref, active, idle] = useInView<HTMLDivElement>();
@@ -40,6 +41,7 @@ export function HeroDemo() {
 
   return (
     <div ref={ref} className="hd" data-step={shown} data-paused={!playing || idle ? "true" : undefined}>
+      {desk}
       <div className="hd-phone" role="group" aria-label={t.label}>
         <div className="hd-screen">
           <div className="hd-bar" aria-hidden="true">

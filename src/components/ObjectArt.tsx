@@ -26,12 +26,16 @@ export type ObjectName =
   | "key"
   | "seedling";
 
+/** Objects that exist only as batch 6 photos, with no drawn fallback: without the photo they draw nothing. */
+type PhotoOnly = "highlighter" | "headphones";
+export type ObjectArtName = ObjectName | PhotoOnly;
+
 const CREAM = "#FFF8EC";
 const BUTTER = "#F8E2A8";
 const HONEY = "#F2B33D";
 const INK = "#111111";
 
-type Props = { name: ObjectName; size?: number; alt: string; className?: string; style?: CSSProperties };
+type Props = { name: ObjectArtName; size?: number; alt: string; className?: string; style?: CSSProperties };
 
 export function ObjectArt({ name, size = 120, alt, className = "", style }: Props) {
   const raw = useId();
@@ -50,6 +54,7 @@ export function ObjectArt({ name, size = 120, alt, className = "", style }: Prop
       </span>
     );
   }
+  if (!isDrawn(name)) return null;
   const label = alt === "" ? { "aria-hidden": true as const } : { role: "img", "aria-label": alt };
   return (
     <svg className={cls} style={style} width={size} height={size} viewBox="0 0 120 120" {...label} focusable="false">
@@ -130,6 +135,10 @@ function ring(cx: number, cy: number, r: number, hole: number): string {
 const every = (start: number, step: number, n: number) => Array.from({ length: n }, (_, i) => start + i * step);
 
 // ---------- the objects ----------
+
+function isDrawn(name: string): name is ObjectName {
+  return name in DRAW;
+}
 
 const DRAW: Record<ObjectName, (id: string) => ReactNode> = {
   sun: (id) => (

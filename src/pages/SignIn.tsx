@@ -96,7 +96,7 @@ export default function SignIn() {
   );
 
   return (
-    <Layout>
+    <Layout white>
       <div className="split-page">
         <div className="panel rise auth-card">
           <span className="eyebrow">{copy.appName} {copy.byline}</span>
