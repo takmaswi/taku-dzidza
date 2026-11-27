@@ -29,7 +29,7 @@ test("an adult signs up, says what gets in the way, changes settings and deletes
   await expect(page.locator("html")).toHaveAttribute("data-large", "true");
   await expect(page.locator("html")).not.toHaveAttribute("data-style", /.*/);
 
-  await page.getByRole("link", { name: "Get help" }).first().click();
+  await page.getByRole("link", { name: "Contact us" }).first().click();
   await expect(page.getByText("Childline Zimbabwe: call 116")).toBeVisible();
   await page.goBack();
 

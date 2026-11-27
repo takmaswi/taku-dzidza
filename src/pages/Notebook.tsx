@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "convex/react";
-import { ChevronRight, Eraser, FileText, LifeBuoy, MoreHorizontal, PanelLeftClose, PanelLeftOpen, PanelRightClose, Pencil, Shapes, Trash2 } from "lucide-react";
+import { ChevronRight, Eraser, FileText, Mail, MoreHorizontal, PanelLeftClose, PanelLeftOpen, PanelRightClose, Pencil, Shapes, Trash2 } from "lucide-react";
 import { useEffect, useState, type DragEvent } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router";
 import type { FunctionReturnType } from "convex/server";
@@ -296,8 +296,8 @@ function NotebookBar({ notebook, count, wide, railOpen, toolsOpen, onSources, on
       </button>
       <span className="spacer" />
       {wide && (
-        <Link to="/help" className="pill ghost small">
-          <LifeBuoy size={16} aria-hidden="true" /> {copy.menu.help}
+        <Link to="/contact" className="pill ghost small">
+          <Mail size={16} aria-hidden="true" /> {copy.menu.help}
         </Link>
       )}
       <button type="button" className={`pill small tools-toggle${toolsOpen ? " on" : ""}`} aria-expanded={toolsOpen} aria-label={copy.tools.tabTools} onClick={onTools}>
@@ -322,8 +322,8 @@ function NotebookBar({ notebook, count, wide, railOpen, toolsOpen, onSources, on
               <Eraser size={16} aria-hidden="true" /> {t.clearChat}
             </button>
             {!wide && (
-              <Link to="/help" role="menuitem" onClick={close}>
-                <LifeBuoy size={16} aria-hidden="true" /> {copy.menu.help}
+              <Link to="/contact" role="menuitem" onClick={close}>
+                <Mail size={16} aria-hidden="true" /> {copy.menu.help}
               </Link>
             )}
             <button

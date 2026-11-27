@@ -21,7 +21,7 @@ const Chat = lazy(() => import("./pages/Chat"));
 const Notebooks = lazy(() => import("./pages/Notebooks"));
 const Output = lazy(() => import("./pages/Output"));
 const Review = lazy(() => import("./pages/Review"));
-const GetHelp = lazy(() => import("./pages/GetHelp"));
+const Contact = lazy(() => import("./pages/GetHelp"));
 const Consent = lazy(() => import("./pages/Consent"));
 const Legal = lazy(() => import("./pages/Legal"));
 const Teach = lazy(() => import("./pages/teach/Teach"));
@@ -44,7 +44,7 @@ const SellerTerms = lazy(() => import("./market/SellerTerms"));
 const OwnerMarket = lazy(() => import("./market/OwnerMarket"));
 
 /**
- * Takudzidza routes. Public: "/", "/signin", "/help", "/privacy", "/terms" and
+ * Takudzidza routes. Public: "/", "/signin", "/contact" (and "/help", which goes there), "/privacy", "/terms" and
  * "/consent/:token" (a guardian's page, opened on their own phone). Signed in learners move
  * through setup, guardian consent (under 18), the optional onboarding, then
  * the app.
@@ -53,7 +53,8 @@ export default function App() {
   return (
     <Suspense fallback={<p className="app-loading">{copy.loading}</p>}>
       <Routes>
-        <Route path="/help" element={<GetHelp />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/help" element={<HelpRedirect />} />
         <Route path="/consent/:token" element={<Consent />} />
         <Route path="/privacy" element={<Legal page="privacy" />} />
         <Route path="/terms" element={<Legal page="terms" />} />
@@ -81,6 +82,12 @@ export default function App() {
       </Routes>
     </Suspense>
   );
+}
+
+/** The old Get help address keeps working: it goes to Contact us with its hash, so /help#safety still lands on the safety line. */
+function HelpRedirect() {
+  const { hash } = useLocation();
+  return <Navigate to={`/contact${hash}`} replace />;
 }
 
 function SignedIn() {

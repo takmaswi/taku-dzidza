@@ -206,7 +206,7 @@ function Answer({
       {m.test !== undefined && m.test.question !== "" && <TestQuestion text={m.test.question} />}
       {m.widget !== undefined && <WidgetHost widget={m.widget} titles={titleRecord} />}
       {m.kind === "help" && (
-        <Link to="/help" className="pill small">
+        <Link to="/contact#safety" className="pill small">
           {t.getHelp}
         </Link>
       )}

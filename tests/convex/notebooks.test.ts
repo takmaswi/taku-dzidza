@@ -120,7 +120,7 @@ describe("asking Taku", () => {
     expect(reply.parts?.[0].text).toMatch(/Try saying it in your own words/);
   });
 
-  test("distress gets Get help, without calling a model", async () => {
+  test("distress gets the help reply, without calling a model", async () => {
     const t = makeT();
     const p = await makeLearner(t, 30);
     const notebookId = await notebookWithNotes(t, p);

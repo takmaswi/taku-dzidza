@@ -20,7 +20,7 @@ import { widgetFromText, type StoredWidget } from "../widgets/inline";
 /**
  * Ask Taku about a notebook (SPEC.md 2.2 and 3.2). In order:
  *   1. the learner owns the notebook and may study (consent);
- *   2. the deterministic prefilter (distress opens Get help);
+ *   2. the deterministic prefilter (distress gets the help reply, linked to the safety line on Contact us);
  *   3. the model input check, for every learner, failing closed;
  *   4. search the notebook's chunks for the question, by words and by
  *      meaning (embeddings), and merge the two;
@@ -42,7 +42,7 @@ const SEARCH_EACH = 16;
 const SMALL_NOTEBOOK = 12;
 
 export const REPLIES = {
-  help: "It sounds like things are really hard right now. You do not have to face this alone. Open Get help to talk to someone. Under 18 in Zimbabwe, you can call Childline on 116 for free, day or night.",
+  help: "It sounds like things are really hard right now. You do not have to face this alone. Under 18 in Zimbabwe, you can call Childline on 116 for free, day or night.",
   redirect: "That is not something I can help with. I am here to help you study. What would you like to go over from your notes?",
   companion: "I am Taku, your study tutor, so I keep things to studying. What would you like to work on?",
   noSources: "Add some notes, a PDF, photos or a link to this notebook first, then ask me about them.",

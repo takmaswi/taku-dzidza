@@ -119,7 +119,16 @@
 
 /* ---------- Help and legal ---------- */
 .legal h2 { margin-top: 1rem; }
-.help-number { font-size: 1.3rem; font-weight: 600; }
+/* Contact us (src/pages/GetHelp.tsx): reasons that open in place, and the quiet safety line at the bottom. */
+.contact-reasons { display: grid; gap: 0.6rem; }
+.contact-reason { padding: 0; }
+.contact-reason summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.1rem; cursor: pointer; font-weight: 600; list-style: none; }
+.contact-reason summary::-webkit-details-marker { display: none; }
+.contact-chev { flex: none; transition: transform calc(0.2s * var(--speed)) var(--ease); }
+.contact-reason[open] .contact-chev { transform: rotate(180deg); }
+.contact-reason > p, .contact-reason > .actions { margin: 0 1.1rem 1rem; }
+.contact-reason > p { color: var(--text-soft); }
+.contact-safety { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.88rem; }
 
 /* The landing page's styles are in landing.css. */
 #prerender ~ #root .app-loading { display: none; }

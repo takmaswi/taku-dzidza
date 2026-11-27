@@ -296,8 +296,8 @@ export default function Landing() {
             <BrandMark variant="on-cream" className="l-foot-mark" />
             <span>{t.footer.line}</span>
           </div>
-          <nav className="l-foot-links" aria-label={copy.menu.help}>
-            <Link to="/help">{copy.menu.help}</Link>
+          <nav className="l-foot-links" aria-label={t.footer.links}>
+            <Link to="/contact">{copy.menu.help}</Link>
             <Link to="/privacy">{copy.legal.privacyLink}</Link>
             <Link to="/terms">{copy.legal.termsLink}</Link>
           </nav>

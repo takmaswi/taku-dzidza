@@ -165,9 +165,11 @@ Superseded on 21 November 2026: the three styles became Taku's voice (Gentle, Di
 - Learners can build and share playlists of app music. Recommending outside songs only as links (Spotify or YouTube), never hosted.
 - Low data: downloads on WiFi only by default. Instrumental by default (lyrics tend to compete with reading).
 
-### 3.13 Get help
-- A **Get help** section always one tap away in the main menu: Childline 116 for under 18s; verified adult and emergency numbers by country (only numbers verified from an official source; none are listed until verified).
-- Distress detected by the safety layers opens Get help straight away.
+### 3.13 Contact us
+- A **Contact us** page (`/contact`; `/help` redirects there), linked top right on public pages and in the app header. It lists the reasons people get in touch (my notes were used or copied, account or sign in, marketplace payments and payouts, schools and institutions, partnerships and press, something else), each opening the right route: an in app page where one exists, and email once a contact address is set.
+- Safety sits as **one quiet line at the very bottom** of the Contact page: Childline 116 for under 18s in Zimbabwe, and how to report a listing. Only numbers verified from an official source are listed.
+- Do not add a "Get help" or crisis section to the main menu, the page header or the landing page, and do not show Childline in a prominent position anywhere else.
+- Distress detected by the safety layers still gets the help reply straight away (with Childline 116 in the reply), linked to the safety line on Contact us (`/contact#safety`).
 
 ---
 
@@ -269,7 +271,7 @@ Each phase ends green on `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build
 | Phase | Scope | Gate to pass |
 |---|---|---|
 | 0 | This spec, PDF, art style and asset list | Done: approved 29 October 2026 |
-| 1 Foundation | Scaffold from Amai Learn; design tokens and Lexend; study styles and accessibility settings; optional style quiz; router in mock mode; auth; profiles with birth year; guardian consent for under 18; account delete; retention cron; prefilter; Get help section; CI | Checks green; contrast test; access scan; consent e2e |
+| 1 Foundation | Scaffold from Amai Learn; design tokens and Lexend; study styles and accessibility settings; optional style quiz; router in mock mode; auth; profiles with birth year; guardian consent for under 18; account delete; retention cron; prefilter; Contact us page with safety line; CI | Checks green; contrast test; access scan; consent e2e |
 | 2 Notebooks | Upload PDF, Word, photos, paste, link; pages and chunks; retrieval; Taku answers with page and quote citations; server citation check; source mode toggle | Citation fixture set: zero uncited claims in "Only my material" |
 | 3 Study outputs | Taku modes as packages; summaries, guides, flashcards with FSRS, quizzes and mocks with marking keys, mind maps, read aloud; Scroll feed with hooks | Red team pass; Takunda approves a sample test paper |
 | 4 Dashboard | Goals, planner, progress without streaks, weak topics | e2e from onboarding to first plan |
@@ -312,7 +314,7 @@ Payment provider options for EcoCash: Paynow, or EcoCash's own merchant API. Cho
 | D8 | Embeddings | Agent picks a ZDR route on the day and records it in DECISIONS.md |
 | D9 | Platform | PWA installable on Android first; Play Store wrapper later |
 | D10 | Test style | Agent decides: build from Amai Learn's term test prompt (`convex/ai/prompts/kids-term-test.md`) plus humanizer rules and exam board layout; show Takunda a sample paper before release |
-| D11 | Crisis contacts | Get help section (3.13) |
+| D11 | Crisis contacts | No crisis section in the menu, header or landing page. A Contact us page with one small safety line at the bottom; the distress reply links to it (3.13) |
 | D12 | Study styles | Locked In, Cook Mode, Calm; optional quiz; accessibility mode |
 | D13 | Scroll and media | Scroll and hooks free; reels, podcast, story mode paid; comics and video later |
 | D14 | Artifacts | Widget library first, sandboxed free form later |

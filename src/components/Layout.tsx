@@ -1,5 +1,5 @@
 import { useQuery } from "convex/react";
-import { BookOpen, Home, Layers, LifeBuoy, MessageCircle, Settings, Store, X } from "lucide-react";
+import { BookOpen, Home, Layers, Mail, MessageCircle, Settings, Store, X } from "lucide-react";
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { Link, useLocation } from "react-router";
 import { api } from "../../convex/_generated/api";
@@ -27,8 +27,8 @@ export function Layout({ children, top, bleed = false, white = false }: { childr
           <Link to="/" className="brand-link">
             <Lockup />
           </Link>
-          <Link to="/help" className="pill ghost small">
-            <LifeBuoy size={16} aria-hidden="true" />
+          <Link to="/contact" className="pill ghost small">
+            <Mail size={16} aria-hidden="true" />
             {copy.menu.help}
           </Link>
         </header>
@@ -123,8 +123,8 @@ export function AppShell({ children, bar, title, scroll = "page", tabs = true }:
               <span className="topbar-title">{title ?? copy.appName}</span>
               <span className="spacer" />
               <ThemeToggle className="icon-button bar-theme" />
-              <Link to="/help" className="pill ghost small">
-                <LifeBuoy size={16} aria-hidden="true" />
+              <Link to="/contact" className="pill ghost small">
+                <Mail size={16} aria-hidden="true" />
                 <span className="hide-narrow">{copy.menu.help}</span>
                 <span className="sr-only show-narrow">{copy.menu.help}</span>
               </Link>

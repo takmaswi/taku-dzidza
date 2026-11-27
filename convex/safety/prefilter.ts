@@ -21,7 +21,7 @@ export type Audience = "minor" | "adult";
 export type PersonalInfoKind = "phone" | "email" | "address" | "full_name" | "school" | "id_number";
 
 /**
- * Two kinds of distress. Both open the Get help section at once (SPEC.md 3.13).
+ * Two kinds of distress. Both get the help reply at once, linked to the safety line on Contact us (SPEC.md 3.13).
  *   self_harm  thoughts of hurting themselves, wanting to die or disappear.
  *   harmed     someone hurting them, abuse, neglect, being unsafe.
  * When a message has both, harmed wins.
@@ -194,7 +194,7 @@ const REDIRECT: Rule[] = [
 
 export function prefilter(raw: string, audience: Audience): PrefilterResult {
   const text = normalise(raw);
-  // Distress first: a learner in trouble always gets Get help.
+  // Distress first: a learner in trouble always gets the help reply.
   for (const rule of HARMED) if (rule.pattern.test(text)) return { kind: "distress", category: "harmed", reason: rule.reason };
   for (const rule of SELF_HARM) if (rule.pattern.test(text)) return { kind: "distress", category: "self_harm", reason: rule.reason };
   if (audience === "minor") {
