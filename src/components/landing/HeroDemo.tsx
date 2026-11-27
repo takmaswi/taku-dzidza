@@ -106,7 +106,7 @@ export function HeroDemo({ desk }: { desk?: ReactNode }) {
   };
 
   return (
-    <div ref={ref} className="hd" data-tab={frame.tab} data-paused={!running || idle ? "true" : undefined} onPointerEnter={onHover(true)} onPointerLeave={onHover(false)}>
+    <div ref={ref} className="hd" data-tab={frame.tab} data-paused={!running || idle ? "true" : undefined} data-held={playing ? undefined : "true"} onPointerEnter={onHover(true)} onPointerLeave={onHover(false)}>
       {desk}
       <div className="hd-phone" role="group" aria-label={t.label}>
         <div className="hd-screen" onPointerDown={pause}>

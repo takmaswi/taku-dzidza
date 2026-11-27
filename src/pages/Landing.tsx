@@ -9,7 +9,7 @@ import { HowItWorks, SoonCard } from "../components/landing/HowItWorks";
 import { LandingHeader } from "../components/landing/LandingHeader";
 import { LandingPhoto } from "../components/landing/LandingPhoto";
 import { isStill } from "../components/landing/motion";
-import { MarketShelf } from "../components/landing/MarketShelf";
+import { MarketSale, MarketShelf } from "../components/landing/MarketShelf";
 import { REGIONS, useRegion, type Region } from "../components/landing/useRegion";
 import { ObjectArt } from "../components/ObjectArt";
 import { useReveal } from "../components/useReveal";
@@ -99,10 +99,7 @@ export default function Landing() {
           <div className="mk-head">
             <div>
               <span className="eyebrow">{t.market.eyebrow}</span>
-              <div className="l-photo-heading">
-                <h2 id="l-market-title" className="l-h2">{t.market.title}</h2>
-                <LandingPhoto slug="spot-earn-from-notes" sizes="88px" className="l-heading-photo" />
-              </div>
+              <h2 id="l-market-title" className="l-h2">{t.market.title}</h2>
               <p className="lead soft">{t.market.body}</p>
               <ul className="l-quiet mk-points">
                 {t.market.points.map((p) => (
@@ -137,6 +134,7 @@ export default function Landing() {
             <span className="mk-results soft">{t.market.results}</span>
           </div>
           <MarketShelf />
+          <MarketSale />
           <div className="mk-foot">
             <SoonCard photo="spot-study-groups" title={t.market.groups.title} tag={t.market.groups.tag} line={t.market.groups.line} />
             <p className="mk-note soft small-text">{t.market.note}</p>

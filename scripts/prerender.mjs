@@ -31,7 +31,7 @@ const next = page.replace('<div id="root"></div>', () => `<div id="prerender">${
 writeFileSync(path, next, "utf8");
 
 // A build that lost the copy must fail, not ship an empty page to crawlers.
-for (const words of ["The AI that studies with you", "Start with your notes, finish ready for the exam", "Your notes can earn for you"]) {
+for (const words of ["The AI that studies with you", "Learn from your own notes", "It learns with you", "Your notes can earn for you"]) {
   if (!next.includes(words)) throw new Error(`prerender: "${words}" is missing from dist/index.html.`);
 }
 console.log(`prerender: landing copy written to dist/index.html (${Math.round(html.length / 1024)} KB).`);

@@ -175,13 +175,13 @@ test("the mode switcher changes the answer for the same question", async ({ page
   const modes = page.getByRole("group", { name: "Study mode" });
   await modes.scrollIntoViewIfNeeded();
   const answer = page.locator(".ms-answer");
-  await expect(answer).toContainText("A market is made up of many different customers");
+  await expect(answer).toContainText("Break even is where total revenue equals total costs");
   await modes.getByRole("button", { name: "Test me" }).click();
-  await expect(answer).toContainText("Splitting customers by age is which kind of segmentation?");
-  await answer.getByRole("button", { name: "Demographic" }).first().click();
+  await expect(answer).toContainText("At the break even point, profit is");
+  await answer.getByRole("button", { name: "Zero" }).click();
   await expect(answer.getByRole("status").first()).toHaveText("Right.");
   await modes.getByRole("button", { name: "Sprint" }).click();
-  await expect(answer).toContainText("Geographic means where customers live");
+  await expect(answer).toContainText("Past break even, every unit adds profit");
   await modes.getByRole("button", { name: "Exam prep" }).click();
   await expect(answer).toContainText("(3 marks)");
   await expect(answer).toContainText("3 out of 3");

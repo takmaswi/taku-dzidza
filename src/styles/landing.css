@@ -262,6 +262,8 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 
 /* Nothing in the demo moves while it is paused, off screen or the tab is hidden. A playing clip's bars are the one exception. */
 .hd[data-paused] :is(.hd-screen, .hd-screen *):not(.hd-eq > i) { animation-play-state: paused; }
+/* Stopped by a tap or the pause button, the screen shows its finished frame at once, instead of holding an entrance on its first frame. */
+.hd[data-held] :is(.hd-enter, .hd-enter *):not(.hd-eq > i) { animation: none; }
 
 /* Tabs under the phone: the lit tab is butter, bold and ink edged with a progress bar along its foot, not colour alone. */
 .hd-steps { display: grid; justify-items: center; gap: 0.35rem; width: min(420px, 100%); }
@@ -542,9 +544,64 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
   .msh-item { flex: 0 0 42vw; scroll-snap-align: start; }
 }
 .msh-item { display: grid; align-content: start; gap: 0.7rem; min-width: 0; }
-.msh-book { perspective: 800px; }
-.msh-cover { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 8px; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform calc(var(--dur-card) * var(--speed)) var(--ease); }
-.msh-book:hover .msh-cover { transition-duration: calc(120ms * var(--speed)); }
+.msh-cover { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 8px; transition: transform calc(var(--dur-card) * var(--speed)) var(--ease); }
+/* A notebook lifts a little under the pointer. */
+.msh-book:hover .msh-cover { transform: translateY(calc(-6px * var(--speed))); }
+/* The notebooks slide onto the shelf in turn when it comes on screen (MarketShelf useEntrance). Transform and opacity only. */
+.msh[data-state="wait"] .msh-item { opacity: 0; transform: translateX(calc(48px * var(--speed))); }
+.msh[data-state="play"] .msh-item { animation: mk-shelve calc(560ms * var(--speed)) var(--ease) calc(var(--i) * 70ms * var(--speed)) both; }
+@keyframes mk-shelve { from { opacity: 0; transform: translateX(calc(48px * var(--speed))); } }
+
+/* How a sale works (MarketSale): the preview first, then a notebook travels from the seller to a buyer's library, once.
+   The base styles are the final look: the notebook in the library and the 80% shown. */
+.mk-flow { display: grid; gap: 1rem; margin-top: 1.25rem; }
+@media (min-width: 900px) { .mk-flow { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); } }
+.mk-preview, .mk-sale { margin: 0; padding: 0.75rem; border-radius: var(--radius); background: var(--band); border: 1px solid var(--line); }
+.mk-preview { display: flex; align-items: center; gap: 1rem; }
+.mk-preview-photo { display: block; width: 160px; height: 200px; flex: none; object-fit: cover; object-position: 50% 0; border-radius: 10px; }
+.mk-preview figcaption { display: grid; gap: 0.35rem; font-size: 0.95rem; }
+.mk-preview b { font-size: 1.1rem; }
+.mk-sale { display: grid; grid-template-columns: 160px minmax(72px, 1fr) 160px; align-items: center; gap: 0.75rem; }
+.mk-side { display: grid; justify-items: center; gap: 0.4rem; }
+.mk-side .eyebrow { margin: 0; }
+.mk-side-photo { display: block; width: 160px; height: 120px; object-fit: cover; border-radius: 10px; }
+.mk-library { position: relative; display: block; }
+.mk-landed { position: absolute; right: 6px; bottom: 6px; display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.2rem 0.55rem 0.2rem 0.3rem; border-radius: 999px; background: var(--white); box-shadow: var(--shadow-raised); font-size: 0.75rem; font-weight: 600; }
+/* A small notebook in the green of the seller's notebook, its spine darker. */
+.mk-book { display: block; width: 18px; height: 24px; border-radius: 2px 4px 4px 2px; background: #46603c; box-shadow: inset 3px 0 0 rgb(0 0 0 / 0.28); }
+.mk-path { display: grid; justify-items: center; gap: 0.5rem; min-width: 0; container-type: inline-size; }
+.mk-lane { position: relative; display: block; width: 100%; height: 34px; border-bottom: 2px dashed var(--line-strong); }
+.mk-traveller { position: absolute; left: 0; bottom: 5px; opacity: 0; }
+.mk-cut { padding: 0.2rem 0.65rem; border-radius: 999px; background: var(--honey); color: var(--ink); font-size: 0.8rem; font-weight: 700; white-space: nowrap; }
+.mk-flow[data-state="wait"] :is(.mk-cut, .mk-landed) { opacity: 0; }
+.mk-flow[data-state="play"] .mk-traveller { animation: mk-travel calc(1800ms * var(--speed)) var(--ease) calc(900ms * var(--speed)) both; }
+.mk-flow[data-state="play"] .mk-cut { animation: mk-cut calc(500ms * var(--speed)) var(--ease) calc(2200ms * var(--speed)) both; }
+.mk-flow[data-state="play"] .mk-landed { animation: mk-land calc(400ms * var(--speed)) var(--ease) calc(2500ms * var(--speed)) both; }
+@keyframes mk-travel {
+  0% { opacity: 0; transform: translateX(0); }
+  15% { opacity: 1; transform: translateX(0); }
+  85% { opacity: 1; transform: translateX(calc(100cqw - 18px)); }
+  100% { opacity: 0; transform: translateX(calc(100cqw - 18px)); }
+}
+/* The 80% drifts back towards the seller as it comes up. */
+@keyframes mk-cut { from { opacity: 0; transform: translateX(calc(16px * var(--speed))); } }
+@keyframes mk-land { from { opacity: 0; transform: scale(0.85); } }
+/* Narrow phones: seller above, buyer below, and the notebook drops between them. */
+@media (max-width: 599px) {
+  .mk-preview { flex-direction: column; align-items: flex-start; }
+  .mk-preview-photo { width: 100%; height: 280px; }
+  .mk-sale { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+  .mk-path { grid-template-columns: auto auto; align-items: center; width: 100%; height: 64px; container-type: size; justify-content: center; gap: 0.9rem; }
+  .mk-lane { width: 30px; height: 64px; border-bottom: 0; border-left: 2px dashed var(--line-strong); }
+  .mk-traveller { left: 6px; top: 0; bottom: auto; }
+  .mk-flow[data-state="play"] .mk-traveller { animation-name: mk-drop; }
+}
+@keyframes mk-drop {
+  0% { opacity: 0; transform: translateY(0); }
+  15% { opacity: 1; transform: translateY(0); }
+  85% { opacity: 1; transform: translateY(calc(100cqh - 24px)); }
+  100% { opacity: 0; transform: translateY(calc(100cqh - 24px)); }
+}
 .msh-info { display: grid; gap: 0.15rem; font-size: 0.9rem; line-height: 1.35; }
 .msh-sample { justify-self: start; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.1rem 0.5rem; border-radius: 999px; background: var(--butter); color: var(--ink); }
 
@@ -658,7 +715,7 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
   .hw-stage { margin-top: 0.75rem; }
 }
 /* Pictures at card size: the drop demo's notes page and the schools photo. */
-.da-photo { display: block; width: 160px; height: 200px; flex: none; object-fit: cover; object-position: 50% 0; border-radius: 10px; }
+.da-shot { display: block; width: 160px; height: 200px; flex: none; object-fit: cover; object-position: 50% 0; border-radius: 10px; }
 @media (max-width: 479px) { .da-file { flex-direction: column; align-items: flex-start; } }
 .l-card-photo { display: block; width: 100%; height: auto; object-fit: cover; border-radius: 14px; }
 .in-photo { max-width: 420px; aspect-ratio: 4 / 3; margin-top: 1rem; }
