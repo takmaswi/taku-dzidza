@@ -184,13 +184,13 @@ test("the mode switcher changes the answer for the same question", async ({ page
   const modes = page.getByRole("group", { name: "Study mode" });
   await modes.scrollIntoViewIfNeeded();
   const answer = page.locator(".ms-answer");
-  await expect(answer).toContainText("Light is a mix of colours.");
+  await expect(answer).toContainText("A market is made up of many different customers");
   await modes.getByRole("button", { name: "Test me" }).click();
-  await expect(answer).toContainText("Which pigment makes leaves look green?");
-  await answer.getByRole("button", { name: "Chlorophyll" }).click();
+  await expect(answer).toContainText("Splitting customers by age is which kind of segmentation?");
+  await answer.getByRole("button", { name: "Demographic" }).first().click();
   await expect(answer.getByRole("status").first()).toHaveText("Right.");
   await modes.getByRole("button", { name: "Sprint" }).click();
-  await expect(answer).toContainText("That energy powers photosynthesis.");
+  await expect(answer).toContainText("Geographic means where customers live");
   await modes.getByRole("button", { name: "Exam prep" }).click();
   await expect(answer).toContainText("(3 marks)");
   await expect(answer).toContainText("3 out of 3");

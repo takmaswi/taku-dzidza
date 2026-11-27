@@ -1,6 +1,7 @@
 export const NOTE_SAMPLES = [
   {
     slug: "notes-accounting",
+    subject: "Financial Reporting",
     title: "Financial Reporting, Depreciation",
     question: "How do I calculate straight line depreciation?",
     answer: "Subtract the residual value from the cost, then divide by the useful life. In these notes, that comes to $2 000 per year.",
@@ -9,6 +10,7 @@ export const NOTE_SAMPLES = [
   },
   {
     slug: "notes-law",
+    subject: "Law of Contract",
     title: "Law of Contract, Offer and acceptance",
     question: "When can an offer be withdrawn?",
     answer: "The notes say an offer can be withdrawn any time before it is accepted.",
@@ -17,6 +19,7 @@ export const NOTE_SAMPLES = [
   },
   {
     slug: "notes-marketing",
+    subject: "Marketing",
     title: "Marketing, The marketing mix",
     question: "What are the four Ps?",
     answer: "Product, Price, Place and Promotion. The notes put all four in a box diagram.",
@@ -25,6 +28,7 @@ export const NOTE_SAMPLES = [
   },
   {
     slug: "notes-maths",
+    subject: "Algebra",
     title: "Algebra, Factorising quadratics",
     question: "How do I factorise x² + 5x + 6?",
     answer: "Use 2 and 3. They multiply to 6 and add to 5, so the factors are (x + 2)(x + 3).",
@@ -33,6 +37,7 @@ export const NOTE_SAMPLES = [
   },
   {
     slug: "notes-economics",
+    subject: "Economics",
     title: "Economics, Price elasticity of demand",
     question: "What does it mean when PED is greater than 1?",
     answer: "Demand is elastic. The percentage change in quantity demanded is larger than the percentage change in price.",

@@ -12,9 +12,10 @@ import { PauseButton } from "./PauseButton";
 /**
  * The hero's live demo: a tour of the whole app on a phone drawn in HTML and
  * CSS. Five tabs, about 4 seconds each, the screen crossfading between them:
- * (0) Tutor, a cited answer and then its source page; (1) Practise, a
- * flashcard that flips and then a marked practice question; (2) Listen, an
- * audio card that plays only on tap; (3) Marketplace, three sample notebooks;
+ * (0) Tutor, a cited answer and then its source page, from the next of the
+ * five sample notes pages on each pass of the tour; (1) Practise, a
+ * flashcard that flips and then a marked practice question; (2) Listen, a
+ * summary the device's own voice reads, only on tap; (3) Marketplace, three sample notebooks;
  * (4) Class, a teacher's assignment card. A tap anywhere in it or a hover
  * pauses the tour. With less motion it is one still frame per tab, Tutor's
  * cited page first, and changes only when a tab is tapped.
@@ -36,6 +37,8 @@ export function HeroDemo({ desk }: { desk?: ReactNode }) {
   const [playing, setPlaying] = useState(true);
   const [hover, setHover] = useState(false);
   const [frame, setFrame] = useState<Frame>({ tab: 0, part: 0 });
+  // Each pass of the tour shows the Tutor answer from the next sample notes page.
+  const [round, setRound] = useState(0);
   // The screen being faded out while the next one fades in.
   const [leaving, setLeaving] = useState<Frame | null>(null);
   // Bumped on every tab change, so the lit tab's progress bar starts again.
@@ -69,6 +72,7 @@ export function HeroDemo({ desk }: { desk?: ReactNode }) {
         return;
       }
       setLeaving(frame);
+      if (frame.tab === PARTS.length - 1) setRound((r) => r + 1);
       setFrame({ tab: (frame.tab + 1) % PARTS.length, part: 0 });
       setRuns((r) => r + 1);
     }, ms);
@@ -108,11 +112,11 @@ export function HeroDemo({ desk }: { desk?: ReactNode }) {
         <div className="hd-screen" onPointerDown={pause}>
           {leaving !== null && (
             <div key={`out-${leaving.tab}`} className="hd-panel hd-leave" aria-hidden="true" inert>
-              <Screen frame={leaving} idle />
+              <Screen frame={leaving} round={round} idle />
             </div>
           )}
           <div key={`in-${frame.tab}`} className="hd-panel hd-enter">
-            <Screen frame={{ tab: frame.tab, part: shownPart }} idle={idle} onCite={() => setFrame({ tab: 0, part: 1 })} />
+            <Screen frame={{ tab: frame.tab, part: shownPart }} round={round} idle={idle} onCite={() => setFrame({ tab: 0, part: 1 })} />
           </div>
         </div>
         {!still && <PauseButton playing={playing} onToggle={() => setPlaying((p) => !p)} pauseLabel={t.pauseDemo} playLabel={t.playDemo} className="hd-pause" />}
@@ -132,13 +136,13 @@ export function HeroDemo({ desk }: { desk?: ReactNode }) {
   );
 }
 
-type ScreenProps = { frame: Frame; idle: boolean; onCite?: () => void };
+type ScreenProps = { frame: Frame; round: number; idle: boolean; onCite?: () => void };
 
 /** One tab's screen at one of its parts. */
-function Screen({ frame, idle, onCite }: ScreenProps) {
+function Screen({ frame, round, idle, onCite }: ScreenProps) {
   switch (frame.tab) {
     case 0:
-      return <Tutor sourceOpen={frame.part === 1} onCite={onCite} />;
+      return <Tutor note={NOTE_SAMPLES[round % NOTE_SAMPLES.length]} first={round === 0} sourceOpen={frame.part === 1} onCite={onCite} />;
     case 1:
       return <Practise paper={frame.part === 1} />;
     case 2:
@@ -159,16 +163,18 @@ function Bar({ title }: { title: string }) {
   );
 }
 
-function Tutor({ sourceOpen, onCite }: { sourceOpen: boolean; onCite?: () => void }) {
+type Note = (typeof NOTE_SAMPLES)[number];
+
+/** first: the opening frame, whose photos load at once; later notes pages load as the tour reaches them. */
+function Tutor({ note, first, sourceOpen, onCite }: { note: Note; first: boolean; sourceOpen: boolean; onCite?: () => void }) {
   const t = copy.landing.demo;
-  const note = NOTE_SAMPLES[0];
   const words = note.answer.split(" ");
   return (
     <>
-      <Bar title="Financial Reporting" />
+      <Bar title={note.subject} />
       <div className="hd-body">
         <div className="hd-photo strip" aria-hidden="true">
-          <LandingPhoto slug={note.slug} sizes="290px" eager />
+          <LandingPhoto slug={note.slug} sizes="290px" eager={first} />
           <span className="hd-photo-tag">Page 1</span>
         </div>
         <p className="hd-msg hd-q" aria-hidden="true">
@@ -193,7 +199,7 @@ function Tutor({ sourceOpen, onCite }: { sourceOpen: boolean; onCite?: () => voi
         <div className="hd-sheet">
           <span className="eyebrow">{note.title}</span>
           <p><mark className="hl">{note.cited}</mark></p>
-          <LandingPhoto slug={note.slug} sizes="290px" alt={note.transcript} eager />
+          <LandingPhoto slug={note.slug} sizes="290px" alt={note.transcript} eager={first} />
         </div>
       )}
       <div className="hd-composer" aria-hidden="true">
@@ -211,7 +217,7 @@ function Practise({ paper }: { paper: boolean }) {
   const t = copy.landing.demo;
   return (
     <>
-      <Bar title={t.notebook} />
+      <Bar title={t.practiseNotebook} />
       <div className="hd-body hd-middle">
         {paper ? (
           <div key="paper" className="hd-paper">
@@ -251,36 +257,52 @@ function Practise({ paper }: { paper: boolean }) {
   );
 }
 
-/** The real summary clip. Nothing downloads until play is tapped; the bars move only while it plays. */
+/**
+ * The summary, read by the device's own voice. Nothing speaks until play is
+ * tapped; the bars move and the line fills only while it speaks. Without
+ * speech in the browser the button stays disabled.
+ */
 function Listen({ idle }: { idle: boolean }) {
   const t = copy.landing.demo;
-  const audio = useRef<HTMLAudioElement>(null);
   const [on, setOn] = useState(false);
-  const [time, setTime] = useState(0);
-  const [length, setLength] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const canSpeak = typeof window !== "undefined" && "speechSynthesis" in window;
 
+  useEffect(() => () => {
+    if (canSpeak) window.speechSynthesis.cancel();
+  }, [canSpeak]);
   useEffect(() => {
-    const a = audio.current;
-    return () => a?.pause();
-  }, []);
-  useEffect(() => {
-    if (idle) audio.current?.pause();
-  }, [idle]);
+    if (idle && canSpeak) window.speechSynthesis.cancel();
+  }, [idle, canSpeak]);
 
   const toggle = () => {
-    const a = audio.current;
-    if (a === null) return;
-    if (a.paused) a.play().catch(() => setOn(false));
-    else a.pause();
+    if (!canSpeak) return;
+    const speech = window.speechSynthesis;
+    if (on) {
+      speech.cancel();
+      return;
+    }
+    speech.cancel();
+    const line = new SpeechSynthesisUtterance(t.listenScript);
+    line.lang = "en";
+    line.rate = 0.95;
+    line.onstart = () => setOn(true);
+    line.onboundary = (e) => setProgress(e.charIndex / t.listenScript.length);
+    line.onend = () => {
+      setOn(false);
+      setProgress(0);
+    };
+    line.onerror = () => setOn(false);
+    setProgress(0);
+    speech.speak(line);
   };
-  const progress = length > 0 ? Math.min(1, time / length) : 0;
 
   return (
     <>
-      <Bar title={t.notebook} />
+      <Bar title={t.listenNotebook} />
       <div className="hd-body hd-middle">
         <div className="hd-player" data-on={on ? "true" : undefined}>
-          <LandingPhoto slug="spot-listening" sizes="72px" className="hd-player-art" />
+          <LandingPhoto slug="spot-listening" sizes="160px" className="hd-player-art" />
           <b>{t.listenTitle}</b>
           <span className="hd-soft">{t.listenVoice}</span>
           <span className="hd-eq" aria-hidden="true">
@@ -291,36 +313,13 @@ function Listen({ idle }: { idle: boolean }) {
           <span className="hd-track" aria-hidden="true">
             <i style={{ transform: `scaleX(${progress})` }} />
           </span>
-          <div className="hd-player-row">
-            <span className="hd-time">{on || time > 0 ? clock(time) : "0:00"}</span>
-            <button type="button" className="hd-play" onClick={toggle} aria-label={on ? t.pauseListen : t.playListen}>
-              {on ? <Pause size={20} aria-hidden="true" /> : <Play size={20} aria-hidden="true" />}
-            </button>
-            <span className="hd-time">{length > 0 ? clock(length) : t.listenLength}</span>
-          </div>
-          <audio
-            ref={audio}
-            src="/audio/landing/summary-calm.mp3"
-            preload="none"
-            onPlay={() => setOn(true)}
-            onPause={() => setOn(false)}
-            onEnded={() => {
-              setOn(false);
-              setTime(0);
-            }}
-            onTimeUpdate={(e) => setTime(e.currentTarget.currentTime)}
-            onLoadedMetadata={(e) => setLength(e.currentTarget.duration)}
-            onError={() => setOn(false)}
-          />
+          <button type="button" className="hd-play" onClick={toggle} disabled={!canSpeak} aria-label={on ? t.pauseListen : t.playListen}>
+            {on ? <Pause size={20} aria-hidden="true" /> : <Play size={20} aria-hidden="true" />}
+          </button>
         </div>
       </div>
     </>
   );
-}
-
-function clock(seconds: number): string {
-  const s = Math.max(0, Math.round(seconds));
-  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 }
 
 function Market() {

@@ -1,18 +1,12 @@
-import { BookOpen, Check, ChevronLeft, ChevronRight, Layers, ListChecks, Network, ScrollText, Sparkles, type LucideIcon } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
 import { copy } from "../../copy/en";
 import { Try } from "./Try";
 import { isStill, useInView, useStill } from "./motion";
 
 type Key = keyof typeof copy.landing.tools.items;
-const TILES: { key: Key; Icon: LucideIcon }[] = [
-  { key: "cards", Icon: Layers },
-  { key: "paper", Icon: ListChecks },
-  { key: "scroll", Icon: ScrollText },
-  { key: "summary", Icon: Sparkles },
-  { key: "mindmap", Icon: Network },
-  { key: "guide", Icon: BookOpen },
-];
+/** Each tile is a different subject, named above its title; the tile's own demo is its picture. */
+const TILES: { key: Key }[] = [{ key: "cards" }, { key: "paper" }, { key: "scroll" }, { key: "summary" }, { key: "mindmap" }, { key: "guide" }];
 
 /**
  * The six study tools, each with a small animation that plays when the tiles
@@ -62,12 +56,10 @@ export function ToolBento() {
     <div ref={ref} className="tb" data-state={state}>
       <Try className="tb-try">
       <ul ref={track} className="tb-track" aria-label={t.label} tabIndex={0} onScroll={onScroll}>
-        {TILES.map(({ key, Icon }, i) => (
+        {TILES.map(({ key }, i) => (
           <li key={key} className={`tb-tile tb-t-${key}`} data-current={i === current ? "true" : undefined}>
             <div className="tb-top">
-              <span className="tb-icon">
-                <Icon size={20} aria-hidden="true" />
-              </span>
+              <span className="tb-subject">{t.items[key].subject}</span>
               <h3>{t.items[key].name}</h3>
             </div>
             <p className="soft">{t.items[key].line}</p>

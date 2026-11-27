@@ -220,19 +220,19 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 /* Listen: the real summary clip. The bars lie low and still until it plays. */
 .hd-player { display: grid; justify-items: center; gap: 0.55rem; padding: 1.1rem 0.9rem; border-radius: 18px; background: var(--white); border: 1px solid var(--line); box-shadow: 0 10px 24px rgb(40 30 0 / 0.1); text-align: center; animation: hd-pop calc(400ms * var(--speed)) var(--ease) both; }
 .hd-player > b { font-size: 0.85rem; }
-.hd-player-art { display: block; width: 72px; height: 54px; object-fit: cover; border-radius: 8px; }
+.hd-player-art { display: block; width: 160px; height: 120px; object-fit: cover; border-radius: 10px; }
 .hd-eq { display: flex; align-items: center; justify-content: center; gap: 3px; width: 100%; height: 30px; }
 .hd-eq i { width: 4px; height: 100%; border-radius: 2px; background: var(--line-strong); transform: scaleY(0.25); }
-.hd-player[data-on] .hd-eq i { background: var(--ink); animation: ld-bar calc(820ms * var(--speed) + 0.001s) ease-in-out calc(var(--i) * -97ms) infinite alternate; }
+.hd-player[data-on] .hd-eq i { background: var(--ink); animation: hd-eq calc(820ms * var(--speed) + 0.001s) ease-in-out calc(var(--i) * -97ms) infinite alternate; }
+@keyframes hd-eq { 0% { transform: scaleY(0.2); } 50% { transform: scaleY(0.9); } 100% { transform: scaleY(0.45); } }
 @media (prefers-reduced-motion: reduce) { .hd-player[data-on] .hd-eq i { transform: scaleY(0.6); } }
 :root[data-motion="off"] .hd-player[data-on] .hd-eq i { transform: scaleY(0.6); }
 .hd-track { display: block; width: 100%; height: 4px; border-radius: 2px; background: var(--muted-fill, var(--line)); overflow: hidden; }
 .hd-track i { display: block; height: 100%; background: var(--ink); transform-origin: 0 50%; transition: transform 0.3s linear; }
-.hd-player-row { display: flex; align-items: center; justify-content: space-between; width: 100%; }
-.hd-time { min-width: 3ch; font-size: 0.72rem; font-variant-numeric: tabular-nums; color: var(--text-soft); }
 .hd-play { display: grid; place-items: center; width: 52px; height: 52px; border: 0; border-radius: 50%; background: var(--honey); color: var(--ink); cursor: pointer; transition: transform var(--dur-tap) var(--ease); }
 .hd-play:hover { transform: scale(1.05); }
 .hd-play:active { transform: scale(0.95); }
+.hd-play:disabled { opacity: 0.45; cursor: default; transform: none; }
 
 /* Marketplace: three sample notebooks, each with Rent and Buy. */
 .hd-shelf { list-style: none; margin: 0; padding-bottom: 0.9rem; justify-content: center; }
@@ -398,11 +398,11 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .tb-tile { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; padding: 1.1rem; border-radius: var(--radius); background: var(--panel-fill); border: 1px solid var(--line); box-shadow: var(--card-edge), var(--shadow-panel); transition: transform var(--dur-card) var(--ease), box-shadow var(--dur-card) var(--ease); }
 .tb-tile:hover { transform: translateY(calc(-3px * var(--speed))); box-shadow: var(--card-edge), var(--shadow-lift); }
 .tb-t-cards { background: var(--butter); }
-.tb-top { display: flex; align-items: center; gap: 0.6rem; }
+.tb-top { display: grid; gap: 0.35rem; justify-items: start; }
 .tb-top h3 { margin: 0; font-size: 1.15rem; }
 .tb-t-cards .tb-top h3 { font-size: 1.35rem; }
-.tb-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; background: var(--butter); color: var(--ink); flex: none; }
-.tb-t-cards .tb-icon { background: var(--ink); color: var(--butter); }
+.tb-subject { padding: 0.1rem 0.55rem; border-radius: 999px; background: var(--butter); color: var(--ink); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em; }
+.tb-t-cards .tb-subject { background: var(--ink); color: var(--butter); }
 .tb-tile > p { margin: 0 0 0.5rem; font-size: 0.95rem; }
 .tb-demo { margin-top: 0.4rem; }
 .tb-t-cards .tb-demo { flex: 1; display: flex; flex-direction: column; }
