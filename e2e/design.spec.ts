@@ -46,7 +46,7 @@ test("no image sits inside an arch, a circle or a box frame", async ({ page }, i
   expect(await framedImages(page)).toEqual([]);
 
   await page.goto("/chat");
-  await expect(page.getByRole("heading", { name: "Ask anything you are studying." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Ask anything you are studying" })).toBeVisible();
   expect(await framedImages(page)).toEqual([]);
 
   await page.goto("/");
@@ -71,7 +71,7 @@ test("no person is drawn anywhere in the signed in app", async ({ page }, info) 
   expect(await peopleInApp(page)).toEqual([]);
 
   for (const [path, heading] of [
-    ["/chat", "Ask anything you are studying."],
+    ["/chat", "Ask anything you are studying"],
     ["/notebooks", "Notebooks"],
     ["/settings", "Settings"],
   ] as const) {

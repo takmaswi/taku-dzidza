@@ -39,13 +39,11 @@
 :root[data-theme="dark"] { --sky-glow: rgb(242 179 61 / 0.2); --sky-glow-mid: rgb(242 179 61 / 0.07); --home-wash: rgb(242 179 61 / 0.035); }
 :root[data-contrast="true"] { --sky-glow: transparent; --sky-glow-mid: transparent; --home-wash: transparent; }
 .app-main:has(> .home) { background: linear-gradient(var(--home-wash), transparent 420px) local; }
-.chat-empty .object-art { margin: 0 0 -0.25rem -0.4rem; }
 /* Empty states: the object fills the space it has. Phones keep it smaller so the words and buttons stay in view. */
 .empty-state .object-art { width: 148px; height: 148px; }
 .review-done { --oa: 148px; }
 .review-done > .object-art { width: var(--oa); height: var(--oa); }
 @media (min-width: 700px) {
-  .chat-empty .object-art { width: 168px; height: 168px; margin: -0.5rem 0 -0.5rem -0.6rem; }
   .empty-state { padding: 2.5rem 1.5rem 2.25rem; }
   .empty-state .object-art { width: 196px; height: 196px; margin-bottom: -0.25rem; }
   .review-done { --oa: 188px; }

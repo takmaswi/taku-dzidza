@@ -257,7 +257,11 @@
 .past-chats a[aria-current="page"] { background: var(--pick); }
 .past-chats b { font-weight: 500; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .past-chats small { color: var(--text-soft); font-size: 0.76rem; }
-.chat-empty { display: grid; gap: 0.75rem; justify-items: start; padding: 1rem 0; }
+.chat-empty { display: grid; gap: 0.75rem; justify-items: start; padding: 0; }
+/* Ask Taku: a wider column, with the question box the same width as the thread above it. */
+.chat-workspace { --reading: 780px; }
+/* A roomier question box: about three lines to start, growing to about eight before it scrolls. */
+.chat-workspace .composer textarea { line-height: 1.5; min-height: calc(4.5em + 0.7rem); max-height: min(calc(12em + 0.7rem), 40dvh); overflow-y: auto; }
 .chat-empty h2 { margin: 0; font-size: clamp(1.3rem, 1.1rem + 1vw, 1.6rem); }
 .chat-empty p { margin: 0; }
 

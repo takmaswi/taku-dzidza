@@ -573,7 +573,7 @@ export const copy = {
   chat: {
     title: "Ask Taku",
     newChat: "New chat",
-    emptyTitle: "Ask anything you are studying.",
+    emptyTitle: "Ask anything you are studying",
     emptyBody: "Taku explains from general knowledge here. For answers from your own notes, with the page shown, tap Use my notebooks.",
     placeholder: "Message Taku",
     send: "Send",

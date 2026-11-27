@@ -66,17 +66,15 @@ test("phone notebook: all three chips on one row, no tab bar, and the chat takes
   const chat = await box(page.locator(".thread-scroll"));
   expect(chat.height, "chat area at least 70 percent of a 390 by 844 screen").toBeGreaterThanOrEqual(0.7 * PHONE.height);
 
-  // Ask Taku has no tab bar either, and its empty state shows the whole speech bubble object inside the screen.
+  // Ask Taku has no tab bar either, and its empty state has no object: the heading sits just under the top bar.
   await page.goto("/chat");
-  await expect(page.getByRole("heading", { name: "Ask anything you are studying." })).toBeVisible();
+  const heading = page.getByRole("heading", { name: "Ask anything you are studying" });
+  await expect(heading).toBeVisible();
   await expect(page.locator("nav.tabbar")).toHaveCount(0);
-  const art = page.locator(".chat-empty .oa-speech-bubble").first();
-  await expect(art).toBeVisible();
-  const [a, bar] = [await box(art), await box(page.locator(".topbar"))];
-  expect(a.y).toBeGreaterThanOrEqual(bar.y + bar.height);
-  expect(a.x).toBeGreaterThanOrEqual(0);
-  expect(a.x + a.width).toBeLessThanOrEqual(PHONE.width);
-  expect(a.width).toBeLessThanOrEqual(120);
+  await expect(page.locator(".chat-empty .object-art")).toHaveCount(0);
+  const [h, bar] = [await box(heading), await box(page.locator(".topbar"))];
+  expect(h.y).toBeGreaterThanOrEqual(bar.y + bar.height);
+  expect(h.y).toBeLessThan(bar.y + bar.height + 160);
 });
 
 test("desktop empty notebook: Study tools folded until there is a source, the add tiles in one row", async ({ page }, info) => {

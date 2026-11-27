@@ -10,7 +10,6 @@ import { BrandMark } from "../components/BrandMark";
 import { Composer } from "../components/Composer";
 import { AppShell } from "../components/Layout";
 import { Markdown } from "../components/Markdown";
-import { ObjectArt } from "../components/ObjectArt";
 import { CopyAndRead, LearnerBubble, TakuMessage, Thread, Typing } from "../components/Thread";
 import { ChatList } from "../components/ChatList";
 import { useMedia, useStored, WIDE } from "../components/hooks";
@@ -182,7 +181,6 @@ export default function Chat({ profile }: { profile: Doc<"profiles"> }) {
             <Thread follow={`${messages.length}:${last?.text.length ?? 0}:${last?.parts?.length ?? 0}:${pending ?? ""}`} testId="chat-thread" pin={!empty}>
               {empty && (
                 <div className="chat-empty rise">
-                  <ObjectArt name="speech-bubble" alt="" size={112} />
                   <h2>{t.emptyTitle}</h2>
                   <p className="lead soft">{t.emptyBody}</p>
                   <div className="chips">
