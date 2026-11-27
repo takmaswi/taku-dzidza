@@ -481,8 +481,8 @@
         1122,
         1402
       ],
-      "bytes": 2569053,
-      "sha256": "87de8aee99804a23d4bd0be5c1e9d2bed929d73cbdbd63b54dc741e85f508f62"
+      "bytes": 2272293,
+      "sha256": "a3d981f605c4530210aef64327eb5aad9818bb4b9c29811fcae98367a87c865f"
     },
     "exports": {
       "480": {
@@ -490,16 +490,16 @@
           480,
           600
         ],
-        "bytes": 34956,
-        "sha256": "50c73f73af9f2363b49cf849e8b35cdea5868b07e605068bf503d45ad3651c0f"
+        "bytes": 35136,
+        "sha256": "0b0e46d8882717c9cc289515ac74d0f13d8bb1ac02accdbfd8c0cb862870715b"
       },
       "800": {
         "size": [
           800,
           1000
         ],
-        "bytes": 87648,
-        "sha256": "7e4dc9c3b2baf176e8a5c398926432116fc3130ee5971eb41f4f06301133dfb2"
+        "bytes": 87638,
+        "sha256": "ffa1411f4aa2b8bd913c9821b10612c7f1cbeac485fbc6c292663a89cbc9e560"
       }
     }
   },
@@ -565,8 +565,8 @@
         1448,
         1086
       ],
-      "bytes": 2575062,
-      "sha256": "aa911ff7045fdb54b3a8ddd4cae0895b063f91ac48e8935d7751376059c793b2"
+      "bytes": 2783715,
+      "sha256": "8e32a558aa1a137aa6b46628c020e2a332a6421f3bb0f733e0f4b43bd9569517"
     },
     "exports": {
       "480": {
@@ -574,16 +574,16 @@
           480,
           360
         ],
-        "bytes": 21740,
-        "sha256": "b974a1e12b31f10bed3ee3d3f4240558f022fec26a043f0c96889de24e2955ae"
+        "bytes": 17720,
+        "sha256": "9cb8ef28b6e6af613f8988cdff54ad1e3e0c8ff927a5a66fade2ce0071d8e0d3"
       },
       "800": {
         "size": [
           800,
           600
         ],
-        "bytes": 54754,
-        "sha256": "aab147359af5ada02b5b2324eefa15c9accff364d6a083caf79e0975163e4172"
+        "bytes": 54010,
+        "sha256": "e02549f1c13c942febccf877eaaab7a36cf5507adeba20d806ec4fdee9b4bb1f"
       }
     }
   },
@@ -649,8 +649,8 @@
         1448,
         1086
       ],
-      "bytes": 2269039,
-      "sha256": "4cbd3074f96118bc94384e4dd8d1640785e66e77ae09f96c59c67eda442fe24b"
+      "bytes": 1895936,
+      "sha256": "249584c020fb69c9bfc51916b7108388e413e0393738f33e0a841a7c152b85d8"
     },
     "exports": {
       "480": {
@@ -658,16 +658,16 @@
           480,
           360
         ],
-        "bytes": 15316,
-        "sha256": "e9e25610d637098a990b8cd2fc73d353f6b71d941781b3a7f7d1fd8141370686"
+        "bytes": 14316,
+        "sha256": "f9b931290ac3edc06862be17b483afd74342469026ed8d1e7e44207eefa59e76"
       },
       "800": {
         "size": [
           800,
           600
         ],
-        "bytes": 36838,
-        "sha256": "7bd226a83f95e4b465f92baeb30c8bc017d09e4774b3c5e21fcf39c79ed2cb86"
+        "bytes": 32568,
+        "sha256": "3e073d07bfe03d962206d880243f05dff30e8fbebd58c18bdbc28098ac40b212"
       }
     }
   }

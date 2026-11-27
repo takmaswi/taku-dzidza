@@ -2322,3 +2322,13 @@ Contact sheet SHA-256: `08ed6181b3cb0233e6d60893101fbe6717e466b2906ba0d2465407cc
 - Original PNGs are in `art/assets/landing/`. The web builder preserves the photo backgrounds and contact shadows, crops to 4:5 for notes and marketplace imagery and 4:3 for spots, then exports 480 px and 800 px wide WebPs in `art/web/landing/`.
 - [Contact sheet](review/batch-7-landing.png) uses the 480 px exports. [Inventory](review/batch-7-inventory.json) records native and exported sizes, byte counts and SHA-256 hashes.
 - Rebuild with `python art/web/build_web.py --landing-only` and `pnpm gen`. The three marketplace detail photos are registered alongside the listing photos for future placement.
+
+
+### Batch 7 phone branding corrections
+
+- Replaced the generated header in the worked-example photo with the official Education mark and the app name set in Inter 600. The rest of the master is pixel-identical to the original.
+- Regenerated study groups with Law of Contract notes, a marketing mix summary and a contract revision screen. Both plain app bars were branded in code.
+- Regenerated the ACCA Financial Reporting notebook with the six requested topics, five ticks and Leases circled in yellow.
+- The cream Education SVG is byte-identical to the approved source kit and to the repository app icon. [Compositing code](review/fix_batch7_brand.py) reads that SVG directly and fits the lockup to each screen. The brandless study-groups source is in [the review source folder](review/batch-7-brand-sources/).
+- The remaining 21 images were reviewed for generated marks or app names, including the unbranded camera controls in `spot-add-your-notes`. All 21 masters and 42 exports retained their original checksums.
+- Re-exported the three corrected masters at both widths and refreshed the inventory and contact sheet. All registration dimensions stayed the same.

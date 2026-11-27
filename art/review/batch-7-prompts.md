@@ -216,3 +216,30 @@ A single real, small open stitched student exercise notebook with a honey-yellow
 ```text
 One premium Takudzidza study-app product photograph. Real paper, ink, cloth, card, metal and glass as applicable, with tiny natural imperfections. Soft large daylight from upper left, soft contact shadow, warm white and honey yellow surroundings, and authentic accent colours in the objects. No faces, portraits, people in the background, publisher logos, brand marks, watermarks, vector graphics, cartoon, clay or glossy CGI. Deliberate editorial composition. Slightly overhead product composition of a real phone hovering diagonally directly above a handwritten exercise-book page, held by one hand cropped neatly at the wrist from the lower right, only the hand; show the phone screen with the live camera app view of the very same handwritten page and a plain shutter button. No reflections, face, head or other body parts. Landscape 4:3 photograph with the complete grouping framed near the middle and generous space around it, still distinct at thumbnail. Surrounding outside negative space plain warm white with a little pale honey colour near the grouping. Fine material detail and soft unobtrusive lighting.
 ```
+
+## Batch 7 corrections
+
+The prompts below supersede the earlier generations for the two illustrated study examples. For future phone imagery, reserve a blank app header and composite the approved mark and Inter 600 wordmark afterward.
+
+### spot-study-groups regenerated
+
+```text
+Create one 4:3 slightly elevated overhead premium editorial product photograph for a study landing page, centred, on an uninterrupted warm white tabletop lit by soft daylight from upper left with honey yellow stationery accents. The ONLY objects, each fully in view: exactly two real slim smartphones with matte dark bezels and one open shared notebook with honey yellow cover and blue handwritten notes. One phone on each side, framed from directly above, screens in focus, orientation near vertical/straight with minimal tilt. Keep the phones large enough in the frame for the screen content to be legible. The real lined notebook heading reads exactly "Law of Contract", with handwritten notes underneath reading "Offer and acceptance", "Acceptance must match the offer", and "A counter offer rejects the original offer". Phone on the left has simple body text “Marketing mix” followed by the four words “Product”, “Price”, “Place”, “Promotion” as a short summary on its page, one term per line and no other text if possible. Phone on the right has body text “Contract revision” and a small task list “Read the offer”, “Check acceptance”, “Review counter offers”. Both phones: reserve a WIDE, COMPLETELY BLANK, plain light warm-white app header bar across the entire screen immediately above each subject body title, about 13% of the screen height. The app header bar must contain NO characters, logos, wordmarks, monograms, icons, status numbers, placeholders, lines or shapes; keep it evenly lit and flat. All listed subject lettering starts well below each blank bar. Absolutely no app names, publisher names, branding, display mockup text, biology anywhere, faces, people, hands or reflections. Real paper, ink, and believable glass, soft contact shadows in the same direction. Sophisticated real photography, no glossy CGI, no vectors or cartoon, no graphics added onto the photograph. Plenty of breathing room but ensure the grouping fills the image.
+```
+
+### spot-learns-with-you regenerated
+
+```text
+One premium photorealistic 4:3 overhead product photograph of a real open lined exercise notebook on a warm-white desk with a honey yellow notebook edge, subtle natural paper texture and soft daylight from upper left. Show only the notebook, full open spread, no pens or other props. The neat natural blue ballpoint handwritten topic list fills the open spread, readable at 480 pixels. Write the exact heading “ACCA Financial Reporting”, and the following six handwritten topic labels exactly, in this order; they can be split between pages, three on each:
+Revenue recognition
+Leases
+Depreciation
+Inventories
+Provisions
+Group accounts
+Draw small blue pen ticks to the right of Revenue recognition, Depreciation, Inventories, Provisions and Group accounts. Leave Leases unticked and draw a single closed yellow highlighter oval around “Leases”, with clear paper visible inside and the blue letters unobstructed. This circular mark should be unmistakable. Use actual ink and stationery textures, restrained warm colours, realistic physical binding and contact shadow, no glossy CGI, clay, vectors or cartoon. No faces or people, no biology content, no logos or app branding, and no other words or decorative lettering.
+```
+
+### Phone header composites
+
+`market-worked-example` retains the original photograph. `spot-study-groups` retains the accepted blank-header source in `batch-7-brand-sources/`. [The compositing script](fix_batch7_brand.py) uses the approved cream Education SVG, a genuine Inter 600 font, and a separate projection for each photographed phone. The camera controls in `spot-add-your-notes` are free of brand text.

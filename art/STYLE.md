@@ -21,6 +21,12 @@ For Codex and build agents. **From batch 4, `art/BRIEF-batch-4.md` overrides thi
 - Crop safe: faces and key hands clear of edges, room for a large rounded card crop (radius about 32 px at 1080 wide).
 - Pages show only ruling and unlabelled geometric diagrams. Phone screens face away or show an image only preview with no UI.
 
+## App branding on photographed screens
+
+- Never ask an image model to draw the Takudzidza mark, logo or wordmark. If a brief calls for an app screen, generate its app header as a plain blank bar.
+- Composite the approved light-background Education mark from the Education kit and set the app name in Inter 600. Match the photographed screen plane and lighting. Preserve the mark's shape, proportions and colours.
+- Only the requested study content goes in the screen body. Camera controls can stay unbranded.
+
 ## Files
 - Paths: `art/assets/<slug>.png` (master) and `art/assets/<slug>.webp` (shipped). Slugs are lower case with hyphens (file names only).
 - Masters may be enlarged from the generator's native size; say so in `art/CODEX_NOTES.md` with native size, scale and SHA 256 of the source, as batch 1 did. Do not call them native 4K.
