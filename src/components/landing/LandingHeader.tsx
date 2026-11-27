@@ -4,10 +4,14 @@ import { Link } from "react-router";
 import { copy } from "../../copy/en";
 import { BrandMark } from "../BrandMark";
 
+/** The bar turns compact past this much scroll, and back only under the lower figure. */
+const COMPACT_ON = 48;
+const COMPACT_OFF = 8;
+
 /**
  * The landing page's own top bar: the mark and name, links to the page's
- * sections, Sign in and Start free. After 40 px of scroll it grows compact
- * and gains a soft shadow. On a phone the links fold into a sheet menu.
+ * sections, Sign in and Start free. Once scrolled it gains a soft shadow;
+ * its height never changes. On a phone the links fold into a sheet menu.
  */
 export function LandingHeader() {
   const t = copy.landing.nav;
@@ -17,10 +21,19 @@ export function LandingHeader() {
   const sheet = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Hysteresis: on past 48 px, off only under 8 px, so small scroll jitter near the top cannot toggle it.
     let frame = 0;
+    let on = false;
     const check = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => setCompact(window.scrollY > 40));
+      if (frame !== 0) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const y = window.scrollY;
+        const next = on ? y > COMPACT_OFF : y > COMPACT_ON;
+        if (next === on) return;
+        on = next;
+        setCompact(next);
+      });
     };
     check();
     addEventListener("scroll", check, { passive: true });

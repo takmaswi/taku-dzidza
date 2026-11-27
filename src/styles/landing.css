@@ -25,6 +25,8 @@
   --primary: var(--honey);
   --on-primary: var(--ink);
   --topbar: rgb(255 255 255 / 0.86);
+  --topbar-compact: rgb(255 255 255 / 0.95);
+  --topbar-solid: #ffffff;
   --muted-fill: #efeeea;
 }
 .pw .public-top { border-bottom-color: var(--line); }
@@ -54,14 +56,17 @@
 .l-section .actions { margin-top: 1.1rem; }
 
 /* ---------- Header (src/components/landing/LandingHeader.tsx) ---------- */
-.l-top { position: sticky; top: 0; z-index: 30; background: var(--topbar); backdrop-filter: saturate(1.3) blur(14px); -webkit-backdrop-filter: saturate(1.3) blur(14px); border-bottom: 1px solid var(--line); transition: box-shadow var(--dur-card) var(--ease); }
-.l-top-row { display: flex; align-items: center; gap: 1rem; max-width: 1240px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem); height: var(--bar); transition: height var(--dur-card) var(--ease); }
-/* After 40 px of scroll: a shorter bar with a soft shadow. */
-.l-top.compact { box-shadow: 0 6px 20px rgb(40 30 0 / 0.1); }
-.l-top.compact .l-top-row { height: calc(var(--bar) - 12px); }
+.l-top { position: sticky; top: 0; z-index: 30; background: var(--topbar); backdrop-filter: saturate(1.3) blur(14px); -webkit-backdrop-filter: saturate(1.3) blur(14px); border-bottom: 1px solid var(--line); transition: box-shadow var(--dur-card) var(--ease), background-color var(--dur-card) var(--ease); }
+.l-top-row { display: flex; align-items: center; gap: 1rem; max-width: 1240px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem); height: var(--bar); }
+/* Once scrolled: a soft shadow and a less see through bar. The height never changes, since a sticky bar that
+   shrinks moves the page under it, which flips the state back and forth (the old flicker on phones). */
+.l-top.compact { box-shadow: 0 6px 20px rgb(40 30 0 / 0.1); background: var(--topbar-compact); }
+/* Phones: a solid bar with no blur, so iOS Safari does not repaint the blur through momentum scroll. */
+@media (max-width: 759px) {
+  .l-top, .l-top.compact { background: var(--topbar-solid); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
 .l-brand { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--text); white-space: nowrap; }
-.l-brand-mark { width: 34px; height: 34px; flex: none; transition: transform var(--dur-card) var(--ease); }
-.l-top.compact .l-brand-mark { transform: scale(0.86); }
+.l-brand-mark { width: 34px; height: 34px; flex: none; }
 .l-brand b { font-weight: 600; letter-spacing: -0.01em; }
 .l-nav { display: flex; gap: 0.25rem; margin-left: auto; }
 .l-nav a { padding: 0.5rem 0.75rem; border-radius: 999px; text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: background var(--dur-tap); }
