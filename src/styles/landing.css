@@ -548,42 +548,6 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .msh-info { display: grid; gap: 0.15rem; font-size: 0.9rem; line-height: 1.35; }
 .msh-sample { justify-self: start; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.1rem 0.5rem; border-radius: 999px; background: var(--butter); color: var(--ink); }
 
-/* ---------- Listen to your notes (src/components/landing/ListenDemo.tsx) ---------- */
-/* Listen: the head above, the two players side by side. */
-.ld-head { margin-bottom: 1rem; }
-.ld-head .lead { margin-bottom: 0.9rem; }
-.ld-honest { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.8rem; border-radius: 999px; background: var(--raised); border: 1px solid var(--line-strong); font-size: 0.9rem; font-weight: 500; max-width: none; }
-.ld { display: grid; gap: 1rem; align-items: start; }
-@media (min-width: 900px) { .ld { grid-template-columns: 1fr 1fr; } }
-.ld-card { display: grid; gap: 0.8rem; }
-.ld-card .eyebrow { margin: 0; }
-.ld-voices { display: inline-grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border-radius: 999px; background: var(--band); border: 1px solid var(--line-strong); justify-self: start; }
-.ld-voices button { min-height: 40px; padding: 0.3rem 1rem; border: 0; border-radius: 999px; background: transparent; color: var(--text); font: inherit; font-weight: 500; cursor: pointer; }
-.ld-voices button[aria-pressed="true"] { background: var(--ink); color: var(--cream); font-weight: 600; }
-.ld-player { display: grid; gap: 0.8rem; }
-.ld-controls { display: flex; align-items: center; gap: 1rem; }
-.ld-play { position: relative; display: grid; place-items: center; width: 56px; height: 56px; flex: none; border: 0; border-radius: 50%; background: var(--honey); color: var(--ink); cursor: pointer; transition: transform var(--dur-tap) var(--ease); }
-.ld-play:hover { transform: scale(1.05); }
-.ld-play:active { transform: scale(0.95); }
-/* The progress ring around the play button. */
-.ld-ring { position: absolute; inset: -5px; width: calc(100% + 10px); height: calc(100% + 10px); transform: rotate(-90deg); }
-.ld-ring circle { fill: none; stroke: var(--butter); stroke-width: 3; }
-.ld-ring .ld-ring-done { stroke: var(--ink); stroke-linecap: round; stroke-dasharray: 100; transition: stroke-dashoffset 0.3s linear; }
-/* Waveform bars: still and low until a clip plays. */
-.ld-bars { flex: 1; display: flex; align-items: center; gap: 3px; height: 34px; }
-.ld-bars i { flex: 1; max-width: 6px; height: 100%; border-radius: 3px; background: var(--line-strong); transform: scaleY(0.22); transform-origin: 50% 50%; transition: background var(--dur-tap); }
-.ld-player[data-on] .ld-bars i { background: var(--ink); animation: ld-bar calc(820ms * var(--speed) + 0.001s) ease-in-out calc(var(--i) * -97ms) infinite alternate; }
-.ld[data-idle] .ld-bars i { animation-play-state: paused; }
-@keyframes ld-bar { 0% { transform: scaleY(0.2); } 50% { transform: scaleY(0.9); } 100% { transform: scaleY(0.45); } }
-/* With less motion the bars hold a still, mid height shape while playing. */
-@media (prefers-reduced-motion: reduce) { .ld-player[data-on] .ld-bars i { transform: scaleY(calc(0.35 + 0.05 * var(--i))); } }
-:root[data-motion="off"] .ld-player[data-on] .ld-bars i { transform: scaleY(0.6); }
-.ld-captions { margin: 0; padding: 0.75rem 0.9rem; border-radius: 12px; background: var(--band); border: 1px solid var(--line); min-height: 5.6em; }
-.ld-captions .eyebrow { margin-bottom: 0.3rem; font-size: 0.68rem; }
-.ld-line { margin: 0; font-weight: 500; animation: l-in calc(300ms * var(--speed)) var(--ease) both; }
-.ld-host { display: inline-block; margin-right: 0.4rem; padding: 0 0.45rem; border-radius: 999px; background: var(--butter); font-size: 0.72rem; font-weight: 600; vertical-align: 1px; }
-.ld-fallback { display: grid; gap: 0.4rem; justify-items: start; }
-
 /* ---------- Institutions ---------- */
 .in-wrap { align-items: start; }
 .in-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
@@ -613,31 +577,6 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
   .pg-row:has(.pg-cta) .pg-bar { grid-column: 1 / 3; }
   .pg-cta { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
 }
-
-/* ---------- Study together (src/components/landing/GroupCard.tsx) ---------- */
-.gp { margin: 0; display: grid; gap: 1rem; padding: 1.25rem; }
-.gp-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem; }
-.gp-session { font-size: 1.1rem; }
-.gp-online { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 500; color: var(--text-soft); }
-.gp-faces { display: inline-flex; margin-right: 0.3rem; }
-/* Each friend is an initial with a green ring for online. */
-.gp-face { display: grid; place-items: center; width: 32px; height: 32px; margin-left: -6px; border-radius: 50%; background: var(--butter); color: var(--ink); font-size: 0.8rem; font-weight: 600; box-shadow: 0 0 0 2px var(--white), 0 0 0 4px #1f9d55; }
-.gp-face:first-child { margin-left: 0; }
-.gp-face:nth-child(2) { background: var(--ink); color: var(--cream); }
-.gp-face:nth-child(3) { background: var(--honey); }
-.gp-face:nth-child(4) { background: var(--band); border: 1px solid var(--line-strong); }
-.gp-q { display: grid; gap: 0.55rem; padding: 0.9rem 1rem; border-radius: 14px; background: var(--band); border: 1px solid var(--line); }
-.gp-q p { margin: 0; font-weight: 600; }
-.gp-live { display: inline-flex; align-items: center; gap: 0.35rem; justify-self: start; padding: 0.1rem 0.55rem; border-radius: 999px; background: var(--ink); color: var(--cream); font-size: 0.72rem; font-weight: 600; }
-.gp-options { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.gp-options li { display: inline-flex; align-items: center; gap: 0.3rem; min-height: 36px; padding: 0.3rem 0.85rem; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--white); font-size: 0.9rem; }
-.gp-options li[data-right] { background: var(--ink); border-color: var(--ink); color: var(--cream); font-weight: 600; }
-.gp-board .eyebrow { display: inline-flex; align-items: center; gap: 0.35rem; }
-.gp-board ol { margin: 0; padding-left: 1.3rem; display: grid; gap: 0.35rem; }
-.gp-board li::marker { font-weight: 700; }
-.gp-board li > * { vertical-align: middle; }
-.gp-board li { padding: 0.15rem 0; }
-.gp-board li b { float: right; font-variant-numeric: tabular-nums; }
 
 /* ---------- FAQ: details that open with a short ease ---------- */
 .l-faqs { margin-top: 0.75rem; }
