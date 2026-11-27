@@ -1,9 +1,24 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, test } from "vitest";
+import { LANDING_PHOTOS } from "../../src/art.generated";
 import { copy } from "../../src/copy/en";
 import { CUES } from "../../src/components/landing/listenCues";
 import { regionForZone, STRIP_ORDER, stripOrder } from "../../src/components/landing/useRegion";
+
+test("every batch 7 landing photo has both registered, published WebP sizes", () => {
+  const groups = { notes: 5, market: 13, spot: 6 };
+  for (const [prefix, count] of Object.entries(groups)) {
+    expect(Object.keys(LANDING_PHOTOS).filter((slug) => slug.startsWith(`${prefix}-`))).toHaveLength(count);
+  }
+  for (const [slug, art] of Object.entries(LANDING_PHOTOS)) {
+    expect(art.widths, slug).toEqual([480, 800]);
+    for (const width of art.widths) {
+      const file = readFileSync(join(process.cwd(), "public", "art", "landing", `${slug}-${width}.webp`));
+      expect(file.toString("ascii", 8, 12), `${slug}-${width}`).toBe("WEBP");
+    }
+  }
+});
 
 /** The landing page's local layer (src/components/landing/useRegion.ts). */
 describe("region", () => {

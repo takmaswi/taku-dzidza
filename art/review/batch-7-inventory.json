@@ -1,0 +1,674 @@
+{
+  "notes-accounting": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2685800,
+      "sha256": "68152f5bddb8591838ba3c923a390fcb751564227cae07d619ae7e9a71eee4c0"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 48166,
+        "sha256": "b779756d317082b5b47dba833cbd4df0adb386119c9dadd9377c3da02c0d8e27"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 134888,
+        "sha256": "6a99f586ad77373399ba9ad07c6548e4b4b9ebd34acb42d992cdb4e64693c4cd"
+      }
+    }
+  },
+  "notes-economics": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2816452,
+      "sha256": "83489ccae64215137863149d4568ff6818caacf1ee47336c2bec23e79240e2e0"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 48956,
+        "sha256": "75ef06f95915072d5378c68b57e750d41b0fe33a50eda92a65cb39f65ff80ce5"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 149082,
+        "sha256": "216a7845c884ce3b6627c6e6d0a42fbb1d5d7226c6519350c533e56f4e98887b"
+      }
+    }
+  },
+  "notes-law": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2678102,
+      "sha256": "eba28e0f59c284009e566d39f0161626da4188606f582acf5d04870984c2710c"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 44502,
+        "sha256": "e3e0fbc706bddb2bfb128af3cc6b3abf66ac3407ea61291809163c32d4629f05"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 123488,
+        "sha256": "65611bfad7a5127eedc45b174fec747089b6ad3752f633fff30208e3a1572c07"
+      }
+    }
+  },
+  "notes-marketing": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2964885,
+      "sha256": "6057f2cf6097e76b9e1bd25bb7ed203b726ce5edeccda8fadccf3eafd67ec427"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 61372,
+        "sha256": "961dd42c81d7b63973f64c5ec7e6f70054298107c7212ca6f125f0594fe01d4b"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 177586,
+        "sha256": "0315f2c27c870eda00cfc2b55db16f6e93402d3681d109777fcc41e00839bb70"
+      }
+    }
+  },
+  "notes-maths": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2596961,
+      "sha256": "3e52f366f81c1562a7d3140338fd4337a752d01a8b1f440bb0e68c0a81df0967"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 40426,
+        "sha256": "103e32ec9e6664a7cd1afa41ec5fd414b22edcdd3d562423fea6eb9e7c642210"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 117524,
+        "sha256": "fa6e8d4c96812c801ac5e0b5815c0c7f3cae23ad5723723c48c187444a8ffaa3"
+      }
+    }
+  },
+  "market-a-level-biology": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2911131,
+      "sha256": "33bf88668715b03db017f09588060f5a5c733f842a865bd1a68da0de7263eaf1"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 41590,
+        "sha256": "faefab93f17928c48b84217b28737fcb8f23ffa744399afb8e702aae9b993a8e"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 131376,
+        "sha256": "a988ac8c3a546948a125e99d80a98a4eb3474257fbc8f8be4796296783b63b15"
+      }
+    }
+  },
+  "market-business-law-nust": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2492375,
+      "sha256": "22e3fcfc66623ff3773b88e6d9afe0bba28564cd235036e194008b2aa921cf93"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 27886,
+        "sha256": "8ce066d8f7a7fb369cbd7ba542bda704e6e9a3effecdb8e329943f78bbb20ac1"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 74336,
+        "sha256": "c7536a10edb6b631f7d66d536267048c0111a49e03691ddac4b5316b4bef3a27"
+      }
+    }
+  },
+  "market-buyer-preview": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 1983557,
+      "sha256": "251e8c6bc66eb895838444d8a9174c173dceedf1cbafb7ec683350edea265b4f"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 29966,
+        "sha256": "782ad6cd99e89160b2e01e853ffd6aefbc46ac8904a6339d74c6fab48861ef23"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 68058,
+        "sha256": "1ddfd3d377c5dc8d91cbea71858aca4b9d6421d7c3d1effb3572be59329f26e6"
+      }
+    }
+  },
+  "market-financial-reporting-acca": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2725219,
+      "sha256": "6f243e3576e01a9d1ab1f1cec1c3e6e2be6753fe078498e76fa2cb1ab3a667fd"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 35068,
+        "sha256": "be560d8238b222cde9df49165447dd3da5b526ad128cec6a1ab4b81dd1b2a00c"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 99544,
+        "sha256": "923ba2b0af247d8428b1e780559efbde009af2084ede305f101635476e25a345"
+      }
+    }
+  },
+  "market-law-of-contract": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2617740,
+      "sha256": "496ff2dec6677df02ffa9d906da47e883b50e1962daee07fef394be383020ba7"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 31970,
+        "sha256": "af220361676de89a49318b41b0f2fd6819375b18f9d534db06c7f3ff49e89da2"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 94818,
+        "sha256": "7ea904eaee58d451210a2c2c32103174e410a948e94ec23ef3f149ccb197baa4"
+      }
+    }
+  },
+  "market-marketing-management": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2458797,
+      "sha256": "5dac0bb3b19a3131766c34c08a4af681faa081d07b20ee9baa1e36b75b857152"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 34718,
+        "sha256": "64ac9fb824423ecf2948d8b20ac333fd2b24c073981ea690c0fa281485fdcb56"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 91108,
+        "sha256": "d97bf619a2c006f0aa57fe3714397872a98a81e8462700584b733ae9ff432f64"
+      }
+    }
+  },
+  "market-microeconomics": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2506975,
+      "sha256": "0ff9cd190c96667e466ee46068cb46784ca603842217d80fb334def9fb42d3b0"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 27878,
+        "sha256": "db0f2ed1fa3d350f0be1f287daa4792f8b61d78ad62047fffdda9db8e80ef571"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 80414,
+        "sha256": "cb8235cdf8e0e45154b95cf941c0849386406505f568ca5a04dff861580591da"
+      }
+    }
+  },
+  "market-notebook-stack": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2885923,
+      "sha256": "1bb9a58f55d1c195ed1dc7b733e7ad9780ad59ca54c8766c8163871db318d5fa"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 43998,
+        "sha256": "5e1a9e6cc1086118e8b95d2ebe3ffb8c99ba7ff78c7820c3b717506bc34be7ed"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 132638,
+        "sha256": "bb2bd00e3aa1546ddb5d793a799ae1ec4ed29315487269c59baa9121e0c9d0a1"
+      }
+    }
+  },
+  "market-nursing-fundamentals": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2462464,
+      "sha256": "684280204e59256ec3e5498ff90dd0c95c8c0261d72f5ffeea0eb16494bb2584"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 35680,
+        "sha256": "a10744ad5fcbc4b49ec2ced9b788152b8f55d29728c7ca3b9f76bc08c7718e89"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 91868,
+        "sha256": "e310616a52779ec93f8c66e7611ffbba4b4b3f23d6edf54e5b585c6685e5c50f"
+      }
+    }
+  },
+  "market-project-management": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2528452,
+      "sha256": "82cb8b550016c29ab21f11d6cd895bd6631e13786c1f6810e70ff7fed11409be"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 29330,
+        "sha256": "4e9db2438b27b807f2a76a5609473cd179f4ad7591b4d853afb13b9185c08908"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 75160,
+        "sha256": "14d4c5e120417e5dd79ece12c7b9a93ef89ad570a3114396bd4b25720262779a"
+      }
+    }
+  },
+  "market-pure-mathematics": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2303938,
+      "sha256": "c80b52b87aff330f3f98bf34c3d7e15af6ac9c042f44eb206582d9aaa0bc6906"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 28714,
+        "sha256": "497820a8c5b2483857b69b62fb5c1b9d129e82b5ad53e4b7a7991405a7fa3752"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 77574,
+        "sha256": "9cbb8d8848fba9d505ae57a203e0e85341cbaceb733b87011973cd1fc2ab5e7e"
+      }
+    }
+  },
+  "market-taxation-2-uz": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2520583,
+      "sha256": "4edd06ed0aeff4b80727700ebd037a7686b36df51ba6ea358b1e25c86ed3532d"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 37422,
+        "sha256": "ddfb5efa4c3479d720710eaac5e3f2ff18aa8743c8fff00b6e65801fb1f8ddb3"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 98494,
+        "sha256": "844f2b157efa45ca49dcfe1b2ef4a90de206460a4481168fc9b0aebe1e649624"
+      }
+    }
+  },
+  "market-worked-example": {
+    "master": {
+      "size": [
+        1122,
+        1402
+      ],
+      "bytes": 2569053,
+      "sha256": "87de8aee99804a23d4bd0be5c1e9d2bed929d73cbdbd63b54dc741e85f508f62"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          600
+        ],
+        "bytes": 34956,
+        "sha256": "50c73f73af9f2363b49cf849e8b35cdea5868b07e605068bf503d45ad3651c0f"
+      },
+      "800": {
+        "size": [
+          800,
+          1000
+        ],
+        "bytes": 87648,
+        "sha256": "7e4dc9c3b2baf176e8a5c398926432116fc3130ee5971eb41f4f06301133dfb2"
+      }
+    }
+  },
+  "spot-add-your-notes": {
+    "master": {
+      "size": [
+        1448,
+        1086
+      ],
+      "bytes": 2549582,
+      "sha256": "eb06285c4ec9205a0201e6db5e24a287ca414971feaeb0a6ba3d6ae1cafa13af"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          360
+        ],
+        "bytes": 26576,
+        "sha256": "20fd9714f863d8226d41bae3d06f2ed6fd9602ede374ed8aa1b8648ca5ff0c02"
+      },
+      "800": {
+        "size": [
+          800,
+          600
+        ],
+        "bytes": 65082,
+        "sha256": "163809d4c470493424cf1f5f868fa7224c472135f80f984238b5d43ae2532664"
+      }
+    }
+  },
+  "spot-earn-from-notes": {
+    "master": {
+      "size": [
+        1448,
+        1086
+      ],
+      "bytes": 2542949,
+      "sha256": "8bb86595e47e8189846718eb956c792244cc8a0b9d77f4840f566540b912fe95"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          360
+        ],
+        "bytes": 14228,
+        "sha256": "1541f8ce9271ede6c36832f008abf12f2f1e9d27f1113b56a791950e60d9ce7c"
+      },
+      "800": {
+        "size": [
+          800,
+          600
+        ],
+        "bytes": 44474,
+        "sha256": "f289d8aa69525dfcec87a40111420344647108127d7497418ed229c7a22a229b"
+      }
+    }
+  },
+  "spot-learns-with-you": {
+    "master": {
+      "size": [
+        1448,
+        1086
+      ],
+      "bytes": 2575062,
+      "sha256": "aa911ff7045fdb54b3a8ddd4cae0895b063f91ac48e8935d7751376059c793b2"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          360
+        ],
+        "bytes": 21740,
+        "sha256": "b974a1e12b31f10bed3ee3d3f4240558f022fec26a043f0c96889de24e2955ae"
+      },
+      "800": {
+        "size": [
+          800,
+          600
+        ],
+        "bytes": 54754,
+        "sha256": "aab147359af5ada02b5b2324eefa15c9accff364d6a083caf79e0975163e4172"
+      }
+    }
+  },
+  "spot-listening": {
+    "master": {
+      "size": [
+        1448,
+        1086
+      ],
+      "bytes": 2163906,
+      "sha256": "36ed46139f7be5f2e8330850c0a934efac52bb86fed518907a1b22312108756d"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          360
+        ],
+        "bytes": 13706,
+        "sha256": "83ab2fd36f4933983fc9bb11440e87192a645df846d1652bac278ceb26412162"
+      },
+      "800": {
+        "size": [
+          800,
+          600
+        ],
+        "bytes": 37746,
+        "sha256": "1bc9df96bd5007bd5bfa71a8afb64715182926c2f425e5312c42c225c6a4d544"
+      }
+    }
+  },
+  "spot-schools-institutions": {
+    "master": {
+      "size": [
+        1448,
+        1086
+      ],
+      "bytes": 2137318,
+      "sha256": "53aaaea5059339bd76112a550a183f03536fcc814c556838749492ff8e612823"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          360
+        ],
+        "bytes": 11452,
+        "sha256": "82f7f311872da82ad2b1244f1e5f667b98f7e5fc9ed25c8840ae24168af2738c"
+      },
+      "800": {
+        "size": [
+          800,
+          600
+        ],
+        "bytes": 28228,
+        "sha256": "8ef2df30c1dbec375999a7812b546b3178eb230714db029e44a09a440f198bdd"
+      }
+    }
+  },
+  "spot-study-groups": {
+    "master": {
+      "size": [
+        1448,
+        1086
+      ],
+      "bytes": 2269039,
+      "sha256": "4cbd3074f96118bc94384e4dd8d1640785e66e77ae09f96c59c67eda442fe24b"
+    },
+    "exports": {
+      "480": {
+        "size": [
+          480,
+          360
+        ],
+        "bytes": 15316,
+        "sha256": "e9e25610d637098a990b8cd2fc73d353f6b71d941781b3a7f7d1fd8141370686"
+      },
+      "800": {
+        "size": [
+          800,
+          600
+        ],
+        "bytes": 36838,
+        "sha256": "7bd226a83f95e4b465f92baeb30c8bc017d09e4774b3c5e21fcf39c79ed2cb86"
+      }
+    }
+  }
+}

@@ -2315,3 +2315,10 @@ Strict constraints: photographic realism only. No cartoon, no illustration, no 3
 - No app build, application tests, E2E, deployment or physical-device checks were run for this asset-only delivery.
 
 Contact sheet SHA-256: `08ed6181b3cb0233e6d60893101fbe6717e466b2906ba0d2465407cc93d5b558`.
+
+## Batch 7 - landing note photography (2026-11-27)
+
+- Built-in ImageGen produced 5 handwritten note pages, 10 fictional marketplace samples, 3 marketplace detail photos and 6 spot photographs. The exact accepted prompts are in [batch-7-prompts.md](review/batch-7-prompts.md).
+- Original PNGs are in `art/assets/landing/`. The web builder preserves the photo backgrounds and contact shadows, crops to 4:5 for notes and marketplace imagery and 4:3 for spots, then exports 480 px and 800 px wide WebPs in `art/web/landing/`.
+- [Contact sheet](review/batch-7-landing.png) uses the 480 px exports. [Inventory](review/batch-7-inventory.json) records native and exported sizes, byte counts and SHA-256 hashes.
+- Rebuild with `python art/web/build_web.py --landing-only` and `pnpm gen`. The three marketplace detail photos are registered alongside the listing photos for future placement.

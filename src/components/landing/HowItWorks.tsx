@@ -1,8 +1,10 @@
-import { ChevronDown, Headphones, Users, type LucideIcon } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState, type FocusEvent, type KeyboardEvent, type ReactNode, type TouchEvent } from "react";
 import { copy } from "../../copy/en";
+import type { LandingPhotoSlug } from "../../art.generated";
 import { CiteDemo } from "./CiteDemo";
 import { DropAnything } from "./DropAnything";
+import { LandingPhoto } from "./LandingPhoto";
 import { ModeSwitcher } from "./ModeSwitcher";
 import { isStill, useInView, useStill } from "./motion";
 import { PauseButton } from "./PauseButton";
@@ -12,13 +14,11 @@ import { Try } from "./Try";
 
 type Chapter = (typeof copy.landing.story.chapters)[number];
 
-/** A small card for something not here yet (Coming soon) or still settling (Beta). Icon, words and tag, never colour alone. */
-export function SoonCard({ Icon, title, tag, line }: { Icon: LucideIcon; title: string; tag: string; line: string }) {
+/** A small card for an upcoming feature. */
+export function SoonCard({ photo, title, tag, line }: { photo: LandingPhotoSlug; title: string; tag: string; line: string }) {
   return (
     <div className="hw-soon">
-      <span className="hw-soon-icon">
-        <Icon size={18} aria-hidden="true" />
-      </span>
+      <LandingPhoto slug={photo} sizes="64px" className="hw-soon-photo" />
       <span>
         <b>{title}</b> <span className="l-tag">{tag}</span>
         <br />
@@ -28,7 +28,7 @@ export function SoonCard({ Icon, title, tag, line }: { Icon: LucideIcon; title: 
   );
 }
 
-const SOON_ICONS: Record<string, LucideIcon> = { listen: Headphones, groups: Users };
+const SOON_PHOTOS = { listen: "spot-listening", groups: "spot-study-groups" } as const;
 
 function Visual({ id, signUp }: { id: Chapter["id"]; signUp: string }): ReactNode {
   switch (id) {
@@ -187,7 +187,7 @@ export function HowItWorks({ signUp }: { signUp: string }) {
                 <div id={`hw-more-${c.id}`} className="hw-more" hidden={more !== i}>
                   <p>{c.more}</p>
                 </div>
-                {soon !== null && <SoonCard Icon={SOON_ICONS[soon.id]} title={soon.title} tag={soon.tag} line={soon.line} />}
+                {soon !== null && <SoonCard photo={SOON_PHOTOS[soon.id]} title={soon.title} tag={soon.tag} line={soon.line} />}
               </div>
               <div className="hw-visual">
                 <Visual id={c.id} signUp={signUp} />

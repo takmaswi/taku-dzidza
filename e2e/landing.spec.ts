@@ -49,7 +49,7 @@ test("the page never scrolls sideways and nothing pokes past the edge", async ({
   await openLanding(page, info);
   await scrollThrough(page);
   const result = await page.evaluate(() => {
-    const scrollers = ".l-marquee, .tb-track, .msh, .l-hero-scene";
+    const scrollers = ".l-marquee, .tb-track, .msh, .l-hero-scene, .hw-tabs";
     const poking = Array.from(document.querySelectorAll(".bleed *"))
       .filter((el) => {
         const r = el.getBoundingClientRect();
@@ -135,6 +135,7 @@ test("everything that loops has a pause button that stops it", async ({ page }, 
 });
 
 test("tapping a citation opens the source page with the line highlighted", async ({ page }, info) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await openLanding(page, info);
   await chapter(page, "Ask anything");
   const cite = page.locator(".cd").getByRole("button", { name: "Show source 1" });
@@ -143,20 +144,38 @@ test("tapping a citation opens the source page with the line highlighted", async
   await expect(sheet).toBeHidden();
   await cite.click();
   await expect(sheet).toBeVisible();
-  await expect(sheet.locator("mark")).toHaveText("Chlorophyll, the green pigment in the chloroplasts, absorbs light energy.");
+  await expect(sheet.locator("mark")).toHaveText("Depreciation = (Cost minus residual value) ÷ useful life");
+  const chooser = page.getByLabel("Sample notes");
+  await expect(chooser.locator("option")).toHaveCount(5);
+  for (const slug of ["notes-law", "notes-marketing", "notes-maths", "notes-economics", "notes-accounting"]) {
+    await chooser.selectOption(slug);
+    await expect(sheet).toBeHidden();
+    await cite.click();
+    const photo = sheet.locator("img");
+    await photo.scrollIntoViewIfNeeded();
+    await expect(photo).toHaveAttribute("src", `/art/landing/${slug}-480.webp`);
+    await expect.poll(() => photo.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
+  }
   await page.locator(".cd").getByRole("button", { name: "Hide source 1" }).click();
   await expect(sheet).toBeHidden();
 
-  // In the hero demo the citation shows the cited page on demand.
+  // With reduced motion the hero starts with the cited page visible.
   const demo = page.locator(".hd");
   await demo.scrollIntoViewIfNeeded();
-  await page.getByRole("button", { name: "Pause the demo" }).click();
-  const demoCite = demo.getByRole("button", { name: "Show source 1" });
-  if ((await demoCite.count()) > 0) {
-    await demoCite.click();
-    await expect(demo).toHaveAttribute("data-step", "3");
-    await expect(demo.locator(".hd-sheet mark")).toBeVisible();
+  await expect(demo.locator(".hd-sheet img")).toHaveAttribute("src", "/art/landing/notes-accounting-480.webp");
+});
+
+test("the marketplace sample shelf opens with ten notebook photos", async ({ page }, info) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await openLanding(page, info);
+  const photos = page.locator(".msh img");
+  await expect(photos).toHaveCount(10);
+  for (const photo of await photos.all()) {
+    await photo.scrollIntoViewIfNeeded();
+    await expect.poll(() => photo.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
   }
+  await page.getByRole("tab", { name: "Marketplace", exact: true }).click();
+  await expect(page.locator(".hd-shelf img")).toHaveCount(3);
 });
 
 test("the mode switcher changes the answer for the same question", async ({ page }, info) => {

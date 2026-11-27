@@ -1,0 +1,42 @@
+export const NOTE_SAMPLES = [
+  {
+    slug: "notes-accounting",
+    title: "Financial Reporting, Depreciation",
+    question: "How do I calculate straight line depreciation?",
+    answer: "Subtract the residual value from the cost, then divide by the useful life. In these notes, that comes to $2 000 per year.",
+    cited: "Depreciation = (Cost minus residual value) ÷ useful life",
+    transcript: "Straight line method. Depreciation = (Cost minus residual value) ÷ useful life. Example: cost $12 000, residual $2 000, life 5 years. = $2 000 per year.",
+  },
+  {
+    slug: "notes-law",
+    title: "Law of Contract, Offer and acceptance",
+    question: "When can an offer be withdrawn?",
+    answer: "The notes say an offer can be withdrawn any time before it is accepted.",
+    cited: "An offer can be withdrawn at any time before it is accepted",
+    transcript: "An offer can be withdrawn at any time before it is accepted. Acceptance must match the offer exactly. A counter offer rejects the original offer.",
+  },
+  {
+    slug: "notes-marketing",
+    title: "Marketing, The marketing mix",
+    question: "What are the four Ps?",
+    answer: "Product, Price, Place and Promotion. The notes put all four in a box diagram.",
+    cited: "Product, Price, Place, Promotion",
+    transcript: "Product, Price, Place, Promotion. Price must match what customers believe the product is worth. Place means getting it where customers buy. The diagram labels are Product, Price, Place and Promotion.",
+  },
+  {
+    slug: "notes-maths",
+    title: "Algebra, Factorising quadratics",
+    question: "How do I factorise x² + 5x + 6?",
+    answer: "Use 2 and 3. They multiply to 6 and add to 5, so the factors are (x + 2)(x + 3).",
+    cited: "= (x + 2)(x + 3)",
+    transcript: "x² + 5x + 6. Find two numbers that multiply to 6 and add to 5. 2 and 3. = (x + 2)(x + 3).",
+  },
+  {
+    slug: "notes-economics",
+    title: "Economics, Price elasticity of demand",
+    question: "What does it mean when PED is greater than 1?",
+    answer: "Demand is elastic. The percentage change in quantity demanded is larger than the percentage change in price.",
+    cited: "Greater than 1: elastic",
+    transcript: "PED = % change in quantity demanded ÷ % change in price. Greater than 1: elastic. Less than 1: inelastic.",
+  },
+] as const;

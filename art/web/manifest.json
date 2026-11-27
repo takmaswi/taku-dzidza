@@ -266,5 +266,199 @@
  "icons": {
   "maskableFarthestPx": 191.2,
   "maskableSafeRadiusPx": 204.8
+ },
+ "landing": {
+  "market-a-level-biology": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "market-business-law-nust": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "market-buyer-preview": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "market-financial-reporting-acca": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "market-law-of-contract": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "market-marketing-management": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "market-microeconomics": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "market-notebook-stack": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "market-nursing-fundamentals": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "market-project-management": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "market-pure-mathematics": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "market-taxation-2-uz": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "market-worked-example": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "notes-accounting": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "notes-economics": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "notes-law": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "notes-marketing": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "notes-maths": {
+   "width": 1120,
+   "height": 1400,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "spot-add-your-notes": {
+   "width": 1448,
+   "height": 1086,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "spot-earn-from-notes": {
+   "width": 1448,
+   "height": 1086,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "spot-learns-with-you": {
+   "width": 1448,
+   "height": 1086,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "spot-listening": {
+   "width": 1448,
+   "height": 1086,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "spot-schools-institutions": {
+   "width": 1448,
+   "height": 1086,
+   "widths": [
+    480,
+    800
+   ]
+  },
+  "spot-study-groups": {
+   "width": 1448,
+   "height": 1086,
+   "widths": [
+    480,
+    800
+   ]
+  }
  }
 }

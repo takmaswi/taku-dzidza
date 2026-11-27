@@ -1,48 +1,26 @@
 import type { PointerEvent } from "react";
-import { COVERS } from "../../art.generated";
 import { copy } from "../../copy/en";
+import { LandingPhoto } from "./LandingPhoto";
+import { MARKET_SAMPLES } from "./marketSamples";
 import { isStill } from "./motion";
 
-/** Covers dark enough to take cream lettering; the rest take ink. */
-const DARK_COVERS = new Set(["charcoal", "olive"]);
-
-/**
- * A shelf of six sample notebooks for the marketplace section. Covers are the
- * art batch 5 bookcloth photos where they exist, otherwise a CSS cover in the
- * honey bookcloth texture tinted to the colour. Each cover carries its title
- * and subject on an inset label, printed in code; seller, price and the Sample
- * tag sit below. On a computer each cover leans slightly toward the pointer;
- * on a phone the shelf scrolls sideways.
- */
+/** Sample student notes, with a pointer tilt on desktop and a swipeable shelf on mobile. */
 export function MarketShelf() {
   const t = copy.landing.market;
   return (
     <ul className="msh" aria-label={t.shelf}>
-      {t.items.map((item) => {
-        const slug = `cover-${item.cover}`;
-        return (
-          <li key={item.title} className="msh-item">
-            <div className="msh-book" onPointerMove={lean} onPointerLeave={settle}>
-              <div className={`msh-cover${DARK_COVERS.has(item.cover) ? " msh-on-dark" : ""}`}>
-                {COVERS.includes(slug) ? (
-                  <img src={`/art/covers/${slug}-450.webp`} alt="" width={450} height={600} loading="lazy" decoding="async" />
-                ) : (
-                  <span className={`msh-cloth msh-${item.cover}`} aria-hidden="true" />
-                )}
-                <span className="msh-label">
-                  <b>{item.title}</b>
-                  <span>{item.subject}</span>
-                </span>
-              </div>
-            </div>
-            <div className="msh-info">
-              <span className="msh-sample">{t.sample}</span>
-              <span className="soft">{t.by(item.seller)}</span>
-              <span className="msh-price">{item.price}</span>
-            </div>
-          </li>
-        );
-      })}
+      {MARKET_SAMPLES.map((item) => (
+        <li key={item.photo} className="msh-item">
+          <div className="msh-book" onPointerMove={lean} onPointerLeave={settle}>
+            <LandingPhoto slug={item.photo} sizes="(max-width: 899px) 42vw, 220px" className="msh-cover" />
+          </div>
+          <div className="msh-info">
+            <span className="msh-sample">{t.sample}</span>
+            <b>{item.title}</b>
+            <span className="soft">{t.by(item.seller)}</span>
+          </div>
+        </li>
+      ))}
     </ul>
   );
 }

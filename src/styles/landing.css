@@ -170,10 +170,9 @@
 @keyframes hd-out { to { opacity: 0; } }
 
 /* Tutor: the notes strip, the question, the answer streaming in with its citation, then the source page */
-.hd-photo { position: relative; display: block; background: repeating-linear-gradient(transparent 0 15px, rgb(242 179 61 / 0.3) 15px 16px), var(--white); border-radius: 4px; box-shadow: 0 1px 2px rgb(40 30 0 / 0.16), 0 10px 22px rgb(40 30 0 / 0.14); }
+.hd-photo { position: relative; display: block; background: var(--white); border-radius: 4px; box-shadow: 0 1px 2px rgb(40 30 0 / 0.16), 0 10px 22px rgb(40 30 0 / 0.14); }
 .hd-photo.strip { width: 100%; height: 96px; flex: none; transform: rotate(-1.2deg); overflow: hidden; }
-.hd-scribble { position: absolute; inset: 6px 8px; width: calc(100% - 16px); height: calc(100% - 12px); fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; opacity: 0.62; }
-.hd-ink-mark { stroke: var(--honey); stroke-width: 6; opacity: 0.6; }
+.hd-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 16%; }
 .hd-photo-tag { position: absolute; right: 8px; bottom: 8px; white-space: nowrap; padding: 0.2rem 0.6rem; border-radius: 999px; background: var(--butter); font-size: 0.72rem; font-weight: 600; }
 .hd-composer { display: flex; align-items: center; gap: 0.5rem; margin: 0.6rem 0.7rem 0.9rem; padding: 0.45rem 0.45rem 0.45rem 0.8rem; border-radius: 999px; background: var(--white); border: 1px solid var(--line); font-size: 0.76rem; }
 .hd-composer > :first-child { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; }
@@ -190,8 +189,9 @@
 .hd-cite[data-open] { background: var(--honey); color: var(--ink); animation: hd-pulse calc(900ms * var(--speed)) var(--ease) 2; }
 @keyframes hd-pulse { 50% { box-shadow: 0 0 0 7px rgb(242 179 61 / 0.35); transform: scale(1.12); } }
 @keyframes hd-pop { from { opacity: 0; transform: translateY(8px) scale(0.96); } }
-.hd-sheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 1rem 1rem 1.3rem; border-radius: 22px 22px 0 0; background: var(--white); box-shadow: 0 -10px 30px rgb(40 30 0 / 0.16); animation: hd-sheet calc(520ms * var(--speed)) var(--ease) calc(200ms * var(--speed)) both; }
+.hd-sheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; max-height: 76%; overflow: auto; padding: 1rem 1rem 1.3rem; border-radius: 22px 22px 0 0; background: var(--white); box-shadow: 0 -10px 30px rgb(40 30 0 / 0.16); animation: hd-sheet calc(520ms * var(--speed)) var(--ease) calc(200ms * var(--speed)) both; }
 .hd-sheet p { margin: 0; font-size: 0.78rem; line-height: 1.5; }
+.hd-sheet img, .cd-photo { display: block; width: 100%; height: auto; margin-top: 0.6rem; border-radius: 6px; }
 @keyframes hd-sheet { from { transform: translateY(105%); } }
 /* The highlighter: a honey stroke drawn across the line, left to right, wrapping with it. */
 mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rgb(242 179 61 / 0.55)) 0 85% / 100% 0.62em no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; padding: 0 2px; border-radius: 3px; animation: hl-sweep calc(700ms * var(--speed)) var(--ease) calc(800ms * var(--speed)) both; }
@@ -220,7 +220,7 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 /* Listen: the real summary clip. The bars lie low and still until it plays. */
 .hd-player { display: grid; justify-items: center; gap: 0.55rem; padding: 1.1rem 0.9rem; border-radius: 18px; background: var(--white); border: 1px solid var(--line); box-shadow: 0 10px 24px rgb(40 30 0 / 0.1); text-align: center; animation: hd-pop calc(400ms * var(--speed)) var(--ease) both; }
 .hd-player > b { font-size: 0.85rem; }
-.hd-player-art { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 18px; background: var(--butter); color: var(--ink); }
+.hd-player-art { display: block; width: 72px; height: 54px; object-fit: cover; border-radius: 8px; }
 .hd-eq { display: flex; align-items: center; justify-content: center; gap: 3px; width: 100%; height: 30px; }
 .hd-eq i { width: 4px; height: 100%; border-radius: 2px; background: var(--line-strong); transform: scaleY(0.25); }
 .hd-player[data-on] .hd-eq i { background: var(--ink); animation: ld-bar calc(820ms * var(--speed) + 0.001s) ease-in-out calc(var(--i) * -97ms) infinite alternate; }
@@ -237,7 +237,7 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 /* Marketplace: three sample notebooks, each with Rent and Buy. */
 .hd-shelf { list-style: none; margin: 0; padding-bottom: 0.9rem; justify-content: center; }
 .hd-book { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 0.65rem; align-items: center; padding: 0.55rem; border-radius: 14px; background: var(--white); border: 1px solid var(--line); box-shadow: 0 6px 16px rgb(40 30 0 / 0.08); animation: hd-pop calc(380ms * var(--speed)) var(--ease) calc(var(--i) * 120ms * var(--speed)) both; }
-.hd-cover { display: block; width: 58px; aspect-ratio: 3 / 4; }
+.hd-cover { display: block; width: 58px; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 4px; }
 .hd-book-info { display: grid; justify-items: start; gap: 0.15rem; min-width: 0; font-size: 0.72rem; line-height: 1.3; }
 .hd-book-info b { font-size: 0.8rem; }
 .hd-book-info .msh-sample { font-size: 0.58rem; padding: 0 0.4rem; }
@@ -371,7 +371,6 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .cd-a { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 0.6rem; }
 .cd-a p { margin: 0 0 0.5rem; }
 .cd-mark { width: 24px; height: 24px; margin-top: 2px; }
-.cd-added { color: var(--text-soft); font-size: 0.95rem; }
 /* The citation is a real button: 32 px across, honey and ringed while its page is open. */
 .cd-cite { min-width: 32px; min-height: 32px; font-weight: 700; font-size: 0.9rem; cursor: pointer; vertical-align: middle; transition: transform var(--dur-tap) var(--ease), background var(--dur-tap); }
 .cd-cite:hover { transform: scale(1.08); }
@@ -380,6 +379,9 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .cd-page { display: block; margin-top: -1.5rem; padding: 2.2rem 1.4rem 1.4rem; border-radius: 0 0 var(--radius) var(--radius); background: var(--white); border: 1px solid var(--line); box-shadow: var(--shadow-raised); transition: transform calc(var(--dur-card) * var(--speed)) var(--ease), opacity calc(var(--dur-card) * var(--speed)) var(--ease), visibility 0s; }
 .cd-page[hidden] { display: block; visibility: hidden; opacity: 0; transform: translateY(calc(28px * var(--speed))); transition: transform calc(var(--dur-card) * var(--speed)) var(--ease), opacity calc(var(--dur-card) * var(--speed)) var(--ease), visibility 0s calc(var(--dur-card) * var(--speed)); }
 .cd-page p { margin: 0; line-height: 1.6; }
+.cd-topic { display: grid; gap: 0.3rem; }
+.cd-topic select { max-width: 100%; min-width: 0; width: fit-content; font: inherit; color: var(--ink); background: var(--white); border: 1px solid var(--line-strong); border-radius: 6px; padding: 0.35rem; }
+.cd-photo { max-width: 380px; }
 .cd-page .eyebrow { margin-bottom: 0.5rem; }
 .cd-page[hidden] mark.hl { animation: none; }
 @media (min-width: 900px) {
@@ -532,8 +534,8 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .mk-head { display: grid; gap: 0.5rem 2rem; align-items: end; padding-bottom: 0.25rem; }
 @media (min-width: 900px) { .mk-head { grid-template-columns: minmax(0, 1fr) auto; } .mk-head .actions { margin-top: 0; } }
 .mk-note { margin: 0.75rem 0 0; }
-/* A shelf of covers in one row; on a phone it scrolls sideways and snaps. */
-.msh { list-style: none; margin: 0; padding: 1rem 0 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(0.75rem, 2vw, 1.5rem); }
+/* On a phone the sample notes scroll sideways and snap. */
+.msh { list-style: none; margin: 0; padding: 1rem 0 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(0.75rem, 2vw, 1.5rem); }
 @media (max-width: 899px) {
   .msh { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: calc(-1 * clamp(1rem, 4vw, 2.5rem)); padding: 1rem clamp(1rem, 4vw, 2.5rem) 0.75rem; scroll-padding-inline: clamp(1rem, 4vw, 2.5rem); }
   .msh::-webkit-scrollbar { display: none; }
@@ -541,25 +543,10 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 }
 .msh-item { display: grid; align-content: start; gap: 0.7rem; min-width: 0; }
 .msh-book { perspective: 800px; }
-.msh-cover { position: relative; display: block; width: 100%; aspect-ratio: 3 / 4; color: var(--ink); transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform calc(var(--dur-card) * var(--speed)) var(--ease); filter: drop-shadow(0 14px 16px rgb(26 26 26 / 0.16)); }
+.msh-cover { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 8px; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform calc(var(--dur-card) * var(--speed)) var(--ease); }
 .msh-book:hover .msh-cover { transition-duration: calc(120ms * var(--speed)); }
-.msh-cover > img, .msh-cover > .msh-cloth { display: block; width: 100%; height: 100%; object-fit: cover; }
-/* Charcoal and olive covers take cream lettering. */
-.msh-cover.msh-on-dark { color: #fff8ec; }
-/* The book label: title and subject printed on the cover, inset in a thin ruled box like a stuck on label. */
-.msh-label { position: absolute; left: 13%; right: 9%; top: 15%; display: grid; gap: 0.3rem; padding: 0.6rem 0.65rem; border: 1px solid currentColor; border-radius: 4px; font-family: var(--font); line-height: 1.2; text-align: left; }
-.msh-label b { font-weight: 600; font-size: clamp(0.82rem, 1.25vw, 0.98rem); letter-spacing: -0.01em; }
-.msh-label span { font-weight: 600; font-size: clamp(0.66rem, 0.9vw, 0.74rem); letter-spacing: 0.02em; opacity: 0.85; }
-@media (max-width: 899px) { .msh-label b { font-size: 0.9rem; } .msh-label span { font-size: 0.72rem; } }
-.msh-cloth { border-radius: 6px 10px 10px 6px; background: var(--cloth-tex) 0 0 / 300px 300px, var(--honey); background-blend-mode: multiply; box-shadow: inset -6px 0 0 rgb(255 248 236 / 0.85), inset 3px 0 6px rgb(17 17 17 / 0.12); }
-.msh-sage { background-color: #b9c4a0; }
-.msh-olive { background-color: #8f9460; }
-.msh-ochre { background-color: #d89a3c; }
-.msh-charcoal { background-color: #3a3a38; }
-.msh-cream { background-color: #f3e6c8; }
 .msh-info { display: grid; gap: 0.15rem; font-size: 0.9rem; line-height: 1.35; }
 .msh-sample { justify-self: start; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.1rem 0.5rem; border-radius: 999px; background: var(--butter); color: var(--ink); }
-.msh-price { font-weight: 600; font-family: var(--mono, inherit); }
 
 /* ---------- Listen to your notes (src/components/landing/ListenDemo.tsx) ---------- */
 /* Listen: the head above, the two players side by side. */
@@ -601,7 +588,6 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .in-wrap { align-items: start; }
 .in-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
 .in-points li { display: flex; align-items: center; gap: 0.85rem; padding: 0.7rem 1rem; border-radius: var(--radius-sm); background: var(--panel-fill); border: 1px solid var(--line); box-shadow: var(--card-edge), var(--shadow-panel); font-weight: 500; }
-.in-icon { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 12px; background: var(--butter); color: var(--ink); }
 
 /* ---------- Your progress (src/components/landing/ProgressCard.tsx) ---------- */
 .pg { display: grid; gap: 0.9rem; padding: 1.25rem; }
@@ -735,7 +721,13 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .hw-soon { display: flex; align-items: flex-start; gap: 0.75rem; margin-top: 1rem; padding: 0.8rem 1rem; border-radius: var(--radius-sm); border: 1px dashed var(--line-strong); background: var(--band); font-size: 0.92rem; line-height: 1.45; max-width: 46ch; }
 .hw-soon b { font-weight: 600; }
 .hw-soon .l-tag { margin-left: 0.25rem; vertical-align: 1px; }
-.hw-soon-icon { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 10px; background: var(--butter); color: var(--ink); }
+.hw-soon-photo, .da-photo, .pg-photo, .l-heading-photo { display: block; height: auto; flex: none; border-radius: 8px; }
+.hw-soon-photo { width: 64px; }
+.da-photo { width: 72px; }
+.pg-photo { width: 84px; }
+.l-heading-photo { width: clamp(60px, 9vw, 88px); }
+.pg-heading, .l-photo-heading { display: flex; align-items: center; gap: 0.75rem; }
+.pg-heading { justify-content: space-between; }
 
 /* ---------- Marketplace search and foot ---------- */
 .mk-points { margin-top: 0.85rem; }

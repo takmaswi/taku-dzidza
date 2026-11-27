@@ -1,6 +1,7 @@
 import { ArrowDown, AudioLines, Camera, Clock, FileText, Layers, Link2, ListChecks, Network, Presentation, ScrollText, type LucideIcon } from "lucide-react";
 import { useState } from "react";
 import { copy } from "../../copy/en";
+import { LandingPhoto } from "./LandingPhoto";
 import { Try } from "./Try";
 
 type Kind = keyof typeof copy.landing.drop.chips;
@@ -39,9 +40,11 @@ export function DropAnything() {
           <div key={`in-${active}`} className="da-card da-in">
             <span className="eyebrow">{t.inputLabel}</span>
             <div className="da-file">
-              <span className="da-icon">
-                <pick.Icon size={22} aria-hidden="true" />
-              </span>
+              {active === "photo" ? (
+                <LandingPhoto slug="spot-add-your-notes" sizes="72px" className="da-photo" />
+              ) : (
+                <span className="da-icon"><pick.Icon size={22} aria-hidden="true" /></span>
+              )}
               <span>
                 <b>{c.input}</b>
                 <br />

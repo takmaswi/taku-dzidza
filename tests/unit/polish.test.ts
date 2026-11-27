@@ -20,12 +20,12 @@ function sources(dir: string): string[] {
 }
 
 describe("people stay out of the signed in app", () => {
-  test("only Landing, SignIn and Setup draw a person", () => {
+  test("only SignIn and Setup draw a person", () => {
     const drawing = sources("src")
       .filter((f) => /<(Cutout|Scene)\b/.test(read(f)))
       .map((f) => f.split(/[\\/]/).pop())
       .sort();
-    expect(drawing).toEqual(["Landing.tsx", "Setup.tsx", "SignIn.tsx"]);
+    expect(drawing).toEqual(["Setup.tsx", "SignIn.tsx"]);
   });
 
   test("Cutout and Scene draw nothing inside the app shell", () => {

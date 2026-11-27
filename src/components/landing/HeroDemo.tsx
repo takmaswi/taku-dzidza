@@ -1,9 +1,12 @@
-import { CalendarDays, Check, ClipboardCheck, Headphones, KeyRound, Mic, Pause, Play, Send } from "lucide-react";
+import { CalendarDays, Check, ClipboardCheck, KeyRound, Mic, Pause, Play, Send } from "lucide-react";
 import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { Link } from "react-router";
 import { copy } from "../../copy/en";
 import { BrandMark } from "../BrandMark";
+import { LandingPhoto } from "./LandingPhoto";
+import { MARKET_SAMPLES } from "./marketSamples";
 import { isStill, useInView, useStill } from "./motion";
+import { NOTE_SAMPLES } from "./noteSamples";
 import { PauseButton } from "./PauseButton";
 
 /**
@@ -158,17 +161,18 @@ function Bar({ title }: { title: string }) {
 
 function Tutor({ sourceOpen, onCite }: { sourceOpen: boolean; onCite?: () => void }) {
   const t = copy.landing.demo;
-  const words = t.answer.split(" ");
+  const note = NOTE_SAMPLES[0];
+  const words = note.answer.split(" ");
   return (
     <>
-      <Bar title={t.notebook} />
+      <Bar title="Financial Reporting" />
       <div className="hd-body">
         <div className="hd-photo strip" aria-hidden="true">
-          <Scribbles />
-          <span className="hd-photo-tag">{t.source}</span>
+          <LandingPhoto slug={note.slug} sizes="290px" eager />
+          <span className="hd-photo-tag">Page 1</span>
         </div>
         <p className="hd-msg hd-q" aria-hidden="true">
-          {t.question}
+          {note.question}
         </p>
         <div className="hd-msg hd-a">
           <BrandMark variant="on-cream" className="hd-a-mark" />
@@ -178,7 +182,7 @@ function Tutor({ sourceOpen, onCite }: { sourceOpen: boolean; onCite?: () => voi
                 {w}{" "}
               </span>
             ))}
-            <span className="sr-only">{t.answer}</span>
+            <span className="sr-only">{note.answer}</span>
             <button type="button" className="cite hd-cite" data-open={sourceOpen ? "true" : undefined} aria-label={t.cite} aria-expanded={sourceOpen} onClick={onCite}>
               1
             </button>
@@ -187,10 +191,9 @@ function Tutor({ sourceOpen, onCite }: { sourceOpen: boolean; onCite?: () => voi
       </div>
       {sourceOpen && (
         <div className="hd-sheet">
-          <span className="eyebrow">{t.source}</span>
-          <p>
-            {t.sourceBefore} <mark className="hl">{t.sourceLine}</mark> {t.sourceAfter}
-          </p>
+          <span className="eyebrow">{note.title}</span>
+          <p><mark className="hl">{note.cited}</mark></p>
+          <LandingPhoto slug={note.slug} sizes="290px" alt={note.transcript} eager />
         </div>
       )}
       <div className="hd-composer" aria-hidden="true">
@@ -277,9 +280,7 @@ function Listen({ idle }: { idle: boolean }) {
       <Bar title={t.notebook} />
       <div className="hd-body hd-middle">
         <div className="hd-player" data-on={on ? "true" : undefined}>
-          <span className="hd-player-art" aria-hidden="true">
-            <Headphones size={30} />
-          </span>
+          <LandingPhoto slug="spot-listening" sizes="72px" className="hd-player-art" />
           <b>{t.listenTitle}</b>
           <span className="hd-soft">{t.listenVoice}</span>
           <span className="hd-eq" aria-hidden="true">
@@ -329,14 +330,14 @@ function Market() {
     <>
       <Bar title={t.steps[3]} />
       <ul className="hd-body hd-shelf">
-        {m.items.slice(0, 3).map((item, i) => (
+        {MARKET_SAMPLES.slice(0, 3).map((item, i) => (
           <li key={item.title} className="hd-book" style={{ ["--i" as string]: i }}>
-            <span className={`hd-cover msh-cloth msh-${item.cover}`} aria-hidden="true" />
+            <LandingPhoto slug={item.photo} sizes="64px" className="hd-cover" />
             <div className="hd-book-info">
               <span className="msh-sample">{m.sample}</span>
               <b>{item.title}</b>
               <span className="hd-soft">
-                {m.by(item.seller)}, <span className="msh-price">{item.price}</span>
+                {m.by(item.seller)}
               </span>
               <span className="hd-deal">
                 <Link to={SIGN_UP}>{t.rent}</Link>
@@ -385,22 +386,5 @@ function Class() {
         </div>
       </div>
     </>
-  );
-}
-
-/** Handwriting as soft ink strokes: lines of notes with no letters (art/STYLE.md: no readable text in pictures). */
-function Scribbles() {
-  return (
-    <svg className="hd-scribble" viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-      <path d="M14 18 q18 -5 36 0 t36 0 t30 1" />
-      <path d="M14 38 q14 -4 28 0 t28 0 t28 0 t26 -1 t24 1" />
-      <path d="M14 56 q16 -5 32 0 t32 0 t30 0 t22 1" />
-      <path d="M14 74 q12 -4 24 0 t24 0 t24 0 t24 0" />
-      <path className="hd-ink-mark" d="M18 92 q20 -5 40 0 t40 0 t36 0" />
-      <path d="M14 110 q16 -4 32 0 t32 0 t30 1 t30 -1" />
-      <path d="M14 128 q14 -4 28 0 t28 0 t24 0" />
-      <circle cx="170" cy="120" r="14" />
-      <path d="M156 120 h28 M170 106 v28" />
-    </svg>
   );
 }

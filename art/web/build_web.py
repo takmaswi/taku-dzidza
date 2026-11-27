@@ -7,6 +7,7 @@ Run from the repo root: python art/web/build_web.py
 Outputs (all committed):
   art/web/cutouts/<slug>-480.webp, -800.webp and <slug>-shadow.webp
   art/web/scenes/<slug>-640.webp, -1280.webp, -1920.webp (never above native)
+  art/web/landing/<slug>-480.webp and -800.webp
   art/web/og-landing.jpg (1200x630, from the landing hero scene)
   art/web/manifest.json (sizes, read by scripts/gen-data.mjs)
   public/icon.svg, icon-192.png, icon-512.png, icon-maskable-512.png,
@@ -15,12 +16,13 @@ Outputs (all committed):
 
 from __future__ import annotations
 
+import argparse
 import json
 import math
 import shutil
 from pathlib import Path
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageOps
 
 ROOT = Path(__file__).resolve().parents[2]
 ART = ROOT / "art"
@@ -37,6 +39,7 @@ MARK = [
 ]
 CUTOUT_WIDTHS = (480, 800)
 SCENE_WIDTHS = (640, 1280, 1920)
+LANDING_WIDTHS = (480, 800)
 
 
 def webp(img: Image.Image, path: Path, quality: int = 82) -> None:
@@ -80,6 +83,31 @@ def scenes() -> dict:
         for w in widths:
             webp(fit_width(img, w), WEB / "scenes" / f"{scene.stem}-{w}.webp", quality=80)
         out[scene.stem] = {"width": img.width, "height": img.height, "widths": widths}
+    return out
+
+
+def landing_photos() -> dict:
+    out = {}
+    for photo in sorted((ART / "assets" / "landing").glob("*.png")):
+        with Image.open(photo) as source:
+            image = source.convert("RGB")
+        size = (4, 3) if photo.stem.startswith("spot-") else (4, 5)
+        scale = min(image.width // size[0], image.height // size[1])
+        dimensions = (size[0] * scale, size[1] * scale)
+        if dimensions[0] < max(LANDING_WIDTHS):
+            raise ValueError(f"{photo.name} is too small for the landing widths")
+        image = ImageOps.fit(image, dimensions, Image.Resampling.LANCZOS)
+        for width in LANDING_WIDTHS:
+            webp(
+                fit_width(image, width),
+                WEB / "landing" / f"{photo.stem}-{width}.webp",
+                quality=89 if photo.stem.startswith("notes-") else 84,
+            )
+        out[photo.stem] = {
+            "width": image.width,
+            "height": image.height,
+            "widths": list(LANDING_WIDTHS),
+        }
     return out
 
 
@@ -138,13 +166,26 @@ def icons() -> dict:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--landing-only", action="store_true")
+    args = parser.parse_args()
+    manifest_path = WEB / "manifest.json"
+    if args.landing_only:
+        manifest = json.loads(manifest_path.read_text(encoding="utf8"))
+        manifest["landing"] = landing_photos()
+        manifest_path.write_text(
+            json.dumps(manifest, indent=1) + "\n", encoding="utf8"
+        )
+        print(f"landing photos {len(manifest['landing'])}")
+        return
     if WEB.exists():
         for child in ("cutouts", "scenes"):
             shutil.rmtree(WEB / child, ignore_errors=True)
     manifest = {"generator": "art/web/build_web.py (Pillow, procedural)", "cutouts": cutouts(), "scenes": scenes()}
     og_image()
     manifest["icons"] = icons()
-    (WEB / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n", encoding="utf8")
+    manifest["landing"] = landing_photos()
+    manifest_path.write_text(json.dumps(manifest, indent=1) + "\n", encoding="utf8")
     print(f"cutouts {len(manifest['cutouts'])}, scenes {len(manifest['scenes'])}, icons {manifest['icons']}")
 
 

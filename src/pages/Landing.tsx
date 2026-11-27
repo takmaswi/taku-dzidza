@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, Check, ChevronDown, ClipboardCheck, KeyRound, Plus, Search, UsersRound } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, Plus, Search } from "lucide-react";
 import { useLayoutEffect, type MouseEvent } from "react";
 import { Link } from "react-router";
 import { BrandMark } from "../components/BrandMark";
@@ -7,6 +7,7 @@ import { CurriculumStrip } from "../components/landing/CurriculumStrip";
 import { HeroDemo } from "../components/landing/HeroDemo";
 import { HowItWorks, SoonCard } from "../components/landing/HowItWorks";
 import { LandingHeader } from "../components/landing/LandingHeader";
+import { LandingPhoto } from "../components/landing/LandingPhoto";
 import { isStill } from "../components/landing/motion";
 import { MarketShelf } from "../components/landing/MarketShelf";
 import { REGIONS, useRegion, type Region } from "../components/landing/useRegion";
@@ -22,7 +23,6 @@ import { copy } from "../copy/en";
 const DESK = ["highlighter", "tea-cup", "index-cards", "headphones"] as const;
 
 const SIGN_UP = "/signin?mode=signUp";
-const INSTITUTION_ICONS = [KeyRound, BookOpen, ClipboardCheck] as const;
 
 /** "See how it works": glide to the demo (it sits under the text on a phone), or jump there with less motion. */
 function seeItWork(e: MouseEvent<HTMLAnchorElement>) {
@@ -95,9 +95,10 @@ export default function Landing() {
           <div className="mk-head">
             <div>
               <span className="eyebrow">{t.market.eyebrow}</span>
-              <h2 id="l-market-title" className="l-h2">
-                {t.market.title}
-              </h2>
+              <div className="l-photo-heading">
+                <h2 id="l-market-title" className="l-h2">{t.market.title}</h2>
+                <LandingPhoto slug="spot-earn-from-notes" sizes="88px" className="l-heading-photo" />
+              </div>
               <p className="lead soft">{t.market.body}</p>
               <ul className="l-quiet mk-points">
                 {t.market.points.map((p) => (
@@ -133,7 +134,7 @@ export default function Landing() {
           </div>
           <MarketShelf />
           <div className="mk-foot">
-            <SoonCard Icon={UsersRound} title={t.market.groups.title} tag={t.market.groups.tag} line={t.market.groups.line} />
+            <SoonCard photo="spot-study-groups" title={t.market.groups.title} tag={t.market.groups.tag} line={t.market.groups.line} />
             <p className="mk-note soft small-text">{t.market.note}</p>
           </div>
         </div>
@@ -143,9 +144,10 @@ export default function Landing() {
         <div className="l-wrap l-split in-wrap">
           <div>
             <span className="eyebrow">{t.institutions.eyebrow}</span>
-            <h2 id="l-inst-title" className="l-h2">
-              {t.institutions.title}
-            </h2>
+            <div className="l-photo-heading">
+              <h2 id="l-inst-title" className="l-h2">{t.institutions.title}</h2>
+              <LandingPhoto slug="spot-schools-institutions" sizes="88px" className="l-heading-photo" />
+            </div>
             <div className="actions">
               <Link to={SIGN_UP} className="pill">
                 {t.institutions.cta} <ArrowRight size={18} aria-hidden="true" />
@@ -154,17 +156,7 @@ export default function Landing() {
           </div>
           <div>
             <ul className="in-points">
-              {t.institutions.points.map((p, i) => {
-                const Icon = INSTITUTION_ICONS[i];
-                return (
-                  <li key={p}>
-                    <span className="in-icon">
-                      <Icon size={20} aria-hidden="true" />
-                    </span>
-                    <span>{p}</span>
-                  </li>
-                );
-              })}
+              {t.institutions.points.map((p) => <li key={p}>{p}</li>)}
             </ul>
             <details className="in-more">
               <summary>
