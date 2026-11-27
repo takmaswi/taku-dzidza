@@ -41,7 +41,7 @@ export function DropAnything() {
             <span className="eyebrow">{t.inputLabel}</span>
             <div className="da-file">
               {active === "photo" ? (
-                <LandingPhoto slug="spot-add-your-notes" sizes="72px" className="da-photo" />
+                <LandingPhoto slug="notes-economics" sizes="160px" className="da-photo" />
               ) : (
                 <span className="da-icon"><pick.Icon size={22} aria-hidden="true" /></span>
               )}

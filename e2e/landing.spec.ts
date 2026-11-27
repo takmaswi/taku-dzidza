@@ -3,7 +3,7 @@ import { expect, test, type Page, type TestInfo } from "@playwright/test";
 /**
  * The signed out landing page (src/pages/Landing.tsx) at 375 by 812 on the
  * phone project and 1440 by 900 on the desktop project: no sideways scroll,
- * the How Taku works story and its chapters, the tools scroller and its dots,
+ * How Taku works in two parts with every chapter as a card, the tools scroller,
  * a working pause button on everything that loops, tappable citations, the
  * mode switcher, and still states with less motion.
  */
@@ -18,12 +18,12 @@ async function openLanding(page: Page, info: TestInfo) {
   await expect(page.getByRole("heading", { level: 1, name: "The AI that studies with you" })).toBeVisible();
 }
 
-/** Opens a chapter of How Taku works by its tab. */
+/** Highlights a chapter of How Taku works by tapping its card. */
 async function chapter(page: Page, name: string) {
-  const tab = page.getByRole("tab", { name: new RegExp(`^${name}`) });
-  await tab.scrollIntoViewIfNeeded();
-  await tab.click();
-  await expect(tab).toHaveAttribute("aria-selected", "true");
+  const pick = page.locator(".hw-card", { hasText: name }).locator(".hw-pick");
+  await pick.scrollIntoViewIfNeeded();
+  await pick.click();
+  await expect(pick).toHaveAttribute("aria-pressed", "true");
 }
 
 /** Scrolls down the whole page in steps, so every section has been on screen. */
@@ -49,7 +49,7 @@ test("the page never scrolls sideways and nothing pokes past the edge", async ({
   await openLanding(page, info);
   await scrollThrough(page);
   const result = await page.evaluate(() => {
-    const scrollers = ".l-marquee, .tb-track, .msh, .l-hero-scene, .hw-tabs";
+    const scrollers = ".l-marquee, .tb-track, .msh, .l-hero-scene, .hw-cards";
     const poking = Array.from(document.querySelectorAll(".bleed *"))
       .filter((el) => {
         const r = el.getBoundingClientRect();
@@ -117,21 +117,12 @@ test("everything that loops has a pause button that stops it", async ({ page }, 
   await letGo(page);
   await expect.poll(() => running(page, ".l-marquee")).toBeGreaterThan(0);
 
-  // How Taku works: the chapter bar fills, the pause button holds it, and play moves on to the next chapter.
-  const story = page.locator(".hw");
-  await story.scrollIntoViewIfNeeded();
-  await letGo(page);
-  await expect(story).toHaveAttribute("data-playing", "true");
-  await page.getByRole("button", { name: "Pause the story" }).click();
-  await letGo(page);
-  await expect(story).not.toHaveAttribute("data-playing", /./);
-  const selected = page.getByRole("tab", { selected: true });
-  const name = await selected.textContent();
-  await page.waitForTimeout(2000);
-  await expect(selected).toHaveText(name ?? "");
-  await page.getByRole("button", { name: "Play the story" }).click();
-  await letGo(page);
-  await expect(selected).not.toHaveText(name ?? "", { timeout: 12_000 });
+  // How Taku works never moves by itself: the first chapter of each part stays highlighted.
+  const first = page.locator(".hw-card[data-on]");
+  await first.first().scrollIntoViewIfNeeded();
+  await page.waitForTimeout(3000);
+  await expect(first).toHaveCount(2);
+  await expect(page.locator(".hw-pick[aria-pressed=true]")).toHaveText(["Bring whatever you study from", "Taku spots the topics you keep missing"]);
 });
 
 test("tapping a citation opens the source page with the line highlighted", async ({ page }, info) => {
@@ -211,9 +202,9 @@ test("with less motion every part shows a still state", async ({ page }, info) =
   // The strip is a still list, read once.
   await expect(page.getByRole("button", { name: "Pause the list of exams" })).toHaveCount(0);
   await expect(page.locator(".l-chips-copy")).toBeHidden();
-  // The story is plain tabs: no pause button, and the first chapter stays put.
-  await expect(page.getByRole("button", { name: "Pause the story" })).toHaveCount(0);
-  await expect(page.getByRole("tab", { selected: true })).toHaveText("Add your notes");
+  // How Taku works shows every chapter as a card; the first of each part is highlighted.
+  await expect(page.locator(".hw-card")).toHaveCount(5);
+  await expect(page.locator(".hw-card[data-on]")).toHaveCount(2);
   // Nothing on the page is animating, and the tools show their finished look.
   await scrollThrough(page);
   await page.waitForTimeout(500);

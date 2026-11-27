@@ -615,58 +615,53 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .l-region select { font: inherit; color: var(--text); min-height: 40px; padding: 0.3rem 0.8rem; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--raised); cursor: pointer; }
 
 /* ---------- How Taku works (src/components/landing/HowItWorks.tsx) ----------
-   Five chapters that play like a short video: a bar over each tab fills, then the next comes up.
-   On a computer every chapter sits in the same cell, so the section keeps one height and nothing below moves.
-   On a phone only the current chapter shows, and the tab row scrolls sideways. With less motion: plain tabs. */
-.hw-head { margin-bottom: 1.25rem; }
-.hw-bar-row { display: flex; align-items: flex-end; gap: 0.75rem; margin-bottom: 1.5rem; }
-.hw-tabs { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.6rem; }
-.hw-tab { display: grid; gap: 0.55rem; padding: 0 0 0.35rem; border: 0; background: none; color: var(--text-soft); font: inherit; font-weight: 600; font-size: 0.95rem; text-align: left; cursor: pointer; transition: color var(--dur-tap); }
-.hw-tab:hover, .hw-tab[aria-selected="true"] { color: var(--text); }
-.hw-tab:focus-visible { outline-offset: 4px; border-radius: 6px; }
-.hw-tab-label { display: inline-flex; align-items: center; gap: 0.45rem; white-space: nowrap; }
-.hw-progress { display: block; height: 4px; border-radius: 2px; background: var(--muted-fill, var(--line)); overflow: hidden; }
-.hw-progress i { display: block; height: 100%; background: var(--ink); transform: scaleX(0); transform-origin: 0 50%; }
-.hw-tab[data-done] .hw-progress i { transform: scaleX(1); }
-.hw-tab[aria-selected="true"] .hw-progress i { animation: hw-fill 8s linear both paused; }
-.hw[data-playing] .hw-tab[aria-selected="true"] .hw-progress i { animation-play-state: running; }
-.hw[data-still] .hw-tab[aria-selected="true"] .hw-progress i { animation: none; transform: scaleX(1); }
-@keyframes hw-fill { to { transform: scaleX(1); } }
-.hw-pause { flex: none; margin-bottom: -0.25rem; }
-
-.hw-stage { display: grid; touch-action: pan-y; }
-.hw-panel { grid-area: 1 / 1; display: grid; gap: 1.5rem; align-items: start; min-width: 0; }
-.hw-panel > * { min-width: 0; }
-.hw-panel:not([data-on]) { visibility: hidden; opacity: 0; }
-.hw-panel[data-on] { animation: l-in calc(var(--dur-card) * var(--speed)) var(--ease) both; }
-@media (min-width: 900px) {
-  .hw-panel { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr); gap: 3rem; }
-  .hw-visual { max-width: 760px; }
-}
-@media (max-width: 899px) {
-  .hw-panel:not([data-on]) { display: none; }
-  .hw-tabs { display: flex; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; margin-left: calc(-1 * clamp(1rem, 4vw, 2.5rem)); padding-left: clamp(1rem, 4vw, 2.5rem); }
-  .hw-tabs::-webkit-scrollbar { display: none; }
-  .hw-tab { flex: none; min-width: 7.5rem; scroll-snap-align: center; }
-}
-.hw-text h3 { margin: 0 0 0.5rem; font-size: clamp(1.35rem, 2.2vw, 1.75rem); letter-spacing: -0.02em; line-height: 1.15; }
-.hw-text .lead { margin: 0 0 0.75rem; }
-.hw-more-toggle { display: inline-flex; align-items: center; gap: 0.3rem; min-height: 40px; padding: 0.35rem 0.85rem; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--raised); color: var(--text); font: inherit; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: background var(--dur-tap); }
+   Two parts. Each shows every chapter at once as a card, then the highlighted chapter's demo under the cards.
+   Nothing moves by itself: a tap on a card, or a swipe on a phone, highlights it. */
+.hw-head { margin-bottom: 1.25rem; max-width: 62ch; }
+.hw-head .l-h2 { margin-bottom: 0.4rem; }
+.hw-head .lead { margin: 0; }
+.hw-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 1rem; }
+.hw-cards[data-count="2"] { --cols: 2; }
+.hw-card { display: flex; flex-direction: column; gap: 0.45rem; min-width: 0; padding: 0.75rem 0.75rem 1rem; border-radius: var(--radius); background: var(--white); border: 1.5px solid var(--line); box-shadow: var(--card-edge), var(--shadow-panel); cursor: pointer; transition: border-color var(--dur-tap), box-shadow var(--dur-card) var(--ease); }
+.hw-card:hover { box-shadow: var(--card-edge), var(--shadow-lift); }
+/* The highlighted chapter: an ink outline and a filled step number, not colour alone. */
+.hw-card[data-on] { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink), var(--shadow-lift); }
+.hw-photo { display: block; width: 100%; height: 200px; object-fit: cover; object-position: 50% 25%; border-radius: 12px; background: var(--band); }
+.hw-step { display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 0.35rem; font-size: 0.85rem; font-weight: 600; color: var(--text-soft); }
+.hw-step b { display: grid; place-items: center; width: 24px; height: 24px; flex: none; border-radius: 50%; border: 1.5px solid var(--line-strong); color: var(--text); font-size: 0.78rem; }
+.hw-card[data-on] .hw-step b { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+.hw-card h3 { margin: 0; font-size: clamp(1.15rem, 1.6vw, 1.35rem); letter-spacing: -0.02em; line-height: 1.2; }
+.hw-pick { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.hw-pick:focus-visible { outline-offset: 4px; border-radius: 4px; }
+.hw-card > p { margin: 0; font-size: 0.95rem; }
+.hw-more-toggle { align-self: flex-start; display: inline-flex; align-items: center; gap: 0.3rem; min-height: 40px; margin-top: auto; padding: 0.35rem 0.85rem; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--raised); color: var(--text); font: inherit; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: background var(--dur-tap); }
 .hw-more-toggle:hover { background: var(--hover); }
 .hw-more-toggle svg { transition: transform var(--dur-tap) var(--ease); }
 .hw-more-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
-.hw-more p { margin: 0.75rem 0 0; color: var(--text-soft); max-width: 52ch; }
+.hw-more p { margin: 0.25rem 0 0; color: var(--text-soft); font-size: 0.92rem; }
 .hw-more:not([hidden]) { animation: l-in calc(var(--dur-card) * var(--speed)) var(--ease) both; }
-.hw-soon { display: flex; align-items: flex-start; gap: 0.75rem; margin-top: 1rem; padding: 0.8rem 1rem; border-radius: var(--radius-sm); border: 1px dashed var(--line-strong); background: var(--band); font-size: 0.92rem; line-height: 1.45; max-width: 46ch; }
+.hw-stage { margin-top: 1.25rem; }
+.hw-visual { max-width: 900px; animation: l-in calc(var(--dur-card) * var(--speed)) var(--ease) both; }
+.hw-v-practise { max-width: none; }
+.hw-soon { display: flex; align-items: center; gap: 1rem; margin-top: 1.25rem; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px dashed var(--line-strong); background: var(--band); font-size: 0.92rem; line-height: 1.45; max-width: 560px; }
+.l-band .hw-soon { background: var(--white); }
 .hw-soon b { font-weight: 600; }
 .hw-soon .l-tag { margin-left: 0.25rem; vertical-align: 1px; }
-.hw-soon-photo, .da-photo, .pg-photo, .l-heading-photo { display: block; height: auto; flex: none; border-radius: 8px; }
-.hw-soon-photo { width: 64px; }
-.da-photo { width: 72px; }
-.pg-photo { width: 84px; }
-.l-heading-photo { width: clamp(60px, 9vw, 88px); }
-.pg-heading, .l-photo-heading { display: flex; align-items: center; gap: 0.75rem; }
-.pg-heading { justify-content: space-between; }
+.hw-soon-photo { display: block; width: 160px; height: 120px; flex: none; object-fit: cover; border-radius: 10px; }
+@media (max-width: 479px) { .hw-soon { flex-direction: column; align-items: flex-start; } .hw-soon-photo { width: 100%; height: 160px; } }
+/* Phones: the cards are a sideways row that snaps, the next card peeking in. */
+@media (max-width: 899px) {
+  .hw-cards { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; margin-inline: calc(-1 * clamp(1rem, 4vw, 2.5rem)); padding: 0.25rem clamp(1rem, 4vw, 2.5rem) 0.75rem; scroll-padding-inline: clamp(1rem, 4vw, 2.5rem); }
+  .hw-cards::-webkit-scrollbar { display: none; }
+  .hw-card { flex: 0 0 78vw; max-width: 340px; scroll-snap-align: center; }
+  .hw-photo { height: 180px; }
+  .hw-stage { margin-top: 0.75rem; }
+}
+/* Pictures at card size: the drop demo's notes page and the schools photo. */
+.da-photo { display: block; width: 160px; height: 200px; flex: none; object-fit: cover; object-position: 50% 0; border-radius: 10px; }
+@media (max-width: 479px) { .da-file { flex-direction: column; align-items: flex-start; } }
+.l-card-photo { display: block; width: 100%; height: auto; object-fit: cover; border-radius: 14px; }
+.in-photo { max-width: 420px; aspect-ratio: 4 / 3; margin-top: 1rem; }
 
 /* ---------- Marketplace search and foot ---------- */
 .mk-points { margin-top: 0.85rem; }
@@ -676,7 +671,7 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .mk-chip { padding: 0.2rem 0.7rem; border-radius: 999px; background: var(--butter); color: var(--ink); font-size: 0.85rem; font-weight: 600; }
 .mk-results { font-size: 0.85rem; padding-right: 0.25rem; }
 .mk-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 2rem; margin-top: 1rem; }
-.mk-foot .hw-soon { margin-top: 0; background: var(--white); }
+.mk-foot .hw-soon { margin-top: 0; }
 .mk-foot .mk-note { margin: 0; }
 
 /* ---------- For schools: how it works, folded ---------- */

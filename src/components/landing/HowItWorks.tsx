@@ -1,24 +1,24 @@
 import { ChevronDown } from "lucide-react";
-import { useEffect, useRef, useState, type FocusEvent, type KeyboardEvent, type ReactNode, type TouchEvent } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { copy } from "../../copy/en";
 import type { LandingPhotoSlug } from "../../art.generated";
 import { CiteDemo } from "./CiteDemo";
 import { DropAnything } from "./DropAnything";
 import { LandingPhoto } from "./LandingPhoto";
 import { ModeSwitcher } from "./ModeSwitcher";
-import { isStill, useInView, useStill } from "./motion";
-import { PauseButton } from "./PauseButton";
+import { isStill } from "./motion";
 import { ProgressCard } from "./ProgressCard";
 import { ToolBento } from "./ToolBento";
 import { Try } from "./Try";
 
-type Chapter = (typeof copy.landing.story.chapters)[number];
+type Part = keyof typeof copy.landing.story.parts;
+type Chapter = (typeof copy.landing.story.parts)[Part]["chapters"][number];
 
-/** A small card for an upcoming feature. */
+/** A small card for an upcoming feature, its photo at card size. */
 export function SoonCard({ photo, title, tag, line }: { photo: LandingPhotoSlug; title: string; tag: string; line: string }) {
   return (
     <div className="hw-soon">
-      <LandingPhoto slug={photo} sizes="64px" className="hw-soon-photo" />
+      <LandingPhoto slug={photo} sizes="160px" className="hw-soon-photo" />
       <span>
         <b>{title}</b> <span className="l-tag">{tag}</span>
         <br />
@@ -28,7 +28,16 @@ export function SoonCard({ photo, title, tag, line }: { photo: LandingPhotoSlug;
   );
 }
 
-const SOON_PHOTOS = { listen: "spot-listening", groups: "spot-study-groups" } as const;
+/** Each chapter's picture, shown at card size. */
+const PHOTOS: Record<Chapter["id"], LandingPhotoSlug> = {
+  notes: "spot-add-your-notes",
+  ask: "notes-maths",
+  practise: "market-notebook-stack",
+  gaps: "spot-learns-with-you",
+  adapt: "market-worked-example",
+};
+
+const SOON_PHOTOS: Record<Part, LandingPhotoSlug> = { notes: "spot-listening", learns: "spot-study-groups" };
 
 function Visual({ id, signUp }: { id: Chapter["id"]; signUp: string }): ReactNode {
   switch (id) {
@@ -53,149 +62,94 @@ function Visual({ id, signUp }: { id: Chapter["id"]; signUp: string }): ReactNod
   }
 }
 
-/** Sideways swipes inside these belong to them, not to the story. */
-const OWN_SWIPE = ".tb-track, input, select, textarea";
-
 /**
- * How Taku works: one section in five chapters that plays like a short video.
- * A bar over each chapter tab fills while it plays, then the next chapter
- * comes up; after the last it stops. Hover or keyboard focus holds it, a tap
- * inside a chapter or Learn more pauses it, and the pause button stops and
- * starts it. On a phone a sideways swipe turns the chapter. With less motion
- * it is plain tabs that never move by themselves. Off screen, nothing runs.
+ * One part of How Taku works: the heading, then every chapter at once as a
+ * card (side by side on a computer, a sideways row that snaps on a phone),
+ * then the highlighted chapter's demo. Nothing moves by itself: a tap on a
+ * card, or a swipe that brings one to the middle of the row, highlights it
+ * and swaps the demo. Learn more opens in place under its card.
  */
-export function HowItWorks({ signUp }: { signUp: string }) {
+export function HowItWorks({ part, signUp }: { part: Part; signUp: string }) {
   const t = copy.landing.story;
-  const chapters = t.chapters;
-  const still = useStill();
-  const [ref, onScreen] = useInView<HTMLDivElement>("0px 0px -20% 0px");
+  const p = t.parts[part];
+  const chapters: readonly Chapter[] = p.chapters;
   const [current, setCurrent] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const [held, setHeld] = useState(false);
-  const [ended, setEnded] = useState(false);
-  const [more, setMore] = useState<number | null>(null);
-  const tabs = useRef<HTMLDivElement>(null);
-  const touch = useRef<{ x: number; y: number } | null>(null);
-  const playing = !still && onScreen && !paused && !held && !ended;
+  const [open, setOpen] = useState<readonly number[]>([]);
+  const row = useRef<HTMLUListElement>(null);
+  const frame = useRef(0);
+  const stageId = `hw-stage-${part}`;
+  const chapter = chapters[current];
 
-  useEffect(() => {
-    // Keep the chosen tab in view in the phone's sideways tab row, without moving the page.
-    const list = tabs.current;
-    const tab = list?.children[current] as HTMLElement | undefined;
-    if (list == null || tab === undefined || list.scrollWidth <= list.clientWidth) return;
-    list.scrollTo({ left: tab.offsetLeft - (list.clientWidth - tab.clientWidth) / 2, behavior: isStill() ? "auto" : "smooth" });
-  }, [current]);
-
-  const go = (i: number) => {
-    setCurrent((i + chapters.length) % chapters.length);
-    setEnded(false);
-    setMore(null);
+  const pick = (i: number) => {
+    setCurrent(i);
+    // On a phone, bring a half seen card to the middle of the row.
+    const box = row.current;
+    const card = box?.children[i] as HTMLElement | undefined;
+    if (box == null || card === undefined || box.scrollWidth <= box.clientWidth) return;
+    box.scrollTo({ left: card.offsetLeft - (box.clientWidth - card.clientWidth) / 2, behavior: isStill() ? "auto" : "smooth" });
   };
-  const next = () => {
-    if (still) return;
-    if (current === chapters.length - 1) setEnded(true);
-    else go(current + 1);
+  // A swipe on the phone's row highlights the card that settles nearest the middle.
+  const onScroll = () => {
+    cancelAnimationFrame(frame.current);
+    frame.current = requestAnimationFrame(() => {
+      const box = row.current;
+      if (box === null || box.scrollWidth <= box.clientWidth) return;
+      const middle = box.scrollLeft + box.clientWidth / 2;
+      let best = 0;
+      let bestGap = Infinity;
+      [...box.children].forEach((child, i) => {
+        const el = child as HTMLElement;
+        const gap = Math.abs(el.offsetLeft + el.clientWidth / 2 - middle);
+        if (gap < bestGap) [best, bestGap] = [i, gap];
+      });
+      setCurrent(best);
+    });
   };
-  const toggle = () => {
-    if (ended) {
-      go(0);
-      setPaused(false);
-    } else setPaused((p) => !p);
-  };
-  const onTabKey = (e: KeyboardEvent<HTMLDivElement>) => {
-    const step = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
-    if (step === 0) return;
-    e.preventDefault();
-    const n = (current + step + chapters.length) % chapters.length;
-    go(n);
-    (tabs.current?.children[n] as HTMLElement | undefined)?.focus();
-  };
-  const onTouchStart = (e: TouchEvent) => {
-    const target = e.target as Element;
-    touch.current = target.closest(OWN_SWIPE) === null ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null;
-  };
-  const onTouchEnd = (e: TouchEvent) => {
-    const start = touch.current;
-    touch.current = null;
-    if (start === null) return;
-    const dx = e.changedTouches[0].clientX - start.x;
-    const dy = e.changedTouches[0].clientY - start.y;
-    if (Math.abs(dx) > 50 && Math.abs(dx) > 1.5 * Math.abs(dy)) go(current + (dx < 0 ? 1 : -1));
-  };
-  // Keyboard focus holds the story; a mouse click leaves focus behind, so only visible focus counts.
-  const onFocus = (e: FocusEvent) => setHeld((e.target as Element).matches(":focus-visible"));
-  const onBlur = (e: FocusEvent<HTMLDivElement>) => {
-    if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setHeld(false);
-  };
+  const toggleMore = (i: number) => setOpen((o) => (o.includes(i) ? o.filter((n) => n !== i) : [...o, i]));
 
   return (
-    <div
-      ref={ref}
-      className="l-wrap hw"
-      data-still={still ? "true" : undefined}
-      data-playing={playing ? "true" : undefined}
-      onPointerEnter={(e) => e.pointerType === "mouse" && setHeld(true)}
-      onPointerLeave={(e) => e.pointerType === "mouse" && setHeld(false)}
-      onFocus={onFocus}
-      onBlur={onBlur}
-    >
+    <div className={`l-wrap hw hw-${part}`}>
       <div className="hw-head">
-        <span className="eyebrow">{t.eyebrow}</span>
-        <h2 id="l-story-title" className="l-h2">
-          {t.title}
+        <span className="eyebrow">{p.eyebrow}</span>
+        <h2 id={`l-${part}-title`} className="l-h2">
+          {p.title}
         </h2>
+        <p className="lead soft">{p.lead}</p>
       </div>
-      <div className="hw-bar-row">
-        <div ref={tabs} className="hw-tabs" role="tablist" aria-label={t.tabsLabel} onKeyDown={onTabKey}>
-          {chapters.map((c, i) => (
-            <button
-              key={c.id}
-              id={`hw-tab-${c.id}`}
-              type="button"
-              role="tab"
-              className="hw-tab"
-              aria-selected={i === current}
-              aria-controls={`hw-panel-${c.id}`}
-              tabIndex={i === current ? 0 : -1}
-              data-done={i < current || (ended && i === current) ? "true" : undefined}
-              onClick={() => go(i)}
-            >
-              <span className="hw-progress" aria-hidden="true">
-                <i key={i === current ? `run-${current}` : "rest"} onAnimationEnd={i === current ? next : undefined} />
-              </span>
-              <span className="hw-tab-label">
+      <ul ref={row} className="hw-cards" data-count={chapters.length} onScroll={onScroll}>
+        {chapters.map((c, i) => {
+          const on = i === current;
+          const more = open.includes(i);
+          return (
+            <li key={c.id} className="hw-card" data-on={on ? "true" : undefined} onClick={() => pick(i)}>
+              <LandingPhoto slug={PHOTOS[c.id]} sizes="(max-width: 899px) 78vw, 400px" className="hw-photo" />
+              <span className="hw-step">
+                <b aria-hidden="true">{i + 1}</b>
                 {c.tab}
                 {c.tag !== null && <span className="l-tag">{c.tag}</span>}
               </span>
-            </button>
-          ))}
-        </div>
-        {!still && <PauseButton playing={!paused && !ended} onToggle={toggle} pauseLabel={t.pause} playLabel={t.play} className="hw-pause" />}
-      </div>
-      <div className="hw-stage" onPointerDown={() => setPaused(true)} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-        {chapters.map((c, i) => {
-          const on = i === current;
-          const soon = c.soon;
-          return (
-            <div key={c.id} id={`hw-panel-${c.id}`} role="tabpanel" aria-labelledby={`hw-tab-${c.id}`} className={`hw-panel hw-${c.id}`} data-on={on ? "true" : undefined} inert={!on}>
-              <div className="hw-text">
-                <h3>{c.title}</h3>
-                <p className="lead soft">{c.line}</p>
-                <button type="button" className="hw-more-toggle" aria-expanded={more === i} aria-controls={`hw-more-${c.id}`} onClick={() => setMore(more === i ? null : i)}>
-                  {more === i ? t.less : t.more} <ChevronDown size={16} aria-hidden="true" />
+              <h3>
+                <button type="button" className="hw-pick" aria-pressed={on} aria-controls={stageId}>
+                  {c.title}
                 </button>
-                <div id={`hw-more-${c.id}`} className="hw-more" hidden={more !== i}>
-                  <p>{c.more}</p>
-                </div>
-                {soon !== null && <SoonCard photo={SOON_PHOTOS[soon.id]} title={soon.title} tag={soon.tag} line={soon.line} />}
+              </h3>
+              <p className="soft">{c.line}</p>
+              <button type="button" className="hw-more-toggle" aria-expanded={more} aria-controls={`hw-more-${c.id}`} onClick={() => toggleMore(i)}>
+                {more ? t.less : t.more} <ChevronDown size={16} aria-hidden="true" />
+              </button>
+              <div id={`hw-more-${c.id}`} className="hw-more" hidden={!more}>
+                <p>{c.more}</p>
               </div>
-              <div className="hw-visual">
-                <Visual id={c.id} signUp={signUp} />
-              </div>
-            </div>
+            </li>
           );
         })}
+      </ul>
+      <div id={stageId} className="hw-stage" role="region" aria-label={t.stage(chapter.tab)}>
+        <div key={chapter.id} className={`hw-visual hw-v-${chapter.id}`}>
+          <Visual id={chapter.id} signUp={signUp} />
+        </div>
       </div>
+      <SoonCard photo={SOON_PHOTOS[part]} title={p.soon.title} tag={p.soon.tag} line={p.soon.line} />
     </div>
   );
 }

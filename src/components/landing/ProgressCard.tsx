@@ -1,7 +1,6 @@
 import { CircleAlert, CircleCheck, Target, type LucideIcon } from "lucide-react";
 import { Link } from "react-router";
 import { copy } from "../../copy/en";
-import { LandingPhoto } from "./LandingPhoto";
 import { useInView } from "./motion";
 
 type Level = keyof typeof copy.landing.progress.levels;
@@ -19,10 +18,7 @@ export function ProgressCard({ signUp }: { signUp: string }) {
   const weakest = t.topics.reduce((low, topic, i) => (topic.score < t.topics[low].score ? i : low), 0);
   return (
     <div ref={ref} className="pg raised" data-in={active ? "true" : undefined}>
-      <div className="pg-heading">
-        <span className="eyebrow">{t.card}</span>
-        <LandingPhoto slug="spot-learns-with-you" sizes="84px" className="pg-photo" />
-      </div>
+      <span className="eyebrow">{t.card}</span>
       <ul className="pg-list">
         {t.topics.map((topic, i) => {
           const level = topic.level as Level;

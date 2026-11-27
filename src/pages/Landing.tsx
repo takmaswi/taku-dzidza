@@ -33,9 +33,9 @@ function seeItWork(e: MouseEvent<HTMLAnchorElement>) {
 }
 
 /**
- * The public front door, for learners about 15 to 40, anywhere, in six
- * screens: the hero with its live tour, How Taku works as one story in five
- * chapters, the marketplace, schools, the FAQ and the final call. Copy is
+ * The public front door, for learners about 15 to 40, anywhere: the hero
+ * with its live tour, How Taku works in two parts (Learn from your own notes,
+ * It learns with you), the marketplace, schools, the FAQ and the final call. Copy is
  * copy.landing; styles are src/styles/landing.css.
  */
 export default function Landing() {
@@ -86,11 +86,15 @@ export default function Landing() {
 
       <CurriculumStrip region={region} />
 
-      <section id="learners" className="l-section l-story" aria-labelledby="l-story-title">
-        <HowItWorks signUp={SIGN_UP} />
+      <section id="learners" className="l-section l-story" aria-labelledby="l-notes-title">
+        <HowItWorks part="notes" signUp={SIGN_UP} />
       </section>
 
-      <section id="marketplace" className="l-section l-band reveal" aria-labelledby="l-market-title">
+      <section className="l-section l-story l-band" aria-labelledby="l-learns-title">
+        <HowItWorks part="learns" signUp={SIGN_UP} />
+      </section>
+
+      <section id="marketplace" className="l-section reveal" aria-labelledby="l-market-title">
         <div className="l-wrap">
           <div className="mk-head">
             <div>
@@ -140,14 +144,12 @@ export default function Landing() {
         </div>
       </section>
 
-      <section id="institutions" className="l-section reveal" aria-labelledby="l-inst-title">
+      <section id="institutions" className="l-section l-band reveal" aria-labelledby="l-inst-title">
         <div className="l-wrap l-split in-wrap">
           <div>
             <span className="eyebrow">{t.institutions.eyebrow}</span>
-            <div className="l-photo-heading">
-              <h2 id="l-inst-title" className="l-h2">{t.institutions.title}</h2>
-              <LandingPhoto slug="spot-schools-institutions" sizes="88px" className="l-heading-photo" />
-            </div>
+            <h2 id="l-inst-title" className="l-h2">{t.institutions.title}</h2>
+            <LandingPhoto slug="spot-schools-institutions" sizes="(max-width: 899px) 92vw, 400px" className="l-card-photo in-photo" />
             <div className="actions">
               <Link to={SIGN_UP} className="pill">
                 {t.institutions.cta} <ArrowRight size={18} aria-hidden="true" />
@@ -174,7 +176,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="l-section l-band reveal" aria-labelledby="l-faq-title">
+      <section className="l-section reveal" aria-labelledby="l-faq-title">
         <div className="l-wrap l-narrow">
           <h2 id="l-faq-title" className="l-h2">
             {t.faq.title}
