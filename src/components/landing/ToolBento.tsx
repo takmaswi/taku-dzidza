@@ -59,16 +59,9 @@ export function ToolBento() {
   };
 
   return (
-    <div ref={ref} className="l-wrap tb" data-state={state}>
-      <div className="tb-head">
-        <span className="eyebrow">{t.eyebrow}</span>
-        <h2 id="l-tools-title" className="l-h2">
-          {t.title}
-        </h2>
-        <p className="lead soft">{t.body}</p>
-      </div>
+    <div ref={ref} className="tb" data-state={state}>
       <Try className="tb-try">
-      <ul ref={track} className="tb-track" aria-labelledby="l-tools-title" tabIndex={0} onScroll={onScroll}>
+      <ul ref={track} className="tb-track" aria-label={t.label} tabIndex={0} onScroll={onScroll}>
         {TILES.map(({ key, Icon }, i) => (
           <li key={key} className={`tb-tile tb-t-${key}`} data-current={i === current ? "true" : undefined}>
             <div className="tb-top">

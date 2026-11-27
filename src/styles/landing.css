@@ -383,16 +383,16 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .cd-page .eyebrow { margin-bottom: 0.5rem; }
 .cd-page[hidden] mark.hl { animation: none; }
 @media (min-width: 900px) {
-  .l-cite { padding-bottom: 40px; }
   .cd-page[hidden] { display: none; }
   .cd-page:not([hidden]) { animation: cd-open calc(var(--dur-card) * var(--speed)) var(--ease) both; }
 }
 @keyframes cd-open { from { opacity: 0; transform: translateY(calc(-12px * var(--speed))); } }
 
 /* ---------- Study tools (src/components/landing/ToolBento.tsx) ---------- */
-.tb-head { margin-bottom: 1rem; }
-.tb-track { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
-@media (min-width: 900px) { .tb-track { grid-template-columns: 1.45fr 1fr 1fr; align-items: stretch; } }
+/* A sideways row at every width, inside the Practise chapter of How Taku works: arrows and dots below, it never turns by itself. */
+.tb-track { position: relative; list-style: none; margin: 0; padding: 0.5rem 0 1rem; display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+.tb-track::-webkit-scrollbar { display: none; }
+.tb-tile { flex: 0 0 280px; scroll-snap-align: start; }
 .tb-tile { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; padding: 1.1rem; border-radius: var(--radius); background: var(--panel-fill); border: 1px solid var(--line); box-shadow: var(--card-edge), var(--shadow-panel); transition: transform var(--dur-card) var(--ease), box-shadow var(--dur-card) var(--ease); }
 .tb-tile:hover { transform: translateY(calc(-3px * var(--speed))); box-shadow: var(--card-edge), var(--shadow-lift); }
 .tb-t-cards { background: var(--butter); }
@@ -413,8 +413,7 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .tb-got { background: var(--ink); color: var(--white); }
 /* Phones: a sideways row that snaps, the next card peeking in, dots and arrows under it. Never turns by itself. */
 @media (max-width: 899px) {
-  .tb-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; margin-inline: calc(-1 * clamp(1rem, 4vw, 2.5rem)); padding: 0.5rem 9vw 1rem; scroll-padding-inline: 9vw; }
-  .tb-track::-webkit-scrollbar { display: none; }
+  .tb-track { margin-inline: calc(-1 * clamp(1rem, 4vw, 2.5rem)); padding: 0.5rem 9vw 1rem; scroll-padding-inline: 9vw; }
   .tb-tile { flex: 0 0 82vw; scroll-snap-align: center; }
   .tb-tile:hover { transform: none; }
 }
@@ -425,7 +424,6 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 }
 .tb-track:focus-visible { outline-offset: 4px; }
 .tb-controls { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 0.75rem; }
-@media (min-width: 900px) { .tb-controls { display: none; } }
 .tb-arrow:disabled { opacity: 0.4; cursor: default; transform: none; }
 .tb-dots { display: flex; gap: 0.15rem; }
 /* Each dot is a 24 px target; the one in view is a wide ink bar, the rest small rings. */
@@ -481,7 +479,6 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 @keyframes tb-tick { from { translate: -4px 0; } }
 
 /* ---------- One question, four ways (src/components/landing/ModeSwitcher.tsx) ---------- */
-.ms-intro { display: grid; gap: 0; margin-bottom: 0.75rem; }
 .ms { display: grid; gap: 1rem; max-width: 760px; }
 .ms-switch { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 999px; background: var(--panel-fill); border: 1px solid var(--line-strong); }
 .ms-switch button { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; min-height: 44px; padding: 0.4rem 0.6rem; border: 0; border-radius: 999px; background: transparent; color: var(--text); font: inherit; font-weight: 500; cursor: pointer; white-space: nowrap; transition: background var(--dur-tap) var(--ease), color var(--dur-tap); }
@@ -606,13 +603,6 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .in-points li { display: flex; align-items: center; gap: 0.85rem; padding: 0.7rem 1rem; border-radius: var(--radius-sm); background: var(--panel-fill); border: 1px solid var(--line); box-shadow: var(--card-edge), var(--shadow-panel); font-weight: 500; }
 .in-icon { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 12px; background: var(--butter); color: var(--ink); }
 
-/* ---------- Safe, private, light ---------- */
-.sf-head { margin-bottom: 1rem; }
-.sf-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
-@media (min-width: 760px) { .sf-points { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.sf-points li { display: flex; align-items: flex-start; gap: 0.9rem; padding: 0.9rem 1.1rem; border-radius: var(--radius); background: var(--panel-fill); border: 1px solid var(--line); box-shadow: var(--card-edge), var(--shadow-panel); font-weight: 500; line-height: 1.45; }
-.sf-icon { display: grid; place-items: center; width: 42px; height: 42px; flex: none; border-radius: 12px; background: var(--butter); color: var(--ink); }
-
 /* ---------- Your progress (src/components/landing/ProgressCard.tsx) ---------- */
 .pg { display: grid; gap: 0.9rem; padding: 1.25rem; }
 .pg .eyebrow { margin: 0; }
@@ -698,3 +688,72 @@ mark.hl { color: inherit; background: linear-gradient(rgb(242 179 61 / 0.55), rg
 .l-foot-links a { padding: 0.4rem 0; text-underline-offset: 3px; }
 .l-region { display: inline-flex; align-items: center; gap: 0.5rem; }
 .l-region select { font: inherit; color: var(--text); min-height: 40px; padding: 0.3rem 0.8rem; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--raised); cursor: pointer; }
+
+/* ---------- How Taku works (src/components/landing/HowItWorks.tsx) ----------
+   Five chapters that play like a short video: a bar over each tab fills, then the next comes up.
+   On a computer every chapter sits in the same cell, so the section keeps one height and nothing below moves.
+   On a phone only the current chapter shows, and the tab row scrolls sideways. With less motion: plain tabs. */
+.hw-head { margin-bottom: 1.25rem; }
+.hw-bar-row { display: flex; align-items: flex-end; gap: 0.75rem; margin-bottom: 1.5rem; }
+.hw-tabs { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.6rem; }
+.hw-tab { display: grid; gap: 0.55rem; padding: 0 0 0.35rem; border: 0; background: none; color: var(--text-soft); font: inherit; font-weight: 600; font-size: 0.95rem; text-align: left; cursor: pointer; transition: color var(--dur-tap); }
+.hw-tab:hover, .hw-tab[aria-selected="true"] { color: var(--text); }
+.hw-tab:focus-visible { outline-offset: 4px; border-radius: 6px; }
+.hw-tab-label { display: inline-flex; align-items: center; gap: 0.45rem; white-space: nowrap; }
+.hw-progress { display: block; height: 4px; border-radius: 2px; background: var(--muted-fill, var(--line)); overflow: hidden; }
+.hw-progress i { display: block; height: 100%; background: var(--ink); transform: scaleX(0); transform-origin: 0 50%; }
+.hw-tab[data-done] .hw-progress i { transform: scaleX(1); }
+.hw-tab[aria-selected="true"] .hw-progress i { animation: hw-fill 8s linear both paused; }
+.hw[data-playing] .hw-tab[aria-selected="true"] .hw-progress i { animation-play-state: running; }
+.hw[data-still] .hw-tab[aria-selected="true"] .hw-progress i { animation: none; transform: scaleX(1); }
+@keyframes hw-fill { to { transform: scaleX(1); } }
+.hw-pause { flex: none; margin-bottom: -0.25rem; }
+
+.hw-stage { display: grid; touch-action: pan-y; }
+.hw-panel { grid-area: 1 / 1; display: grid; gap: 1.5rem; align-items: start; min-width: 0; }
+.hw-panel > * { min-width: 0; }
+.hw-panel:not([data-on]) { visibility: hidden; opacity: 0; }
+.hw-panel[data-on] { animation: l-in calc(var(--dur-card) * var(--speed)) var(--ease) both; }
+@media (min-width: 900px) {
+  .hw-panel { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr); gap: 3rem; }
+  .hw-visual { max-width: 760px; }
+}
+@media (max-width: 899px) {
+  .hw-panel:not([data-on]) { display: none; }
+  .hw-tabs { display: flex; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; margin-left: calc(-1 * clamp(1rem, 4vw, 2.5rem)); padding-left: clamp(1rem, 4vw, 2.5rem); }
+  .hw-tabs::-webkit-scrollbar { display: none; }
+  .hw-tab { flex: none; min-width: 7.5rem; scroll-snap-align: center; }
+}
+.hw-text h3 { margin: 0 0 0.5rem; font-size: clamp(1.35rem, 2.2vw, 1.75rem); letter-spacing: -0.02em; line-height: 1.15; }
+.hw-text .lead { margin: 0 0 0.75rem; }
+.hw-more-toggle { display: inline-flex; align-items: center; gap: 0.3rem; min-height: 40px; padding: 0.35rem 0.85rem; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--raised); color: var(--text); font: inherit; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: background var(--dur-tap); }
+.hw-more-toggle:hover { background: var(--hover); }
+.hw-more-toggle svg { transition: transform var(--dur-tap) var(--ease); }
+.hw-more-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+.hw-more p { margin: 0.75rem 0 0; color: var(--text-soft); max-width: 52ch; }
+.hw-more:not([hidden]) { animation: l-in calc(var(--dur-card) * var(--speed)) var(--ease) both; }
+.hw-soon { display: flex; align-items: flex-start; gap: 0.75rem; margin-top: 1rem; padding: 0.8rem 1rem; border-radius: var(--radius-sm); border: 1px dashed var(--line-strong); background: var(--band); font-size: 0.92rem; line-height: 1.45; max-width: 46ch; }
+.hw-soon b { font-weight: 600; }
+.hw-soon .l-tag { margin-left: 0.25rem; vertical-align: 1px; }
+.hw-soon-icon { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 10px; background: var(--butter); color: var(--ink); }
+
+/* ---------- Marketplace search and foot ---------- */
+.mk-points { margin-top: 0.85rem; }
+.mk-search { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 0.9rem; margin-top: 1.5rem; padding: 0.6rem 0.75rem; border-radius: 16px; background: var(--white); border: 1px solid var(--line); box-shadow: var(--shadow-raised); max-width: 720px; }
+.mk-field { display: inline-flex; align-items: center; gap: 0.5rem; flex: 1 1 12rem; min-width: 0; padding: 0.35rem 0.5rem; font-weight: 500; }
+.mk-chips { display: inline-flex; flex-wrap: wrap; gap: 0.4rem; }
+.mk-chip { padding: 0.2rem 0.7rem; border-radius: 999px; background: var(--butter); color: var(--ink); font-size: 0.85rem; font-weight: 600; }
+.mk-results { font-size: 0.85rem; padding-right: 0.25rem; }
+.mk-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 2rem; margin-top: 1rem; }
+.mk-foot .hw-soon { margin-top: 0; background: var(--white); }
+.mk-foot .mk-note { margin: 0; }
+
+/* ---------- For schools: how it works, folded ---------- */
+.in-more { margin-top: 0.9rem; }
+.in-more summary { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; cursor: pointer; list-style: none; font-weight: 600; }
+.in-more summary::-webkit-details-marker { display: none; }
+.in-more-icon { transition: transform var(--dur-tap) var(--ease); }
+.in-more[open] .in-more-icon { transform: rotate(180deg); }
+.in-more ol { margin: 0.25rem 0 0.6rem; padding-left: 1.3rem; display: grid; gap: 0.4rem; }
+.in-more p { margin: 0; font-size: 0.92rem; }
+.in-more[open] > :not(summary) { animation: l-in calc(var(--dur-card) * var(--speed)) var(--ease) both; }

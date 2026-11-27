@@ -1,21 +1,14 @@
-import { ArrowRight, BookOpen, Check, ClipboardCheck, KeyRound, Lock, Plus, Smartphone, Trash2 } from "lucide-react";
+import { ArrowRight, BookOpen, Check, ChevronDown, ClipboardCheck, KeyRound, Plus, Search, UsersRound } from "lucide-react";
 import { useLayoutEffect, type MouseEvent } from "react";
 import { Link } from "react-router";
 import { BrandMark } from "../components/BrandMark";
 import { Layout } from "../components/Layout";
-import { CiteDemo } from "../components/landing/CiteDemo";
 import { CurriculumStrip } from "../components/landing/CurriculumStrip";
-import { DropAnything } from "../components/landing/DropAnything";
-import { GroupCard } from "../components/landing/GroupCard";
 import { HeroDemo } from "../components/landing/HeroDemo";
+import { HowItWorks, SoonCard } from "../components/landing/HowItWorks";
 import { LandingHeader } from "../components/landing/LandingHeader";
 import { isStill } from "../components/landing/motion";
-import { ListenDemo } from "../components/landing/ListenDemo";
 import { MarketShelf } from "../components/landing/MarketShelf";
-import { ModeSwitcher } from "../components/landing/ModeSwitcher";
-import { ProgressCard } from "../components/landing/ProgressCard";
-import { ToolBento } from "../components/landing/ToolBento";
-import { Try } from "../components/landing/Try";
 import { REGIONS, useRegion, type Region } from "../components/landing/useRegion";
 import { ObjectArt } from "../components/ObjectArt";
 import { useReveal } from "../components/useReveal";
@@ -30,7 +23,6 @@ const DESK = ["highlighter", "tea-cup", "index-cards", "headphones"] as const;
 
 const SIGN_UP = "/signin?mode=signUp";
 const INSTITUTION_ICONS = [KeyRound, BookOpen, ClipboardCheck] as const;
-const SAFE_ICONS = [Lock, Trash2, Smartphone] as const;
 
 /** "See how it works": glide to the demo (it sits under the text on a phone), or jump there with less motion. */
 function seeItWork(e: MouseEvent<HTMLAnchorElement>) {
@@ -41,9 +33,10 @@ function seeItWork(e: MouseEvent<HTMLAnchorElement>) {
 }
 
 /**
- * The public front door, for learners about 15 to 40, anywhere: a live demo in
- * the hero, then each feature shown working. Copy is copy.landing; styles are
- * src/styles/landing.css.
+ * The public front door, for learners about 15 to 40, anywhere, in six
+ * screens: the hero with its live tour, How Taku works as one story in five
+ * chapters, the marketplace, schools, the FAQ and the final call. Copy is
+ * copy.landing; styles are src/styles/landing.css.
  */
 export default function Landing() {
   const t = copy.landing;
@@ -93,75 +86,11 @@ export default function Landing() {
 
       <CurriculumStrip region={region} />
 
-      <section id="learners" className="l-section reveal" aria-labelledby="l-drop-title">
-        <DropAnything />
+      <section id="learners" className="l-section l-story" aria-labelledby="l-story-title">
+        <HowItWorks signUp={SIGN_UP} />
       </section>
 
-      <section className="l-section l-band l-cite reveal" aria-labelledby="l-cite-title">
-        <div className="l-wrap l-split">
-          <div>
-            <span className="eyebrow">{t.cite.eyebrow}</span>
-            <h2 id="l-cite-title" className="l-h2">
-              {t.cite.title}
-            </h2>
-            <p className="lead soft">{t.cite.body}</p>
-          </div>
-          <Try>
-            <CiteDemo />
-          </Try>
-        </div>
-      </section>
-
-      <section className="l-section reveal" aria-labelledby="l-tools-title">
-        <ToolBento />
-      </section>
-
-      <section className="l-section l-band reveal" aria-labelledby="l-progress-title">
-        <div className="l-wrap l-split">
-          <div>
-            <span className="eyebrow l-tagged">
-              {t.progress.eyebrow} <span className="l-tag">{t.progress.tag}</span>
-            </span>
-            <h2 id="l-progress-title" className="l-h2">
-              {t.progress.title}
-            </h2>
-            <p className="lead soft">{t.progress.body}</p>
-          </div>
-          <ProgressCard signUp={SIGN_UP} />
-        </div>
-      </section>
-
-      <section className="l-section reveal" aria-labelledby="l-modes-title">
-        <div className="l-wrap">
-          <div className="ms-intro">
-            <span className="eyebrow">{t.modes.eyebrow}</span>
-            <h2 id="l-modes-title" className="l-h2">
-              {t.modes.title}
-            </h2>
-            <p className="lead soft">{t.modes.body}</p>
-          </div>
-          <Try>
-            <ModeSwitcher />
-          </Try>
-        </div>
-      </section>
-
-      <section className="l-section l-band reveal" aria-labelledby="l-groups-title">
-        <div className="l-wrap l-split">
-          <div>
-            <span className="eyebrow l-tagged">
-              {t.groups.eyebrow} <span className="l-tag">{t.groups.tag}</span>
-            </span>
-            <h2 id="l-groups-title" className="l-h2">
-              {t.groups.title}
-            </h2>
-            <p className="lead soft">{t.groups.body}</p>
-          </div>
-          <GroupCard />
-        </div>
-      </section>
-
-      <section id="marketplace" className="l-section reveal" aria-labelledby="l-market-title">
+      <section id="marketplace" className="l-section l-band reveal" aria-labelledby="l-market-title">
         <div className="l-wrap">
           <div className="mk-head">
             <div>
@@ -170,34 +99,43 @@ export default function Landing() {
                 {t.market.title}
               </h2>
               <p className="lead soft">{t.market.body}</p>
+              <ul className="l-quiet mk-points">
+                {t.market.points.map((p) => (
+                  <li key={p}>
+                    <Check size={16} aria-hidden="true" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
             </div>
             <div className="actions">
               <Link to={SIGN_UP} className="pill">
-                {t.market.browse}
+                {t.market.sell}
               </Link>
               <Link to={SIGN_UP} className="pill ghost">
-                {t.market.sell}
+                {t.market.browse}
               </Link>
             </div>
           </div>
-          <MarketShelf />
-          <p className="mk-note soft small-text">{t.market.note}</p>
-        </div>
-      </section>
-
-      <section className="l-section l-band reveal" aria-labelledby="l-listen-title">
-        <div className="l-wrap ld-wrap">
-          <div className="ld-head">
-            <span className="eyebrow">{t.listen.eyebrow}</span>
-            <h2 id="l-listen-title" className="l-h2">
-              {t.listen.title}
-            </h2>
-            <p className="lead soft">{t.listen.body}</p>
-            <p className="ld-honest">{t.listen.honest}</p>
+          <div className="mk-search" role="img" aria-label={t.market.searchLabel}>
+            <span className="mk-field">
+              <Search size={18} aria-hidden="true" />
+              {t.market.searchQuery}
+            </span>
+            <span className="mk-chips">
+              {t.market.searchChips.map((c) => (
+                <span key={c} className="mk-chip">
+                  {c}
+                </span>
+              ))}
+            </span>
+            <span className="mk-results soft">{t.market.results}</span>
           </div>
-          <Try>
-            <ListenDemo />
-          </Try>
+          <MarketShelf />
+          <div className="mk-foot">
+            <SoonCard Icon={UsersRound} title={t.market.groups.title} tag={t.market.groups.tag} line={t.market.groups.line} />
+            <p className="mk-note soft small-text">{t.market.note}</p>
+          </div>
         </div>
       </section>
 
@@ -228,35 +166,23 @@ export default function Landing() {
                 );
               })}
             </ul>
+            <details className="in-more">
+              <summary>
+                {t.institutions.more}
+                <ChevronDown size={18} aria-hidden="true" className="in-more-icon" />
+              </summary>
+              <ol>
+                {t.institutions.steps.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ol>
+              <p className="soft">{t.institutions.consent}</p>
+            </details>
           </div>
         </div>
       </section>
 
-      <section className="l-section l-band reveal" aria-labelledby="l-safe-title">
-        <div className="l-wrap sf">
-          <div className="sf-head">
-            <span className="eyebrow">{t.safe.eyebrow}</span>
-            <h2 id="l-safe-title" className="l-h2">
-              {t.safe.title}
-            </h2>
-          </div>
-          <ul className="sf-points">
-            {t.safe.points.map((p, i) => {
-              const Icon = SAFE_ICONS[i];
-              return (
-                <li key={p}>
-                  <span className="sf-icon">
-                    <Icon size={20} aria-hidden="true" />
-                  </span>
-                  <span>{p}</span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </section>
-
-      <section className="l-section reveal" aria-labelledby="l-faq-title">
+      <section className="l-section l-band reveal" aria-labelledby="l-faq-title">
         <div className="l-wrap l-narrow">
           <h2 id="l-faq-title" className="l-h2">
             {t.faq.title}

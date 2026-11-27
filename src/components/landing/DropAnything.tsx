@@ -13,7 +13,7 @@ const KINDS: { kind: Kind; Icon: LucideIcon; Out: LucideIcon }[] = [
 ];
 
 /**
- * "Drop anything in": five chips, each swapping what you add (left) and what
+ * "Add your notes", the first chapter of How Taku works: five chips, each swapping what you add (left) and what
  * Taku makes from it (right). Photo of notes is picked first. Audio is shown
  * honestly as coming soon: today sources are photos, PDFs, Word files, pasted
  * text and links (convex/schema.ts, sourceKindValidator).
@@ -24,16 +24,9 @@ export function DropAnything() {
   const pick = KINDS.find((k) => k.kind === active) ?? KINDS[0];
   const c = t.chips[active];
   return (
-    <div className="l-wrap da">
-      <div className="da-intro">
-        <span className="eyebrow">{t.eyebrow}</span>
-        <h2 id="l-drop-title" className="l-h2">
-          {t.title}
-        </h2>
-        <p className="lead soft">{t.body}</p>
-      </div>
+    <div className="da">
       <Try className="da-stage">
-        <div className="da-chips" role="group" aria-labelledby="l-drop-title">
+        <div className="da-chips" role="group" aria-label={t.chipsLabel}>
           {KINDS.map(({ kind, Icon }, i) => (
             <button key={kind} type="button" className={i === 1 ? "da-chip try-target" : "da-chip"} aria-pressed={kind === active} onClick={() => setActive(kind)}>
               <Icon size={18} aria-hidden="true" />

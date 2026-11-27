@@ -26,7 +26,7 @@ export default function Contact() {
     if (hash === "#safety") document.getElementById("safety")?.scrollIntoView({ block: "center" });
   }, [hash]);
   return (
-    <Layout>
+    <Layout white>
       <div className="narrow stack contact">
         <div>
           <h1>{t.title}</h1>
